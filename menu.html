@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <title>اختيار اللعبة</title>
+  <style>
+    body {
+      margin: 0;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-color: #014d1a; /* أخضر غامق */
+      color: white;
+      font-size: 22px;
+    }
+    .container {
+      text-align: center;
+    }
+    .game-option {
+      display: block;
+      margin: 20px auto;
+      padding: 20px;
+      width: 200px;
+      font-size: 20px;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      background: white;
+      color: green;
+    }
+    .game-option:hover {
+      background: yellowgreen;
+      color: white;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>اختر لعبتك 🎮</h2>
+    <button class="game-option" onclick="location.href='reaction.html'">🎉 رياكشن</button>
+    <button class="game-option" onclick="location.href='memory.html'">🃏 مطابقة الصور</button>
+  </div>
+</body>
+</html>

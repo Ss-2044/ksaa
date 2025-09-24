@@ -1,0 +1,66 @@
+.welcome-body {
+  background: url('https://i.pinimg.com/1200x/ed/e3/0e/ede30e559a5d340769b2949e3b80d8aa.jpg') no-repeat center center/cover;
+  height: 100vh;
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.overlay {
+  background: rgba(0, 0, 0, 0.6);
+  padding: 30px;
+  border-radius: 15px;
+  text-align: center;
+  color: white;
+}
+
+.btn {
+  display: inline-block;
+  margin-top: 15px;
+  padding: 10px 20px;
+  background: white;
+  color: green;
+  border-radius: 10px;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+
+/* الشعارين تحت مربع الترحيب */
+.logos {
+  margin-top: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px; /* المسافة بينهم */
+}
+.logos {
+  text-align: center;
+  margin-top: 30px;
+}
+.logos {
+  text-align: center;
+  margin-top: 30px;
+}
+
+.logo {
+  width: 300px; /* غيّري الرقم إذا تبغين أصغر أو أكبر */
+  height: auto;
+}
+/* شعار واضح وكبير */
+.logos img {
+  display: block;
+  margin: 0 auto;
+  max-width: 800px;   /* يكبر مرة */
+  width: 100%;        /* ياخذ كل العرض المتاح */
+  height: auto;
+}
+
+/* للجوال */
+@media (max-width: 768px) {
+  .logos img {
+    max-width: 500px;  /* للجوال */
+    width: 90%;
+  }
+}

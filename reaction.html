@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <title>لعبة الرياكشن</title>
+  <style>
+    body {
+      font-family: "Tahoma", sans-serif;
+      background-color: #0b3d0b;
+      color: white;
+      text-align: center;
+      padding: 20px;
+    }
+    .question {
+      margin: 20px 0;
+      font-size: 20px;
+    }
+    button {
+      margin: 5px;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+    .correct { background-color: green; color: white; }
+    .wrong { background-color: red; color: white; }
+    #timer {
+      font-size: 22px;
+      margin: 15px 0;
+    }
+    .end-message {
+      font-size: 26px;
+      margin-top: 20px;
+    }
+    #home {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: white;
+      color: #0b3d0b;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <h1>🎉 لعبة الرياكشن 🎉</h1>
+  <div id="timer">40</div>
+  
+  <div id="quiz">
+    <div class="question">
+      1️⃣ اين تقع السعودية؟
+      <br>
+      <button onclick="checkAnswer(this, false)">اوروبا</button>
+      <button onclick="checkAnswer(this, false)">افريقيا</button>
+      <button onclick="checkAnswer(this, true)">السعودية لن تقع</button>
+    </div>
+    <div class="question">
+      2️⃣ صالح وش دخلك؟
+      <br>
+      <button onclick="checkAnswer(this, true)">بالسعودية</button>
+      <button onclick="checkAnswer(this, false)">ماني عارف</button>
+      <button onclick="checkAnswer(this, false)">في امريكا</button>
+    </div>
+    <div class="question">
+      3️⃣ همة السعودي مثل؟
+      <br>
+      <button onclick="checkAnswer(this, false)">جبل صغير</button>
+      <button onclick="checkAnswer(this, true)">جبل طويق</button>
+      <button onclick="checkAnswer(this, false)">بحر</button>
+    </div>
+    <div class="question">
+      4️⃣ انا مش بني آدم انا؟
+      <br>
+      <button onclick="checkAnswer(this, true)">سعودي</button>
+      <button onclick="checkAnswer(this, false)">روبوت</button>
+      <button onclick="checkAnswer(this, false)">اجنبي</button>
+    </div>
+  </div>
+  
+  <div id="result" class="end-message"></div>
+  <button id="home" onclick="goHome()">🏠 العودة للصفحة الرئيسية</button>
+
+  <script>
+    let correctCount = 0;
+    let answeredCount = 0;
+    let totalQuestions = 4;
+    let timer = 40;
+    let interval = setInterval(() => {
+      timer--;
+      let t = document.getElementById("timer");
+      t.textContent = timer;
+      if (timer <= 10) {
+        t.style.color = "red";
+      }
+      if (timer <= 0) {
+        clearInterval(interval);
+        finishGame();
+      }
+    }, 1000);
+
+    function checkAnswer(btn, isCorrect) {
+      if (btn.classList.contains("correct") || btn.classList.contains("wrong")) return;
+
+      if (isCorrect) {
+        btn.classList.add("correct");
+        correctCount++;
+      } else {
+        btn.classList.add("wrong");
+      }
+      answeredCount++;
+
+      if (answeredCount === totalQuestions) {
+        clearInterval(interval);
+        finishGame();
+      }
+    }
+
+    function finishGame() {
+      let res = document.getElementById("result");
+      if (correctCount === totalQuestions) {
+        res.innerHTML = "👑 يا بطلة! 🌟👏";
+      } else {
+        res.innerHTML = "🇸🇦 المهم انك سعودي";
+      }
+    }
+
+    function goHome() {
+      window.location.href = "index.html";
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>🇸🇦 لعبة مطابقة الصور</title>
+  <link rel="stylesheet" href="memory.css">
+</head>
+<body id="memory-page">
+  <header>
+    <h1>🇸🇦 لعبة مطابقة الصور</h1>
+  </header>
+
+  <p id="timer">⏱️ الوقت: 60 ثانية</p>
+  <div class="game-board"></div>
+
+  <div class="controls">
+    <button onclick="restartGame()">🔄 إعادة اللعبة</button>
+    <button onclick="goHome()">🏠 العودة للرئيسية</button>
+  </div>
+
+  <!-- مودال الفوز والخسارة -->
+  <div id="modal" class="modal">
+    <div class="modal-content">
+      <h2 id="modal-message"></h2>
+      <div class="stars" id="stars"></div>
+      <button onclick="closeModal()">إغلاق</button>
+    </div>
+  </div>
+
+  <!-- أصوات -->
+  <audio id="win-sound" src="https://www.soundjay.com/human/applause-8.mp3"></audio>
+  <audio id="lose-sound" src="https://www.soundjay.com/misc/fail-buzzer-01.mp3"></audio>
+
+  <script src="memory.js"></script>
+</body>
+</html>

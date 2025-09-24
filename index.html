@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <title>ترحيب</title>
+  <style>
+    body {
+      margin: 0;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      background: #013220; /* أخضر غامق */
+      color: white;
+      font-family: Arial, sans-serif;
+    }
+    .overlay {
+      background: rgba(0, 0, 0, 0.5);
+      padding: 20px;
+      border-radius: 15px;
+      text-align: center;
+      font-size: 20px;
+      margin-bottom: 25px; /* مسافة تحت */
+    }
+    button {
+      margin-top: 15px;
+      padding: 12px 22px;
+      font-size: 18px;
+      border: none;
+      border-radius: 10px;
+      background: green;
+      color: white;
+      cursor: pointer;
+    }
+    .logos {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .logos img {
+      height: 140px; /* كبرنا الشعار */
+    }
+  </style>
+</head>
+<body>
+  <div class="overlay">
+    <h1>✨ أهلاً بك ✨</h1>
+    <p>هنا تستمتع وتفخر ✨</p>
+    <button onclick="location.href='menu.html'">ابدأ اللعبة</button>
+  </div>
+
+  <!-- ✅ الشعار تحت المربع -->
+  <div class="logos">
+    <img src="logo.png" alt="شعار الكلية والنادي">
+  </div>
+</body>
+</html>
