@@ -1,0 +1,185 @@
+// منصة موجود — مخطط قاعدة البيانات
+// القيم النصية للحالات موثقة في src/lib/constants.ts
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id @default(cuid())
+  phone     String   @unique // +9665XXXXXXXX
+  name      String
+  gender    String // MALE | FEMALE
+  email     String?
+  avatarUrl String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  products       Product[]
+  orders         Order[]     @relation("BuyerOrders")
+  addresses      Address[]
+  cartItems      CartItem[]
+  reviewsGot     Review[]    @relation("SellerReviews")
+  reviewsWritten Review[]    @relation("BuyerReviews")
+  soldItems      OrderItem[] @relation("SellerItems")
+
+  @@index([createdAt])
+}
+
+// سجل طلبات رمز التحقق — يُستخدم للحد من الإرسال المتكرر،
+// ولتخزين الرمز (مشفرًا) في وضع التطوير فقط عند عدم ضبط Authentica
+model OtpRequest {
+  id        String   @id @default(cuid())
+  phone     String
+  codeHash  String?
+  attempts  Int      @default(0)
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+
+  @@index([phone, createdAt])
+}
+
+model Admin {
+  id           String   @id @default(cuid())
+  username     String   @unique
+  passwordHash String // bcrypt
+  createdAt    DateTime @default(now())
+}
+
+model Category {
+  id        String    @id @default(cuid())
+  slug      String    @unique
+  name      String
+  icon      String // مفتاح الأيقونة، انظر src/components/category-icon.tsx
+  sortOrder Int       @default(0)
+  active    Boolean   @default(true)
+  products  Product[]
+}
+
+model Product {
+  id            String    @id @default(cuid())
+  sellerId      String
+  categoryId    String
+  title         String
+  description   String
+  condition     String // NEW | LIKE_NEW | GOOD
+  priceHalalas  Int
+  status        String    @default("ACTIVE") // ACTIVE | SOLD | DELETED
+  reservedUntil DateTime? // حجز مؤقت أثناء الدفع لأن كل سلعة قطعة واحدة
+  reservedBy    String? // Order.id
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  seller     User           @relation(fields: [sellerId], references: [id])
+  category   Category       @relation(fields: [categoryId], references: [id])
+  images     ProductImage[]
+  cartItems  CartItem[]
+  orderItems OrderItem[]
+
+  @@index([status, createdAt])
+  @@index([categoryId, status])
+  @@index([sellerId, status])
+}
+
+model ProductImage {
+  id        String  @id @default(cuid())
+  productId String
+  url       String
+  thumbUrl  String
+  position  Int
+  product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  @@index([productId, position])
+}
+
+model CartItem {
+  id        String   @id @default(cuid())
+  userId    String
+  productId String
+  createdAt DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, productId])
+}
+
+model Address {
+  id        String   @id @default(cuid())
+  userId    String
+  fullName  String
+  phone     String
+  city      String
+  district  String
+  street    String
+  details   String?
+  createdAt DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Order {
+  id            String    @id @default(cuid())
+  number        Int       @unique
+  buyerId       String
+  // PENDING_PAYMENT | NEW | SHIPPING | DELIVERED | CANCELLED
+  status        String    @default("PENDING_PAYMENT")
+  paymentMethod String // applepay | creditcard
+  paymentId     String?   @unique
+  totalHalalas  Int
+  addressJson   String // نسخة من العنوان وقت الطلب
+  createdAt     DateTime  @default(now())
+  paidAt        DateTime?
+  updatedAt     DateTime  @updatedAt
+
+  buyer   User        @relation("BuyerOrders", fields: [buyerId], references: [id])
+  items   OrderItem[]
+  reviews Review[]
+
+  @@index([status, createdAt])
+  @@index([buyerId, createdAt])
+}
+
+model OrderItem {
+  id           String  @id @default(cuid())
+  orderId      String
+  productId    String
+  sellerId     String
+  title        String
+  imageUrl     String?
+  priceHalalas Int
+  order        Order   @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  product      Product @relation(fields: [productId], references: [id])
+  seller       User    @relation("SellerItems", fields: [sellerId], references: [id])
+}
+
+// التقييمات مرتبطة بملف البائع وليس بالسلعة
+model Review {
+  id        String   @id @default(cuid())
+  sellerId  String
+  buyerId   String
+  orderId   String
+  rating    Int // 1..5
+  comment   String?
+  createdAt DateTime @default(now())
+
+  seller User  @relation("SellerReviews", fields: [sellerId], references: [id])
+  buyer  User  @relation("BuyerReviews", fields: [buyerId], references: [id])
+  order  Order @relation(fields: [orderId], references: [id])
+
+  @@unique([orderId, sellerId])
+  @@index([sellerId, createdAt])
+}
+
+model Banner {
+  id        String   @id @default(cuid())
+  imageUrl  String
+  link      String?
+  alt       String   @default("")
+  active    Boolean  @default(true)
+  sortOrder Int      @default(0)
+  createdAt DateTime @default(now())
+}
