@@ -1,0 +1,24 @@
+{
+  "name": "neo-capta-video",
+  "version": "1.0.0",
+  "description": "Neo Capta 30s brand video (Remotion)",
+  "scripts": {
+    "studio": "remotion studio",
+    "render": "remotion render NeoCapta out/neo-capta.mp4",
+    "typecheck": "tsc --noEmit"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@remotion/cli": "^4.0.529",
+    "@remotion/fonts": "^4.0.529",
+    "react": "^19.3.0",
+    "react-dom": "^19.3.0",
+    "remotion": "^4.0.529"
+  },
+  "devDependencies": {
+    "@types/react": "^19.3.0",
+    "typescript": "^7.0.2"
+  },
+  "private": true
+}
