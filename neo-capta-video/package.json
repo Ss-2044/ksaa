@@ -12,7 +12,8 @@
     "render:teaser": "remotion render NeoCaptaTeaserAR out/neo-capta-teaser-ar.mp4 && remotion render NeoCaptaTeaserEN out/neo-capta-teaser-en.mp4",
     "render:blink": "remotion render NeoCaptaBlinkAR out/neo-capta-blink-ar.mp4 && remotion render NeoCaptaBlinkEN out/neo-capta-blink-en.mp4",
     "render:bento": "remotion render NeoCaptaBentoAR out/neo-capta-bento-ar.mp4 && remotion render NeoCaptaBentoEN out/neo-capta-bento-en.mp4",
-    "render:megaphone": "remotion render NeoCaptaMegaphoneAR out/neo-capta-megaphone-ar.mp4 && remotion render NeoCaptaMegaphoneEN out/neo-capta-megaphone-en.mp4"
+    "render:megaphone": "remotion render NeoCaptaMegaphoneAR out/neo-capta-megaphone-ar.mp4 && remotion render NeoCaptaMegaphoneEN out/neo-capta-megaphone-en.mp4",
+    "render:aurora": "remotion render NeoCaptaAuroraAR out/neo-capta-aurora-ar.mp4 && remotion render NeoCaptaAuroraEN out/neo-capta-aurora-en.mp4"
   },
   "author": "",
   "license": "ISC",
