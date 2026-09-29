@@ -11,7 +11,14 @@ All on-screen text for both languages is in `src/lang.tsx`.
 
 ## Audio
 
-The only sound is the musical hit under the logo in the first 3 seconds. It comes from `public/audio/music.wav`, an original score synthesized by `scripts/make-music.py` (numpy), and fades out at 3s. `src/Soundtrack.tsx` controls this.
+There is no voice-over, only music. The track is `public/audio/music.wav`, an original score synthesized by `scripts/make-music.py` (numpy) and timed to the scenes:
+
+- a hit under the logo at 0s
+- a beat that starts with "marketing, differently" at 13s
+- a shimmer arp over the pillars at 19s
+- a final hit on the outro at 25s, then a fade-out
+
+`src/Soundtrack.tsx` plays it.
 
 ## Scenes
 
