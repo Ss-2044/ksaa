@@ -9,6 +9,24 @@ Both are 1920×1080 at 30 fps. `neo-capta.mp4` is the earlier bilingual cut, ren
 
 All on-screen text for both languages is in `src/lang.tsx`.
 
+## Design 2: Lens
+
+This design is built around "we see the unseen": a scanner lens reveals what is hidden. It uses the same copy, timing and music as design 1.
+
+- `NeoCaptaLensAR` renders `neo-capta-lens-ar.mp4`.
+- `NeoCaptaLensEN` renders `neo-capta-lens-en.mp4`.
+
+| Time | Scene |
+|---|---|
+| 0–3s | Radar ping; the logo is revealed through a growing lens |
+| 3–7s | The official line sits dim until the lens passes over it |
+| 7–13s | The desert as a topographic survey with a scan line |
+| 13–19s | "Traditional marketing" is sliced apart, then the frame flips to lavender |
+| 19–25s | The five pillars appear one at a time, full screen, with a progress bar |
+| 25–30s | The logo inside a rotating lens, with the official line |
+
+The scenes are in `src/lens/`. Run `npm run render:lens` to render both cuts.
+
 ## Audio
 
 There is no voice-over, only music. The track is `public/audio/music.wav`, an original score synthesized by `scripts/make-music.py` (numpy) and timed to the scenes:

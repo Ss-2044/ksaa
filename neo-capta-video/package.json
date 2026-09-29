@@ -7,7 +7,8 @@
     "render": "npm run render:ar && npm run render:en",
     "typecheck": "tsc --noEmit",
     "render:ar": "remotion render NeoCaptaAR out/neo-capta-ar.mp4",
-    "render:en": "remotion render NeoCaptaEN out/neo-capta-en.mp4"
+    "render:en": "remotion render NeoCaptaEN out/neo-capta-en.mp4",
+    "render:lens": "remotion render NeoCaptaLensAR out/neo-capta-lens-ar.mp4 && remotion render NeoCaptaLensEN out/neo-capta-lens-en.mp4"
   },
   "author": "",
   "license": "ISC",
