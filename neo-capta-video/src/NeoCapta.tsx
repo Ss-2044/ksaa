@@ -7,6 +7,7 @@ import { Ideas } from "./scenes/Ideas";
 import { LogoIntro } from "./scenes/LogoIntro";
 import { Outro } from "./scenes/Outro";
 import { Tagline } from "./scenes/Tagline";
+import { Soundtrack } from "./Soundtrack";
 import "./theme";
 
 // Scene lengths in frames at 30 fps — 30 seconds total.
@@ -25,6 +26,7 @@ export const NeoCapta: React.FC<{ lang: Lang }> = ({ lang }) => (
   <LangContext.Provider value={lang}>
     <AbsoluteFill>
       <Backdrop />
+      <Soundtrack />
       <Series>
         {scenes.map(({ Component, frames }, i) => (
           <Series.Sequence key={i} durationInFrames={frames}>
