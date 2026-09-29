@@ -90,6 +90,24 @@ This is a product-demo style cut: a smart interface made of cards, with a cursor
 
 The scenes are in `src/bento/`. Run `npm run render:bento` to render both cuts.
 
+## Design 6: Megaphone (comedy)
+
+This is a cartoon comedy. A shouting megaphone (traditional marketing) loses its bored crowd. Neo Capta, a lavender blob with glasses, rolls in on a skateboard, deflates the megaphone, and simply asks. It has its own copy (`src/megaphone/copy.ts`) and its own score (`public/audio/megaphone.wav`, made by `scripts/make-megaphone-music.py`), with boings, slide whistles, crickets and a deflate sound.
+
+- `NeoCaptaMegaphoneAR` renders `neo-capta-megaphone-ar.mp4`. The stage is mirrored so the story reads right to left.
+- `NeoCaptaMegaphoneEN` renders `neo-capta-megaphone-en.mp4`.
+
+| Time | Scene | English | Arabic |
+|---|---|---|---|
+| 0–3s | The logo sticker drops in with confetti | — | — |
+| 3–9s | The megaphone shouts; the crowd scrolls its phones, one sleeps | BUY NOW!!! / LIMITED OFFER!!! / HELLO?! | اشترِ الحين!!! / عرض محدود!!! / ألو؟! |
+| 9–14s | It shouts louder and sweats; the crowd hops away; a tumbleweed rolls by | PLEASE!!! · Nobody's listening. | تكفون!!! · ولا أحد سامع. |
+| 14–20s | Neo skates in, deflates the megaphone and asks; the crowd returns with hearts | So… what do you actually like? | طيب… وش تحبون فعلاً؟ |
+| 20–25s | A party with confetti | Listen first. Then talk. | اسمع أول… بعدين تكلّم. |
+| 25–30s | The logo, then Neo winks | We see the unseen. (and we hear it too) | نرى ما لا يُرى (ونسمعه بعد) |
+
+The characters are in `src/megaphone/characters.tsx`. Run `npm run render:megaphone` to render both cuts.
+
 ## Audio
 
 There is no voice-over, only music. The track is `public/audio/music.wav`, an original score synthesized by `scripts/make-music.py` (numpy) and timed to the scenes:

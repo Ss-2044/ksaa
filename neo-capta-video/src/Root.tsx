@@ -4,6 +4,7 @@ import { NeoCapta, TOTAL_FRAMES } from "./NeoCapta";
 import { NeoCaptaTeaser, TEASER_FRAMES } from "./teaser/NeoCaptaTeaser";
 import { BLINK_FRAMES, NeoCaptaBlink } from "./blink/NeoCaptaBlink";
 import { BENTO_FRAMES, NeoCaptaBento } from "./bento/NeoCaptaBento";
+import { MEGAPHONE_FRAMES, NeoCaptaMegaphone } from "./megaphone/NeoCaptaMegaphone";
 import { FPS } from "./theme";
 
 const size = { fps: FPS, width: 1920, height: 1080 };
@@ -12,6 +13,7 @@ const lens = { component: NeoCaptaLens, durationInFrames: LENS_FRAMES, ...size }
 const teaser = { component: NeoCaptaTeaser, durationInFrames: TEASER_FRAMES, ...size };
 const blink = { component: NeoCaptaBlink, durationInFrames: BLINK_FRAMES, ...size };
 const bento = { component: NeoCaptaBento, durationInFrames: BENTO_FRAMES, ...size };
+const megaphone = { component: NeoCaptaMegaphone, durationInFrames: MEGAPHONE_FRAMES, ...size };
 
 export const RemotionRoot: React.FC = () => (
   <>
@@ -30,5 +32,8 @@ export const RemotionRoot: React.FC = () => (
     {/* Design 5: bento / smart interface */}
     <Composition id="NeoCaptaBentoAR" {...bento} defaultProps={{ lang: "ar" as const }} />
     <Composition id="NeoCaptaBentoEN" {...bento} defaultProps={{ lang: "en" as const }} />
+    {/* Design 6: megaphone comedy */}
+    <Composition id="NeoCaptaMegaphoneAR" {...megaphone} defaultProps={{ lang: "ar" as const }} />
+    <Composition id="NeoCaptaMegaphoneEN" {...megaphone} defaultProps={{ lang: "en" as const }} />
   </>
 );
