@@ -11,7 +11,15 @@ All on-screen text for both languages is in `src/lang.tsx`.
 
 ## Design 2: Lens
 
-This design is built around "we see the unseen": a scanner lens reveals what is hidden. It uses the same copy, timing and music as design 1.
+This design is built around "we see the unseen": a scanner lens reveals what is hidden. It has its own story: others see the surface, Neo Capta sees what is underneath. It shares timing and music with design 1, and its copy lives in `lensCopy` in `src/lang.tsx`.
+
+| Scene | English | Arabic |
+|---|---|---|
+| Hook | They see data. We see people. | هم يشوفون أرقام. وإحنا نشوف الناس. |
+| Desert | Others see sand. We see signals. | غيرنا يشوف رمل. وإحنا نشوف إشارات. |
+| Shift | ~~Guesswork.~~ → Less noise. More signal. | ~~التخمين.~~ → ضجيج أقل. وضوح أكثر. |
+| Pillars | Five lenses. One vision. | خمس عدسات. ورؤية وحدة. |
+| Outro | We see the unseen. | نرى ما لا يُرى |
 
 - `NeoCaptaLensAR` renders `neo-capta-lens-ar.mp4`.
 - `NeoCaptaLensEN` renders `neo-capta-lens-en.mp4`.

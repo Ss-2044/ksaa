@@ -75,11 +75,11 @@ export const LensTagline: React.FC = () => {
   const x = dir === "rtl" ? 1560 - travel * 1200 : 360 + travel * 1200;
   const y = 540 + Math.sin(travel * Math.PI * 2) * 90;
   const r = interpolate(frame, [0, 10, 80, 100], [0, 230, 230, 1300], clamp);
-  const [line1, lead, accent] = t.tagline;
+  const [line1, lead, accent] = t.hook;
 
   const text = (dim: boolean) => (
     <AbsoluteFill dir={dir} style={{ justifyContent: "center", alignItems: "center" }}>
-      <div style={{ ...display, fontSize: 220 * scale, textAlign: "center", whiteSpace: "nowrap", color: dim ? "#15151f" : colors.white }}>
+      <div style={{ ...display, fontSize: 190 * scale, textAlign: "center", whiteSpace: "nowrap", color: dim ? "#15151f" : colors.white }}>
         <div>{line1}</div>
         <div>
           {lead}

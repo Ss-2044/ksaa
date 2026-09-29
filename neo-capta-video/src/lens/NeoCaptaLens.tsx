@@ -1,5 +1,5 @@
 import { AbsoluteFill, Series } from "remotion";
-import { Lang, LangContext } from "../lang";
+import { DesignContext, Lang, LangContext } from "../lang";
 import { Soundtrack } from "../Soundtrack";
 import "../theme";
 import { LensBackdrop } from "./LensBackdrop";
@@ -19,6 +19,7 @@ export const LENS_FRAMES = scenes.reduce((sum, s) => sum + s.frames, 0);
 
 export const NeoCaptaLens: React.FC<{ lang: Lang }> = ({ lang }) => (
   <LangContext.Provider value={lang}>
+    <DesignContext.Provider value="lens">
     <AbsoluteFill>
       <LensBackdrop />
       <Soundtrack />
@@ -30,5 +31,6 @@ export const NeoCaptaLens: React.FC<{ lang: Lang }> = ({ lang }) => (
         ))}
       </Series>
     </AbsoluteFill>
+    </DesignContext.Provider>
   </LangContext.Provider>
 );

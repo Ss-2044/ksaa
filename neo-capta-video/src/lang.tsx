@@ -6,6 +6,10 @@ export type Lang = "ar" | "en";
 
 export const LangContext = createContext<Lang>("en");
 
+/** Which video's story is being told; the Lens design has its own copy. */
+export type Design = "halftone" | "lens";
+export const DesignContext = createContext<Design>("halftone");
+
 const copy = {
   en: {
     pill: "MARKETING INTELLIGENCE · RIYADH",
@@ -17,6 +21,7 @@ const copy = {
     ideas: ["New ideas.", "Real intelligence."],
     pillars: ["Strategy", "Creators", "Content", "Performance", "Intelligence"],
     footer: "NEO CAPTA · MARKETING INTELLIGENCE · RIYADH",
+    hook: ["We see", "the ", "unseen."],
   },
   ar: {
     pill: "ذكاء تسويقي · الرياض",
@@ -28,16 +33,39 @@ const copy = {
     ideas: ["أفكار جديدة.", "ذكاء حقيقي."],
     pillars: ["استراتيجية", "صنّاع محتوى", "محتوى", "أداء", "ذكاء"],
     footer: "نيو كابتا · ذكاء تسويقي · الرياض",
+    hook: ["نرى", "ما ", "لا يُرى"],
+  },
+};
+
+// Lens story: others see the surface, we see what is underneath.
+// The official line ("tagline") is kept for the outro.
+const lensCopy: Record<Lang, Partial<(typeof copy)["en"]>> = {
+  en: {
+    hook: ["They see data.", "We see ", "people."],
+    desertKicker: "SURVEY 001 · RIYADH",
+    desert: ["Others see sand.", "We see ", "signals."],
+    old: "Guesswork.",
+    fresh: ["Less noise.", "More signal."],
+    ideas: ["Five lenses.", "One vision."],
+  },
+  ar: {
+    hook: ["هم يشوفون أرقام.", "وإحنا نشوف ", "الناس."],
+    desertKicker: "مسح ٠٠١ · الرياض",
+    desert: ["غيرنا يشوف رمل.", "وإحنا نشوف ", "إشارات."],
+    old: "التخمين.",
+    fresh: ["ضجيج أقل.", "وضوح أكثر."],
+    ideas: ["خمس عدسات.", "ورؤية وحدة."],
   },
 };
 
 /** Current language, its copy, and the matching text direction and styles. */
 export const useLang = () => {
   const lang = useContext(LangContext);
+  const design = useContext(DesignContext);
   const ar = lang === "ar";
   return {
     lang,
-    t: copy[lang],
+    t: design === "lens" ? { ...copy[lang], ...lensCopy[lang] } : copy[lang],
     dir: (ar ? "rtl" : "ltr") as "rtl" | "ltr",
     display: ar ? displayAr : displayEn,
     // Arabic runs larger to match the optical size of the heavy Latin face.
