@@ -11,15 +11,7 @@ All on-screen text for both languages is in `src/lang.tsx`.
 
 ## Audio
 
-`src/Soundtrack.tsx` lays one voice-over line over each scene after the logo. It also lowers the music while a line is playing.
-
-- `public/audio/ar-1.mp3` to `ar-5.mp3` hold the Arabic voice-over (Microsoft `ar-SA-HamedNeural` voice, generated with edge-tts).
-- `public/audio/en-1.mp3` to `en-5.mp3` hold the English voice-over (`en-US-AndrewNeural` voice).
-- `public/audio/music.wav` is an original score synthesized by `scripts/make-music.py` (numpy). It has no samples and no licensed material.
-
-To use a different voice (for example ElevenLabs), replace the mp3 files under the same names. If the clip lengths change, update `lengths` in `src/Soundtrack.tsx`.
-
-The script, storyboard, voice-over and AI-video prompts are in [SCRIPT.md](SCRIPT.md).
+The only sound is the musical hit under the logo in the first 3 seconds. It comes from `public/audio/music.wav`, an original score synthesized by `scripts/make-music.py` (numpy), and fades out at 3s. `src/Soundtrack.tsx` controls this.
 
 ## Scenes
 
