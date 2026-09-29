@@ -72,6 +72,24 @@ This is a bright, editorial design built on an eye whose pupil is the Neo Capta 
 
 The scenes are in `src/blink/`. Run `npm run render:blink` to render both cuts.
 
+## Design 5: Bento
+
+This is a product-demo style cut: a smart interface made of cards, with a cursor that types a question and clicks. It has its own copy (`src/bento/copy.ts`) and its own score (`public/audio/bento.wav`, made by `scripts/make-bento-music.py`), with typing and click sounds.
+
+- `NeoCaptaBentoAR` renders `neo-capta-bento-ar.mp4`.
+- `NeoCaptaBentoEN` renders `neo-capta-bento-en.mp4`.
+
+| Time | Scene | English | Arabic |
+|---|---|---|---|
+| 0–3s | Nine cards snap into a grid around the logo card | — | — |
+| 3–8s | The cursor clicks the search field and the question is typed | What does my audience really want? | وش يبي جمهوري فعلاً؟ |
+| 8–14s | The answer as a bento: insight, chart, focus ring, signal chips, Riyadh | They don't want ads. They want stories. | ما يبون إعلانات. يبون قصص. |
+| 14–20s | The cursor lights up the five service cards | One team. Five superpowers. | فريق واحد. خمس قدرات. |
+| 20–25s | The cards collapse into one lavender frame | Smarter questions. Sharper answers. | أسئلة أذكى. إجابات أوضح. |
+| 25–30s | The frame shrinks into the logo card | We see the unseen. | نرى ما لا يُرى |
+
+The scenes are in `src/bento/`. Run `npm run render:bento` to render both cuts.
+
 ## Audio
 
 There is no voice-over, only music. The track is `public/audio/music.wav`, an original score synthesized by `scripts/make-music.py` (numpy) and timed to the scenes:

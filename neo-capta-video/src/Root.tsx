@@ -3,6 +3,7 @@ import { NeoCaptaLens, LENS_FRAMES } from "./lens/NeoCaptaLens";
 import { NeoCapta, TOTAL_FRAMES } from "./NeoCapta";
 import { NeoCaptaTeaser, TEASER_FRAMES } from "./teaser/NeoCaptaTeaser";
 import { BLINK_FRAMES, NeoCaptaBlink } from "./blink/NeoCaptaBlink";
+import { BENTO_FRAMES, NeoCaptaBento } from "./bento/NeoCaptaBento";
 import { FPS } from "./theme";
 
 const size = { fps: FPS, width: 1920, height: 1080 };
@@ -10,6 +11,7 @@ const halftone = { component: NeoCapta, durationInFrames: TOTAL_FRAMES, ...size 
 const lens = { component: NeoCaptaLens, durationInFrames: LENS_FRAMES, ...size };
 const teaser = { component: NeoCaptaTeaser, durationInFrames: TEASER_FRAMES, ...size };
 const blink = { component: NeoCaptaBlink, durationInFrames: BLINK_FRAMES, ...size };
+const bento = { component: NeoCaptaBento, durationInFrames: BENTO_FRAMES, ...size };
 
 export const RemotionRoot: React.FC = () => (
   <>
@@ -25,5 +27,8 @@ export const RemotionRoot: React.FC = () => (
     {/* Design 4: blink / the eye */}
     <Composition id="NeoCaptaBlinkAR" {...blink} defaultProps={{ lang: "ar" as const }} />
     <Composition id="NeoCaptaBlinkEN" {...blink} defaultProps={{ lang: "en" as const }} />
+    {/* Design 5: bento / smart interface */}
+    <Composition id="NeoCaptaBentoAR" {...bento} defaultProps={{ lang: "ar" as const }} />
+    <Composition id="NeoCaptaBentoEN" {...bento} defaultProps={{ lang: "en" as const }} />
   </>
 );
