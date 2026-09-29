@@ -125,6 +125,18 @@ export function CheckoutForm({
           <span className="text-brand-700">{formatPrice(total)}</span>
         </div>
         {state?.error && <div className="mt-4"><Alert>{state.error}</Alert></div>}
+        {Object.keys(fe).length > 0 && (
+          <div className="mt-4">
+            <Alert>
+              أكمل البيانات الناقصة:
+              <ul className="mt-1 list-inside list-disc">
+                {[...new Set(Object.values(fe))].map((m) => (
+                  <li key={m}>{m}</li>
+                ))}
+              </ul>
+            </Alert>
+          </div>
+        )}
         <Button type="submit" size="lg" disabled={pending} className={cn("mt-5 w-full")}>
           {pending ? "جارٍ التجهيز…" : "إتمام الطلب والدفع"}
         </Button>
