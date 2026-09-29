@@ -47,7 +47,7 @@ This design is a cinematic trailer (letterbox, film grain) that builds suspense 
 | 0–2s | A pulsing light over a heartbeat | SIGNAL DETECTED_ | تم رصد إشارة_ |
 | 2–6s | One word per hit, with flashes | What if you saw everything? | وش لو تشوف كل شي؟ |
 | 6–12s | Glitch cuts over data rain | TRENDS · PEOPLE · PATTERNS · SIGNALS | الترندات · الناس · الأنماط · الإشارات |
-| 12–16s | Near silence: a horizon line and a dune | It started in the desert. | البداية كانت من الصحراء. |
+| 12–16s | Near silence: a horizon line and a dune | We start where sight ends. | نبدأ من حيث ينتهي النظر. |
 | 16–22s | Sand spirals into a point on a riser, then silence | Something different is coming. | شي مختلف… جاي. |
 | 22–26s | A braam hit: white flash, shockwave, logo | — | — |
 | 26–30s | The official line | We see the unseen. · COMING SOON | نرى ما لا يُرى · قريبًا |
