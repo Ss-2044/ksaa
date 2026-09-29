@@ -35,6 +35,25 @@ This design is built around "we see the unseen": a scanner lens reveals what is 
 
 The scenes are in `src/lens/`. Run `npm run render:lens` to render both cuts.
 
+## Design 3: Teaser
+
+This design is a cinematic trailer (letterbox, film grain) that builds suspense and holds the logo back until the drop. It has its own story and its own trailer score (`public/audio/teaser.wav`, made by `scripts/make-teaser-music.py`).
+
+- `NeoCaptaTeaserAR` renders `neo-capta-teaser-ar.mp4`.
+- `NeoCaptaTeaserEN` renders `neo-capta-teaser-en.mp4`.
+
+| Time | Scene | English | Arabic |
+|---|---|---|---|
+| 0–2s | A pulsing light over a heartbeat | SIGNAL DETECTED_ | تم رصد إشارة_ |
+| 2–6s | One word per hit, with flashes | What if you saw everything? | وش لو تشوف كل شي؟ |
+| 6–12s | Glitch cuts over data rain | TRENDS · PEOPLE · PATTERNS · SIGNALS | الترندات · الناس · الأنماط · الإشارات |
+| 12–16s | Near silence: a horizon line and a dune | It started in the desert. | البداية كانت من الصحراء. |
+| 16–22s | Sand spirals into a point on a riser, then silence | Something different is coming. | شي مختلف… جاي. |
+| 22–26s | A braam hit: white flash, shockwave, logo | — | — |
+| 26–30s | The official line | We see the unseen. · COMING SOON | نرى ما لا يُرى · قريبًا |
+
+The scenes are in `src/teaser/` and the copy is in `src/teaser/copy.ts`. Run `npm run render:teaser` to render both cuts.
+
 ## Audio
 
 There is no voice-over, only music. The track is `public/audio/music.wav`, an original score synthesized by `scripts/make-music.py` (numpy) and timed to the scenes:
