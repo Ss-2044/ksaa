@@ -108,6 +108,24 @@ This is a cartoon comedy. A shouting megaphone (traditional marketing) loses its
 
 The characters are in `src/megaphone/characters.tsx`. Run `npm run render:megaphone` to render both cuts.
 
+## Design 7: Aurora
+
+This design follows the same flow as design 1 (logo, official line, origin, difference, services, outro) with a new look: a moving aurora background, frosted-glass panels, 3D word flips, and Riyadh's skyline drawn in light. It has its own copy (`src/aurora/copy.ts`) and a warm cinematic score (`public/audio/aurora.wav`, made by `scripts/make-aurora-music.py`).
+
+- `NeoCaptaAuroraAR` renders `neo-capta-aurora-ar.mp4`.
+- `NeoCaptaAuroraEN` renders `neo-capta-aurora-en.mp4`.
+
+| Time | Scene | English | Arabic |
+|---|---|---|---|
+| 0–3s | Blinds open onto the logo on a glass card | — | — |
+| 3–8s | The official line flips in word by word | We see the unseen. | نرى ما لا يُرى |
+| 8–14s | Riyadh skyline (Kingdom Centre, Al Faisaliah) drawn in light | Rooted in Riyadh. Built for what's next. | جذورنا في الرياض. وعيننا على الجاي. |
+| 14–19s | A line assembled from sliding strips | Not louder. Clearer. | مو أعلى صوت… أوضح رؤية. |
+| 19–25s | The five services on a rotating 3D glass carousel | — | — |
+| 25–30s | The logo on glass with the official line | We see the unseen. | نرى ما لا يُرى |
+
+The scenes are in `src/aurora/`. Run `npm run render:aurora` to render both cuts.
+
 ## Audio
 
 There is no voice-over, only music. The track is `public/audio/music.wav`, an original score synthesized by `scripts/make-music.py` (numpy) and timed to the scenes:
