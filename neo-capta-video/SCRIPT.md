@@ -2,7 +2,7 @@
 
 الشعار الرسمي: **We see the unseen. — نرى ما لا يُرى**
 
-الألوان: كحلي داكن `#0b0b14` · نيلي الشعار `#4a4fb0` · لافندر `#8b7fff` · أبيض `#f1f0f5` · رمادي `#8d8ba3`
+الألوان: كحلي داكن `#0b0b14` · نيلي الشعار `#3a4cc0` · لافندر `#8b7fff` · أبيض `#f1f0f5` · رمادي `#8d8ba3`
 الأسلوب: خلفية داكنة متدرجة + نقاط هافتون (مثل الشعار) + خط عريض ثقيل
 
 ---
@@ -111,7 +111,7 @@ We see the unseen.
 ### الأسلوب المشترك (أضفه لنهاية أي برومبت)
 
 ```
-Color palette: deep navy black #0b0b14, indigo #4a4fb0, soft lavender #8b7fff, off-white highlights.
+Color palette: deep navy black #0b0b14, indigo #3a4cc0, soft lavender #8b7fff, off-white highlights.
 Halftone dot texture, minimal, premium tech-brand aesthetic, cinematic, anamorphic, subtle film grain,
 high contrast, no text, no logos, no people's faces.
 ```
@@ -181,7 +181,7 @@ Veo يولّد الصوت مع الفيديو، فأضف وصف الصوت. وح
 
 ```
 Cinematic 8-second shot, 16:9. An endless Arabian desert at dusk, dunes textured with a glowing halftone dot pattern
-in indigo (#4a4fb0) and lavender (#8b7fff) under a deep navy sky. A dotted lavender sun rises behind the dunes.
+in indigo (#3a4cc0) and lavender (#8b7fff) under a deep navy sky. A dotted lavender sun rises behind the dunes.
 Wind carries sand that transforms into floating points of light.
 Camera: 35mm lens, low-angle tracking shot moving slowly forward, then a gentle tilt up to the sky.
 Lighting: soft backlight, volumetric haze, high contrast, premium tech-commercial look.

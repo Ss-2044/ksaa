@@ -27,10 +27,10 @@ export const LogoIntro: React.FC = () => {
           opacity: s,
         }}
       />
-      <div style={{ position: "relative", mixBlendMode: "screen", width: 780, height: 770, transform: `scale(${scale * exit})`, filter: `blur(${blur}px)` }}>
+      <div style={{ position: "relative", mixBlendMode: "lighten", width: 780, height: 780, transform: `scale(${scale * exit})`, filter: `blur(${blur}px)` }}>
         <Img
-          src={staticFile("logo.png")}
-          style={{ width: "100%", height: "100%", objectFit: "cover", mixBlendMode: "screen", maskImage: mask, WebkitMaskImage: mask }}
+          src={staticFile("logo.jpg")}
+          style={{ width: "100%", height: "100%", objectFit: "cover", mixBlendMode: "lighten", maskImage: mask, WebkitMaskImage: mask }}
         />
         {/* light sweep across the mark */}
         <div

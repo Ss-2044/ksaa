@@ -8,7 +8,7 @@ export const colors = {
   bg: "#0b0b14",
   bgDeep: "#07070d",
   glow: "#25205e",
-  indigo: "#4a4fb0", // "NEO" in the logo
+  indigo: "#3a4cc0", // "NEO" in the logo
   lavender: "#8b7fff", // accent on the website
   white: "#f1f0f5",
   muted: "#8d8ba3",

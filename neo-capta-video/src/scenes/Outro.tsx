@@ -17,12 +17,12 @@ export const Outro: React.FC = () => {
   return (
     <AbsoluteFill style={{ opacity: sceneOpacity(frame, durationInFrames, 12), alignItems: "center", justifyContent: "center" }}>
       <Img
-        src={staticFile("logo.png")}
+        src={staticFile("logo.jpg")}
         style={{
           marginTop: -60,
-          mixBlendMode: "screen",
+          mixBlendMode: "lighten",
           width: 520,
-          height: 514,
+          height: 520,
           objectFit: "cover",
           maskImage: mask,
           WebkitMaskImage: mask,
