@@ -1,7 +1,13 @@
 # Neo Capta — brand video (Remotion)
 
-A 30-second bilingual (Arabic / English) motion video in the Neo Capta palette.
-It is rendered as a 1920×1080 video at 30 fps.
+A 30-second motion video in the Neo Capta palette, rendered as two separate cuts from the same scenes:
+
+- `NeoCaptaAR` renders `neo-capta-ar.mp4`, the Arabic cut (right-to-left).
+- `NeoCaptaEN` renders `neo-capta-en.mp4`, the English cut.
+
+Both are 1920×1080 at 30 fps. `neo-capta.mp4` is the earlier bilingual cut, rendered from a previous commit.
+
+All on-screen text for both languages is in `src/lang.tsx`.
 
 The script, storyboard, voice-over and AI-video prompts are in [SCRIPT.md](SCRIPT.md).
 
@@ -10,7 +16,7 @@ The script, storyboard, voice-over and AI-video prompts are in [SCRIPT.md](SCRIP
 | Time | Scene | File |
 |---|---|---|
 | 0–3s | Logo reveal | `src/scenes/LogoIntro.tsx` |
-| 3–7s | "We see the unseen." / «نرى ما لا يُرى» | `src/scenes/Tagline.tsx` |
+| 3–7s | "We see the unseen." (EN) or «نرى ما لا يُرى» (AR) | `src/scenes/Tagline.tsx` |
 | 7–13s | Born in the desert (halftone dunes) | `src/scenes/Desert.tsx` |
 | 13–19s | Traditional marketing → reimagined | `src/scenes/Different.tsx` |
 | 19–25s | New ideas + five pillars | `src/scenes/Ideas.tsx` |
@@ -23,7 +29,9 @@ Colors and fonts are defined in `src/theme.ts`. The fonts (IBM Plex Sans Arabic,
 ```bash
 npm install
 npm run studio   # live preview in the browser
-npm run render   # writes out/neo-capta.mp4
+npm run render     # writes out/neo-capta-ar.mp4 and out/neo-capta-en.mp4
+npm run render:ar  # Arabic only
+npm run render:en  # English only
 ```
 
 In a sandbox without Remotion's own Chrome, add `--browser-executable=<path to chrome/headless_shell>`.

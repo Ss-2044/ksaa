@@ -1,7 +1,7 @@
 import { AbsoluteFill, interpolate, random, useCurrentFrame, useVideoConfig } from "remotion";
 import { progress, reveal, sceneOpacity } from "../anim";
-import { colors, fonts } from "../theme";
-import { displayAr, displayEn } from "../ui";
+import { useLang } from "../lang";
+import { colors } from "../theme";
 
 const W = 1920;
 const H = 1080;
@@ -26,6 +26,9 @@ export const Desert: React.FC = () => {
   const frame = useCurrentFrame();
   const { durationInFrames } = useVideoConfig();
   const sunY = interpolate(progress(frame, 0, 120), [0, 1], [800, 560]);
+  const { t, dir, display, scale, small } = useLang();
+  const [line1, lead, accent] = t.desert;
+  const sunX = dir === "rtl" ? 560 : 1360;
   const push = interpolate(frame, [0, durationInFrames], [1, 1.07]);
 
   return (
@@ -54,8 +57,8 @@ export const Desert: React.FC = () => {
             </mask>
           </defs>
 
-          <circle cx={960} cy={sunY} r={330} fill="url(#sunGlow)" />
-          <circle cx={960} cy={sunY} r={150} fill="url(#sunDots)" opacity={0.9} />
+          <circle cx={sunX} cy={sunY} r={330} fill="url(#sunGlow)" />
+          <circle cx={sunX} cy={sunY} r={150} fill="url(#sunDots)" opacity={0.9} />
 
           <g mask="url(#duneFade)">
             {dunes.map((d, i) => (
@@ -75,25 +78,13 @@ export const Desert: React.FC = () => {
         </svg>
       </AbsoluteFill>
 
-      <div style={{ position: "absolute", top: 130, left: 140 }}>
-        <div style={{ ...reveal(frame, 14), fontFamily: fonts.mono, fontSize: 24, letterSpacing: "0.2em", color: colors.muted }}>
-          RIYADH · 24.71° N  46.67° E
-        </div>
-        <div style={{ ...displayEn, fontSize: 120, marginTop: 24 }}>
-          <div style={reveal(frame, 24)}>Born in</div>
+      <div dir={dir} style={{ position: "absolute", top: 120, left: 140, right: 140 }}>
+        <div style={{ ...reveal(frame, 14), ...small }}>{t.desertKicker}</div>
+        <div style={{ ...display, fontSize: 130 * scale, marginTop: 20 }}>
+          <div style={reveal(frame, 24)}>{line1}</div>
           <div style={reveal(frame, 36)}>
-            the <span style={{ color: colors.lavender }}>desert.</span>
-          </div>
-        </div>
-      </div>
-
-      <div dir="rtl" style={{ position: "absolute", top: 130, right: 140, textAlign: "right" }}>
-        <div style={{ ...reveal(frame, 50), fontFamily: fonts.ar, fontSize: 32, color: colors.muted }}>
-          من الرمل تعلّمنا الصبر والرؤية
-        </div>
-        <div style={{ ...displayAr, fontSize: 124, marginTop: 6 }}>
-          <div style={reveal(frame, 60)}>
-            جينا من <span style={{ color: colors.lavender }}>الصحراء</span>
+            {lead}
+            <span style={{ color: colors.lavender }}>{accent}</span>
           </div>
         </div>
       </div>

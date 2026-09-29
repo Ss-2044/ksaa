@@ -1,11 +1,12 @@
 import { AbsoluteFill, Img, interpolate, spring, staticFile, useCurrentFrame, useVideoConfig } from "remotion";
 import { reveal, sceneOpacity } from "../anim";
-import { colors, fonts } from "../theme";
-import { displayAr, displayEn } from "../ui";
+import { useLang } from "../lang";
+import { colors } from "../theme";
 
 export const Outro: React.FC = () => {
   const frame = useCurrentFrame();
   const { fps, durationInFrames } = useVideoConfig();
+  const { t, dir, display, scale, small, lang } = useLang();
   const s = spring({ frame, fps, config: { damping: 20 } });
   const mask = "radial-gradient(circle at 50% 50%, black 40%, transparent 68%)";
   const toBlack = interpolate(frame, [durationInFrames - 20, durationInFrames], [0, 1], {
@@ -29,27 +30,12 @@ export const Outro: React.FC = () => {
           opacity: s,
         }}
       />
-      <div style={{ display: "flex", alignItems: "center", gap: 60, marginTop: -30 }}>
-        <div style={{ ...reveal(frame, 14), ...displayEn, fontSize: 84 }}>
-          We see the <span style={{ color: colors.lavender }}>unseen.</span>
-        </div>
-        <div style={{ ...reveal(frame, 20), width: 2, height: 90, background: colors.line }} />
-        <div dir="rtl" style={{ ...reveal(frame, 26), ...displayAr, fontSize: 80 }}>
-          نرى ما <span style={{ color: colors.lavender }}>لا يُرى</span>
-        </div>
+      <div dir={dir} style={{ ...reveal(frame, 14), ...display, fontSize: 110 * scale, marginTop: -20, whiteSpace: "nowrap" }}>
+        {t.tagline[0]} {t.tagline[1]}
+        <span style={{ color: colors.lavender }}>{t.tagline[2]}</span>
       </div>
-      <div
-        style={{
-          ...reveal(frame, 40),
-          position: "absolute",
-          bottom: 90,
-          fontFamily: fonts.mono,
-          fontSize: 24,
-          letterSpacing: "0.3em",
-          color: colors.muted,
-        }}
-      >
-        NEO CAPTA · MARKETING INTELLIGENCE · RIYADH
+      <div dir={dir} style={{ ...reveal(frame, 36), ...small, position: "absolute", bottom: 90, letterSpacing: lang === "ar" ? 0 : "0.3em" }}>
+        {t.footer}
       </div>
       <AbsoluteFill style={{ background: "black", opacity: toBlack }} />
     </AbsoluteFill>
