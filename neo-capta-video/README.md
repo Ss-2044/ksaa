@@ -54,6 +54,24 @@ This design is a cinematic trailer (letterbox, film grain) that builds suspense 
 
 The scenes are in `src/teaser/` and the copy is in `src/teaser/copy.ts`. Run `npm run render:teaser` to render both cuts.
 
+## Design 4: Blink
+
+This is a bright, editorial design built on an eye whose pupil is the Neo Capta logo. Scenes change with eyelid blinks. It has its own copy (`src/blink/copy.ts`) and its own score (`public/audio/blink.wav`, made by `scripts/make-blink-music.py`).
+
+- `NeoCaptaBlinkAR` renders `neo-capta-blink-ar.mp4`.
+- `NeoCaptaBlinkEN` renders `neo-capta-blink-en.mp4`.
+
+| Time | Scene | English | Arabic |
+|---|---|---|---|
+| 0–3s | The eye opens; zoom into the pupil (the logo) | — | — |
+| 3–8s | Words grow; the full stop swallows the frame | Look. / Look closer. / Closer. | شوف. / شوف أقرب. / أقرب. |
+| 8–14s | Blurred marketing noise; one line comes into focus | In all the noise, we find meaning. | وسط كل هالضجيج، نلقى المعنى. |
+| 14–20s | The five services orbit a small eye | New eyes for your brand. | عيون جديدة لعلامتك. |
+| 20–26s | The lids slowly close, then darkness | Most brands blink. We don't. → Don't blink. | أغلب العلامات ترمش. إحنا لا. ← لا ترمش. |
+| 26–30s | The eye opens on the logo, then a last blink | We see the unseen. | نرى ما لا يُرى |
+
+The scenes are in `src/blink/`. Run `npm run render:blink` to render both cuts.
+
 ## Audio
 
 There is no voice-over, only music. The track is `public/audio/music.wav`, an original score synthesized by `scripts/make-music.py` (numpy) and timed to the scenes:

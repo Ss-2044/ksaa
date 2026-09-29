@@ -9,7 +9,8 @@
     "render:ar": "remotion render NeoCaptaAR out/neo-capta-ar.mp4",
     "render:en": "remotion render NeoCaptaEN out/neo-capta-en.mp4",
     "render:lens": "remotion render NeoCaptaLensAR out/neo-capta-lens-ar.mp4 && remotion render NeoCaptaLensEN out/neo-capta-lens-en.mp4",
-    "render:teaser": "remotion render NeoCaptaTeaserAR out/neo-capta-teaser-ar.mp4 && remotion render NeoCaptaTeaserEN out/neo-capta-teaser-en.mp4"
+    "render:teaser": "remotion render NeoCaptaTeaserAR out/neo-capta-teaser-ar.mp4 && remotion render NeoCaptaTeaserEN out/neo-capta-teaser-en.mp4",
+    "render:blink": "remotion render NeoCaptaBlinkAR out/neo-capta-blink-ar.mp4 && remotion render NeoCaptaBlinkEN out/neo-capta-blink-en.mp4"
   },
   "author": "",
   "license": "ISC",
