@@ -4,7 +4,7 @@ import { redirect } from "next/navigation";
 import { z } from "zod";
 import { getCurrentUser } from "@/lib/auth";
 import { db } from "@/lib/db";
-import { isProd, moyasarEnabled } from "@/lib/env";
+import { allowFallbacks, moyasarEnabled } from "@/lib/env";
 import { CheckoutError, createPendingOrder, fulfillOrder } from "@/lib/orders";
 import { normalizeSaudiPhone } from "@/lib/phone";
 
@@ -85,9 +85,9 @@ export async function savePaymentId(orderId: string, paymentId: string) {
   });
 }
 
-// وضع التطوير فقط (بدون مفاتيح ميسر): محاكاة دفع ناجح
+// وضع التطوير أو العرض التجريبي فقط (بدون مفاتيح ميسر): محاكاة دفع ناجح
 export async function mockPay(orderId: string) {
-  if (isProd || moyasarEnabled()) throw new Error("Not available");
+  if (!allowFallbacks() || moyasarEnabled()) throw new Error("Not available");
   const user = await getCurrentUser();
   const order = await db.order.findFirst({ where: { id: orderId, buyerId: user?.id } });
   if (!order) throw new Error("Order not found");

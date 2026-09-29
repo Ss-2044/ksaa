@@ -22,6 +22,18 @@ export function adminPath() {
   return (process.env.ADMIN_PATH || "").replace(/^\/+|\/+$/g, "");
 }
 
+/**
+ * وضع العرض التجريبي (DEMO_MODE=true): يسمح برمز تحقق يظهر على الشاشة ودفع تجريبي
+ * عند عدم ضبط مفاتيح Authentica ومُيسر. لا تفعّله في الإطلاق الفعلي — أي شخص يستطيع الدخول بأي رقم.
+ */
+export const demoMode = () => process.env.DEMO_MODE === "true";
+
+/** بدائل التطوير (رمز محلي، دفع تجريبي) مسموحة في بيئة التطوير أو وضع العرض التجريبي فقط */
+export const allowFallbacks = () => !isProd || demoMode();
+
+// عدد أرقام رمز التحقق — يجب أن يطابق قالب Authentica (يُقرأ وقت التشغيل)
+export const otpLength = () => Number(process.env.OTP_LENGTH || 4);
+
 export const authenticaEnabled = () => !!process.env.AUTHENTICA_API_KEY;
 export const moyasarEnabled = () =>
-  !!process.env.NEXT_PUBLIC_MOYASAR_PUBLISHABLE_KEY && !!process.env.MOYASAR_SECRET_KEY;
+  !!process.env.MOYASAR_PUBLISHABLE_KEY && !!process.env.MOYASAR_SECRET_KEY;

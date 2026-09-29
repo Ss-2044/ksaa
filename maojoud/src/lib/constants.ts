@@ -33,6 +33,3 @@ export type Gender = keyof typeof GENDERS;
 export const DESCRIPTION_MAX = 300;
 export const MAX_IMAGES = 10;
 export const RESERVATION_MINUTES = 20;
-
-// طول رمز التحقق — يجب أن يطابق إعداد القالب في Authentica
-export const OTP_LENGTH = Number(process.env.NEXT_PUBLIC_OTP_LENGTH || 4);

@@ -4,7 +4,8 @@ import { mkdir, writeFile } from "node:fs/promises";
 import path from "node:path";
 import sharp from "sharp";
 
-export const UPLOAD_DIR = path.join(process.cwd(), "storage", "uploads");
+// في الإنتاج اضبط UPLOAD_DIR على مجلد في قرص دائم (مثل /data/uploads)
+export const UPLOAD_DIR = process.env.UPLOAD_DIR || path.join(process.cwd(), "storage", "uploads");
 const MAX_BYTES = 12 * 1024 * 1024;
 
 type Preset = "product" | "avatar" | "banner";

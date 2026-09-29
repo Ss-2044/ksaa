@@ -1,8 +1,7 @@
 import "server-only";
 import { createHash, randomInt } from "node:crypto";
-import { OTP_LENGTH } from "./constants";
 import { db } from "./db";
-import { authenticaEnabled, isProd } from "./env";
+import { allowFallbacks, authenticaEnabled, otpLength } from "./env";
 
 // تكامل Authentica لإرسال رمز التحقق — https://api.authentica.sa/api/v2
 const BASE = "https://api.authentica.sa/api/v2";
@@ -57,13 +56,14 @@ export async function sendOtp(phone: string): Promise<SendResult> {
     return { ok: true };
   }
 
-  if (isProd) {
+  if (!allowFallbacks()) {
     console.error("[authentica] AUTHENTICA_API_KEY is not set");
     return { ok: false, error: "خدمة رسائل التحقق غير مهيأة" };
   }
 
-  // وضع التطوير: رمز محلي يُطبع في سجل الخادم
-  const code = String(randomInt(0, 10 ** OTP_LENGTH)).padStart(OTP_LENGTH, "0");
+  // وضع التطوير/العرض التجريبي: رمز محلي يُطبع في سجل الخادم ويظهر على الشاشة
+  const len = otpLength();
+  const code = String(randomInt(0, 10 ** len)).padStart(len, "0");
   await db.otpRequest.create({
     data: { phone, codeHash: hash(phone, code), expiresAt: new Date(now + OTP_TTL_MS) },
   });
@@ -84,7 +84,7 @@ export async function verifyOtp(phone: string, code: string): Promise<boolean> {
   if (authenticaEnabled()) {
     const r = await call<{ status?: boolean; message?: string }>("/verify-otp", { phone, otp: code });
     ok = r.status === true;
-  } else if (!isProd && req.codeHash) {
+  } else if (allowFallbacks() && req.codeHash) {
     ok = req.codeHash === hash(phone, code);
   }
 

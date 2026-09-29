@@ -9,7 +9,7 @@ import { Alert } from "@/components/ui";
 import { requireUser } from "@/lib/auth";
 import { PAYMENT_METHODS } from "@/lib/constants";
 import { db } from "@/lib/db";
-import { appUrl, moyasarEnabled } from "@/lib/env";
+import { allowFallbacks, appUrl, moyasarEnabled } from "@/lib/env";
 import { formatPrice } from "@/lib/format";
 
 export const metadata: Metadata = { title: "الدفع" };
@@ -41,13 +41,13 @@ export default async function PayPage({ params }: { params: Promise<{ orderId: s
             orderNumber={order.number}
             amount={order.totalHalalas}
             method={method}
-            publishableKey={process.env.NEXT_PUBLIC_MOYASAR_PUBLISHABLE_KEY!}
+            publishableKey={process.env.MOYASAR_PUBLISHABLE_KEY!}
             callbackUrl={`${appUrl()}/checkout/callback/${order.id}`}
           />
-        ) : process.env.NODE_ENV !== "production" ? (
+        ) : allowFallbacks() ? (
           <div className="flex flex-col gap-4">
             <Alert tone="warning">
-              وضع التطوير: مفاتيح مُيسر غير مضبوطة في ملف ‎.env، لذلك يظهر زر دفع تجريبي بدل نموذج الدفع.
+              نسخة تجريبية: مفاتيح مُيسر غير مضبوطة، لذلك يظهر زر دفع تجريبي بدل نموذج الدفع ولن يُخصم أي مبلغ.
             </Alert>
             <form action={mockPay.bind(null, order.id)}>
               <button type="submit" className={buttonClass("primary", "lg", "w-full")}>دفع تجريبي</button>

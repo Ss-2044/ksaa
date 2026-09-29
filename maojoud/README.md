@@ -17,7 +17,7 @@ npm run dev                   # http://localhost:3000
 - يظهر رمز التحقق على الشاشة ويُطبع في سجل الخادم بدل إرسال SMS.
 - يظهر زر «دفع تجريبي» بدل نموذج الدفع.
 
-هذان البديلان معطلان تمامًا في الإنتاج (`NODE_ENV=production`).
+هذان البديلان معطلان في الإنتاج إلا إذا فُعّل `DEMO_MODE=true` (انظر قسم النشر).
 
 ## الصفحات
 
@@ -46,7 +46,7 @@ npm run dev                   # http://localhost:3000
 
 ## الدفع — مُيسر
 
-1. ضع المفاتيح في `.env`: `NEXT_PUBLIC_MOYASAR_PUBLISHABLE_KEY` و `MOYASAR_SECRET_KEY`.
+1. ضع المفاتيح في `.env`: `MOYASAR_PUBLISHABLE_KEY` و `MOYASAR_SECRET_KEY`.
 2. من لوحة مُيسر ← Settings ← Webhooks أضف:
    `https://<domain>/api/webhooks/moyasar` مع Secret Token يطابق `MOYASAR_WEBHOOK_SECRET`، وفعّل حدث `payment_paid`.
 3. **Apple Pay**: من لوحة مُيسر ← Settings ← Apple Pay Domains نزّل ملف التحقق وضعه في
@@ -61,7 +61,7 @@ npm run dev                   # http://localhost:3000
 ## رمز التحقق — Authentica
 
 ضع `AUTHENTICA_API_KEY` من https://portal.authentica.sa/settings/apikeys/ ، واضبط
-`AUTHENTICA_TEMPLATE_ID` و `NEXT_PUBLIC_OTP_LENGTH` حسب القالب المستخدم.
+`AUTHENTICA_TEMPLATE_ID` و `OTP_LENGTH` حسب القالب المستخدم.
 الأرقام تُحوّل تلقائيًا إلى الصيغة الدولية `+9665XXXXXXXX`. يوجد حد لإعادة الإرسال (دقيقة) و5 رسائل في الساعة لكل رقم،
 و5 محاولات تحقق لكل رمز.
 
@@ -70,23 +70,49 @@ npm run dev                   # http://localhost:3000
 كل صورة مرفوعة (سلع، صور شخصية، بانر) تُعالج في الخادم عبر **sharp**: تصحيح الاتجاه، حذف بيانات EXIF
 (ومنها الموقع الجغرافي)، تصغير الأبعاد (1600px للسلع) والتحويل إلى WebP بجودة 80، مع نسخة مصغرة 480px
 لبطاقات السلع. كما تُصغّر الصور في المتصفح قبل الرفع لتسريعه.
-الملفات تُحفظ في `storage/uploads` — في الإنتاج اجعل هذا المجلد على قرص دائم.
+الملفات تُحفظ في `storage/uploads` محليًا، وفي الاستضافة في المجلد المحدد بـ `UPLOAD_DIR` على قرص دائم.
 
 ## الهوية
 
 - **الشعار**: الملف `public/brand/logo.svg` مؤقت. ضع الشعار الرسمي مكانه، أو ضع ملفك (مثل `logo.png`)
-  واضبط `NEXT_PUBLIC_LOGO_URL=/brand/logo.png`. الشعار يُعرض كما هو دون أي إضافة.
+  واضبط `LOGO_URL=/brand/logo.png`. الشعار يُعرض كما هو دون أي إضافة.
 - **اللون الأساسي**: درجات الأزرق `brand-*` معرّفة في `src/app/globals.css`؛ عدّلها لتطابق التصميم المعتمد.
 - الواجهات مبنية بمكونات **Base UI** (`@base-ui/react`) مخصصة بـ Tailwind، واتجاه الصفحة RTL.
 
-## الإنتاج
+## النشر على Railway
 
-```bash
-npm run build && npm start
-```
+المشروع جاهز للنشر عبر `Dockerfile` و `railway.json`. قاعدة البيانات والصور تُحفظ في قرص دائم (Volume).
 
-- اضبط `APP_URL` على الرابط العام (يُستخدم في `callback_url` لمُيسر) و `SESSION_SECRET` بقيمة عشوائية طويلة.
-- SQLite مناسب للبداية؛ للتحويل إلى PostgreSQL غيّر `provider` في `prisma/schema.prisma` و `DATABASE_URL`.
+1. سجّل في https://railway.com بحساب GitHub.
+2. **New Project ← Deploy from GitHub repo** واختر المستودع `ss-2044/ksaa`.
+3. من إعدادات الخدمة (**Settings**):
+   - **Source ← Root Directory**: `maojoud`
+   - **Source ← Branch**: الفرع الذي فيه المشروع
+4. أضف قرصًا دائمًا: اضغط بالزر الأيمن على الخدمة ← **Attach Volume**، ومسار التركيب (Mount path): `/data`
+5. من تبويب **Variables** أضف:
+
+   | المتغير | القيمة |
+   |---|---|
+   | `DATABASE_URL` | `file:/data/maojoud.db` |
+   | `UPLOAD_DIR` | `/data/uploads` |
+   | `SESSION_SECRET` | نص عشوائي طويل (48 حرفًا أو أكثر) |
+   | `ADMIN_PATH` | مسار سري للوحة التحكم، مثل `control-8d2k4q` |
+   | `ADMIN_USERNAME` | اسم مستخدم المسؤول |
+   | `ADMIN_PASSWORD` | كلمة مرور قوية (10 أحرف أو أكثر) |
+   | `APP_URL` | رابط الموقع من الخطوة 6، مثل `https://maojoud.up.railway.app` |
+   | `DEMO_MODE` | `true` للعرض التجريبي قبل توفر مفاتيح Authentica ومُيسر |
+
+6. **Settings ← Networking ← Generate Domain** للحصول على رابط الموقع، ثم ضعه في `APP_URL`.
+7. انتظر اكتمال النشر وافتح الرابط. لوحة التحكم على `https://<الرابط>/<ADMIN_PATH>`.
+
+عند الإطلاق الفعلي: أضف `AUTHENTICA_API_KEY` و `MOYASAR_PUBLISHABLE_KEY` و `MOYASAR_SECRET_KEY` و `MOYASAR_WEBHOOK_SECRET`،
+ثم احذف `DEMO_MODE` أو اجعله `false`، واربط نطاقك الخاص (مثل maojoud.sa) من **Networking ← Custom Domain** وحدّث `APP_URL`.
+
+> **تنبيه:** في `DEMO_MODE` يظهر رمز التحقق على الشاشة، أي أن أي شخص يستطيع الدخول بأي رقم جوال،
+> والدفع تجريبي. يظهر شريط «نسخة تجريبية» أعلى الموقع طالما الوضع مفعّل.
+
+للنشر على منصة أخرى (مثل Render) استخدم نفس `Dockerfile` مع قرص دائم ونفس المتغيرات.
+للتحويل إلى PostgreSQL غيّر `provider` في `prisma/schema.prisma` و `DATABASE_URL`.
 
 ## بنية المشروع
 

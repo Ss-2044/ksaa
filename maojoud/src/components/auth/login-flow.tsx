@@ -9,14 +9,13 @@ import { ArrowRight, Smartphone } from "lucide-react";
 import { completeProfile, requestOtp, verifyCode } from "@/actions/auth";
 import { Alert, Button, TextField } from "@/components/ui";
 import { useFormAction } from "@/components/use-form-action";
-import { OTP_LENGTH } from "@/lib/constants";
 import { displayPhone } from "@/lib/phone";
 import { AvatarPicker } from "./avatar-picker";
 
 type Step = "phone" | "otp" | "profile";
 
 
-export function LoginFlow({ next, startAtProfile }: { next: string; startAtProfile: boolean }) {
+export function LoginFlow({ next, startAtProfile, otpLength }: { next: string; startAtProfile: boolean; otpLength: number }) {
   const router = useRouter();
   const [step, setStep] = useState<Step>(startAtProfile ? "profile" : "phone");
   const [phone, setPhone] = useState("");
@@ -100,7 +99,7 @@ export function LoginFlow({ next, startAtProfile }: { next: string; startAtProfi
             </p>
           </div>
           <OTPField.Root
-            length={OTP_LENGTH}
+            length={otpLength}
             value={code}
             onValueChange={setCode}
             onValueComplete={verify}
@@ -109,15 +108,15 @@ export function LoginFlow({ next, startAtProfile }: { next: string; startAtProfi
             dir="ltr"
             className="flex justify-center gap-3"
           >
-            {Array.from({ length: OTP_LENGTH }, (_, i) => (
+            {Array.from({ length: otpLength }, (_, i) => (
               <OTPField.Input
                 key={i}
-                aria-label={i === 0 ? undefined : `الخانة ${i + 1} من ${OTP_LENGTH}`}
+                aria-label={i === 0 ? undefined : `الخانة ${i + 1} من ${otpLength}`}
                 className="size-14 rounded-xl border border-slate-300 bg-white text-center text-2xl font-bold focus:border-brand-500 focus:outline-none focus:ring-3 focus:ring-brand-500/20"
               />
             ))}
           </OTPField.Root>
-          {devCode && <Alert tone="info">وضع التطوير: رمز التحقق هو <b dir="ltr">{devCode}</b></Alert>}
+          {devCode && <Alert tone="info">نسخة تجريبية: رمز التحقق هو <b dir="ltr">{devCode}</b></Alert>}
           {error && <Alert>{error}</Alert>}
           <Button variant="ghost" onClick={send} disabled={pending}>إعادة إرسال الرمز</Button>
         </div>
