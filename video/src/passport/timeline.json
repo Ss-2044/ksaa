@@ -1,0 +1,10 @@
+{
+  "fps": 30,
+  "durationInFrames": 1140,
+  "bpm": 120,
+  "opening": { "from": 0, "duration": 110, "splitAt": 45 },
+  "passport": { "from": 110, "duration": 410, "openAt": 110, "flipAt": 175, "stampsFrom": 205, "stampGap": 26, "fullAt": 345 },
+  "arrivals": { "from": 520, "duration": 300, "firstRow": 34, "rowGap": 24 },
+  "welcome": { "from": 820, "duration": 150 },
+  "outro": { "from": 970, "duration": 170 }
+}

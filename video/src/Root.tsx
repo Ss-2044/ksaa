@@ -5,6 +5,8 @@ import { MagazineCover } from "./magazine/MagazineCover";
 import { MagazineSpread } from "./magazine/MagazineSpread";
 import { AIPromo } from "./ai/AIPromo";
 import { Journey } from "./journey/Journey";
+import { PassportVideo } from "./passport/PassportVideo";
+import passportTimeline from "./passport/timeline.json";
 import journeyTimeline from "./journey/timeline.json";
 import { aiDuration } from "./ai/shots";
 import timeline from "./timeline.json";
@@ -12,6 +14,7 @@ import timeline from "./timeline.json";
 export const RemotionRoot: React.FC = () => {
   return (
     <>
+    <Composition id="Passport" component={PassportVideo} durationInFrames={passportTimeline.durationInFrames} fps={30} width={1080} height={1920} />
     <Composition id="Journey" component={Journey} durationInFrames={journeyTimeline.durationInFrames} fps={30} width={1080} height={1920} />
     <Composition
       id="Promo"

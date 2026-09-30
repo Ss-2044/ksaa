@@ -33,3 +33,14 @@ export const silverText: React.CSSProperties = {
   backgroundClip: "text",
   color: "transparent",
 };
+
+// Light editorial palette for the "Passport" video (paper, ink, brand blues).
+export const light = {
+  paper: "#F2F1EC",
+  paperDeep: "#E4E2D9",
+  ink: "#0A0D1F",
+  muted: "#6B6F80",
+  royal: "#344499",
+  cover: "#1C2566",
+  accent: "#5E78FF",
+};

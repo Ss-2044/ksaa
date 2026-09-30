@@ -5,6 +5,8 @@
     "studio": "remotion studio",
     "music": "node scripts/make-journey-music.mjs",
     "render": "remotion render src/index.ts Journey out/neocapta-journey.mp4",
+    "music:passport": "node scripts/make-passport-music.mjs",
+    "render:passport": "remotion render src/index.ts Passport out/neocapta-passport.mp4",
     "render:promo": "remotion render src/index.ts Promo out/neocapta-promo.mp4 --muted",
     "render:ai": "remotion render src/index.ts AIPromo out/neocapta-ai-promo.mp4 --muted",
     "magazine": "remotion still src/index.ts MagazineCover ai-kit/magazine-cover.png && remotion still src/index.ts MagazineSpread ai-kit/magazine-spread.png --frame=59",
