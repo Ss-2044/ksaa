@@ -14,6 +14,20 @@ import { VaultVideo } from "./games/vault/VaultVideo";
 import { DominoVideo } from "./games/domino/DominoVideo";
 import { FootballVideo } from "./games/football/FootballVideo";
 import { RubikVideo } from "./games/rubik/RubikVideo";
+import { LensVideo } from "./games/lens/LensVideo";
+import lensTimeline from "./games/lens/timeline.json";
+import { RadioVideo } from "./games/radio/RadioVideo";
+import radioTimeline from "./games/radio/timeline.json";
+import { LighthouseVideo } from "./games/lighthouse/LighthouseVideo";
+import lighthouseTimeline from "./games/lighthouse/timeline.json";
+import { CompassVideo } from "./games/compass/CompassVideo";
+import compassTimeline from "./games/compass/timeline.json";
+import { PalmVideo } from "./games/palm/PalmVideo";
+import palmTimeline from "./games/palm/timeline.json";
+import { MaestroVideo } from "./games/maestro/MaestroVideo";
+import maestroTimeline from "./games/maestro/timeline.json";
+import { NotifyVideo } from "./games/notify/NotifyVideo";
+import notifyTimeline from "./games/notify/timeline.json";
 import { StarsVideo } from "./games/stars/StarsVideo";
 import starsTimeline from "./games/stars/timeline.json";
 import { SaduVideo } from "./games/sadu/SaduVideo";
@@ -45,6 +59,15 @@ const vertical = { fps: 30, width: 1080, height: 1920 };
 export const RemotionRoot: React.FC = () => {
   return (
     <>
+      {/* agency series: clarity, reach, guidance */}
+      <Composition id="Lens" component={LensVideo} durationInFrames={lensTimeline.durationInFrames} {...vertical} />
+      <Composition id="Radio" component={RadioVideo} durationInFrames={radioTimeline.durationInFrames} {...vertical} />
+      <Composition id="Lighthouse" component={LighthouseVideo} durationInFrames={lighthouseTimeline.durationInFrames} {...vertical} />
+      <Composition id="Compass" component={CompassVideo} durationInFrames={compassTimeline.durationInFrames} {...vertical} />
+      <Composition id="Palm" component={PalmVideo} durationInFrames={palmTimeline.durationInFrames} {...vertical} />
+      <Composition id="Maestro" component={MaestroVideo} durationInFrames={maestroTimeline.durationInFrames} {...vertical} />
+      <Composition id="Notify" component={NotifyVideo} durationInFrames={notifyTimeline.durationInFrames} {...vertical} />
+
       {/* heritage & story series */}
       <Composition id="Stars" component={StarsVideo} durationInFrames={starsTimeline.durationInFrames} {...vertical} />
       <Composition id="Sadu" component={SaduVideo} durationInFrames={saduTimeline.durationInFrames} {...vertical} />

@@ -606,6 +606,242 @@ const tracks = {
     [0, 2, 4, 7].forEach((n, i) => x.pluck(serve.top + 10 + i * 5, hijaz[n] * 2, 0.08));
     return { s, file: "dallah-music.wav" };
   },
+  lens: () => {
+    const tl = load("lens");
+    const s = createSynth({ seconds: tl.durationInFrames / tl.fps, fps: tl.fps, bpm: tl.bpm, seed: 167 });
+    const x = extras(s);
+    const { beatFrames, beatsBetween, kick, clap, hat, bass, hit, riser, click, ping, shutter } = s;
+    const { blur, lost, answer, rings, shutter: sh, reveal, outro } = tl;
+    x.pad(0, answer.from, [110, 164.81, 220], 0.018);
+    // focus hunting: motor whirr clicks
+    for (let f = lost.from; f < answer.from; f += 3) click(f, 0.06);
+    hit(answer.from, 0.6);
+    beatsBetween(rings.from, sh.at, (f, b) => {
+      kick(f, 0.6);
+      hat(f + beatFrames / 2, 0.07);
+      if (b % 2 === 1) clap(f, 0.2);
+      bass(f, [55, 55, 61.74, 65.41][Math.floor(b / 4) % 4], 0.35, 0.18);
+    });
+    for (let k = 0; k < 5; k++) {
+      const f = rings.from + k * rings.each;
+      for (let i = 0; i < rings.turn; i += 2) click(f + i, 0.07);
+      ping(f + rings.turn, [659.25, 739.99, 830.61, 987.77, 1108.73][k], 0.1);
+    }
+    x.pad(rings.from, reveal.to, [220, 277.18, 329.63], 0.02);
+    riser(sh.at - 30, sh.at, 0.25);
+    shutter(sh.at + 4, 0.6);
+    hit(sh.at + 6, 1);
+    x.pad(reveal.from, outro.from + outro.duration, [220, 277.18, 329.63, 440], 0.026);
+    return { s, file: "lens-music.wav" };
+  },
+  radio: () => {
+    const tl = load("radio");
+    const s = createSynth({ seconds: tl.durationInFrames / tl.fps, fps: tl.fps, bpm: tl.bpm, seed: 173 });
+    const x = extras(s);
+    const { at, add, SR, rnd, beatFrames, beatsBetween, kick, clap, hat, bass, hit, whoosh, ping } = s;
+    const { lost, answer, tune, broadcast, outro } = tl;
+    // static that thins out with every station tuned
+    const s0 = at(0);
+    const s1 = at(broadcast.from);
+    for (let i = s0; i < s1; i++) {
+      const frame = (i / SR) * tl.fps;
+      const tuned = tune.freqs.filter((_, k) => frame >= tune.from + k * tune.each + tune.move).length;
+      const lvl = Math.max(0.03, 1 - tuned * 0.2) * 0.07 * (frame >= lost.from && frame < answer.from ? 1.4 : 1);
+      add(i, rnd() * lvl);
+    }
+    // the station tone gets purer and a groove comes in
+    tune.freqs.forEach((f, k) => {
+      const t0 = tune.from + k * tune.each + tune.move;
+      ping(t0, 330 + k * 55, 0.12);
+      x.pad(t0, t0 + tune.each - tune.move, [110 + k * 13.75, 165 + k * 20.6], 0.012 + k * 0.004);
+    });
+    beatsBetween(tune.from + tune.each * 2, broadcast.from, (f, b) => {
+      kick(f, 0.55);
+      hat(f + beatFrames / 2, 0.07);
+      if (b % 2 === 1) clap(f, 0.2);
+    });
+    // on air: full mix, big hit, waves
+    hit(broadcast.from, 1.1);
+    whoosh(broadcast.from, 1.5, 0.35, true);
+    beatsBetween(broadcast.from + 10, outro.from, (f, b) => {
+      kick(f, 0.8);
+      hat(f + beatFrames / 2, 0.1);
+      hat(f + beatFrames / 4, 0.05);
+      if (b % 2 === 1) clap(f, 0.3);
+      bass(f, [55, 55, 65.41, 73.42][Math.floor(b / 4) % 4], 0.35, 0.22);
+    });
+    x.pad(broadcast.from, outro.from + outro.duration, [220, 277.18, 329.63, 440], 0.024);
+    return { s, file: "radio-music.wav" };
+  },
+  lighthouse: () => {
+    const tl = load("lighthouse");
+    const s = createSynth({ seconds: tl.durationInFrames / tl.fps, fps: tl.fps, bpm: tl.bpm, seed: 179 });
+    const x = extras(s);
+    const { at, add, SR, hit, riser, ping, kick } = s;
+    const { storm, lost, light, path, harbor, outro } = tl;
+    // sea + rain, easing off once the light is on
+    x.wind(0, light.to / tl.fps, 0.22);
+    x.wind(light.to / tl.fps - 0.5, (outro.from - light.to) / tl.fps, 0.08);
+    for (let f = 0; f < light.to; f += 45) x.crowd(f, 1.6, 0.05); // wave crashes
+    x.pad(0, light.on, [73.42, 77.78, 110], 0.022);
+    // foghorn
+    const horn = (frame, len = 1.4) => {
+      const st2 = at(frame);
+      for (let i = 0; i < len * SR; i++) {
+        const t = i / SR;
+        const env = Math.min(1, t * 4) * Math.min(1, (len - t) * 3);
+        add(st2 + i, (Math.sin(2 * Math.PI * 82 * t) + 0.5 * Math.sin(2 * Math.PI * 164 * t) + 0.25 * Math.sin(2 * Math.PI * 246 * t)) * env * 0.07);
+      }
+    };
+    horn(storm.from + 30);
+    horn(lost.from + 40);
+    // the light: a hit and a warm chord that carries the rest
+    hit(light.on, 0.9);
+    x.pad(light.on, outro.from + outro.duration, [146.83, 220, 293.66, 369.99], 0.024);
+    for (let k = 0; k < 5; k++) {
+      const f = path.from + k * path.each + 30;
+      ping(f, [587.33, 659.25, 739.99, 880, 987.77][k], 0.1);
+      kick(f, 0.35);
+    }
+    riser(harbor.from, harbor.arrive, 0.25);
+    hit(harbor.arrive, 1);
+    [1174.66, 1479.98, 1760].forEach((f, i) => ping(harbor.arrive + 6 + i * 6, f, 0.07));
+    return { s, file: "lighthouse-music.wav" };
+  },
+  compass: () => {
+    const tl = load("compass");
+    const s = createSynth({ seconds: tl.durationInFrames / tl.fps, fps: tl.fps, bpm: tl.bpm, seed: 181 });
+    const x = extras(s);
+    const { beatFrames, beatsBetween, kick, hat, hit, riser, click, ping } = s;
+    const { spin, lost, answer, steps, settle, outro } = tl;
+    // the needle's rattle: fast while spinning, slowing with every step
+    for (let f = spin.from; f < lost.from; f += 4) click(f, 0.07);
+    for (let f = lost.from; f < answer.from; f += 1.5) click(f, 0.06);
+    x.pad(0, answer.from, [98, 103.83, 146.83], 0.02);
+    hit(answer.from, 0.6);
+    for (let k = 0; k < 5; k++) {
+      const f0 = steps.from + k * steps.each;
+      for (let f = f0; f < f0 + steps.each; f += 3 + k * 2) click(f, 0.05);
+      x.latch(f0 + 20, 0.3);
+      ping(f0 + 22, [392, 440, 493.88, 523.25, 587.33][k], 0.1);
+    }
+    beatsBetween(steps.from, settle.lock, (f) => {
+      kick(f, 0.5);
+      hat(f + beatFrames / 2, 0.06);
+    });
+    x.pad(steps.from, settle.lock, [196, 246.94, 293.66], 0.018);
+    riser(settle.from, settle.lock, 0.25);
+    hit(settle.lock, 1.1);
+    x.latch(settle.lock, 0.6);
+    x.pad(settle.lock, outro.from + outro.duration, [196, 246.94, 293.66, 392], 0.026);
+    return { s, file: "compass-music.wav" };
+  },
+  palm: () => {
+    const tl = load("palm");
+    const s = createSynth({ seconds: tl.durationInFrames / tl.fps, fps: tl.fps, bpm: tl.bpm, seed: 191 });
+    const x = extras(s);
+    const { beatFrames, beatsBetween, hit, whoosh, riser, ping, bass } = s;
+    const { lost, water, grow, harvest, outro } = tl;
+    const hijaz = [196, 207.65, 246.94, 261.63, 293.66, 311.13, 349.23, 392];
+    x.wind(0, water.from / tl.fps, 0.08);
+    x.pad(0, water.drop, [98, 146.83], 0.016);
+    x.pad(lost.from, water.drop, [98, 103.83], 0.018);
+    x.plip(water.drop, 0.35);
+    hit(water.drop + 2, 0.5);
+    // growth: rising darbuka groove and an ascending melody, one phrase per stage
+    beatsBetween(grow.from, harvest.from, (f, b) => {
+      if (b % 4 === 0) x.doum(f, 0.4);
+      if (b % 4 === 2) x.tak(f, 0.2);
+      x.tak(f + beatFrames / 2, 0.08);
+      if (b % 2 === 0) bass(f, 49, 0.4, 0.16);
+    });
+    for (let k = 0; k < 5; k++) {
+      const f = grow.from + k * grow.each;
+      whoosh(f, 1.3, 0.12, k % 2 === 0);
+      [0, 2, 4].forEach((n, i) => x.pluck(f + 10 + i * 6, hijaz[(n + k) % 8] * (k > 2 ? 2 : 1), 0.08));
+      x.pad(f, f + grow.each, [98 * (1 + k * 0.125), 146.83, 196], 0.014 + k * 0.003);
+    }
+    riser(harvest.from - 20, harvest.from + 20, 0.25);
+    hit(harvest.from + 20, 1);
+    x.pad(harvest.from + 20, outro.from + outro.duration, [196, 246.94, 293.66, 392], 0.026);
+    [0, 2, 4, 7].forEach((n, i) => ping(harvest.from + 26 + i * 5, hijaz[n] * 4, 0.06));
+    return { s, file: "palm-music.wav" };
+  },
+  maestro: () => {
+    const tl = load("maestro");
+    const s = createSynth({ seconds: tl.durationInFrames / tl.fps, fps: tl.fps, bpm: tl.bpm, seed: 193 });
+    const x = extras(s);
+    const { rnd, beatFrames, beatsBetween, kick, clap, hat, bass, hit, riser, ping } = s;
+    const { noise, lost, baton, sections, finale, outro } = tl;
+    const scale = [261.63, 293.66, 329.63, 349.23, 392, 440, 493.88, 523.25];
+    // cacophony: random notes from every instrument at once
+    for (let f = noise.from + 5; f < baton.from; f += 2) x.pluck(f, scale[Math.floor(((rnd() + 1) / 2) * 8)] * (rnd() > 0 ? 1 : 0.5), 0.05);
+    for (let f = lost.from; f < baton.from; f += 7) kick(f + ((rnd() + 1) / 2) * 3, 0.25);
+    // baton raised: silence, a breath
+    riser(baton.from, baton.up + 20, 0.15);
+    // each section adds its layer on the same beat
+    const chords = [[130.81, 196, 261.63], [110, 164.81, 220], [87.31, 130.81, 174.61], [98, 146.83, 196]];
+    const chordAt = (b) => chords[Math.floor(b / 4) % 4];
+    beatsBetween(sections.from, finale.hit, (f, b) => {
+      const n = Math.min(5, Math.floor((f - sections.from) / sections.each) + 1);
+      const c = chordAt(b);
+      if (b % 4 === 0) x.pad(f, f + beatFrames * 4, c, 0.018); // strings
+      if (n >= 2) x.pluck(f + beatFrames / 2, c[2] * 2, 0.07); // keys
+      if (n >= 3) {
+        kick(f, 0.6);
+        if (b % 2 === 1) clap(f, 0.22);
+        hat(f + beatFrames / 2, 0.06);
+      }
+      if (n >= 4 && b % 2 === 0) x.pad(f, f + beatFrames * 0.6, [c[0] * 2, c[1] * 2], 0.03); // brass stab
+      if (n >= 5) x.pluck(f, scale[(b * 3) % 8] * 2, 0.07); // lead
+      bass(f, c[0] / 2, 0.35, 0.16);
+    });
+    for (let k = 0; k < 5; k++) ping(sections.from + k * sections.each + 10, [523.25, 587.33, 659.25, 783.99, 880][k], 0.08);
+    riser(finale.from, finale.hit, 0.3);
+    hit(finale.hit, 1.3);
+    kick(finale.hit, 1);
+    x.pad(finale.hit, outro.from + outro.duration, [130.81, 196, 261.63, 329.63, 392], 0.028);
+    return { s, file: "maestro-music.wav" };
+  },
+  notify: () => {
+    const tl = load("notify");
+    const s = createSynth({ seconds: tl.durationInFrames / tl.fps, fps: tl.fps, bpm: tl.bpm, seed: 197 });
+    const x = extras(s);
+    const { beatFrames, beatsBetween, kick, clap, hat, bass, hit, whoosh, riser, click, ping } = s;
+    const { lost, answer, steps, viral, outro } = tl;
+    const ding = (f, g = 0.1) => {
+      ping(f, 1318.51, g);
+      ping(f + 3, 1760, g * 0.8);
+    };
+    // typing, then an empty silence
+    for (let f = 12; f < 50; f += 7) click(f, 0.1);
+    x.pad(lost.from, answer.from, [110, 116.54], 0.016);
+    hit(answer.from, 0.6);
+    // building the idea: upbeat pop groove, a swipe per screen
+    beatsBetween(steps.from, viral.from, (f, b) => {
+      kick(f, 0.7);
+      hat(f + beatFrames / 2, 0.08);
+      if (b % 2 === 1) clap(f, 0.28);
+      bass(f, [55, 55, 49, 61.74][Math.floor(b / 4) % 4], 0.3, 0.2);
+    });
+    for (let k = 0; k < 5; k++) {
+      whoosh(steps.from + k * steps.each - 4, 0.3, 0.2, true);
+      ding(steps.from + k * steps.each + 20, 0.07);
+    }
+    // viral: dings pile up faster and faster
+    riser(viral.from - 30, viral.from, 0.25);
+    hit(viral.from, 1);
+    for (let i = 0; i < 14; i++) ding(viral.from + i * 7, 0.08);
+    beatsBetween(viral.from, outro.from, (f, b) => {
+      kick(f, 0.85);
+      hat(f + beatFrames / 2, 0.1);
+      hat(f + beatFrames / 4, 0.05);
+      if (b % 2 === 1) clap(f, 0.32);
+      bass(f, [55, 55, 65.41, 73.42][Math.floor(b / 4) % 4], 0.3, 0.22);
+    });
+    x.pad(viral.from, outro.from + outro.duration, [220, 277.18, 329.63, 440], 0.022);
+    return { s, file: "notify-music.wav" };
+  },
 };
 
 const only = process.argv[2];

@@ -1,0 +1,11 @@
+{
+  "fps": 30,
+  "durationInFrames": 900,
+  "bpm": 100,
+  "static": { "from": 0, "to": 110 },
+  "lost": { "from": 110, "to": 210 },
+  "answer": { "from": 210, "to": 280 },
+  "tune": { "from": 280, "each": 60, "move": 24, "freqs": [89.4, 93.8, 98.2, 102.6, 106.8] },
+  "broadcast": { "from": 580, "to": 760 },
+  "outro": { "from": 760, "duration": 140 }
+}

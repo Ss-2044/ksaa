@@ -1,0 +1,11 @@
+{
+  "fps": 30,
+  "durationInFrames": 900,
+  "bpm": 118,
+  "note": { "from": 0, "to": 110 },
+  "lost": { "from": 110, "to": 210 },
+  "answer": { "from": 210, "to": 280 },
+  "steps": { "from": 280, "each": 60 },
+  "viral": { "from": 580, "to": 760 },
+  "outro": { "from": 760, "duration": 140 }
+}

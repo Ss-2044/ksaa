@@ -1,0 +1,11 @@
+{
+  "fps": 30,
+  "durationInFrames": 900,
+  "bpm": 100,
+  "noise": { "from": 0, "to": 110 },
+  "lost": { "from": 110, "to": 210 },
+  "baton": { "from": 210, "up": 240, "to": 280 },
+  "sections": { "from": 280, "each": 60 },
+  "finale": { "from": 580, "hit": 620, "to": 760 },
+  "outro": { "from": 760, "duration": 140 }
+}
