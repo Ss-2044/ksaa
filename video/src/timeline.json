@@ -1,0 +1,27 @@
+{
+  "fps": 30,
+  "width": 1080,
+  "height": 1920,
+  "durationInFrames": 900,
+  "intro": { "from": 0, "duration": 60 },
+  "montageFrom": 60,
+  "transition": 7,
+  "cards": [
+    { "id": "ad", "duration": 30 },
+    { "id": "map", "duration": 28 },
+    { "id": "data", "duration": 26 },
+    { "id": "social", "duration": 24 },
+    { "id": "restaurant", "duration": 22 },
+    { "id": "product", "duration": 22 },
+    { "id": "watch", "duration": 22 },
+    { "id": "campaign", "duration": 24 },
+    { "id": "graph", "duration": 26 },
+    { "id": "idea", "duration": 60 }
+  ],
+  "vo1Scene": { "from": 344, "duration": 196 },
+  "vo1At": 362,
+  "face": { "from": 540, "duration": 96 },
+  "vo2Scene": { "from": 636, "duration": 164 },
+  "vo2At": 650,
+  "outro": { "from": 800, "duration": 100 }
+}
