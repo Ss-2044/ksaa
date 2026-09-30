@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from "react";
-import { AbsoluteFill, Sequence, continueRender, delayRender, interpolate, useCurrentFrame } from "remotion";
+import React from "react";
+import { AbsoluteFill, Sequence, interpolate, useCurrentFrame } from "remotion";
 import timeline from "./timeline.json";
-import { fontFamilies } from "./theme";
+import { useFonts } from "./components/useFonts";
 import { Background } from "./components/Background";
 import { Grain } from "./components/Grain";
 import { Flash } from "./components/Flash";
@@ -15,15 +15,6 @@ import { AnswerScene } from "./scenes/AnswerScene";
 import { PartnershipScene } from "./scenes/PartnershipScene";
 import { Outro } from "./scenes/Outro";
 
-const useFonts = () => {
-  const [handle] = useState(() => delayRender("Loading fonts"));
-  useEffect(() => {
-    Promise.all(fontFamilies.map((f) => document.fonts.load(`700 40px "${f}"`, "abcأبج")))
-      .then(() => document.fonts.ready)
-      .then(() => continueRender(handle))
-      .catch(() => continueRender(handle));
-  }, [handle]);
-};
 
 const Watermark: React.FC = () => {
   const frame = useCurrentFrame();

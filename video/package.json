@@ -4,7 +4,9 @@
   "scripts": {
     "studio": "remotion studio",
     "render": "remotion render src/index.ts Promo out/neocapta-promo.mp4 --muted",
-    "typecheck": "tsc -p ."
+    "typecheck": "tsc -p .",
+    "render:ai": "remotion render src/index.ts AIPromo out/neocapta-ai-promo.mp4 --muted",
+    "magazine": "remotion still src/index.ts MagazineCover ai-kit/magazine-cover.png && remotion still src/index.ts MagazineSpread ai-kit/magazine-spread.png --frame=59"
   },
   "dependencies": {
     "@fontsource/aref-ruqaa": "^5.3.0",

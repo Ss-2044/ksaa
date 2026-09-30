@@ -34,3 +34,11 @@ If Remotion can't download Chrome: `REMOTION_BROWSER=/path/to/chrome npm run ren
 - `ipad.webp`, `cabin.png` — الصور المرسلة
 
 لتبديل شعار الشريك: عدّل `PartnerEmblem` في `src/scenes/PartnershipScene.tsx` (حالياً رمز عام، ليس شعار جهة حقيقية).
+
+## نسخة ريف (لقطات ذكاء اصطناعي) — `AIPromo`
+
+- `ai-kit/PROMPTS.md`: وصف كل لقطة وطريقة توليدها.
+- `ai-kit/magazine-cover.png` و `ai-kit/magazine-spread.png`: مراجع المجلة. تعيد توليدها بـ `npm run magazine`.
+- حط المقاطع المولّدة في `public/shots/` بأسماء `shot01.mp4` … `shot09.mp4`، وأي لقطة ناقصة تطلع مكانها شاشة مؤقتة.
+- ترتيب اللقطات ومدتها والنصوص في `src/ai/shots.ts`.
+- للتصدير: `npm run render:ai`
