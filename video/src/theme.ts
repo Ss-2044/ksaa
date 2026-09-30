@@ -5,6 +5,8 @@ import "@fontsource/montserrat/500.css";
 import "@fontsource/montserrat/800.css";
 import "@fontsource/caveat/700.css";
 import "@fontsource/aref-ruqaa/700.css";
+import "@fontsource/playfair-display/700.css";
+import "@fontsource/playfair-display/400-italic.css";
 
 // NEO CAPTA palette: royal blue "NEO", silver-white "CAPTA", black halftone background.
 export const colors = {
@@ -23,9 +25,10 @@ export const fonts = {
   en: "Montserrat, sans-serif",
   handEn: "Caveat, cursive",
   handAr: "'Aref Ruqaa', serif",
+  serif: "'Playfair Display', serif",
 };
 
-export const fontFamilies = ["Cairo", "Montserrat", "Caveat", "Aref Ruqaa"];
+export const fontFamilies = ["Cairo", "Montserrat", "Caveat", "Aref Ruqaa", "Playfair Display"];
 
 export const silverText: React.CSSProperties = {
   background: `linear-gradient(180deg, ${colors.white} 0%, ${colors.silver} 55%, ${colors.steel} 100%)`,
