@@ -14,6 +14,20 @@ import { VaultVideo } from "./games/vault/VaultVideo";
 import { DominoVideo } from "./games/domino/DominoVideo";
 import { FootballVideo } from "./games/football/FootballVideo";
 import { RubikVideo } from "./games/rubik/RubikVideo";
+import { StarsVideo } from "./games/stars/StarsVideo";
+import starsTimeline from "./games/stars/timeline.json";
+import { SaduVideo } from "./games/sadu/SaduVideo";
+import saduTimeline from "./games/sadu/timeline.json";
+import { FalconVideo } from "./games/falcon/FalconVideo";
+import falconTimeline from "./games/falcon/timeline.json";
+import { CalligraphyVideo } from "./games/calligraphy/CalligraphyVideo";
+import calligraphyTimeline from "./games/calligraphy/timeline.json";
+import { PitStopVideo } from "./games/pitstop/PitStopVideo";
+import pitstopTimeline from "./games/pitstop/timeline.json";
+import { GearsVideo } from "./games/gears/GearsVideo";
+import gearsTimeline from "./games/gears/timeline.json";
+import { DallahVideo } from "./games/dallah/DallahVideo";
+import dallahTimeline from "./games/dallah/timeline.json";
 import rubikTimeline from "./games/rubik/timeline.json";
 import footballTimeline from "./games/football/timeline.json";
 import dominoTimeline from "./games/domino/timeline.json";
@@ -31,6 +45,15 @@ const vertical = { fps: 30, width: 1080, height: 1920 };
 export const RemotionRoot: React.FC = () => {
   return (
     <>
+      {/* heritage & story series */}
+      <Composition id="Stars" component={StarsVideo} durationInFrames={starsTimeline.durationInFrames} {...vertical} />
+      <Composition id="Sadu" component={SaduVideo} durationInFrames={saduTimeline.durationInFrames} {...vertical} />
+      <Composition id="Falcon" component={FalconVideo} durationInFrames={falconTimeline.durationInFrames} {...vertical} />
+      <Composition id="Calligraphy" component={CalligraphyVideo} durationInFrames={calligraphyTimeline.durationInFrames} {...vertical} />
+      <Composition id="PitStop" component={PitStopVideo} durationInFrames={pitstopTimeline.durationInFrames} {...vertical} />
+      <Composition id="Gears" component={GearsVideo} durationInFrames={gearsTimeline.durationInFrames} {...vertical} />
+      <Composition id="Dallah" component={DallahVideo} durationInFrames={dallahTimeline.durationInFrames} {...vertical} />
+
       {/* game-themed series */}
       <Composition id="Kaboot" component={KabootVideo} durationInFrames={kabootTimeline.durationInFrames} {...vertical} />
       <Composition id="Rubik" component={RubikVideo} durationInFrames={rubikTimeline.durationInFrames} {...vertical} />

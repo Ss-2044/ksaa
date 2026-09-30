@@ -1,0 +1,10 @@
+{
+  "fps": 30,
+  "durationInFrames": 900,
+  "bpm": 80,
+  "sky": { "from": 0, "to": 120 },
+  "lost": { "from": 120, "to": 230 },
+  "link": { "from": 230, "each": 64 },
+  "north": { "from": 560, "logo": 590, "shoot": 690, "to": 760 },
+  "outro": { "from": 760, "duration": 140 }
+}

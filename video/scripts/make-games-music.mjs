@@ -57,6 +57,67 @@ const extras = (s) => {
       }
       kick(frame, gain);
     },
+    // Wind / air (slow filtered noise).
+    wind: (from, len, gain = 0.15) => {
+      const st = at(from);
+      let lp = 0;
+      for (let i = 0; i < len * SR; i++) {
+        const p = i / (len * SR);
+        lp += (0.01 + 0.02 * Math.sin(p * 9)) * (rnd() - lp);
+        add(st + i, lp * gain * 4 * Math.min(1, p * 5) * Math.min(1, (1 - p) * 5));
+      }
+    },
+    // Droplet: short falling sine.
+    plip: (frame, gain = 0.2) => {
+      const st = at(frame);
+      for (let i = 0; i < 0.15 * SR; i++) {
+        const t = i / SR;
+        add(st + i, Math.sin(2 * Math.PI * (1400 - t * 5000) * t) * Math.exp(-t * 30) * gain);
+      }
+    },
+    // Darbuka: low "doum" and bright "tak".
+    doum: (frame, gain = 0.5) => {
+      const st = at(frame);
+      for (let i = 0; i < 0.3 * SR; i++) {
+        const t = i / SR;
+        add(st + i, Math.sin(2 * Math.PI * (90 + 60 * Math.exp(-t * 20)) * t) * Math.exp(-t * 9) * gain);
+      }
+    },
+    tak: (frame, gain = 0.25) => {
+      const st = at(frame);
+      let hp = 0;
+      for (let i = 0; i < 0.06 * SR; i++) {
+        const n = rnd();
+        hp = 0.4 * hp + 0.6 * n;
+        add(st + i, ((n - hp) * 0.6 + Math.sin(2 * Math.PI * 900 * (i / SR)) * 0.5) * Math.exp(-(i / SR) * 60) * gain);
+      }
+    },
+    // Engine: buzzy tone gliding between two pitches.
+    engine: (from, to, f0, f1, gain = 0.08) => {
+      const s0 = at(from);
+      const s1 = at(to);
+      let ph = 0;
+      for (let i = s0; i < s1; i++) {
+        const p = (i - s0) / (s1 - s0);
+        const f = f0 + (f1 - f0) * p * p;
+        ph += (2 * Math.PI * f) / SR;
+        const v = Math.sin(ph) + 0.5 * Math.sin(2 * ph) + 0.33 * Math.sin(3 * ph) + 0.25 * Math.sin(4 * ph);
+        add(i, v * gain * Math.min(1, p * 20) * Math.min(1, (1 - p) * 20));
+      }
+    },
+    // Liquid pour: bubbly band-limited noise.
+    liquid: (from, len, gain = 0.2) => {
+      const st = at(from);
+      let lp = 0;
+      let lp2 = 0;
+      for (let i = 0; i < len * SR; i++) {
+        const t = i / SR;
+        lp += 0.2 * (rnd() - lp);
+        lp2 += 0.05 * (lp - lp2);
+        const bub = 0.6 + 0.4 * Math.sin(2 * Math.PI * (9 + 3 * Math.sin(t * 5)) * t);
+        add(st + i, (lp - lp2) * bub * gain * 3 * Math.min(1, t * 20) * Math.min(1, (len - t) * 10));
+      }
+    },
     // Crowd roar (filtered noise swell).
     crowd: (from, len, gain = 0.25) => {
       const st = at(from);
@@ -326,6 +387,224 @@ const tracks = {
     [1318.51, 1661.22, 1975.53].forEach((f, i) => ping(reveal.face + 4 + i * 5, f, 0.07));
     hit(outro.from, 0.6);
     return { s, file: "rubik-music.wav" };
+  },
+  stars: () => {
+    const tl = load("stars");
+    const s = createSynth({ seconds: tl.durationInFrames / tl.fps, fps: tl.fps, bpm: tl.bpm, seed: 131 });
+    const x = extras(s);
+    const { hit, whoosh, riser, ping } = s;
+    const { sky, lost, link, north, outro } = tl;
+    const hijaz = [293.66, 311.13, 369.99, 392, 440, 466.16, 523.25, 587.33];
+    // calm: long pads, a slow oud-like melody, bells on each linked star
+    x.pad(0, lost.from + 10, [146.83, 220, 293.66], 0.02);
+    x.pad(lost.from, link.from + 10, [146.83, 155.56, 220], 0.02);
+    x.pad(link.from, outro.from + outro.duration, [146.83, 220, 293.66, 369.99], 0.022);
+    x.wind(0, tl.durationInFrames / tl.fps, 0.05);
+    [0, 2, 4, 3, 2, 1, 0].forEach((n, i) => x.pluck(sky.from + 20 + i * 14, hijaz[n], 0.08));
+    for (let k = 0; k < 5; k++) {
+      const f = link.from + k * link.each;
+      ping(f + 28, [587.33, 659.25, 739.99, 880, 987.77][k], 0.12);
+      x.pluck(f + 30, hijaz[(k * 2) % 8] / 2, 0.08);
+    }
+    riser(north.from, north.logo, 0.15);
+    hit(north.logo, 0.6);
+    [1174.66, 1479.98, 1760, 2349.32].forEach((f, i) => ping(north.logo + 4 + i * 6, f, 0.06));
+    whoosh(north.shoot, 0.8, 0.2, false);
+    ping(north.shoot + 20, 2637, 0.05);
+    return { s, file: "stars-music.wav" };
+  },
+  sadu: () => {
+    const tl = load("sadu");
+    const s = createSynth({ seconds: tl.durationInFrames / tl.fps, fps: tl.fps, bpm: tl.bpm, seed: 137 });
+    const x = extras(s);
+    const { beatFrames, beatsBetween, hit, whoosh, riser, ping, bass } = s;
+    const { tangle, lost, warp, weave, finish, outro } = tl;
+    const hijaz = [220, 233.08, 277.18, 293.66, 329.63, 349.23, 392, 440];
+    x.pad(0, outro.from + outro.duration, [110, 164.81, 220], 0.018);
+    for (let i = 0; i < 18; i++) whoosh(tangle.from + i * 3, 0.25, 0.05, i % 2 === 0);
+    x.pad(lost.from, warp.from, [110, 116.54, 164.81], 0.02);
+    // warp: threads snap straight
+    for (let i = 0; i < 18; i++) x.tak(warp.from + i * 2, 0.12);
+    hit(warp.to, 0.5);
+    // weaving: darbuka maqsum rhythm + a loom beat every two rows
+    const rows = 5 * weave.rowsPerBand;
+    const end = weave.from + rows * weave.rowFrames;
+    beatsBetween(weave.from, end, (f, b) => {
+      const bar = b % 4;
+      if (bar === 0) x.doum(f, 0.45);
+      if (bar === 1 || bar === 3) x.tak(f, 0.22);
+      x.tak(f + beatFrames / 2, 0.12);
+      if (bar === 2) x.doum(f + beatFrames / 2, 0.35);
+      if (b % 2 === 0) bass(f, 55, 0.4, 0.18);
+      x.pluck(f + beatFrames / 2, hijaz[(b * 3) % 8], 0.07);
+    });
+    for (let r = 0; r < rows; r += 2) x.latch(weave.from + r * weave.rowFrames, 0.12);
+    for (let b = 0; b < 5; b++) ping(weave.from + (b + 1) * weave.rowsPerBand * weave.rowFrames, hijaz[b + 3] * 2, 0.1);
+    riser(end - 10, finish.logo, 0.2);
+    hit(finish.logo, 0.9);
+    [0, 2, 4, 7].forEach((n, i) => x.pluck(finish.logo + 10 + i * 5, hijaz[n] * 2, 0.08));
+    return { s, file: "sadu-music.wav" };
+  },
+  falcon: () => {
+    const tl = load("falcon");
+    const s = createSynth({ seconds: tl.durationInFrames / tl.fps, fps: tl.fps, bpm: tl.bpm, seed: 139 });
+    const x = extras(s);
+    const { at, add, SR, beatFrames, beatsBetween, kick, hat, hit, whoosh, riser, ping } = s;
+    const { perch, blind, unhood, circles, dive, outro } = tl;
+    const bells = (frame) => [2637, 3136, 2793.83].forEach((f, i) => ping(frame + i * 3, f, 0.05));
+    x.wind(0, tl.durationInFrames / tl.fps, 0.1);
+    x.pad(0, unhood.from + 20, [98, 146.83, 196], 0.02);
+    bells(perch.from + 40);
+    x.pad(blind.from, unhood.from, [98, 103.83, 146.83], 0.02);
+    // unhood: bells, a bright hit
+    bells(unhood.from + 12);
+    hit(unhood.from + 40, 0.7);
+    ping(unhood.from + 44, 1174.66, 0.08);
+    // circling: wingbeats + rising pulse
+    for (let f = circles.from - 16; f < dive.from; f += 9) whoosh(f, 0.25, 0.12, f % 18 === 0);
+    beatsBetween(circles.from, dive.from, (f, b) => {
+      kick(f, 0.45 + b * 0.01);
+      hat(f + beatFrames / 2, 0.06);
+    });
+    x.pad(circles.from, dive.hit, [146.83, 220, 293.66, 349.23], 0.022);
+    for (let k = 0; k < 5; k++) ping(circles.from + k * circles.each + 6, [587.33, 659.25, 698.46, 783.99, 880][k], 0.09);
+    // dive: descending whistle into the strike
+    const s0 = at(dive.from);
+    const s1 = at(dive.hit);
+    let ph = 0;
+    for (let i = s0; i < s1; i++) {
+      const p = (i - s0) / (s1 - s0);
+      ph += (2 * Math.PI * (1800 - 1300 * p)) / SR;
+      add(i, Math.sin(ph) * 0.05 * p);
+    }
+    riser(dive.from - 10, dive.hit, 0.3);
+    hit(dive.hit, 1.3);
+    kick(dive.hit, 1);
+    x.pad(dive.hit, outro.from + outro.duration, [146.83, 220, 293.66, 369.99], 0.026);
+    bells(dive.hit + 20);
+    return { s, file: "falcon-music.wav" };
+  },
+  calligraphy: () => {
+    const tl = load("calligraphy");
+    const s = createSynth({ seconds: tl.durationInFrames / tl.fps, fps: tl.fps, bpm: tl.bpm, seed: 149 });
+    const x = extras(s);
+    const { hit, ping, scribble } = s;
+    const { drop, blot, write, flourish, logo, outro } = tl;
+    // calm and airy: a single drop, soft pads, pen scratching, gentle notes
+    x.pad(0, blot.to, [174.61, 261.63, 349.23], 0.016);
+    x.plip(drop.splat, 0.3);
+    x.pad(blot.from, write.from + 10, [174.61, 185, 261.63], 0.016);
+    x.pad(write.from, outro.from + outro.duration, [174.61, 261.63, 349.23, 440], 0.02);
+    scribble(write.from + 10, write.to, 0.035);
+    for (let k = 0; k < 5; k++) {
+      const f = write.from + 20 + k * write.noteEach;
+      x.pluck(f, [523.25, 587.33, 659.25, 698.46, 783.99][k], 0.07);
+    }
+    scribble(flourish.from, flourish.to - 30, 0.03);
+    [0, 1, 2].forEach((i) => ping(flourish.from + 40 + i * 10, [880, 1046.5, 1318.51][i], 0.05));
+    hit(logo.from + 20, 0.4);
+    [698.46, 880, 1046.5, 1396.91].forEach((f, i) => x.pluck(logo.from + 24 + i * 6, f, 0.07));
+    return { s, file: "calligraphy-music.wav" };
+  },
+  pitstop: () => {
+    const tl = load("pitstop");
+    const s = createSynth({ seconds: tl.durationInFrames / tl.fps, fps: tl.fps, bpm: tl.bpm, seed: 151 });
+    const x = extras(s);
+    const { beatFrames, beatsBetween, kick, clap, hat, bass, hit, whoosh, riser, click, ping } = s;
+    const { stalled, lost, crew, stop, race, outro } = tl;
+    // sputtering engine, then silence
+    for (let i = 0; i < 5; i++) x.engine(stalled.from + i * 18, stalled.from + i * 18 + 10, 60, 45, 0.06);
+    x.pad(lost.from, crew.from, [110, 116.54], 0.018);
+    // crew in: clap-count, car rolls in
+    hit(crew.from, 0.6);
+    x.engine(stop.arrive, stop.start, 140, 70, 0.07);
+    // the stop: pounding groove, an air-wrench burst per action
+    beatsBetween(stop.start, stop.go, (f, b) => {
+      kick(f, 0.8);
+      hat(f + beatFrames / 2, 0.1);
+      if (b % 2 === 1) clap(f, 0.3);
+      bass(f, 55, 0.2, 0.2);
+    });
+    for (let k = 0; k < 5; k++) {
+      const f = stop.start + k * stop.each;
+      for (let i = 0; i < 10; i++) click(f + 4 + i * 1.2, 0.12);
+      x.engine(f + 4, f + 18, 900, 1400, 0.03);
+      x.latch(f + 30, 0.35);
+      ping(f + 30, [659.25, 739.99, 830.61, 880, 987.77][k], 0.08);
+    }
+    // GO: launch
+    hit(stop.go, 1.1);
+    x.engine(stop.go, race.from + 40, 120, 520, 0.09);
+    whoosh(stop.go + 6, 1.2, 0.4, false);
+    beatsBetween(race.from, race.finish, (f, b) => {
+      kick(f, 0.9);
+      hat(f + beatFrames / 2, 0.1);
+      hat(f + beatFrames / 4, 0.05);
+      if (b % 2 === 1) clap(f, 0.32);
+    });
+    riser(race.finish - 30, race.finish, 0.3);
+    hit(race.finish, 1.3);
+    x.crowd(race.finish, 3, 0.4);
+    x.pad(race.finish, outro.from + outro.duration, [110, 138.59, 164.81, 220], 0.024);
+    return { s, file: "pitstop-music.wav" };
+  },
+  gears: () => {
+    const tl = load("gears");
+    const s = createSynth({ seconds: tl.durationInFrames / tl.fps, fps: tl.fps, bpm: tl.bpm, seed: 157 });
+    const x = extras(s);
+    const { beatFrames, beatsBetween, kick, clap, hat, bass, hit, riser, click, ping } = s;
+    const { alone, lost, mesh, machine, outro } = tl;
+    // one gear ticking alone, then racing with nothing to drive
+    for (let f = alone.from + 10; f < lost.from; f += 6) click(f, 0.08);
+    for (let f = lost.from; f < mesh.from; f += 2) click(f, 0.07);
+    x.pad(lost.from, mesh.from, [98, 103.83, 146.83], 0.02);
+    // each link: slide, clunk, and the groove grows
+    for (let k = 0; k < 5; k++) {
+      const f = mesh.from + k * mesh.each;
+      x.latch(f + 18, 0.55);
+      ping(f + 20, [392, 440, 493.88, 523.25, 587.33][k], 0.09);
+    }
+    beatsBetween(mesh.from + 18, machine.to, (f, b) => {
+      const layer = Math.min(5, Math.floor((f - mesh.from) / mesh.each) + 1);
+      kick(f, 0.6);
+      if (layer >= 2) hat(f + beatFrames / 2, 0.08);
+      if (layer >= 3 && b % 2 === 1) clap(f, 0.25);
+      if (layer >= 4) bass(f, [49, 49, 55, 58.27][Math.floor(b / 4) % 4], 0.3, 0.2);
+      if (layer >= 5) click(f + beatFrames / 4, 0.05);
+    });
+    riser(machine.from, machine.engage + 18, 0.28);
+    hit(machine.engage + 18, 1.2);
+    x.latch(machine.engage + 18, 0.8);
+    x.pad(machine.engage + 18, outro.from + outro.duration, [98, 146.83, 196, 246.94], 0.024);
+    return { s, file: "gears-music.wav" };
+  },
+  dallah: () => {
+    const tl = load("dallah");
+    const s = createSynth({ seconds: tl.durationInFrames / tl.fps, fps: tl.fps, bpm: tl.bpm, seed: 163 });
+    const x = extras(s);
+    const { beatFrames, beatsBetween, hit, whoosh, ping } = s;
+    const { empty, lost, enter, pour, serve, outro } = tl;
+    const hijaz = [196, 207.65, 246.94, 261.63, 293.66, 311.13, 349.23, 392];
+    x.pad(0, outro.from + outro.duration, [98, 146.83, 196], 0.018);
+    ping(empty.from + 30, 2093, 0.05); // cup set down
+    for (let i = 0; i < 6; i++) x.tak(lost.from + i * 16, 0.1);
+    whoosh(enter.from, 0.8, 0.2, false);
+    // pouring: a clink and a pour per service, gentle darbuka underneath
+    beatsBetween(pour.from, serve.from, (f, b) => {
+      if (b % 4 === 0) x.doum(f, 0.35);
+      if (b % 4 === 2) x.tak(f, 0.18);
+      x.tak(f + beatFrames / 2, 0.08);
+      x.pluck(f, hijaz[(b * 5) % 8], 0.06);
+    });
+    for (let k = 0; k < 5; k++) {
+      const f = pour.from + k * pour.each;
+      x.liquid(f + 8, (pour.flow - 4) / tl.fps, 0.25);
+      ping(f + pour.flow + 6, 2349.32, 0.05);
+    }
+    whoosh(serve.from, 1, 0.25, true);
+    hit(serve.top, 0.7);
+    [0, 2, 4, 7].forEach((n, i) => x.pluck(serve.top + 10 + i * 5, hijaz[n] * 2, 0.08));
+    return { s, file: "dallah-music.wav" };
   },
 };
 
