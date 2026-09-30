@@ -4,12 +4,15 @@ import { Promo } from "./Promo";
 import { MagazineCover } from "./magazine/MagazineCover";
 import { MagazineSpread } from "./magazine/MagazineSpread";
 import { AIPromo } from "./ai/AIPromo";
+import { Journey } from "./journey/Journey";
+import journeyTimeline from "./journey/timeline.json";
 import { aiDuration } from "./ai/shots";
 import timeline from "./timeline.json";
 
 export const RemotionRoot: React.FC = () => {
   return (
     <>
+    <Composition id="Journey" component={Journey} durationInFrames={journeyTimeline.durationInFrames} fps={30} width={1080} height={1920} />
     <Composition
       id="Promo"
       component={Promo}

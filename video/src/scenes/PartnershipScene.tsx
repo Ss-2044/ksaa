@@ -1,5 +1,5 @@
 import React from "react";
-import { AbsoluteFill, Img, interpolate, random, Sequence, spring, staticFile, useCurrentFrame, useVideoConfig } from "remotion";
+import { AbsoluteFill, interpolate, random, Sequence, spring, useCurrentFrame, useVideoConfig } from "remotion";
 import { getLength, getPointAtLength } from "@remotion/paths";
 import { colors, fonts } from "../theme";
 import { Logo } from "../components/Logo";
@@ -78,7 +78,7 @@ const Flashes: React.FC<{ from: number }> = ({ from }) => {
   return (
     <AbsoluteFill style={{ pointerEvents: "none" }}>
       {new Array(9).fill(0).map((_, i) => {
-        const at = from + Math.floor(random(`f${i}`) * 34);
+        const at = from + i * 4; // fixed rhythm so the shutter sounds line up
         const life = frame - at;
         if (life < 0 || life > 5) return null;
         const x = random(`fx${i}`) * 1080;
@@ -130,7 +130,7 @@ export const PartnershipScene: React.FC = () => {
       <AbsoluteFill style={{ justifyContent: "center", alignItems: "center", opacity: partiesOut }}>
         <div style={{ display: "flex", alignItems: "center", gap: 20 }}>
           <PartyBadge label="NEO CAPTA" labelAr="نيو كابتا" delay={4}>
-            <Img src={staticFile("me.jpg")} style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "55% 30%", transform: "scale(1.6)", transformOrigin: "58% 30%" }} />
+            <Logo width={230} />
           </PartyBadge>
           <div style={{ width: 150, height: 6, background: colors.accent, transform: `scaleX(${connect})`, boxShadow: "0 0 20px #5E78FF", marginTop: -110 }} />
           <PartyBadge label="GOV. PARTNER" labelAr="جهة حكومية" delay={10}>
