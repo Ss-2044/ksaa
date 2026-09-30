@@ -1,6 +1,6 @@
 // Generates public/journey-music.wav for the "Journey" composition:
 // a 120 BPM cinematic beat (kick, clap, hats, bass, pad) plus sound design synced to
-// src/journey/timeline.json — split-flap clicks, stamp hits, plane whooshes, stop pings, camera shutters.
+// src/journey/timeline.json — split-flap clicks, stamp hits, plane whooshes, stop pings, city-light sparkles.
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
@@ -162,7 +162,7 @@ for (let i = 0; i < N; i++) {
 const rootOf = (frame) => chords[Math.floor(frame / chordFrames) % 4][0];
 
 // ---------- arrangement ----------
-const { spark, pass, departures, map, partnership, outro } = tl;
+const { spark, pass, departures, map, arrival, outro } = tl;
 const beatsBetween = (from, to, fn) => {
   for (let b = 0; from + b * beatFrames < to; b++) fn(from + b * beatFrames, b);
 };
@@ -227,17 +227,21 @@ map.stops.forEach((s, i) => {
 });
 riser(map.from + map.flyTo - 10, map.from + map.duration, 0.2);
 
-// 5. partnership: half-time, signature scratches, stamp, press flashes
-hit(partnership.from, 0.9);
-beatsBetween(partnership.from, partnership.from + 128, (f, b) => {
-  if (b % 2 === 0) kick(f, 0.6);
+// 5. window seat: shade slides up, city lights sparkle on in a wave, logo glows
+hit(arrival.from, 0.8);
+whoosh(arrival.from + 4, (arrival.shadeUp - 4) / FPS + 0.2, 0.35, false);
+beatsBetween(arrival.from + arrival.lightsFrom, arrival.from + arrival.pushFrom, (f, b) => {
+  if (b % 2 === 0) kick(f, 0.55);
   hat(f + beatFrames / 2, 0.06);
 });
-scribble(partnership.from + 66, partnership.from + 96);
-scribble(partnership.from + 100, partnership.from + 124);
-hit(partnership.from + 128, 1.0);
-for (let i = 0; i < 9; i++) shutter(partnership.from + 130 + i * 4, 0.28);
-riser(partnership.from + 150, outro.from - 2, 0.28);
+const sparkle = [1318.5, 1568, 1760, 1976, 2349, 2637];
+for (let k = 0; k < 16; k++) {
+  const f = arrival.from + arrival.lightsFrom + (k / 16) * (arrival.lightsTo - arrival.lightsFrom);
+  ping(f, sparkle[k % sparkle.length], 0.05);
+}
+hit(arrival.from + arrival.logoAt, 0.6);
+ping(arrival.from + arrival.logoAt, 1760, 0.12);
+riser(arrival.from + arrival.pushFrom - 20, outro.from - 2, 0.3);
 
 // 6. outro: plane flyby + final impact, then the pad rings out
 whoosh(outro.from - 6, 0.9, 0.6, true);

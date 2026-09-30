@@ -5,12 +5,12 @@ import { Background } from "../components/Background";
 import { Flash } from "../components/Flash";
 import { Grain } from "../components/Grain";
 import { Logo } from "../components/Logo";
-import { PartnershipScene } from "../scenes/PartnershipScene";
 import { Outro } from "../scenes/Outro";
 import { SparkScene } from "./SparkScene";
 import { BoardingPassScene } from "./BoardingPassScene";
 import { DeparturesScene } from "./DeparturesScene";
 import { FlightMapScene } from "./FlightMapScene";
+import { WindowScene } from "./WindowScene";
 import { Plane } from "./Plane";
 import timeline from "./timeline.json";
 
@@ -35,8 +35,8 @@ const Flyby: React.FC = () => {
 // "رحلة فكرة / The journey of an idea" — NEO CAPTA promo, 40s, 1080x1920.
 export const Journey: React.FC = () => {
   useFonts();
-  const { spark, pass, departures, map, partnership, outro } = timeline;
-  const scenes = [spark, pass, departures, map, partnership, outro];
+  const { spark, pass, departures, map, arrival, outro } = timeline;
+  const scenes = [spark, pass, departures, map, arrival, outro];
   return (
     <AbsoluteFill style={{ backgroundColor: "#000" }}>
       <Background />
@@ -52,8 +52,8 @@ export const Journey: React.FC = () => {
       <Sequence from={map.from} durationInFrames={map.duration}>
         <FlightMapScene />
       </Sequence>
-      <Sequence from={partnership.from} durationInFrames={partnership.duration}>
-        <PartnershipScene />
+      <Sequence from={arrival.from} durationInFrames={arrival.duration}>
+        <WindowScene />
       </Sequence>
       <Sequence from={outro.from} durationInFrames={outro.duration}>
         <Outro />
