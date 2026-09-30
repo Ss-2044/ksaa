@@ -7,6 +7,8 @@ import { AIPromo } from "./ai/AIPromo";
 import { Journey } from "./journey/Journey";
 import { PassportVideo } from "./passport/PassportVideo";
 import { ChessVideo } from "./chess/ChessVideo";
+import { BlueprintVideo } from "./blueprint/BlueprintVideo";
+import blueprintTimeline from "./blueprint/timeline.json";
 import chessTimeline from "./chess/timeline.json";
 import passportTimeline from "./passport/timeline.json";
 import journeyTimeline from "./journey/timeline.json";
@@ -16,6 +18,7 @@ import timeline from "./timeline.json";
 export const RemotionRoot: React.FC = () => {
   return (
     <>
+    <Composition id="Blueprint" component={BlueprintVideo} durationInFrames={blueprintTimeline.durationInFrames} fps={30} width={1080} height={1920} />
     <Composition id="Chess" component={ChessVideo} durationInFrames={chessTimeline.durationInFrames} fps={30} width={1080} height={1920} />
     <Composition id="Passport" component={PassportVideo} durationInFrames={passportTimeline.durationInFrames} fps={30} width={1080} height={1920} />
     <Composition id="Journey" component={Journey} durationInFrames={journeyTimeline.durationInFrames} fps={30} width={1080} height={1920} />

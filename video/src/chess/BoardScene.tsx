@@ -2,6 +2,7 @@ import React from "react";
 import { AbsoluteFill, Easing, Sequence, interpolate, random, spring, useCurrentFrame, useVideoConfig } from "remotion";
 import { colors, fonts } from "../theme";
 import { LuxTitle } from "./LuxTitle";
+import { Logo } from "../components/Logo";
 import { Piece } from "./Pieces";
 import timeline from "./timeline.json";
 
@@ -10,17 +11,17 @@ const S = 115; // square size
 const B = S * 8;
 const center = (c: number, r: number) => ({ x: c * S + S / 2, y: r * S + S / 2 });
 
-type Square = { c: number; r: number; en?: string; ar?: string };
+type Square = { c: number; r: number; en?: string; ar?: string; san?: string };
 
 // The idea's route (col, row; row 0 = far rank). Move 3 captures the competition.
 export const route: Square[] = [
   { c: 4, r: 6 },
-  { c: 4, r: 5, en: "STRATEGY", ar: "الاستراتيجية" },
-  { c: 4, r: 4, en: "BRANDING", ar: "الهوية البصرية" },
-  { c: 3, r: 3, en: "BEAT THE COMPETITION", ar: "تجاوز المنافسة" },
-  { c: 3, r: 2, en: "CONTENT", ar: "صناعة المحتوى" },
-  { c: 3, r: 1, en: "CAMPAIGNS", ar: "الحملات الإعلانية" },
-  { c: 3, r: 0, en: "GROWTH", ar: "النمو" },
+  { c: 4, r: 5, en: "STRATEGY", ar: "الاستراتيجية", san: "e3" },
+  { c: 4, r: 4, en: "BRANDING", ar: "الهوية البصرية", san: "e4" },
+  { c: 3, r: 3, en: "BEAT THE COMPETITION", ar: "تجاوز المنافسة", san: "exd5" },
+  { c: 3, r: 2, en: "CONTENT", ar: "صناعة المحتوى", san: "d6" },
+  { c: 3, r: 1, en: "CAMPAIGNS", ar: "الحملات الإعلانية", san: "d7" },
+  { c: 3, r: 0, en: "GROWTH", ar: "النمو", san: "d8=Q#" },
 ];
 const RIVAL = { c: 3, r: 3 };
 const KING = { c: 6, r: 0 };
@@ -53,10 +54,10 @@ const pawnAt = (f: number) => {
 };
 
 // Billboard: stands a flat element up on the tilted board, always facing the camera.
-const Standing: React.FC<{ x: number; y: number; rx: number; rz: number; children: React.ReactNode; extra?: string }> = ({ x, y, rx, rz, children, extra = "" }) => (
+const Standing: React.FC<{ x: number; y: number; rx: number; rz: number; children: React.ReactNode; extra?: string; opacity?: number }> = ({ x, y, rx, rz, children, extra = "", opacity = 1 }) => (
   <div style={{ position: "absolute", left: x, top: y, width: 0, height: 0, transformStyle: "preserve-3d" }}>
     <div style={{ position: "absolute", left: 0, bottom: 0, width: "max-content", transformStyle: "preserve-3d", transformOrigin: "0 100%", transform: `rotateZ(${-rz}deg) rotateX(${-rx}deg) ${extra}` }}>
-      <div style={{ transform: "translateX(-50%)" }}>{children}</div>
+      <div style={{ transform: "translateX(-50%)", opacity }}>{children}</div>
     </div>
   </div>
 );
@@ -68,10 +69,10 @@ export const BoardScene: React.FC = () => {
   const { intro, confusion: conf, answer, promotion, mate } = timeline;
 
   // camera
-  const rx = interpolate(frame, [0, 50, 330, 700, 760, 860, 930], [8, 55, 55, 57, 63, 38, 38], { ...clamp, easing: Easing.inOut(Easing.cubic) });
-  const sc = interpolate(frame, [0, 50, 250, 330, 700, 760, 860, 930], [0.72, 1, 1, 1.32, 1.32, 1.6, 1.6, 0.98], { ...clamp, easing: Easing.inOut(Easing.cubic) });
+  const rx = interpolate(frame, [0, 50, 330, 700, 760, 860, 930, mate.rise, mate.rise + 50], [8, 55, 55, 57, 63, 38, 44, 44, 0], { ...clamp, easing: Easing.inOut(Easing.cubic) });
+  const sc = interpolate(frame, [0, 50, 250, 330, 700, 760, 860, 930, mate.rise, mate.rise + 50], [0.72, 1, 1, 1.32, 1.32, 1.6, 1.6, 0.98, 0.98, 1.08], { ...clamp, easing: Easing.inOut(Easing.cubic) });
   const follow = interpolate(frame, [250, 330, 860, 930], [0, 1, 1, 0], { ...clamp, easing: Easing.inOut(Easing.cubic) });
-  const rz = interpolate(frame, [0, 980], [-8, 8]);
+  const rz = interpolate(frame, [0, mate.rise, mate.rise + 50], [-8, 6, 0], { ...clamp, easing: Easing.inOut(Easing.sin) });
   const pawn = pawnAt(frame);
   const tx = -(pawn.x - B / 2) * follow;
   const ty = -(pawn.y - B / 2) * follow;
@@ -87,6 +88,7 @@ export const BoardScene: React.FC = () => {
   const confVis = interpolate(frame, [conf.from, conf.from + 10, answer.from - 6, answer.from + 4], [0, 1, 1, 0], clamp);
   const routeDraw = interpolate(frame, [answer.from + 6, answer.to - 10], [1, 0], { ...clamp, easing: Easing.inOut(Easing.cubic) });
   const kingPos = center(KING.c, KING.r);
+  const piecesOut = interpolate(frame, [mate.rise + 20, mate.logo], [1, 0], clamp);
   const queenPos = center(3, 0);
 
   return (
@@ -113,7 +115,7 @@ export const BoardScene: React.FC = () => {
             const d = Math.hypot(c - 3.5, r - 3.5) / 5;
             const s = interpolate(frame, [d * intro.squaresTo, d * intro.squaresTo + 10], [0, 1], clamp);
             const lit = route.findIndex((p, k) => k > 0 && p.c === c && p.r === r);
-            const litOn = lit > 0 && frame >= landFrame(lit - 1);
+            const litOn = (lit > 0 && frame >= landFrame(lit - 1)) || frame >= mate.ripple + Math.hypot(c - 3, r) * 5;
             const dark = (c + r) % 2 === 1;
             return (
               <div
@@ -181,24 +183,36 @@ export const BoardScene: React.FC = () => {
               style={{ filter: "drop-shadow(0 0 14px #5E78FF)" }}
             />
             {frame >= mate.from ? (
-              <line x1={queenPos.x} y1={queenPos.y} x2={queenPos.x + (kingPos.x - queenPos.x) * beam} y2={kingPos.y} stroke="#FFFFFF" strokeWidth={12} strokeLinecap="round" style={{ filter: "drop-shadow(0 0 18px #5E78FF)" }} />
+              <line x1={queenPos.x} y1={queenPos.y} x2={queenPos.x + (kingPos.x - queenPos.x) * beam} y2={kingPos.y} stroke="#FFFFFF" strokeWidth={12} strokeLinecap="round" opacity={piecesOut} style={{ filter: "drop-shadow(0 0 18px #5E78FF)" }} />
             ) : null}
             {frame >= mate.topple ? (
               <circle cx={kingPos.x} cy={kingPos.y} r={40 + (frame - mate.topple) * 12} fill="none" stroke={colors.accent} strokeWidth={6} opacity={interpolate(frame - mate.topple, [0, 24], [1, 0], clamp)} />
             ) : null}
           </svg>
 
+          {/* the brand appears on the lit board once the camera is overhead */}
+          <div style={{ position: "absolute", left: B / 2 - 330, top: B / 2 - 243, width: 660, opacity: interpolate(frame, [mate.logo, mate.logo + 20], [0, 1], clamp), transform: `scale(${interpolate(frame, [mate.logo, mate.logo + 30], [1.15, 1], clamp)})` }}>
+            <div style={{ position: "absolute", inset: -60, background: "radial-gradient(circle, rgba(0,0,0,0.85) 30%, rgba(0,0,0,0) 70%)" }} />
+            <Logo width={660} />
+          </div>
+
           {/* opponent pieces */}
           {extras.map((p, i) => {
             const pos = center(p.c, p.r);
+            const fall = spring({ frame: frame - (mate.domino + i * 6), fps, config: { damping: 9, stiffness: 110 } });
             return (
-              <Standing key={i} x={pos.x} y={pos.y} rx={rx} rz={rz}>
+              <Standing key={i} x={pos.x} y={pos.y} rx={rx} rz={rz} opacity={piecesOut} extra={`rotateZ(${fall * (i % 2 === 0 ? -80 : 80)}deg)`}>
                 <Piece kind={p.kind} side="dark" width={70} />
               </Standing>
             );
           })}
-          <Standing x={kingPos.x} y={kingPos.y} rx={rx} rz={rz} extra={`rotateZ(${topple * 82}deg)`}>
-            <Piece kind="king" side="dark" width={86} />
+          <Standing x={kingPos.x} y={kingPos.y} rx={rx} rz={rz} opacity={piecesOut} extra={`rotateZ(${topple * 82}deg)`}>
+            <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
+              <div style={{ fontFamily: fonts.en, fontWeight: 800, fontSize: 20, letterSpacing: 3, color: "#E4E6EE", background: "#000", border: "2px solid #8A90A8", borderRadius: 8, padding: "4px 10px", marginBottom: 8, whiteSpace: "nowrap", opacity: 1 - topple }}>
+                THE MARKET · السوق
+              </div>
+              <Piece kind="king" side="dark" width={86} />
+            </div>
           </Standing>
           {rivalT < 1 ? (
             <Standing x={center(RIVAL.c, RIVAL.r).x} y={center(RIVAL.c, RIVAL.r).y} rx={rx} rz={rz} extra={`translate(${rivalT * 380}px, ${-rivalT * 420 + rivalT * rivalT * 200}px) rotateZ(${rivalT * 140}deg)`}>
@@ -212,7 +226,7 @@ export const BoardScene: React.FC = () => {
           ) : null}
 
           {/* the idea */}
-          <Standing x={pawn.x} y={pawn.y} rx={rx} rz={rz} extra={`translateY(${-pawn.lift}px)`}>
+          <Standing x={pawn.x} y={pawn.y} rx={rx} rz={rz} opacity={piecesOut} extra={`translateY(${-pawn.lift}px)`}>
             <div style={{ display: "grid", justifyItems: "center", alignItems: "end" }}>
               {pawnScale > 0 ? (
                 <div style={{ gridArea: "1 / 1", transform: `scale(${pawnScale})`, transformOrigin: "50% 100%" }}>
@@ -258,7 +272,7 @@ export const BoardScene: React.FC = () => {
       {route.slice(1).map((m, k) => (
         <Sequence key={k} from={landFrame(k) - 6} durationInFrames={k === route.length - 2 ? promotion.at - landFrame(k) : timeline.moves.each}>
           <AbsoluteFill style={{ paddingTop: 300 }}>
-            <LuxTitle kicker={`MOVE ${String(k + 1).padStart(2, "0")}`} en={(m.en ?? "").charAt(0) + (m.en ?? "").slice(1).toLowerCase()} ar={m.ar ?? ""} enSize={96} arSize={80} />
+            <LuxTitle kicker={`MOVE ${String(k + 1).padStart(2, "0")} · ${m.san}`} en={(m.en ?? "").charAt(0) + (m.en ?? "").slice(1).toLowerCase()} ar={m.ar ?? ""} enSize={96} arSize={80} />
           </AbsoluteFill>
         </Sequence>
       ))}
@@ -267,11 +281,54 @@ export const BoardScene: React.FC = () => {
           <LuxTitle kicker="PROMOTION" en="From an idea… to a leader." ar="من فكرة… إلى الريادة." enSize={80} />
         </AbsoluteFill>
       </Sequence>
-      <Sequence from={mate.topple} durationInFrames={980 - mate.topple}>
+      <Sequence from={mate.topple} durationInFrames={mate.rise + 10 - mate.topple}>
         <AbsoluteFill style={{ paddingTop: 300 }}>
-          <LuxTitle en="Checkmate." ar="كش ملك." enSize={120} arSize={96} />
+          <LuxTitle kicker="d8=Q#" en="Checkmate." ar="كش ملك." enSize={120} arSize={96} />
         </AbsoluteFill>
       </Sequence>
+      <Sequence from={mate.rise + 14} durationInFrames={timeline.board.duration - mate.rise - 14}>
+        <AbsoluteFill style={{ paddingTop: 260 }}>
+          <LuxTitle kicker="NEO CAPTA" en="Checkmate the market." ar="كش ملك… للسوق." enSize={90} arSize={90} />
+        </AbsoluteFill>
+      </Sequence>
+
+      <WinBar />
+      {/* opening: a spotlight switches on over the board */}
+      <AbsoluteFill
+        style={{
+          background: "#000",
+          WebkitMaskImage: `radial-gradient(circle at 50% 62%, transparent ${interpolate(frame, [4, 44], [0, 1400], { ...clamp, easing: Easing.in(Easing.quad) })}px, #000 ${interpolate(frame, [4, 44], [0, 1400], { ...clamp, easing: Easing.in(Easing.quad) }) + 120}px)`,
+          opacity: frame < 50 ? 1 : 0,
+        }}
+      />
     </AbsoluteFill>
+  );
+};
+
+// Engine-style evaluation bar: the idea's chance of winning climbs with every planned move.
+const WinBar: React.FC = () => {
+  const frame = useCurrentFrame();
+  const { intro, confusion: conf, answer, promotion, mate } = timeline;
+  const keys = [intro.pawnDrop, conf.from + 20, answer.from + 20, ...[0, 1, 2, 3, 4].map(landFrame), promotion.at, mate.topple];
+  const vals = [18, 9, 30, 38, 46, 64, 72, 80, 92, 100];
+  const win = interpolate(frame, keys, vals, clamp);
+  const vis = interpolate(frame, [intro.pawnDrop, intro.pawnDrop + 15, mate.rise, mate.rise + 20], [0, 1, 1, 0], clamp);
+  const mated = frame >= mate.topple;
+  return (
+    <div style={{ position: "absolute", left: 120, right: 120, top: 612, opacity: vis }}>
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", marginBottom: 10 }}>
+        <span style={{ fontFamily: fonts.en, fontWeight: 800, fontSize: 20, letterSpacing: 4, color: colors.steel }}>
+          WIN CHANCE ·{" "}
+          <span dir="rtl" style={{ fontFamily: fonts.ar, letterSpacing: 0, fontSize: 24 }}>
+            فرصة الفوز
+          </span>
+        </span>
+        <span style={{ fontFamily: fonts.en, fontWeight: 800, fontSize: 36, color: mated ? colors.accent : colors.white }}>{mated ? "M1" : `${Math.round(win)}%`}</span>
+      </div>
+      <div style={{ height: 14, borderRadius: 7, background: "#1a1c24", border: "2px solid #3a3e4d", overflow: "hidden", position: "relative" }}>
+        <div style={{ width: `${win}%`, height: "100%", background: "linear-gradient(90deg, #AEB8FF, #FFFFFF)", boxShadow: "0 0 20px rgba(94,120,255,0.8)" }} />
+        <div style={{ position: "absolute", top: 0, bottom: 0, left: "50%", width: 2, background: "#5E78FF" }} />
+      </div>
+    </div>
   );
 };

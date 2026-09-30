@@ -7,6 +7,8 @@ import "@fontsource/caveat/700.css";
 import "@fontsource/aref-ruqaa/700.css";
 import "@fontsource/playfair-display/700.css";
 import "@fontsource/playfair-display/400-italic.css";
+import "@fontsource/ibm-plex-mono/500.css";
+import "@fontsource/ibm-plex-mono/700.css";
 
 // NEO CAPTA palette: royal blue "NEO", silver-white "CAPTA", black halftone background.
 export const colors = {
@@ -26,9 +28,10 @@ export const fonts = {
   handEn: "Caveat, cursive",
   handAr: "'Aref Ruqaa', serif",
   serif: "'Playfair Display', serif",
+  mono: "'IBM Plex Mono', monospace",
 };
 
-export const fontFamilies = ["Cairo", "Montserrat", "Caveat", "Aref Ruqaa", "Playfair Display"];
+export const fontFamilies = ["Cairo", "Montserrat", "Caveat", "Aref Ruqaa", "Playfair Display", "IBM Plex Mono"];
 
 export const silverText: React.CSSProperties = {
   background: `linear-gradient(180deg, ${colors.white} 0%, ${colors.silver} 55%, ${colors.steel} 100%)`,
@@ -46,4 +49,18 @@ export const light = {
   royal: "#344499",
   cover: "#1C2566",
   accent: "#5E78FF",
+};
+
+// Blueprint palette for the "Blueprint" video.
+export const blueprint = {
+  paper: "#0E3183",
+  paperDeep: "#0A2566",
+  line: "#EAF1FF",
+  faint: "rgba(234,241,255,0.18)",
+  top: "#E4ECFF",
+  left: "#9DB1EE",
+  right: "#6A83D6",
+  window: "#1A2E78",
+  lit: "#FFE7A3",
+  night: "#040817",
 };

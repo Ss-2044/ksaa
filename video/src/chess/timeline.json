@@ -1,13 +1,43 @@
 {
   "fps": 30,
-  "durationInFrames": 1140,
+  "durationInFrames": 1260,
   "bpm": 100,
-  "board": { "from": 0, "duration": 980 },
-  "intro": { "squaresTo": 45, "pawnDrop": 60 },
-  "confusion": { "from": 120, "to": 250 },
-  "answer": { "from": 250, "to": 330 },
-  "moves": { "from": 330, "each": 62, "hop": 16 },
-  "promotion": { "at": 740, "from": 702, "to": 852 },
-  "mate": { "from": 852, "topple": 900 },
-  "outro": { "from": 980, "duration": 160 }
+  "board": {
+    "from": 0,
+    "duration": 1100
+  },
+  "intro": {
+    "squaresTo": 45,
+    "pawnDrop": 60
+  },
+  "confusion": {
+    "from": 120,
+    "to": 250
+  },
+  "answer": {
+    "from": 250,
+    "to": 330
+  },
+  "moves": {
+    "from": 330,
+    "each": 62,
+    "hop": 16
+  },
+  "promotion": {
+    "at": 740,
+    "from": 702,
+    "to": 852
+  },
+  "mate": {
+    "from": 852,
+    "topple": 900,
+    "domino": 914,
+    "ripple": 940,
+    "rise": 990,
+    "logo": 1035
+  },
+  "outro": {
+    "from": 1100,
+    "duration": 160
+  }
 }

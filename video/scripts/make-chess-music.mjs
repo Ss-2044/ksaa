@@ -113,6 +113,14 @@ knock(mate.topple + 6, 1);
 hit(mate.topple, 1.3);
 kick(mate.topple, 1);
 
+// Aftermath: the other pieces fall like dominoes, the board lights up, the logo lands.
+for (let i = 0; i < 5; i++) knock(mate.domino + i * 6 + 4, 0.55);
+for (let k = 0; k < 10; k++) ping(mate.ripple + k * 5, [1174.66, 1318.5, 1479.98, 1760, 1975.53][k % 5], 0.05);
+swell(mate.ripple, outro.from, [146.83, 220, 293.66, 369.99], 0.03);
+whoosh(mate.rise, 1.6, 0.25, true);
+hit(mate.logo, 0.9);
+ping(mate.logo + 2, 1174.66, 0.1);
+
 // Outro: final chord.
 hit(outro.from, 0.8);
 swell(outro.from + 4, outro.from + 150, [146.83, 220, 293.66, 369.99], 0.035);
