@@ -40,7 +40,7 @@ export const Vo2Scene: React.FC = () => {
             <g key={i} opacity={fadeOut}>
               <path
                 d={p.d}
-                stroke={i % 3 === 0 ? colors.mint : colors.silver}
+                stroke={i % 3 === 0 ? colors.accent : colors.silver}
                 strokeWidth={4}
                 fill="none"
                 strokeLinecap="round"
@@ -64,7 +64,7 @@ export const Vo2Scene: React.FC = () => {
             </g>
           );
         })}
-        <circle cx={CX} cy={CY} r={26} fill={colors.white} style={{ filter: "drop-shadow(0 0 30px #43D69B)" }} />
+        <circle cx={CX} cy={CY} r={26} fill={colors.white} style={{ filter: "drop-shadow(0 0 30px #5E78FF)" }} />
       </svg>
       <Sequence from={textAt} layout="none">
         <AbsoluteFill style={{ justifyContent: "center", alignItems: "center", paddingTop: 780 }}>

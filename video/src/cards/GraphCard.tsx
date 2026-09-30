@@ -13,12 +13,12 @@ export const GraphCard: React.FC = () => {
   const draw = interpolate(frame, [0, 20], [1, 0], { extrapolateRight: "clamp", easing: Easing.out(Easing.quad) });
   const badge = spring({ frame: frame - 14, fps, config: { damping: 10 } });
   return (
-    <AbsoluteFill style={{ background: `linear-gradient(200deg, ${colors.green}, ${colors.night})` }}>
+    <AbsoluteFill style={{ background: `linear-gradient(200deg, ${colors.navy}, ${colors.night})` }}>
       <svg width={808} height={1148}>
         <defs>
           <linearGradient id="area" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stopColor={colors.mint} stopOpacity={0.5} />
-            <stop offset="100%" stopColor={colors.mint} stopOpacity={0} />
+            <stop offset="0%" stopColor={colors.accent} stopOpacity={0.5} />
+            <stop offset="100%" stopColor={colors.accent} stopOpacity={0} />
           </linearGradient>
         </defs>
         {[300, 500, 700, 900].map((y) => (
@@ -30,7 +30,7 @@ export const GraphCard: React.FC = () => {
         <path d={`${line} L 770 1000 L 40 1000 Z`} fill="url(#area)" clipPath="url(#reveal)" />
         <path
           d={line}
-          stroke={colors.mint}
+          stroke={colors.accent}
           strokeWidth={12}
           fill="none"
           strokeLinejoin="round"
@@ -38,7 +38,7 @@ export const GraphCard: React.FC = () => {
           pathLength={1}
           strokeDasharray="1"
           strokeDashoffset={draw}
-          style={{ filter: "drop-shadow(0 0 16px #43D69B)" }}
+          style={{ filter: "drop-shadow(0 0 16px #5E78FF)" }}
         />
       </svg>
       <div
@@ -54,7 +54,7 @@ export const GraphCard: React.FC = () => {
           transformOrigin: "left center",
         }}
       >
-        +240% <span style={{ color: colors.mint }}>↑</span>
+        +240% <span style={{ color: colors.accent }}>↑</span>
       </div>
       <div dir="rtl" style={{ position: "absolute", bottom: 60, right: 60, fontFamily: fonts.ar, fontWeight: 700, fontSize: 60, color: colors.silver }}>
         نمو المبيعات · Growth

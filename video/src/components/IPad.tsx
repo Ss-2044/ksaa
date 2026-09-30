@@ -13,7 +13,7 @@ export const IPad: React.FC<{ children: React.ReactNode }> = ({ children }) => (
       padding: IPAD.bezel,
       boxSizing: "border-box",
       background: "#0c0f0e",
-      boxShadow: `0 0 0 5px ${colors.steel}, 0 0 0 8px ${colors.silver}, 0 60px 140px rgba(0,0,0,0.7), 0 0 120px rgba(67,214,155,0.18)`,
+      boxShadow: `0 0 0 5px ${colors.steel}, 0 0 0 8px ${colors.silver}, 0 60px 140px rgba(0,0,0,0.7), 0 0 120px rgba(94,120,255,0.18)`,
       position: "relative",
     }}
   >

@@ -13,22 +13,22 @@ export const SocialCard: React.FC = () => {
             width: 90,
             height: 90,
             borderRadius: "50%",
-            background: `conic-gradient(${colors.mint}, ${colors.silver}, ${colors.emerald}, ${colors.mint})`,
+            background: `conic-gradient(${colors.accent}, ${colors.silver}, ${colors.royal}, ${colors.accent})`,
             padding: 5,
             boxSizing: "border-box",
           }}
         >
-          <div style={{ width: "100%", height: "100%", borderRadius: "50%", background: colors.green }} />
+          <div style={{ width: "100%", height: "100%", borderRadius: "50%", background: colors.navy }} />
         </div>
         <div>
-          <div style={{ fontWeight: 800, fontSize: 38 }}>talent.club</div>
+          <div style={{ fontWeight: 800, fontSize: 38 }}>neocapta</div>
           <div style={{ fontSize: 28, color: colors.steel }}>Sponsored · مُموَّل</div>
         </div>
       </div>
       <div
         style={{
           height: 700,
-          background: `linear-gradient(135deg, ${colors.emerald}, ${colors.night})`,
+          background: `linear-gradient(135deg, ${colors.royal}, ${colors.night})`,
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
@@ -36,7 +36,7 @@ export const SocialCard: React.FC = () => {
           overflow: "hidden",
         }}
       >
-        <Img src={staticFile("logo.png")} style={{ width: 900, transform: `scale(${interpolate(frame, [0, 24], [1, 1.08])})` }} />
+        <Img src={staticFile("neocapta-logo.png")} style={{ width: 460, transform: `scale(${interpolate(frame, [0, 24], [1, 1.08])})` }} />
         {new Array(9).fill(0).map((_, i) => {
           const start = i * 2;
           const life = frame - start;

@@ -15,7 +15,7 @@ export const Flash: React.FC<{ duration?: number; color?: string }> = ({
     <AbsoluteFill
       style={{
         opacity,
-        background: `radial-gradient(circle at 70% 30%, ${color} 0%, rgba(67,214,155,0.5) 40%, rgba(0,0,0,0) 80%)`,
+        background: `radial-gradient(circle at 70% 30%, ${color} 0%, rgba(94,120,255,0.5) 40%, rgba(0,0,0,0) 80%)`,
         mixBlendMode: "screen",
       }}
     />

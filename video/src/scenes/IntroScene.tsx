@@ -21,7 +21,7 @@ export const IntroScene: React.FC = () => {
           filter: `blur(${blur}px) saturate(0.9) contrast(1.08)`,
         }}
       />
-      <AbsoluteFill style={{ background: "linear-gradient(180deg, rgba(1,50,32,0.35), rgba(1,13,9,0.25) 50%, rgba(1,50,32,0.55))" }} />
+      <AbsoluteFill style={{ background: "linear-gradient(180deg, rgba(8,12,40,0.35), rgba(2,3,10,0.25) 50%, rgba(8,12,40,0.55))" }} />
     </AbsoluteFill>
   );
 };

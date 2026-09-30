@@ -8,7 +8,9 @@ import { MapCard } from "../cards/MapCard";
 import { DataCard } from "../cards/DataCard";
 import { SocialCard } from "../cards/SocialCard";
 import { RestaurantCard } from "../cards/RestaurantCard";
-import { ClipCard } from "../cards/ClipCard";
+import { ProductCard } from "../cards/ProductCard";
+import { WatchCard } from "../cards/WatchCard";
+import { CampaignCard } from "../cards/CampaignCard";
 import { GraphCard } from "../cards/GraphCard";
 import { IdeaCard } from "../cards/IdeaCard";
 
@@ -20,9 +22,9 @@ const cardContent: Record<string, { el: React.ReactNode; en: string; ar: string 
   data: { el: <DataCard />, en: "Data", ar: "أرقام وبيانات" },
   social: { el: <SocialCard />, en: "Social Media", ar: "سوشال ميديا" },
   restaurant: { el: <RestaurantCard />, en: "Restaurant", ar: "مطعم" },
-  product: { el: <ClipCard src="product.mp4" tagEn="NEW" tagAr="منتج جديد" />, en: "Product", ar: "منتج" },
-  watch: { el: <ClipCard src="watch.mp4" tagEn="Ad · 0:15" tagAr="يشاهد الإعلان" progress />, en: "Watching", ar: "مشاهدة" },
-  campaign: { el: <ClipCard src="campaign.mp4" tagEn="LIVE CAMPAIGN" tagAr="الحملة انطلقت" live />, en: "Campaign", ar: "حملة إعلانية" },
+  product: { el: <ProductCard />, en: "Product", ar: "منتج" },
+  watch: { el: <WatchCard />, en: "Watching", ar: "مشاهدة" },
+  campaign: { el: <CampaignCard />, en: "Campaign", ar: "حملة إعلانية" },
   graph: { el: <GraphCard />, en: "Growth", ar: "نمو" },
   idea: { el: <IdeaCard />, en: "Idea", ar: "فكرة" },
 };
@@ -67,7 +69,7 @@ const SwipeFinger: React.FC = () => {
         borderRadius: "50%",
         background: "rgba(246,248,249,0.35)",
         border: "4px solid rgba(246,248,249,0.8)",
-        boxShadow: "0 0 40px rgba(67,214,155,0.6)",
+        boxShadow: "0 0 40px rgba(94,120,255,0.6)",
         opacity,
       }}
     />
@@ -99,12 +101,12 @@ const Label: React.FC<{ en: string; ar: string }> = ({ en, ar }) => {
           padding: "14px 40px",
           borderRadius: 60,
           border: `2px solid rgba(213,218,223,0.5)`,
-          background: "rgba(1,13,9,0.45)",
+          background: "rgba(2,3,10,0.45)",
           color: colors.white,
         }}
       >
         <span style={{ fontFamily: fonts.en, fontWeight: 800, fontSize: 40, letterSpacing: 2, textTransform: "uppercase" }}>{en}</span>
-        <span style={{ width: 8, height: 8, borderRadius: 4, background: colors.mint }} />
+        <span style={{ width: 8, height: 8, borderRadius: 4, background: colors.accent }} />
         <span dir="rtl" style={{ fontFamily: fonts.ar, fontWeight: 700, fontSize: 44 }}>
           {ar}
         </span>

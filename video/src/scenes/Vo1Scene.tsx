@@ -42,7 +42,7 @@ export const Vo1Scene: React.FC = () => {
             borderRadius: "50%",
             background: colors.white,
             transform: `scale(${spark * (1 + Math.sin(frame / 6) * 0.08)})`,
-            boxShadow: `0 0 60px 20px rgba(246,248,249,0.8), 0 0 200px 80px rgba(67,214,155,0.55)`,
+            boxShadow: `0 0 60px 20px rgba(246,248,249,0.8), 0 0 200px 80px rgba(94,120,255,0.55)`,
           }}
         />
       </div>

@@ -17,7 +17,7 @@ export const AdCard: React.FC = () => {
           transform: `scale(${interpolate(frame, [0, 40], [1.25, 1.05])})`,
         }}
       />
-      <AbsoluteFill style={{ background: "linear-gradient(180deg, rgba(1,50,32,0.1) 30%, rgba(1,13,9,0.92) 100%)" }} />
+      <AbsoluteFill style={{ background: "linear-gradient(180deg, rgba(8,12,40,0.1) 30%, rgba(2,3,10,0.92) 100%)" }} />
       <div
         style={{
           position: "absolute",
@@ -26,7 +26,7 @@ export const AdCard: React.FC = () => {
           width: 190,
           height: 190,
           borderRadius: "50%",
-          background: colors.mint,
+          background: colors.accent,
           color: colors.night,
           display: "flex",
           alignItems: "center",

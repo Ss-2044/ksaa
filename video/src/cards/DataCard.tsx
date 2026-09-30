@@ -12,7 +12,7 @@ export const DataCard: React.FC = () => {
   const frame = useCurrentFrame();
   const t = interpolate(frame, [0, 22], [0, 1], { extrapolateRight: "clamp", easing: Easing.out(Easing.cubic) });
   return (
-    <AbsoluteFill style={{ background: `linear-gradient(160deg, ${colors.night}, ${colors.green})`, padding: 60, gap: 34 }}>
+    <AbsoluteFill style={{ background: `linear-gradient(160deg, ${colors.night}, ${colors.navy})`, padding: 60, gap: 34 }}>
       {stats.map((s, i) => (
         <div
           key={s.label}
@@ -25,7 +25,7 @@ export const DataCard: React.FC = () => {
           }}
         >
           <div style={{ fontFamily: fonts.ar, fontSize: 36, color: colors.steel }}>{s.label}</div>
-          <div style={{ fontFamily: fonts.en, fontWeight: 800, fontSize: 120, color: i === 1 ? colors.mint : colors.white }}>
+          <div style={{ fontFamily: fonts.en, fontWeight: 800, fontSize: 120, color: i === 1 ? colors.accent : colors.white }}>
             {s.prefix ?? ""}
             {(s.value * t).toLocaleString("en-US", { minimumFractionDigits: s.decimals, maximumFractionDigits: s.decimals })}
             {s.suffix}
@@ -40,7 +40,7 @@ export const DataCard: React.FC = () => {
               flex: 1,
               height: `${h * 100 * interpolate(frame, [i * 1.5, i * 1.5 + 10], [0, 1], { extrapolateLeft: "clamp", extrapolateRight: "clamp" })}%`,
               borderRadius: 12,
-              background: `linear-gradient(180deg, ${colors.mint}, ${colors.emerald})`,
+              background: `linear-gradient(180deg, ${colors.accent}, ${colors.royal})`,
             }}
           />
         ))}

@@ -2,7 +2,7 @@
   "fps": 30,
   "width": 1080,
   "height": 1920,
-  "durationInFrames": 900,
+  "durationInFrames": 1200,
   "intro": { "from": 0, "duration": 60 },
   "montageFrom": 60,
   "transition": 7,
@@ -18,10 +18,12 @@
     { "id": "graph", "duration": 26 },
     { "id": "idea", "duration": 60 }
   ],
-  "vo1Scene": { "from": 344, "duration": 196 },
-  "vo1At": 362,
-  "face": { "from": 540, "duration": 96 },
-  "vo2Scene": { "from": 636, "duration": 164 },
+  "vo1Scene": { "from": 344, "duration": 176 },
+  "vo1At": 360,
+  "face": { "from": 520, "duration": 120 },
+  "vo2Scene": { "from": 640, "duration": 150 },
   "vo2At": 650,
-  "outro": { "from": 800, "duration": 100 }
+  "answer": { "from": 790, "duration": 100 },
+  "partnership": { "from": 890, "duration": 190 },
+  "outro": { "from": 1080, "duration": 120 }
 }

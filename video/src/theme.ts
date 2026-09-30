@@ -6,16 +6,16 @@ import "@fontsource/montserrat/800.css";
 import "@fontsource/caveat/700.css";
 import "@fontsource/aref-ruqaa/700.css";
 
-// Palette taken from the club logo (silver / white marks) and the site's deep green.
+// NEO CAPTA palette: royal blue "NEO", silver-white "CAPTA", black halftone background.
 export const colors = {
-  night: "#010D09",
-  deep: "#021F15",
-  green: "#013220",
-  emerald: "#0B6B45",
-  mint: "#43D69B",
-  silver: "#D5DADF",
-  steel: "#8C97A1",
-  white: "#F6F8F9",
+  night: "#02030A",
+  deep: "#060A1E",
+  navy: "#0A1033",
+  royal: "#344499",
+  accent: "#5E78FF",
+  silver: "#E4E6EE",
+  steel: "#8A90A8",
+  white: "#F7F8FC",
 };
 
 export const fonts = {

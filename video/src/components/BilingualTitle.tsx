@@ -5,7 +5,7 @@ import { colors, fonts, silverText } from "../theme";
 type Props = {
   en: string;
   ar: string;
-  // words (by index) in the English line to highlight in mint
+  // words (by index) in the English line to highlight in the accent blue
   highlight?: number[];
   wordGap?: number;
   arDelay?: number;
@@ -52,7 +52,7 @@ export const BilingualTitle: React.FC<Props> = ({
                 opacity: p,
                 transform: `translateY(${(1 - p) * 60}px) scale(${0.8 + p * 0.2})`,
                 filter: `blur(${(1 - p) * 14}px)`,
-                ...(hl ? { color: colors.mint, textShadow: "0 0 30px rgba(67,214,155,0.6)" } : silverText),
+                ...(hl ? { color: colors.accent, textShadow: "0 0 30px rgba(94,120,255,0.6)" } : silverText),
               }}
             >
               {w}

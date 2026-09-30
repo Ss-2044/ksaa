@@ -22,7 +22,7 @@ export const MapCard: React.FC = () => {
   const { fps } = useVideoConfig();
   const route = interpolate(frame, [2, 26], [1, 0], { extrapolateRight: "clamp" });
   return (
-    <AbsoluteFill style={{ background: "#08261b" }}>
+    <AbsoluteFill style={{ background: "#070B22" }}>
       <svg width={W} height={H} style={{ transform: `scale(${interpolate(frame, [0, 30], [1.15, 1])})` }}>
         <path d={`M -20 700 C 200 600, 400 900, ${W + 20} 760`} stroke="#0f4a5a" strokeWidth={70} fill="none" />
         {streets.map((d, i) => (
@@ -30,22 +30,22 @@ export const MapCard: React.FC = () => {
         ))}
         <path
           d="M 220 360 Q 420 380 560 520 T 330 800 T 620 930"
-          stroke={colors.mint}
+          stroke={colors.accent}
           strokeWidth={10}
           fill="none"
           strokeLinecap="round"
           pathLength={1}
           strokeDasharray="1"
           strokeDashoffset={route}
-          style={{ filter: "drop-shadow(0 0 12px #43D69B)" }}
+          style={{ filter: "drop-shadow(0 0 12px #5E78FF)" }}
         />
         {pins.map((p, i) => {
           const s = spring({ frame: frame - i * 4, fps, config: { damping: 9 } });
           return (
             <g key={i} transform={`translate(${p.x} ${p.y - (1 - s) * 120}) scale(${s})`}>
-              <circle r={36 + (frame % 20) * 2} fill="none" stroke={colors.mint} strokeOpacity={1 - (frame % 20) / 20} />
+              <circle r={36 + (frame % 20) * 2} fill="none" stroke={colors.accent} strokeOpacity={1 - (frame % 20) / 20} />
               <path d="M 0 0 C -30 -40 -30 -80 0 -80 C 30 -80 30 -40 0 0 Z" fill={colors.silver} />
-              <circle cy={-55} r={11} fill={colors.green} />
+              <circle cy={-55} r={11} fill={colors.navy} />
             </g>
           );
         })}
