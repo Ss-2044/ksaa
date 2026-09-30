@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="ar" dir="rtl"><head><meta charset="utf-8">
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@800;900&family=Cairo:wght@800;900&family=Almarai:wght@800&display=swap" rel="stylesheet">
+<style>
+:root{--blue:#3f51c9}
+body{margin:0;background:#111;display:flex;flex-wrap:wrap;gap:20px;padding:20px}
+.scene{position:relative;width:1080px;height:1920px;overflow:hidden;font-family:Tajawal,sans-serif}
+.sky{position:absolute;inset:0}
+.lamp{position:absolute;width:10px;background:#555;bottom:980px}
+.lamp::before{content:"";position:absolute;top:-6px;left:-40px;width:90px;height:10px;background:#555;border-radius:5px}
+.lamp::after{content:"";position:absolute;top:-30px;left:-70px;width:60px;height:60px;border-radius:50%;
+  background:radial-gradient(circle,#fff 0 18%,rgba(255,220,150,.8) 30%,rgba(255,200,120,0) 70%)}
+.day .lamp::after{display:none}
+.rail{position:absolute;left:0;right:0;top:760px;height:30px;
+  background:repeating-linear-gradient(90deg,#666 0 4px,transparent 4px 26px);border-top:5px solid #777}
+.board{position:absolute;left:-10px;right:-10px;top:790px;height:250px;display:flex;align-items:center;
+  box-shadow:0 10px 30px rgba(0,0,0,.5)}
+.board .txt{flex:1;white-space:nowrap;text-align:center;padding:0 40px;line-height:1.35;font-weight:900}
+.board .logo{width:270px;height:100%;flex:none;display:flex;align-items:center;justify-content:center;border-right:6px solid rgba(255,255,255,.15)}
+.board .logo i{display:block;width:240px;height:160px;background:url(logo-src.jpg) no-repeat;background-size:480px 480px;background-position:-121px -153px;mix-blend-mode:screen}
+.deck{position:absolute;left:0;right:0;top:1040px;height:90px;background:linear-gradient(#8a8378,#5d574f)}
+.tunnel{position:absolute;left:0;right:0;top:1130px;height:420px;background:linear-gradient(#2a241c,#43382a)}
+.tunnel::before{content:"";position:absolute;left:0;right:0;top:20px;height:14px;
+  background:repeating-linear-gradient(90deg,#ffcf7a 0 18px,transparent 18px 90px);filter:blur(1px);opacity:.9}
+.exit{position:absolute;left:430px;width:220px;top:1300px;height:150px;background:linear-gradient(#cfd6de,#9aa4ad)}
+.night .exit{background:linear-gradient(#e8b86a,#8a5a2a)}
+.pillar{position:absolute;top:1130px;height:430px;width:70px;background:linear-gradient(90deg,#8b8479,#5f594f)}
+.road{position:absolute;left:0;right:0;top:1440px;bottom:0;background:linear-gradient(#3a3a3e,#1c1c20);
+  clip-path:polygon(40% 0,60% 0,110% 100%,-10% 100%)}
+.lane{position:absolute;top:1440px;bottom:0;left:50%;width:14px;margin-left:-7px;
+  background:repeating-linear-gradient(#ddd 0 60px,transparent 60px 140px);clip-path:polygon(45% 0,55% 0,100% 100%,0 100%)}
+.car{position:absolute;border-radius:14px 14px 6px 6px;background:#1d1f24}
+.car::before,.car::after{content:"";position:absolute;bottom:22%;width:22%;height:12%;background:#ff2a2a;border-radius:3px;box-shadow:0 0 18px 6px rgba(255,40,40,.6)}
+.car::before{left:6%}.car::after{right:6%}
+.dash{position:absolute;left:0;right:0;bottom:0;height:260px;background:linear-gradient(transparent,#000 40%)}
+.top{position:absolute;left:0;right:0;top:0;height:170px;background:#000}
+.bw{filter:grayscale(1) contrast(1.15)}
+</style></head><body>
+<div id="scenes"></div>
+<script>
+const S=[
+ {cls:'night',sky:'linear-gradient(#02030a,#0b1030 70%,#1a1a2a)',board:'background:#050507;background-image:radial-gradient(rgba(255,255,255,.06) 1.2px,transparent 1.6px);background-size:9px 9px',
+  html:'<div style="color:#fff;font-size:62px">لو كنا نسوّق لك…</div><div style="color:var(--blue);font-size:78px">كان هذا اسمك مو اسمنا</div>'},
+ {cls:'night',sky:'linear-gradient(#0b3f78,#6d93b8 55%,#f0c89a 85%,#e9a86e)',board:'background:linear-gradient(90deg,#2a3aa8,#3f51c9)',
+  html:'<div style="color:#fff;font-size:62px;font-family:Cairo">الحين وأنت تقرأ هاللوحة…</div><div style="color:#fff;font-size:84px;font-family:Cairo">منافسك يبيع</div>'},
+ {cls:'day',sky:'linear-gradient(#7fb0dc,#b9d5ec 80%,#dfe9f1)',board:'background:linear-gradient(90deg,#3a3530,#23262c)',
+  html:'<div style="color:#f1ece4;font-size:62px;font-family:Almarai">صورتها؟ شكراً…</div><div style="color:#f1ece4;font-size:74px;font-family:Almarai">سويت لنا إعلان ببلاش</div>'},
+ {cls:'night',sky:'linear-gradient(#01020a,#05123a 75%,#0a1a4a)',board:'background:#fff',logoBg:'#0a0a10',
+  html:'<div style="color:#1b2a6b;font-size:58px">لا تلوم الزباين..</div><div style="color:#1b2a6b;font-size:92px">هم ما شافوك أصلاً</div>',wave:true},
+ {cls:'night bw',sky:'linear-gradient(#000,#0a0a0a 80%,#1a1a1a)',board:'background:#0b0b0b',
+  html:'<div style="color:#fff;font-size:60px">المنافس مو أشطر منك…</div><div style="color:#fff;font-size:84px">بس أحد يسوّق له</div>'},
+ {cls:'day',sky:'linear-gradient(#5f98cf,#a9cbe9 75%,#d8e6f2)',board:'background:#16181d',
+  html:'<div style="color:#fff;font-size:58px;font-family:Cairo">آخر مرة أحد سأل عن براندك…</div><div style="color:var(--blue);font-size:80px;line-height:1.1;font-family:Cairo;filter:brightness(1.35)">متى؟</div>'},
+];
+const root=document.getElementById('scenes');
+S.forEach((s,i)=>{
+  const night=s.cls.includes('night');
+  const cars=[[470,1500,110,70],[560,1520,120,75],[360,1600,190,120],[620,1640,230,140],[250,1720,300,170]]
+    .map(([x,y,w,h])=>`<div class="car" style="left:${x}px;top:${y}px;width:${w}px;height:${h}px;${night?'':'background:#9aa0a8'}"></div>`).join('');
+  root.insertAdjacentHTML('beforeend',`
+  <div class="scene ${s.cls}" id="s${i+1}">
+    <div class="sky" style="background:${s.sky}"></div>
+    <div class="top" style="${i%2?'':'display:none'}"></div>
+    <div class="lamp" style="left:120px;height:620px"></div><div class="lamp" style="left:900px;height:560px"></div><div class="lamp" style="left:480px;height:300px"></div>
+    <div class="rail"></div>
+    <div class="deck"></div><div class="tunnel"></div><div class="exit"></div>
+    <div class="pillar" style="left:360px"></div><div class="pillar" style="left:650px"></div>
+    <div style="position:absolute;left:0;right:0;top:1550px;bottom:0;background:${night?'#17140f':'#8f877a'}"></div><div class="road"></div><div class="lane"></div>${cars}
+    <div class="board" style="${s.board}">
+      <div class="logo" style="background:${s.logoBg||'transparent'}"><i></i></div>
+      <div class="txt">${s.html}</div>
+      ${s.wave?'<div style="position:absolute;left:0;right:270px;bottom:0;height:40px;background:linear-gradient(90deg,#2a9bb0,#3f51c9);clip-path:polygon(0 60%,30% 20%,60% 70%,100% 10%,100% 100%,0 100%)"></div>':''}
+    </div>
+    <div class="dash"></div>
+  </div>`);
+});
+</script></body></html>
