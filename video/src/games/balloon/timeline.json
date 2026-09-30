@@ -1,0 +1,11 @@
+{
+  "fps": 30,
+  "durationInFrames": 900,
+  "bpm": 84,
+  "ground": { "from": 0, "to": 110 },
+  "stuck": { "from": 110, "to": 200 },
+  "fire": { "from": 200, "to": 270 },
+  "rise": { "from": 270, "each": 60 },
+  "above": { "from": 570, "to": 760 },
+  "outro": { "from": 760, "duration": 140 }
+}

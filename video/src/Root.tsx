@@ -14,6 +14,20 @@ import { VaultVideo } from "./games/vault/VaultVideo";
 import { DominoVideo } from "./games/domino/DominoVideo";
 import { FootballVideo } from "./games/football/FootballVideo";
 import { RubikVideo } from "./games/rubik/RubikVideo";
+import { CountdownVideo } from "./games/countdown/CountdownVideo";
+import countdownTimeline from "./games/countdown/timeline.json";
+import { DiamondVideo } from "./games/diamond/DiamondVideo";
+import diamondTimeline from "./games/diamond/timeline.json";
+import { BridgeVideo } from "./games/bridge/BridgeVideo";
+import bridgeTimeline from "./games/bridge/timeline.json";
+import { BalloonVideo } from "./games/balloon/BalloonVideo";
+import balloonTimeline from "./games/balloon/timeline.json";
+import { PaintingVideo } from "./games/painting/PaintingVideo";
+import paintingTimeline from "./games/painting/timeline.json";
+import { FireworksVideo } from "./games/fireworks/FireworksVideo";
+import fireworksTimeline from "./games/fireworks/timeline.json";
+import { ActionVideo } from "./games/action/ActionVideo";
+import actionTimeline from "./games/action/timeline.json";
 import { LensVideo } from "./games/lens/LensVideo";
 import lensTimeline from "./games/lens/timeline.json";
 import { RadioVideo } from "./games/radio/RadioVideo";
@@ -59,6 +73,15 @@ const vertical = { fps: 30, width: 1080, height: 1920 };
 export const RemotionRoot: React.FC = () => {
   return (
     <>
+      {/* launch series (studio soundtracks) */}
+      <Composition id="Countdown" component={CountdownVideo} durationInFrames={countdownTimeline.durationInFrames} {...vertical} />
+      <Composition id="Diamond" component={DiamondVideo} durationInFrames={diamondTimeline.durationInFrames} {...vertical} />
+      <Composition id="Bridge" component={BridgeVideo} durationInFrames={bridgeTimeline.durationInFrames} {...vertical} />
+      <Composition id="Balloon" component={BalloonVideo} durationInFrames={balloonTimeline.durationInFrames} {...vertical} />
+      <Composition id="Painting" component={PaintingVideo} durationInFrames={paintingTimeline.durationInFrames} {...vertical} />
+      <Composition id="Fireworks" component={FireworksVideo} durationInFrames={fireworksTimeline.durationInFrames} {...vertical} />
+      <Composition id="Action" component={ActionVideo} durationInFrames={actionTimeline.durationInFrames} {...vertical} />
+
       {/* agency series: clarity, reach, guidance */}
       <Composition id="Lens" component={LensVideo} durationInFrames={lensTimeline.durationInFrames} {...vertical} />
       <Composition id="Radio" component={RadioVideo} durationInFrames={radioTimeline.durationInFrames} {...vertical} />
