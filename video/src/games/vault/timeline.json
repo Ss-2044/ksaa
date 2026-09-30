@@ -1,0 +1,11 @@
+{
+  "fps": 30,
+  "durationInFrames": 900,
+  "bpm": 100,
+  "intro": { "from": 0, "to": 100 },
+  "locked": { "from": 100, "to": 220 },
+  "answer": { "from": 220, "to": 300 },
+  "code": { "from": 300, "each": 60, "turn": 26, "values": [7, 24, 13, 38, 50], "angles": [-402, -144, -438, -228, -660] },
+  "open": { "from": 600, "to": 760, "wheel": 600, "bolts": 640, "door": 668 },
+  "outro": { "from": 760, "duration": 140 }
+}

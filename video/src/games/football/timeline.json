@@ -1,0 +1,11 @@
+{
+  "fps": 30,
+  "durationInFrames": 900,
+  "bpm": 124,
+  "intro": { "from": 0, "to": 100, "pitchTo": 50 },
+  "lost": { "from": 100, "to": 210 },
+  "plan": { "from": 210, "to": 300 },
+  "passes": { "from": 300, "each": 66, "travel": 18 },
+  "shot": { "from": 630, "kick": 640, "goal": 690, "to": 760 },
+  "outro": { "from": 760, "duration": 140 }
+}

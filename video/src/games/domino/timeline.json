@@ -1,0 +1,12 @@
+{
+  "fps": 30,
+  "durationInFrames": 900,
+  "bpm": 120,
+  "intro": { "from": 0, "to": 90 },
+  "scatter": { "from": 90, "to": 200, "loneFall": 150 },
+  "align": { "from": 200, "to": 290 },
+  "chain": { "push": 300, "count": 16, "base": 70, "grow": 1.2, "milestones": [2, 5, 8, 11, 14] },
+  "overview": { "from": 600, "to": 660 },
+  "giant": { "from": 660, "fall": 700 },
+  "outro": { "from": 740, "duration": 160 }
+}
