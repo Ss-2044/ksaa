@@ -1,89 +1,117 @@
-# نيو كابتا × شركة الدرعية — إعلان شراكة استراتيجية
+# نيو كابتا × شركة الدرعية — ٣ أفكار إعلان + أفكار خارج الصندوق
 
-> الفكرة: **«العدّ التنازلي والكشف»** — إعلان حماسي سريع بأسلوب السوشال ميديا: ألوان كاملة، كلمات تضرب الشاشة على الإيقاع، وموسيقى خليجية إلكترونية.
-> ملاحظة: تفاصيل الشراكة هنا صياغة إبداعية عامة؛ عدّلها حسب الاتفاق الفعلي، واعتمد استخدام شعار الدرعية من الجهة المعنية.
+> كل فكرة فيديو مستقل مدته 30 ثانية، بتصميم مختلف وموسيقى مؤلَّفة خصيصاً (بلا حقوق).
+> أول 3 ثوانٍ في كل فكرة: شعار Neo Capta + شعار شركة الدرعية.
+> ملاحظة: الحوارات والنصوص صياغة إبداعية؛ اعتمدها مع الطرفين، واعتمد استخدام شعار الدرعية من الجهة المعنية.
 
----
-
-## 1) السيناريو — فيديو مدته دقيقة (60 ثانية)
-
-| الوقت | الصورة | التعليق الصوتي / المؤثر | النص على الشاشة |
+| الفكرة | الأسلوب | الموسيقى | الملف |
 |---|---|---|---|
-| 0:00–0:03 | الشاشة تنقسم قطرياً: نصف أزرق بشعار Neo Capta ونصف نحاسي بشعار الدرعية، وعلامة × تدور بينهما | ضربة + صعود | — |
-| 0:03–0:06 | عدّ تنازلي 3 – 2 – 1، كل رقم بلون كامل | بيب على كل رقم، ثم صمت لحظة | خبر كبير قادم · BIG NEWS IN |
-| 0:06–0:12 | «الدروب»: وميض أبيض، والكشف بدائرة تتسع، وأشرطة متحركة أعلى وأسفل | «نيو كابتا وشركة الدرعية… شراكة استراتيجية.» | شراكة استراتيجية · STRATEGIC PARTNERSHIP |
-| 0:12–0:24 | معادلة: شعار نيو كابتا + شعار الدرعية = «قصة تصل للعالم» | «إبداع نيو كابتا، مع إرث الدرعية، يساوي قصة تصل للعالم.» | A STORY FOR THE WORLD |
-| 0:24–0:36 | أربع بطاقات تنقلب على الإيقاع: حملات تسويقية · دعاية وهوية · محتوى إبداعي · حضور رقمي | «حملات، هوية، محتوى، وحضور رقمي.» | بالعربي والإنجليزي على كل بطاقة |
-| 0:36–0:48 | لقطات سريعة (تصوير في الدرعية، شاشات إعلانية، سوشال ميديا) بين كلمات تضرب الشاشة | «نسوّق… نُعلن… نُبدع… نُلهم… لقصة الدرعية.» | WE MARKET · WE ADVERTISE · WE CREATE · WE INSPIRE |
-| 0:48–1:00 | الدروب الأخير: الشعاران مع الأشرطة المتحركة | «نيو كابتا × شركة الدرعية.» | شراكة استراتيجية في التسويق والدعاية والإعلان · #NeoCaptaXDiriyah |
+| ١. «الإشعار» | واجهة جوال: إشعارات ← محادثة ← زر «قبول» | بوب مرح: ماريمبا وطقطقة أصابع وأصوات إشعار | `out/Idea1-Notification.mp4` |
+| ٢. «كوكبة الدرعية» | سماء صحراء ليلية، نجوم ترسم كوكبات | هادئة سينمائية: بيانو وأجواء ممتدة | `out/Idea2-Constellation.mp4` |
+| ٣. «الوضع التعاوني» | لعبة أركيد 8-بت | موسيقى ألعاب Chiptune | `out/Idea3-Arcade.mp4` |
 
 ---
 
-## 2) الستوري بورد — نسخة 30 ثانية المنفّذة في Remotion
+## الفكرة ١: «الإشعار» — الشراكة كأنها محادثة على الجوال
 
-| # | المشهد | الثواني | ما يحدث |
-|---|---|---|---|
-| 1 | التقسيم القطري | 0–3 | لوحة زرقاء (Neo Capta) ولوحة نحاسية (الدرعية) تنزلقان من الجانبين، علامة × تدور، لمعة على الشعارين، وميض أبيض للانتقال |
-| 2 | العدّ التنازلي | 3–6 | 3 (أزرق) ← 2 (نحاسي) ← 1 (رملي)، حلقة تُفرغ مع كل ثانية |
-| 3 | الكشف | 6–11 | وميض واهتزاز، دائرة تكشف «شراكة» ثم «استراتيجية» + STRATEGIC PARTNERSHIP، شريطان مائلان متحركان: NEO CAPTA × DIRIYAH COMPANY |
-| 4 | المعادلة والبطاقات | 11–18 | شعار + شعار = «قصة تصل للعالم»، ثم أربع بطاقات تنقلب على الإيقاع |
-| 5 | ضربات الكلمات | 18–24 | نسوّق · نُعلن · نُبدع · نُلهم (كل كلمة بلون كامل، ثانية واحدة) ← «لقصة الدرعية» |
-| 6 | الختام | 24–30 | الدروب الأخير، الشعاران، Neo Capta × Diriyah Company، «شراكة استراتيجية في التسويق والدعاية والإعلان»، #NeoCaptaXDiriyah |
+**لماذا تنجح:** الجمهور يعيش على جواله؛ الإعلان يُشبه ما يراه كل يوم، فيُشاهَد للنهاية. مثالي للريلز والستوري.
 
-**الخلفية:** أسود مع خطوط مائلة كحلية متحركة، وتوهج يومض مع كل ضربة (أزرق ثم نحاسي بالتناوب).
+| الثواني | المشهد |
+|---|---|
+| 0–3 | الشعاران كأيقونتي تطبيقين يقفزان ويهتزّان (مثل وضع تعديل الأيقونات) |
+| 3–8 | شاشة القفل 9:41 ← إشعارات: «Neo Capta: عندنا خبر كبير… 👀» · «Diriyah Company: ترقّبوا 🔔» · «+٩٩ إشعار» — وعلى الجانبين: «خبر في الطريق…» / SOMETHING'S COMING |
+| 8–16 | محادثة «نيو كابتا × الدرعية — متصل الآن» مع مؤشر الكتابة: «عندنا أفكار تسويقية تليق بالدرعية ✨» ← «وعندنا قصة تستاهل توصل للعالم» ← «نسوّق، ونصمم الدعاية، ونطلق الإعلانات 🚀» ← «إذن… نبدأ؟ 🤝» |
+| 16–22 | بطاقة «طلب شراكة استراتيجية» ← نقرة إصبع على «قبول» ← يتحول الزر أخضر «✓ تمت الشراكة» + قصاصات احتفال |
+| 22–27 | الجوال يطير، «شراكة استراتيجية» كبيرة وحولها فقاعات: تسويق · دعاية · إعلان · محتوى |
+| 27–30 | الأيقونتان + Neo Capta × Diriyah Company + «الإشعار الذي انتظرناه 🔔» |
 
-**الموسيقى (`public/music.wav`) — جديدة، مؤلَّفة بالكود بلا حقوق:** خليجي إلكتروني بسرعة 120 BPM (كل ضربة = 15 إطاراً، فكل الحركات على الإيقاع): صعود في المقدمة، بيب للعدّ التنازلي، صمت قبل الدروب، ثم كيك مستمر + تصفيق خليجي متعدد الأيدي + باص 808 + ستابات سنث + لحن رئيسي، ضربة مع كل كلمة في مشهد 5، ودروب أخير في الختام. لإعادة توليدها: `python3 scripts/make_music.py`.
-
----
-
-## 3) أفكار وعناوين
-
-- عناوين بديلة: «3، 2، 1… شراكة» · «الخبر اللي ننتظره» · «نيو كابتا × الدرعية: اللعبة تغيّرت».
-- **أفكار للنشر:**
-  - تيزر 6 ثوانٍ قبل الإعلان بيوم: التقسيم القطري + العدّ التنازلي فقط، وينتهي عند «1» بدون كشف.
-  - نسخة 9:16 للريلز/تيك توك بنفس الإيقاع.
-  - تحدّي تصفيق: يعيد المتابعون إيقاع التصفيق الخليجي من الموسيقى مع هاشتاق `#NeoCaptaXDiriyah`.
-  - كاروسيل 4 صور من البطاقات الأربع (حملات · هوية · محتوى · حضور رقمي).
-- لوحة الألوان: أسود `#05060A` · كحلي `#0B1036` · أزرق نيو كابتا `#3D4FC4` · نحاسي الدرعية `#B97A57` · رملي `#EEE7DE`.
+**الموسيقى:** بوب مرح 120 BPM: ماريمبا، كيك خفيف، طقطقة أصابع، «دِنغ» مع كل إشعار، نقرات كتابة قبل كل رسالة، صوت النقرة والاحتفال عند القبول.
 
 ---
 
-## 4) برومبتات أدوات الفيديو بالذكاء الاصطناعي
+## الفكرة ٢: «كوكبة الدرعية» — الشراكة مكتوبة في النجوم
 
-> البرومبتات بالإنجليزية لأن الأدوات تفهمها بدقة أعلى. الشعارات تُضاف في المونتاج (لا تطلب من الأداة توليد شعار — ستشوّهه).
+**لماذا تنجح:** شاعرية وهادئة وفخمة؛ تربط الدرعية بسماء نجد وتراث الاهتداء بالنجوم، ونيو كابتا بنجمٍ جديد.
 
-### Runway (Gen-4 / Gen-4 Turbo) — مشهد الإرث
+| الثواني | المشهد |
+|---|---|
+| 0–3 | الشعاران يظهران كقمرين مضيئين في سماء الليل |
+| 3–10 | شهب، ثم النجوم تتصل لترسم **جبل الدرعية** (من خطوط شعارها) بلون نحاسي — «في سماء الدرعية…» |
+| 10–17 | كوكبة ثانية زرقاء ترسم **مكبّر صوت** (رمز التسويق والإعلان) — «نجمٌ في التسويق والدعاية والإعلان» |
+| 17–23 | شهاب ينطلق من مكبّر الصوت إلى الجبل ويربطهما بقوس ضوء، وميض، ثم «شراكة استراتيجية» |
+| 23–27 | الكاميرا تنزل نحو الكثبان — «معاً نرسم قصة تصل للعالم» |
+| 27–30 | الشعاران بين النجوم + Neo Capta × Diriyah Company |
+
+**الموسيقى:** أجواء ممتدة دافئة، نغمات بيانو متفرقة تظهر مع كل نجمة، لمعان للشهب، وضربة عميقة مع وتر كامل لحظة الربط.
+
+---
+
+## الفكرة ٣: «الوضع التعاوني» — الشراكة كلعبة أركيد
+
+**لماذا تنجح:** غير متوقعة ومرحة ويتشاركها الشباب؛ تقول «فريقان قويان صارا فريقاً واحداً» بلغة الألعاب.
+
+| الثواني | المشهد |
+|---|---|
+| 0–3 | PLAYER 1: شعار نيو كابتا · PLAYER 2: شعار الدرعية · READY? |
+| 3–7 | INSERT COIN ← عملة تسقط ← CREDIT 01 ← PRESS START / «اضغط ابدأ» |
+| 7–13 | SELECT YOUR TEAM: بطاقة نيو كابتا (تسويق · دعاية · إعلان) وبطاقة الدرعية (إرث · ثقافة · حكاية) وأشرطة القوة تمتلئ حتى MAX! |
+| 13–19 | CO-OP MODE UNLOCKED! / «تم فتح الوضع التعاوني» ← شريط XP يمتلئ ← LEVEL UP: STRATEGIC PARTNERSHIP / «شراكة استراتيجية» |
+| 19–26 | MISSION: TELL DIRIYAH'S STORY TO THE WORLD / «المهمة: نروي قصة الدرعية للعالم» + ✓ حملات تسويقية ✓ دعاية وهوية ✓ إعلانات تصل للعالم |
+| 26–30 | الشعاران + NEO CAPTA × DIRIYAH COMPANY + «شراكة استراتيجية» + TO BE CONTINUED... |
+
+**الموسيقى:** موسيقى ألعاب 8-بت: لحن بموجة مربعة، باص مثلثي، طبول ضوضاء، صوت عملة، صوت تقوية، ولحن «رفع المستوى».
+
+---
+
+## أفكار إضافية خارج الصندوق (غير منفّذة بعد — اختر وأنفّذها)
+
+1. **«الإعلان المقلوب»** — الفيديو يبدأ من النهاية ويرجع للخلف (Rewind): الختام أولاً ثم تُفكّ القصة حتى نصل للحظة البداية. العنوان: «كل قصة عظيمة لها بداية».
+2. **«نشرة الطقس»** — مذيع طقس افتراضي: «توقعات اليوم: موجة إبداع قادمة من نيو كابتا تلتقي برياح التاريخ فوق الدرعية… احتمالية الشراكة ١٠٠٪».
+3. **«الخريطة الحيّة»** — خريطة نجد بأسلوب المخطوطات القديمة، خطّان (أزرق ونحاسي) يسافران ويلتقيان عند الدرعية، ثم تتحول الخريطة لخريطة رقمية للعالم تضيء مدنها.
+4. **«الكلمات المتقاطعة»** — شبكة حروف تمتلئ تلقائياً؛ الكلمات المخفية: تسويق، دعاية، إعلان، الدرعية، نيو كابتا… وفي التقاطع الأخير: «شراكة».
+5. **«صندوق الطين»** — مكعب من طين الدرعية يتشقق ببطء، ومن داخله يخرج ضوء أزرق رقمي بنقاط شعار نيو كابتا: «من الطين… إلى الشاشات».
+6. **«تيزر بلا شعارات»** — ٣ أيام قبل الإعلان: نشر صور غامضة (نصف مثلث نجدي، نقاط زرقاء، عبارة «قريباً… شيء يجمع الأمس بالغد») ثم كشف الشراكة يوم الإعلان.
+7. **«بث مباشر مزيّف»** — شكل بث مباشر على إنستقرام، تعليقات وقلوب تتطاير، العدّاد يرتفع، ثم الكشف أمام «الجمهور».
+8. **«الطابع البريدي»** — رسالة قديمة بطابع الدرعية تُرسل عبر الزمن، وتصل كبريد إلكتروني لنيو كابتا بعنوان «عرض شراكة».
+9. **«تحدّي ٣٠ ثانية»** — فريق نيو كابتا يصمّم إعلاناً للدرعية في ٣٠ ثانية (تايم لابس حقيقي) والنتيجة النهائية تظهر في آخر الفيديو.
+
+---
+
+## برومبتات أدوات الفيديو بالذكاء الاصطناعي (للقطات حقيقية تُدمج مع الأفكار)
+
+> البرومبتات بالإنجليزية لأن الأدوات تفهمها بدقة أعلى. أضف الشعارات والنص العربي في المونتاج فقط.
+
+### الفكرة ١ — Kling / Runway: يد تفتح الإشعار
 ```
-Cinematic slow dolly-in at eye level toward the ancient mud-brick walls of At-Turaif, Diriyah, Saudi Arabia, at golden hour. Warm copper sunlight (#B97A57 tones) rakes across textured adobe, long soft shadows, dust particles floating in the light. Subtle deep navy-blue sky gradient at the top of frame. Camera: 35mm lens, shallow depth of field, smooth gimbal movement, 24fps. Style: premium luxury brand film, photorealistic, high dynamic range, gentle film grain. No people, no text.
+Close-up of a hand holding a modern smartphone at night in a cozy Riyadh café; the screen glows with a soft blue notification banner as the thumb taps it. Camera: 50mm, shallow depth of field, slow push-in over the shoulder. Lighting: warm copper ambient lamps (#B97A57 tones) with cool blue screen glow (#3D4FC4) on the face of the phone. Style: modern lifestyle commercial, photorealistic, 24fps. Screen content blurred, no readable text or logos.
 ```
 
-### Pika (2.x) — انتقال الهافتون إلى الجبل
+### الفكرة ١ — Pika: قصاصات الاحتفال
 ```
-Thousands of glowing white and electric-blue halftone dots on a pure black background slowly drift and converge, assembling into the outline of a desert plateau and mud-brick fortress drawn in thin copper lines. Camera: static front-facing, slight slow push-in. Lighting: dark scene, dots self-illuminated, soft blue bloom. Motion: smooth, magnetic, particle swarm forming shape over 4 seconds. Style: minimal motion graphics, elegant, high contrast, 16:9.
-```
-
-### Kling (2.x) — فريق الإبداع
-```
-Medium tracking shot moving left to right through a modern Saudi creative agency studio at night. Young Saudi creatives in modern attire review campaign visuals on large monitors; screens glow electric blue (#3D4FC4) while warm copper practical lamps light the desks. Camera: handheld-smooth tracking at chest height, 50mm lens, shallow depth of field, rack focus from screen to a designer's face. Lighting: low-key, blue and copper contrast, soft rim light. Style: cinematic commercial, realistic, 4K, natural movement, no visible text or logos.
+Slow-motion burst of blue and copper confetti exploding upward from the bottom of the frame against a dark navy background, pieces tumbling and catching light. Camera: static, centered. Lighting: soft spotlight from above, glossy reflections on confetti. Style: clean premium motion graphics, 4 seconds, 16:9.
 ```
 
-### Sora — اللقطة الجوية الافتتاحية
+### الفكرة ٢ — Sora: سماء الدرعية
 ```
-A sweeping aerial drone shot rising slowly over Diriyah at blue hour. The illuminated mud-brick palaces of At-Turaif glow warm copper and amber, while the sky transitions from deep navy to black. Camera starts low over the Wadi Hanifa palm trees and cranes up and forward to reveal the full historic district with modern Riyadh skyline lights in the distance. Lighting: warm architectural uplighting against cool blue ambience. Style: epic, cinematic, photorealistic, smooth stabilized motion, 24fps, anamorphic look, 10 seconds.
-```
-
-### Veo (3.x) — الختام مع صوت
-```
-Night, close-up low-angle shot of an ancient Diriyah mud-brick wall. Projection-mapping light slowly sweeps across it: electric-blue halftone dot patterns and thin copper geometric triangle motifs (like a traditional Najdi border) animate across the textured surface. Camera: slow upward tilt with gentle push-in, 24mm lens. Lighting: dark ambient, projected blue and copper light as the only sources, subtle haze. Style: premium launch film, cinematic, photorealistic. Audio: deep cinematic boom on reveal, soft oud melody blending with a modern electronic pulse, no dialogue.
+A breathtaking time-lapse of the Milky Way rotating over the illuminated mud-brick ruins of At-Turaif in Diriyah, Saudi Arabia. Stars are sharp and abundant; a single bright shooting star crosses the sky in a long arc. Foreground: warm copper uplighting on adobe walls and palm silhouettes of Wadi Hanifa. Camera: locked-off wide shot, slow tilt down from the sky to the ruins at the end. Style: astrophotography, cinematic, photorealistic, deep navy and copper palette, 10 seconds.
 ```
 
-### Kling / Runway — لقطة «الكشف» الحماسية
+### الفكرة ٢ — Veo: كثبان تحت النجوم (مع صوت)
 ```
-High-energy commercial shot: a giant illuminated billboard wall in Riyadh at night flips panel by panel from electric blue (#3D4FC4) to warm copper (#B97A57), synchronized like a beat drop. Camera: fast low-angle push-in with a whip-pan at the end, 24mm wide lens, slight motion blur. Lighting: neon blue and copper glow reflecting on wet pavement, crowd silhouettes in the foreground raising phones. Style: bold modern ad, punchy contrast, 24fps, photorealistic. No readable text or logos.
+Night desert dunes under a dense starfield, a soft wind moving sand off the dune crests. Camera: slow low-angle dolly forward along the dune ridge, 24mm lens. Lighting: moonlight from behind giving silver-blue rim light, a faint copper glow on the horizon. Style: cinematic, serene, photorealistic. Audio: gentle wind, distant soft piano notes, no dialogue.
 ```
 
-### نصائح عند النسخ إلى الأداة
-1. ولّد كل مشهد كمقطع منفصل (5–10 ثوانٍ) ثم اجمعها في المونتاج أو داخل Remotion عبر `<OffthreadVideo>`.
-2. ثبّت نسبة العرض 16:9 (أو 9:16 للريلز) في كل الأدوات لتوحيد المخرجات.
-3. استخدم Image-to-Video في Runway/Kling بإعطاء إطار مرجعي بألوان الهوية للحفاظ على الاتساق.
-4. أضف النصوص العربية والشعارات في المونتاج فقط — أدوات التوليد لا تكتب العربية بشكل صحيح.
+### الفكرة ٣ — Runway: صالة أركيد
+```
+A retro arcade cabinet glowing in a dark room, its CRT screen flickering with colorful pixel graphics in electric blue and copper; two players' hands press buttons in sync. Camera: low-angle slow orbit around the cabinet, 35mm lens, slight anamorphic flare. Lighting: neon blue and warm copper practical lights, light haze. Style: nostalgic 80s-inspired commercial, photorealistic, 24fps. No readable text or brand logos.
+```
+
+### الفكرة ٣ — Kling: انفجار بكسل
+```
+Pixel-art explosion: thousands of square pixels in blue, copper, sand and white burst outward from the center of a black screen with CRT scanlines, then reassemble into a glowing ring. Camera: static front-facing. Style: 8-bit retro game aesthetic, crisp pixels, 3 seconds, 16:9.
+```
+
+### نصائح
+1. ولّد كل لقطة منفصلة (5–10 ثوانٍ) وادمجها داخل Remotion عبر `<OffthreadVideo>`.
+2. ثبّت نسبة العرض (16:9 أو 9:16 للريلز) في كل الأدوات.
+3. استخدم Image-to-Video مع إطار من فيديوهاتنا كمرجع ألوان للحفاظ على الاتساق.

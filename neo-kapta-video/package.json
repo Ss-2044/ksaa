@@ -4,13 +4,17 @@
   "private": true,
   "scripts": {
     "studio": "remotion studio",
-    "render": "remotion render PartnershipVideo out/neo-capta-diriyah.mp4 --codec=h264 --crf=18",
-    "still": "remotion still PartnershipVideo out/preview.png --frame=120"
+    "music": "python3 scripts/make_music.py",
+    "render:1": "remotion render Idea1-Notification out/Idea1-Notification.mp4 --codec=h264 --crf=18",
+    "render:2": "remotion render Idea2-Constellation out/Idea2-Constellation.mp4 --codec=h264 --crf=18",
+    "render:3": "remotion render Idea3-Arcade out/Idea3-Arcade.mp4 --codec=h264 --crf=18",
+    "render": "npm run render:1 && npm run render:2 && npm run render:3"
   },
   "dependencies": {
     "@fontsource/aref-ruqaa": "^5.3.0",
     "@fontsource/cairo": "^5.3.0",
     "@fontsource/great-vibes": "^5.3.0",
+    "@fontsource/press-start-2p": "^5.3.0",
     "@fontsource/tajawal": "^5.3.0",
     "@remotion/cli": "^4.0.532",
     "react": "^18.3.1",
