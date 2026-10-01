@@ -5,6 +5,7 @@ import {timeline30, timeline60, totalFrames} from './timelines';
 import {NSGVideoB} from './designB/VideoB';
 import {Clip, STORIES, StoryId, clipFrames} from './clips/Clip';
 import {VerticalClip} from './clips/Vertical';
+import {REELS, ReelById, reelFrames} from './reels/reels';
 import {timelineB30, timelineB60, totalB} from './designB/timelinesB';
 
 export const RemotionRoot: React.FC = () => {
@@ -59,6 +60,10 @@ export const RemotionRoot: React.FC = () => {
           height={1080}
           defaultProps={{story}}
         />
+      ))}
+      {/* Native 9:16 interactive reels */}
+      {Object.keys(REELS).map((id) => (
+        <Composition key={`reel-${id}`} id={`Reel-${id}`} component={ReelById} durationInFrames={reelFrames(id)} fps={FPS} width={1080} height={1920} defaultProps={{id}} />
       ))}
       {/* 9:16 versions of every clip */}
       {(Object.keys(STORIES) as StoryId[]).map((story) => (
