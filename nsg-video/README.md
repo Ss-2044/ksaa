@@ -11,6 +11,7 @@
 | `Clip-pixel` · `Clip-zoom` · `Clip-orbit` · `Clip-layers` | 20 ثانية لكل مقطع — فضاء وبيانات جيومكانية | `out/clip-*.mp4` (السيناريوهات في `docs/03-clips-scenarios.md`) |
 | `Clip-memory` · `Clip-night` · `Clip-art` · `Clip-map` | 20 ثانية — صور فضائية حقيقية (NASA) وخرائط (OpenStreetMap) وموسيقى Kevin MacLeod | `out/clip-*.mp4` (السيناريوهات في `docs/04-photo-clips-scenarios.md`، والحقوق في `CREDITS.md`) |
 | `Clip-riyadh` · `Clip-pixels` · `Clip-cloud` · `Clip-coast` · `Clip-road` | 20 ثانية — الدفعة الثالثة | `out/clip-*.mp4` (`docs/05-more-clips.md`) |
+| `Clip-globe` · `Clip-mosaic` · `Clip-numbers` · `Clip-circles` | 20 ثانية — **التصميم C**: فاتح تحريري + كرة أرضية ثلاثية الأبعاد (`npm run render:c`) | `out/clip-*.mp4` (`docs/06-design-c.md`) |
 | `Vertical-<اسم>` | نسخة 9:16 (1080×1920) لكل مقطع | `out/vertical/vertical-*.mp4` |
 
 1920×1080 · 30fps · H.264.

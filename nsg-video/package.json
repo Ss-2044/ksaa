@@ -12,7 +12,8 @@
     "render:b": "remotion render NSG30B out/nsg-B-30s.mp4",
     "render:b60": "remotion render NSG60B out/nsg-B-60s.mp4",
     "render:clips": "for c in pixel zoom orbit layers memory night art map riyadh pixels cloud coast road; do remotion render Clip-$c out/clip-$c.mp4; done",
-    "render:vertical": "for c in pixel zoom orbit layers memory night art map riyadh pixels cloud coast road; do remotion render Vertical-$c out/vertical/vertical-$c.mp4 --crf=23; done"
+    "render:vertical": "for c in pixel zoom orbit layers memory night art map riyadh pixels cloud coast road globe mosaic numbers circles; do remotion render Vertical-$c out/vertical/vertical-$c.mp4 --crf=23 --gl=angle; done",
+    "render:c": "for c in globe mosaic numbers circles; do remotion render Clip-$c out/clip-$c.mp4 --gl=angle; done"
   },
   "dependencies": {
     "@fontsource/ibm-plex-sans-arabic": "^5.0.0",
