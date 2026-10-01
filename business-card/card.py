@@ -54,12 +54,26 @@ y=PH-B-15*mm
 c.setFillColorRGB(*WHITE); c.setFont('Helvetica-Bold',13); c.drawString(m,y,'NEO CAPTA')
 c.setFillColorRGB(*BLUE); c.rect(m,y-3.2*mm,8*mm,0.5*mm,stroke=0,fill=1)
 # contacts
-rows=[('T','+966 55 054 8453'),('E','contact@neocapta.com'),('IG','@neocapta.sa')]
+rows=[('WA','+966 55 054 8453'),('E','contact@neocapta.com'),('IG','@neocapta.sa')]
 yy=B+16.5*mm
 for icon,txt in rows:
     c.setFillColorRGB(*BLUE); c.circle(m+1.3*mm,yy+0.85*mm,1.5*mm,stroke=0,fill=1)
     cx,cy=m+1.3*mm,yy+0.85*mm
-    if icon=='IG':
+    if icon=='WA':
+        # simple WhatsApp glyph: speech bubble ring with tail, handset inside
+        c.setStrokeColorRGB(*WHITE); c.setLineWidth(0.4)
+        c.circle(cx+0.05*mm,cy+0.05*mm,0.82*mm,stroke=1,fill=0)
+        c.setFillColorRGB(*WHITE)
+        p=c.beginPath()
+        p.moveTo(cx-0.55*mm,cy-0.55*mm); p.lineTo(cx-1.0*mm,cy-1.0*mm); p.lineTo(cx-0.25*mm,cy-0.8*mm); p.close()
+        c.drawPath(p,stroke=0,fill=1)
+        c.setLineWidth(0.38); c.setLineCap(1)
+        h=c.beginPath()
+        h.moveTo(cx-0.33*mm,cy+0.38*mm)
+        h.curveTo(cx-0.45*mm,cy-0.05*mm,cx-0.05*mm,cy-0.42*mm,cx+0.38*mm,cy-0.33*mm)
+        c.drawPath(h,stroke=1,fill=0)
+        c.setLineCap(0)
+    elif icon=='IG':
         # simple Instagram glyph: rounded square, lens, dot
         c.setStrokeColorRGB(*WHITE); c.setLineWidth(0.45)
         c.roundRect(cx-0.85*mm,cy-0.85*mm,1.7*mm,1.7*mm,0.45*mm,stroke=1,fill=0)
