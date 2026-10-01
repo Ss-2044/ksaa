@@ -1,0 +1,115 @@
+<!doctype html><html lang="ar" dir="rtl"><head><meta charset="utf-8">
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@700;800&family=Cairo:wght@700;800&family=Almarai:wght@700;800&display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#111}
+.wrap{position:relative;display:inline-block;margin:10px;overflow:hidden}
+canvas{display:block}
+.q{position:absolute;left:0;top:0;transform-origin:0 0}
+.q>*{position:absolute;display:flex;flex-direction:column;align-items:center;justify-content:center;white-space:nowrap;line-height:1.25}
+.q i{display:block;background:var(--logo) no-repeat}
+.grain{position:absolute;inset:0;mix-blend-mode:overlay;opacity:.35;pointer-events:none}
+</style></head><body><div id="out"></div>
+<script>
+function solve(A,b){const n=b.length;for(let i=0;i<n;i++){let m=i;for(let r=i+1;r<n;r++)if(Math.abs(A[r][i])>Math.abs(A[m][i]))m=r;[A[i],A[m]]=[A[m],A[i]];[b[i],b[m]]=[b[m],b[i]];
+for(let r=i+1;r<n;r++){const f=A[r][i]/A[i][i];for(let c=i;c<n;c++)A[r][c]-=f*A[i][c];b[r]-=f*b[i];}}
+const x=Array(n).fill(0);for(let i=n-1;i>=0;i--){let s=b[i];for(let c=i+1;c<n;c++)s-=A[i][c]*x[c];x[i]=s/A[i][i];}return x}
+function m3d(w,h,q){const src=[[0,0],[w,0],[w,h],[0,h]];const A=[],b=[];
+for(let i=0;i<4;i++){const[x,y]=src[i],[u,v]=q[i];A.push([x,y,1,0,0,0,-u*x,-u*y]);b.push(u);A.push([0,0,0,x,y,1,-v*x,-v*y]);b.push(v);}
+const[a,bb,c,d,e,f,g,hh]=solve(A,b);return `matrix3d(${a},${d},0,${g},${bb},${e},0,${hh},0,0,1,0,${c},${f},0,1)`}
+const logoI=(w,h)=>{const s=w/240;return `<i style="width:${w}px;height:${h}px;background-size:${480*s}px ${480*s}px;background-position:${-121*s}px ${-153*s}px"></i>`};
+const box=(l,t,w,h,inner,st='')=>`<div style="left:${l}px;top:${t}px;width:${w}px;height:${h}px;${st}">${inner}</div>`;
+const L=(txt,st)=>`<div style="${st}">${txt}</div>`;
+const SET=new URLSearchParams(location.search).get('set')||'1';
+const T={ // [line1,line2] per photo per set
+ 1:[['الحين وأنت تقرأ هاللوحة…','منافسك يبيع'],['المنافس مو أشطر منك…','بس أحد يسوّق له'],['صورتها؟ شكراً… سويت لنا إعلان ببلاش'],['آخر مرة أحد سأل عن براندك…','متى؟'],['لا تلوم الزباين..','هم ما شافوك أصلاً']],
+ 2:[['لو كنا نسوّق لك…','كان هذا اسمك مو اسمنا'],['مشروعك حلو…','بس محد يدري'],['قلت بكرا أسوّق… وصار لك سنة'],['السوق ما يرحم…','والمنافس ما ينام'],['مو كل مشروع يفشل..','بعضها بس محد درى عنه']]}[SET];
+// clean: list of quads to erase text/logos from (keeps board texture). hue: optional recolor.
+const P=[
+ {img:'p1.webp',wm:[680,1192,250,68],dx:-260,
+  clean:[{q:[[6,712],[937,660],[937,780],[6,820]],hue:-100,sat:.85,holes:[[[30,700],[290,690],[290,822],[30,822]]]}],
+  text:{q:[[6,712],[937,660],[937,780],[6,820]],w:1860,h:220,html:()=>
+   box(420,10,900,200,L(T[0][0],'font:800 70px Cairo;color:#fff')+L(T[0][1],'font:800 80px Cairo;color:#fff'),'opacity:.95')+
+   box(1380,0,420,220,logoI(290,190),'filter:brightness(0) invert(1)')}},
+ {img:'p2.webp',gray:1,wm:[740,1236,275,66],dx:-300,
+  clean:[{q:[[62,574],[893,586],[893,857],[62,690]]},{q:[[897,578],[1022,574],[1022,862],[897,864]]}],
+  text:{q:[[62,574],[893,586],[893,857],[62,690]],w:1600,h:300,html:()=>
+   box(250,0,1180,300,L(T[1][0],'font:800 98px Tajawal;color:#fff')+(T[1][1]?L(T[1][1],'font:800 98px Tajawal;color:#fff'):''),'text-shadow:0 0 14px rgba(255,255,255,.6)')+
+   box(10,10,240,280,logoI(220,150))},
+  text2:{q:[[897,578],[1022,574],[1022,862],[897,864]],w:300,h:520,html:()=>box(0,0,300,520,logoI(280,190))}},
+ {img:'p3.webp',wm:[740,1256,280,66],dx:-300,
+  clean:[{q:[[2,998],[878,998],[878,1178],[2,1180]],th:26},{q:[[908,998],[1018,998],[1018,1176],[908,1176]],th:26}],
+  text:{q:[[2,998],[878,998],[878,1178],[2,1180]],w:1500,h:320,html:()=>
+   box(120,0,1180,320,L(T[2][0],'font:700 70px Almarai;color:#dcdbe6'),'')},
+  text2:{q:[[908,998],[1018,998],[1018,1176],[908,1176]],w:200,h:326,html:()=>box(0,0,200,326,logoI(185,125))}},
+ {img:'p4.webp',crop:1045,
+  clean:[{q:[[350,590],[944,586],[944,752],[350,752]]}],
+  text:{q:[[350,590],[944,586],[944,752],[350,752]],w:1100,h:312,html:()=>
+   box(250,0,840,312,L(T[3][0],'font:700 62px Cairo;color:#efe6d6')+L(T[3][1],'font:700 84px Cairo;color:#efe6d6'))+box(20,40,230,232,logoI(210,140))}},
+ {img:'p5.webp',wm:[750,922,284,58],dx:-300,
+  clean:[{q:[[0,535],[811,539],[811,700],[0,698]],th:40},{q:[[845,539],[960,539],[960,706],[845,706]],th:40,fill:'#141833'}],
+  text:{q:[[0,535],[811,539],[811,700],[0,698]],w:1240,h:250,html:()=>
+   box(150,0,940,250,L(T[4][0],'font:800 60px Tajawal;color:#22306e')+L(T[4][1],'font:800 96px Tajawal;color:#22306e'))},
+  text2:{q:[[845,539],[960,539],[960,706],[845,706]],w:200,h:290,html:()=>box(0,0,200,290,logoI(185,125))}},
+];
+function inQuad(q,x,y){let c=false;for(let i=0,j=3;i<4;j=i++){const[xi,yi]=q[i],[xj,yj]=q[j];if(((yi>y)!=(yj>y))&&(x<(xj-xi)*(y-yi)/(yj-yi)+xi))c=!c;}return c}
+function nblur(data,alpha,w,h,r){ // normalized blur via premultiplied canvas
+ const c=new OffscreenCanvas(w,h),x=c.getContext('2d');const id=new ImageData(w,h);
+ for(let i=0;i<w*h;i++){id.data[i*4]=data[i*4];id.data[i*4+1]=data[i*4+1];id.data[i*4+2]=data[i*4+2];id.data[i*4+3]=alpha[i];}
+ x.putImageData(id,0,0);const c2=new OffscreenCanvas(w,h),x2=c2.getContext('2d');x2.filter=`blur(${r}px)`;x2.drawImage(c,0,0);
+ return x2.getImageData(0,0,w,h).data}
+function clean(ctx,cl){
+ const xs=cl.q.map(p=>p[0]),ys=cl.q.map(p=>p[1]);const bx=Math.max(0,Math.floor(Math.min(...xs))),by=Math.floor(Math.min(...ys)),bw=Math.ceil(Math.max(...xs))-bx,bh=Math.ceil(Math.max(...ys))-by;
+ const img=ctx.getImageData(bx,by,bw,bh),d=img.data,N=bw*bh;
+ const ins=new Uint8Array(N);for(let y=0;y<bh;y++)for(let x=0;x<bw;x++)ins[y*bw+x]=inQuad(cl.q,bx+x+.5,by+y+.5)?255:0;
+ const lum=i=>.3*d[i*4]+.59*d[i*4+1]+.11*d[i*4+2];
+ let mask=ins.slice();
+ for(const r of [18,8]){const B=nblur(d,mask,bw,bh,r);const nm=ins.slice();
+  for(let i=0;i<N;i++)if(ins[i]){const bl=.3*B[i*4]+.59*B[i*4+1]+.11*B[i*4+2];if(Math.abs(lum(i)-bl)>(cl.th||30))nm[i]=0;}
+  // dilate holes
+  const dm=nm.slice();const D=3;for(let y=0;y<bh;y++)for(let x=0;x<bw;x++)if(ins[y*bw+x]&&!nm[y*bw+x])
+   for(let dy=-D;dy<=D;dy++)for(let dx=-D;dx<=D;dx++){const xx=x+dx,yy=y+dy;if(xx>=0&&yy>=0&&xx<bw&&yy<bh)dm[yy*bw+xx]=0;}
+  for(let i=0;i<N;i++)if(!ins[i])dm[i]=0;
+  if(cl.holes)for(let y=0;y<bh;y++)for(let x=0;x<bw;x++)if(cl.holes.some(h=>inQuad(h,bx+x+.5,by+y+.5)))dm[y*bw+x]=0;
+  mask=dm;}
+ const F1=nblur(d,mask,bw,bh,6),F2=nblur(d,mask,bw,bh,16),F3=nblur(d,mask,bw,bh,40),F4=nblur(d,mask,bw,bh,90);
+ const A3=nblur(new Uint8ClampedArray(N*4).fill(255),mask,bw,bh,40);
+ const A1=nblur(new Uint8ClampedArray(N*4).fill(255),mask,bw,bh,6);
+ const A2=nblur(new Uint8ClampedArray(N*4).fill(255),mask,bw,bh,16);
+ const src=new Uint8ClampedArray(d);
+ for(let y=0;y<bh;y++){let x=0;while(x<bw){const i=y*bw+x;if(ins[i]&&!mask[i]){let e=x;while(e<bw&&ins[y*bw+e]&&!mask[y*bw+e])e++;
+   const gv=(xx)=>{const o=[0,0,0];let n=0;for(let k=0;k<4;k++){const q=xx+(xx<x?-k:k);if(q<0||q>=bw)break;const j=y*bw+q;if(!mask[j])break;o[0]+=src[j*4];o[1]+=src[j*4+1];o[2]+=src[j*4+2];n++;}return n?o.map(v=>v/n):null};
+   const Lc=gv(x-1),Rc=gv(e);
+   for(let k=x;k<e;k++){const j=y*bw+k;if(A1[j*4+3]>90){d[j*4]=F1[j*4];d[j*4+1]=F1[j*4+1];d[j*4+2]=F1[j*4+2];continue;}
+    const t=(k-x+1)/(e-x+1);const a=Lc||Rc||[F2[j*4],F2[j*4+1],F2[j*4+2]],b=Rc||Lc||a;for(let ch=0;ch<3;ch++)d[j*4+ch]=a[ch]*(1-t)+b[ch]*t;}
+   x=e;}else x++;}}
+ if(cl.fill){const c=cl.fill;const rr=parseInt(c.slice(1,3),16),gg=parseInt(c.slice(3,5),16),b2=parseInt(c.slice(5,7),16);
+  for(let i=0;i<N;i++)if(ins[i]){const k=lum(i)/255*.35+.8;d[i*4]=rr*k;d[i*4+1]=gg*k;d[i*4+2]=b2*k;}}
+ const tmp=new OffscreenCanvas(bw,bh);tmp.getContext('2d').putImageData(img,0,0);
+ ctx.save();ctx.beginPath();cl.q.forEach((p,i)=>i?ctx.lineTo(...p):ctx.moveTo(...p));ctx.closePath();ctx.clip();
+ ctx.filter=(cl.hue!=null?`hue-rotate(${cl.hue}deg) saturate(${cl.sat||1})`:'none')+' blur(.4px)';ctx.drawImage(tmp,bx,by);ctx.restore();ctx.filter='none';
+}
+(async()=>{
+ await document.fonts.ready;
+ {const im=new Image();im.src='logo-src.jpg';await im.decode();const c=new OffscreenCanvas(480,480),x=c.getContext('2d');x.drawImage(im,0,0,480,480);
+  const d=x.getImageData(0,0,480,480);for(let i=0;i<d.data.length;i+=4){const r=d.data[i],g=d.data[i+1],b=d.data[i+2];const m=Math.max(r,g,b);
+   // keep only letters: white-ish or saturated blue; drop dotted bg
+   const isBlue=b>120&&b-r>50, isWhite=m>150&&Math.max(r,g,b)-Math.min(r,g,b)<40;
+   const yy=(i/4)/480|0;const inLogo=yy>155&&yy<305; d.data[i+3]=inLogo&&(isBlue||isWhite)?255:0;}
+  x.putImageData(d,0,0);const blob=await c.convertToBlob();document.documentElement.style.setProperty('--logo',`url(${URL.createObjectURL(blob)})`);}
+ for(let i=0;i<P.length;i++){const p=P[i];const im=new Image();im.src=p.img;await im.decode();
+  const W=im.naturalWidth,H=im.naturalHeight,HH=p.crop||H;
+  const wrap=document.createElement('div');wrap.className='wrap';wrap.id='r'+(i+1);wrap.style.width=W+'px';wrap.style.height=HH+'px';
+  const c=document.createElement('canvas');c.width=W;c.height=H;const x=c.getContext('2d',{willReadFrequently:true});x.drawImage(im,0,0);
+  if(p.wm){const[wx,wy,ww,wh]=p.wm;const t=new OffscreenCanvas(ww+40,wh+40),tx=t.getContext('2d');
+   tx.drawImage(im,wx-20+p.dx,wy-20,ww+40,wh+40,0,0,ww+40,wh+40);tx.globalCompositeOperation='destination-in';tx.filter='blur(6px)';tx.fillRect(14,14,ww+12,wh+12);x.drawImage(t,wx-20,wy-20);}
+  for(const cl of p.clean)clean(x,cl);
+  wrap.appendChild(c);
+  for(const t of [p.text,p.text2].filter(Boolean)){const d=document.createElement('div');d.className='q';
+   d.style.cssText+=`width:${t.w}px;height:${t.h}px;transform:${m3d(t.w,t.h,t.q)};filter:blur(${p.soft||1.1}px)${p.gray?' grayscale(1)':''}`;d.innerHTML=t.html();wrap.appendChild(d);}
+  // grain
+  const g=document.createElement('canvas');g.width=W;g.height=HH;g.className='grain';const gx=g.getContext('2d');const gd=gx.createImageData(W,HH);
+  for(let k=0;k<W*HH;k++){const v=128+(Math.random()-.5)*60;gd.data[k*4]=gd.data[k*4+1]=gd.data[k*4+2]=v;gd.data[k*4+3]=255;}gx.putImageData(gd,0,0);wrap.appendChild(g);
+  document.getElementById('out').appendChild(wrap);}
+ document.body.dataset.ready=1;
+})();
+</script></body></html>
