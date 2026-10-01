@@ -1,8 +1,6 @@
 import '@fontsource/cairo/400.css';
 import '@fontsource/cairo/700.css';
 import '@fontsource/cairo/900.css';
-import '@fontsource/aref-ruqaa/700.css';
-import '@fontsource/great-vibes/400.css';
 import React, {useEffect, useState} from 'react';
 import {
   AbsoluteFill,
@@ -18,311 +16,406 @@ import {
 } from 'remotion';
 import {
   AnimatedWords,
+  CeremonyBackground,
   DiriyahLogo,
-  GradientBackground,
   GrowLine,
   LightSweep,
-  NajdiBorder,
   NeoLogo,
   SceneFade,
+  Shockwave,
 } from './components';
-import {COLORS, FONT, SCENES, SIGNATURE_AR, SIGNATURE_EN} from './theme';
+import {COLORS, FONT, SCENES, SEAL_FRAMES} from './theme';
 
 const clamp = {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'} as const;
 
-// المشهد 1 (0–3 ث): شعار نيو كابتا × شعار الدرعية
+// المشهد 1 (0–3 ث): الشعاران يُختمان على الشاشة تحت ضوء مسرحي
 const LogosScene: React.FC = () => {
   const frame = useCurrentFrame();
   const {fps} = useVideoConfig();
-  const left = spring({frame, fps, config: {damping: 12}});
-  const right = spring({frame: frame - 6, fps, config: {damping: 12}});
-  const x = spring({frame: frame - 16, fps, config: {damping: 10}});
-  const out = interpolate(frame, [75, 90], [1, 0], clamp);
+  const stamp = (at: number) => spring({frame: frame - at, fps, config: {damping: 9, stiffness: 180}});
+  const a = stamp(4);
+  const b = stamp(16);
+  const spot = interpolate(frame, [0, 20], [0, 1], clamp);
+  const out = interpolate(frame, [76, 90], [1, 0], clamp);
+  const logo = (p: number): React.CSSProperties => ({
+    transform: `scale(${interpolate(p, [0, 1], [2.2, 1])})`,
+    opacity: interpolate(p, [0, 0.3], [0, 1], clamp),
+    filter: `blur(${(1 - Math.min(p, 1)) * 10}px)`,
+  });
   return (
     <AbsoluteFill style={{justifyContent: 'center', alignItems: 'center', opacity: out}}>
-      <div style={{display: 'flex', alignItems: 'center', gap: 90}}>
-        <div style={{position: 'relative', transform: `translateX(${(1 - left) * -500}px) scale(${left})`}}>
-          <NeoLogo size={420} />
-          <LightSweep delay={30} size={420} />
+      <AbsoluteFill
+        style={{
+          background: `radial-gradient(ellipse 45% 55% at 50% 50%, rgba(255,255,255,${0.1 * spot}) 0%, transparent 100%)`,
+        }}
+      />
+      <div style={{display: 'flex', alignItems: 'center', gap: 140}}>
+        <div style={{position: 'relative', ...logo(a)}}>
+          <NeoLogo size={400} />
+          <LightSweep delay={40} size={400} />
+          <Shockwave at={10} color={COLORS.neoBlueLight} size={400} />
         </div>
-        <div
-          style={{
-            fontFamily: FONT,
-            fontSize: 140,
-            fontWeight: 300,
-            color: COLORS.neoWhite,
-            transform: `scale(${x}) rotate(${(1 - x) * 180}deg)`,
-          }}
-        >
-          ×
-        </div>
-        <div style={{position: 'relative', transform: `translateX(${(1 - right) * 500}px) scale(${right})`}}>
-          <DiriyahLogo size={420} />
-          <LightSweep delay={40} size={420} round />
+        <div style={{position: 'relative', ...logo(b)}}>
+          <DiriyahLogo size={400} />
+          <LightSweep delay={48} size={400} round />
+          <Shockwave at={22} color={COLORS.copperLight} size={400} />
         </div>
       </div>
     </AbsoluteFill>
   );
 };
 
-// المشهد 2 (3–7 ث): إعلان الشراكة
-const AnnounceScene: React.FC = () => (
-  <SceneFade duration={SCENES.announce.duration}>
-    <div style={{display: 'flex', flexDirection: 'column', gap: 30, alignItems: 'center'}}>
-      <AnimatedWords text="إعلان شراكة استراتيجية" dir="rtl" size={130} color={COLORS.neoWhite} weight={900} />
-      <GrowLine delay={18} width={900} />
-      <AnimatedWords
-        text="STRATEGIC PARTNERSHIP"
-        delay={24}
-        size={64}
-        color={COLORS.copperLight}
-        weight={700}
-        letterSpacing={10}
-      />
-      <AnimatedWords
-        text="Neo Capta × Diriyah Company"
-        delay={40}
-        size={44}
-        color={COLORS.neoBlueLight}
-        weight={400}
-      />
-    </div>
-  </SceneFade>
-);
-
-// المشهد 3 (7–12 ث): حيث يلتقي التاريخ بالإبداع — خطوط الجبل من شعار الدرعية ترسم نفسها
-const HeritageScene: React.FC = () => {
+// المشهد 2 (3–9 ث): نص الخبر الرسمي
+const AnnounceScene: React.FC = () => {
   const frame = useCurrentFrame();
-  const draw = interpolate(frame, [0, 60], [1, 0], clamp);
-  const path =
-    'M40 260 L120 160 L190 160 L230 110 L280 110 L300 60 L360 60 L400 150 L460 150 L520 110 L560 120 L600 260 Z';
+  const badge = interpolate(frame, [0, 15], [0, 1], clamp);
   return (
-    <SceneFade duration={SCENES.heritage.duration}>
-      <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 20}}>
-        <svg width={640} height={300} viewBox="0 0 640 300">
-          <path
-            d={path}
-            fill="none"
-            stroke={COLORS.copper}
-            strokeWidth={5}
-            strokeLinejoin="round"
-            pathLength={1}
-            strokeDasharray={1}
-            strokeDashoffset={draw}
-          />
-          {[0, 1, 2, 3, 4].map((i) => (
-            <line
-              key={i}
-              x1={60 + i * 25}
-              x2={580 - i * 25}
-              y1={278 + i * 0}
-              y2={278}
-              transform={`translate(0 ${i * 5})`}
-              stroke={COLORS.copper}
-              strokeWidth={2}
-              opacity={interpolate(frame, [40 + i * 4, 50 + i * 4], [0, 1], clamp)}
-            />
-          ))}
-        </svg>
-        <AnimatedWords text="حيث يلتقي التاريخ بالإبداع" dir="rtl" delay={30} size={110} color={COLORS.sand} weight={900} />
-        <AnimatedWords text="Where Heritage Meets Creativity" delay={50} size={56} color={COLORS.neoBlueLight} />
+    <SceneFade duration={SCENES.announce.duration}>
+      <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 18, maxWidth: 1600}}>
+        <div
+          style={{
+            fontFamily: FONT,
+            fontSize: 30,
+            fontWeight: 700,
+            letterSpacing: 6,
+            color: COLORS.neoBlack,
+            background: COLORS.copperLight,
+            padding: '6px 28px',
+            borderRadius: 40,
+            opacity: badge,
+            transform: `scale(${0.8 + badge * 0.2})`,
+          }}
+        >
+          OFFICIAL ANNOUNCEMENT · خبر رسمي
+        </div>
+        <AnimatedWords
+          text="بحضور الرئيس التنفيذي والمؤسس"
+          dir="rtl"
+          delay={10}
+          size={58}
+          color={COLORS.copperLight}
+          weight={700}
+          stagger={3}
+        />
+        <AnimatedWords
+          text="الأستاذ سامي البجيدي"
+          dir="rtl"
+          delay={24}
+          size={124}
+          color={COLORS.neoWhite}
+          weight={900}
+          stagger={5}
+        />
+        <GrowLine delay={40} width={1000} />
+        <AnimatedWords
+          text="وقّعت نيو كابتا شراكة استراتيجية مع شركة الدرعية"
+          dir="rtl"
+          delay={48}
+          size={70}
+          color={COLORS.sand}
+          weight={700}
+          stagger={4}
+        />
+        <AnimatedWords
+          text="In the presence of Founder & CEO Mr. Sami Albujaidi, Neo Capta signed a strategic partnership with Diriyah Company"
+          delay={80}
+          size={30}
+          color={COLORS.neoBlueLight}
+          weight={400}
+          stagger={1}
+        />
       </div>
     </SceneFade>
   );
 };
 
-// المشهد 4 (12–18 ث): ما تقدمه نيو كابتا في الشراكة
-const SERVICES = [
-  {ar: 'التسويق', en: 'Marketing', icon: '◆'},
-  {ar: 'الدعاية', en: 'Advertising', icon: '▲'},
-  {ar: 'الإعلان', en: 'Campaigns', icon: '●'},
+// خربشة توقيع مجردة تُرسم بالقلم
+const Scribble: React.FC<{d: string; start: number; color: string}> = ({d, start, color}) => {
+  const frame = useCurrentFrame();
+  const p = interpolate(frame, [start, start + 28], [1, 0], clamp);
+  return (
+    <svg width={300} height={90} viewBox="0 0 300 90">
+      <path
+        d={d}
+        fill="none"
+        stroke={color}
+        strokeWidth={4}
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        pathLength={1}
+        strokeDasharray={1}
+        strokeDashoffset={p}
+      />
+    </svg>
+  );
+};
+
+const SIGNERS = [
+  {
+    ar: 'نيو كابتا',
+    en: 'Neo Capta',
+    start: 35,
+    at: SEAL_FRAMES[0],
+    color: COLORS.neoBlue,
+    d: 'M10 60 C 40 10, 60 80, 90 40 S 140 20, 150 55 S 200 70, 230 30 L 290 45',
+    logo: <NeoLogo size={130} />,
+  },
+  {
+    ar: 'شركة الدرعية',
+    en: 'Diriyah Company',
+    start: 62,
+    at: SEAL_FRAMES[1],
+    color: COLORS.copper,
+    d: 'M15 50 C 50 70, 70 10, 100 45 S 150 75, 170 35 C 190 5, 220 80, 250 40 S 280 40, 290 30',
+    logo: <DiriyahLogo size={130} />,
+  },
 ];
 
-const ServicesScene: React.FC = () => {
+// المشهد 3 (9–15 ث): مراسم التوقيع — اتفاقية، توقيعان، ثم ختم الشعارين
+const SigningScene: React.FC = () => {
   const frame = useCurrentFrame();
   const {fps} = useVideoConfig();
+  const enter = spring({frame, fps, config: {damping: 16}});
+  const signed = interpolate(frame, [135, 150], [0, 1], clamp);
   return (
-    <SceneFade duration={SCENES.services.duration}>
-      <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 60}}>
-        <AnimatedWords text="نيو كابتا ترافق الدرعية في" dir="rtl" size={80} color={COLORS.neoWhite} weight={700} />
-        <div dir="rtl" style={{display: 'flex', gap: 50}}>
-          {SERVICES.map((s, i) => {
-            const p = spring({frame: frame - 20 - i * 12, fps, config: {damping: 13}});
-            const glow = 0.5 + 0.5 * Math.sin((frame - i * 10) / 10);
-            return (
+    <SceneFade duration={SCENES.signing.duration}>
+      <div style={{perspective: 1600}}>
+        <div
+          dir="rtl"
+          style={{
+            width: 1150,
+            padding: '50px 70px 60px',
+            borderRadius: 18,
+            background: `linear-gradient(170deg, ${COLORS.sand}, #E2D6C6)`,
+            boxShadow: `0 40px 120px rgba(0,0,0,0.6), 0 0 80px ${COLORS.copper}44`,
+            fontFamily: FONT,
+            transform: `translateY(${(1 - enter) * 300}px) rotateX(${interpolate(enter, [0, 1], [40, 12])}deg)`,
+            opacity: Math.min(enter, 1),
+          }}
+        >
+          <div style={{textAlign: 'center', color: COLORS.neoBlack}}>
+            <div style={{fontSize: 52, fontWeight: 900}}>اتفاقية شراكة استراتيجية</div>
+            <div style={{fontSize: 26, fontWeight: 700, color: COLORS.copper, letterSpacing: 6}}>
+              STRATEGIC PARTNERSHIP AGREEMENT
+            </div>
+          </div>
+          <div style={{display: 'flex', flexDirection: 'column', gap: 14, margin: '34px 0 40px'}}>
+            {[100, 92, 97, 70].map((w, i) => (
               <div
-                key={s.en}
+                key={i}
                 style={{
-                  width: 440,
-                  height: 340,
-                  borderRadius: 32,
-                  background: `linear-gradient(160deg, ${COLORS.neoBlue}55, ${COLORS.copper}33)`,
-                  border: `2px solid ${i % 2 ? COLORS.copper : COLORS.neoBlue}`,
-                  boxShadow: `0 0 ${30 + glow * 30}px ${i % 2 ? COLORS.copper : COLORS.neoBlue}66`,
-                  display: 'flex',
-                  flexDirection: 'column',
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  gap: 10,
-                  fontFamily: FONT,
-                  opacity: p,
-                  transform: `translateY(${(1 - p) * 120}px) rotateX(${(1 - p) * 60}deg)`,
+                  height: 10,
+                  width: `${w}%`,
+                  borderRadius: 5,
+                  background: `${COLORS.copper}40`,
+                  opacity: interpolate(frame, [10 + i * 3, 20 + i * 3], [0, 1], clamp),
+                }}
+              />
+            ))}
+          </div>
+          <div style={{display: 'flex', justifyContent: 'space-between'}}>
+            {SIGNERS.map((s) => {
+              const p = spring({frame: frame - s.at, fps, config: {damping: 8, stiffness: 200}});
+              return (
+                <div key={s.en} style={{width: 420, textAlign: 'center', position: 'relative'}}>
+                  <Scribble d={s.d} start={s.start} color={s.color} />
+                  <div style={{height: 2, background: COLORS.neoBlack, opacity: 0.5}} />
+                  <div style={{fontSize: 30, fontWeight: 700, color: COLORS.neoBlack, marginTop: 8}}>{s.ar}</div>
+                  <div style={{fontSize: 20, color: COLORS.copper, letterSpacing: 3}}>{s.en.toUpperCase()}</div>
+                  {/* ختم الشعار */}
+                  <div
+                    style={{
+                      position: 'absolute',
+                      top: -50,
+                      right: 0,
+                      width: 130,
+                      height: 130,
+                      transform: `scale(${interpolate(p, [0, 1], [3, 1])}) rotate(${(1 - p) * -20 - 8}deg)`,
+                      opacity: frame < s.at ? 0 : interpolate(p, [0, 0.2], [0, 1], clamp),
+                    }}
+                  >
+                    {s.logo}
+                    <Shockwave at={s.at + 4} color={s.color} size={130} />
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      </div>
+      <div
+        style={{
+          position: 'absolute',
+          bottom: 60,
+          fontFamily: FONT,
+          fontSize: 44,
+          fontWeight: 900,
+          color: COLORS.copperLight,
+          letterSpacing: 4,
+          opacity: signed,
+          transform: `scale(${0.8 + signed * 0.2})`,
+        }}
+      >
+        <span dir="rtl">تم التوقيع ✓</span>
+        <span style={{margin: '0 24px', opacity: 0.6}}>|</span>
+        <span>SIGNED</span>
+      </div>
+    </SceneFade>
+  );
+};
+
+// المشهد 4 (15–21 ث): نصفان يلتقيان — خبرة نيو كابتا + إرث الدرعية
+const UnionScene: React.FC = () => {
+  const frame = useCurrentFrame();
+  const {fps} = useVideoConfig();
+  const slide = spring({frame, fps, config: {damping: 15}});
+  const center = spring({frame: frame - 25, fps, config: {damping: 10}});
+  const tagline = interpolate(frame, [55, 75], [0, 1], clamp);
+  const half = (side: 'left' | 'right'): React.CSSProperties => ({
+    position: 'absolute',
+    top: 0,
+    bottom: 0,
+    width: '50%',
+    [side]: 0,
+    transform: `translateX(${(1 - slide) * (side === 'left' ? -100 : 100)}%)`,
+    background:
+      side === 'left'
+        ? `linear-gradient(90deg, ${COLORS.neoBlue}cc, ${COLORS.navy}aa)`
+        : `linear-gradient(270deg, ${COLORS.copper}cc, #2a1810aa)`,
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+    gap: 14,
+    fontFamily: FONT,
+  });
+  const item = (txt: string, i: number, color: string) => (
+    <div
+      key={txt}
+      dir="rtl"
+      style={{
+        fontSize: 64,
+        fontWeight: 900,
+        color,
+        opacity: interpolate(frame, [15 + i * 6, 25 + i * 6], [0, 1], clamp),
+        transform: `translateY(${interpolate(frame, [15 + i * 6, 25 + i * 6], [30, 0], clamp)}px)`,
+      }}
+    >
+      {txt}
+    </div>
+  );
+  return (
+    <SceneFade duration={SCENES.union.duration}>
+      <div style={half('left')}>
+        <div style={{fontSize: 36, fontWeight: 700, color: COLORS.neoWhite, letterSpacing: 6}}>NEO CAPTA</div>
+        {['التسويق', 'الدعاية', 'الإعلان'].map((t, i) => item(t, i, COLORS.neoWhite))}
+        <div style={{fontSize: 30, color: COLORS.neoWhite, opacity: 0.8}}>Marketing · Advertising · Campaigns</div>
+      </div>
+      <div style={half('right')}>
+        <div style={{fontSize: 36, fontWeight: 700, color: COLORS.sand, letterSpacing: 6}}>DIRIYAH COMPANY</div>
+        {['الإرث', 'الوجهة', 'الثقافة'].map((t, i) => item(t, i, COLORS.sand))}
+        <div style={{fontSize: 30, color: COLORS.sand, opacity: 0.8}}>Heritage · Destination · Culture</div>
+      </div>
+      <div
+        style={{
+          width: 230,
+          height: 230,
+          borderRadius: '50%',
+          background: COLORS.neoBlack,
+          border: `4px solid ${COLORS.copperLight}`,
+          boxShadow: `0 0 80px ${COLORS.copper}`,
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          fontFamily: FONT,
+          fontSize: 50,
+          fontWeight: 900,
+          color: COLORS.neoWhite,
+          transform: `scale(${center})`,
+        }}
+      >
+        شراكة
+      </div>
+      <div
+        dir="rtl"
+        style={{
+          position: 'absolute',
+          bottom: 90,
+          fontFamily: FONT,
+          fontSize: 52,
+          fontWeight: 900,
+          color: COLORS.neoWhite,
+          textShadow: '0 4px 20px #000',
+          opacity: tagline,
+        }}
+      >
+        خبرة إبداعية × إرث عريق
+      </div>
+    </SceneFade>
+  );
+};
+
+// المشهد 5 (21–26 ث): جملة مفتاحية بطباعة حركية
+const TaglineScene: React.FC = () => {
+  const frame = useCurrentFrame();
+  const {fps} = useVideoConfig();
+  const words = ['إبداعٌ', 'يليق', 'بالتاريخ'];
+  return (
+    <SceneFade duration={SCENES.tagline.duration}>
+      <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 30}}>
+        <div dir="rtl" style={{display: 'flex', gap: 50, fontFamily: FONT}}>
+          {words.map((w, i) => {
+            const p = spring({frame: frame - i * 9, fps, config: {damping: 12}});
+            return (
+              <span
+                key={w}
+                style={{
+                  display: 'inline-block',
+                  fontSize: 180,
+                  fontWeight: 900,
+                  lineHeight: 1.2,
+                  color: i === 2 ? COLORS.copperLight : COLORS.neoWhite,
+                  transform: `scale(${interpolate(p, [0, 1], [3, 1])})`,
+                  opacity: Math.min(p * 2, 1),
+                  filter: `blur(${(1 - Math.min(p, 1)) * 14}px)`,
+                  textShadow: i === 2 ? `0 0 40px ${COLORS.copper}` : 'none',
                 }}
               >
-                <div style={{fontSize: 60, color: COLORS.copperLight}}>{s.icon}</div>
-                <div style={{fontSize: 84, fontWeight: 900, color: COLORS.neoWhite}}>{s.ar}</div>
-                <div style={{fontSize: 40, fontWeight: 400, color: COLORS.neoBlueLight, letterSpacing: 4}}>
-                  {s.en.toUpperCase()}
-                </div>
-              </div>
+                {w}
+              </span>
             );
           })}
         </div>
+        <GrowLine delay={30} width={1100} color={COLORS.neoBlueLight} />
         <AnimatedWords
-          text="Marketing, advertising & campaigns for Diriyah"
-          delay={70}
-          size={44}
-          color={COLORS.copperLight}
-          weight={400}
+          text="CREATIVITY WORTHY OF HISTORY"
+          delay={38}
+          size={54}
+          color={COLORS.neoBlueLight}
+          letterSpacing={10}
         />
       </div>
     </SceneFade>
   );
 };
 
-// المشهد 5 (18–22 ث): نروي قصة الدرعية للعالم
-const StoryScene: React.FC = () => {
-  const frame = useCurrentFrame();
-  const ring = interpolate(frame, [0, 150], [0.6, 1.5]);
-  return (
-    <SceneFade duration={SCENES.story.duration}>
-      {[0, 1, 2].map((i) => (
-        <div
-          key={i}
-          style={{
-            position: 'absolute',
-            width: 700,
-            height: 700,
-            borderRadius: '50%',
-            border: `2px solid ${i % 2 ? COLORS.neoBlue : COLORS.copper}`,
-            transform: `scale(${ring + i * 0.35})`,
-            opacity: interpolate(ring + i * 0.35, [0.6, 2.2], [0.8, 0], clamp),
-          }}
-        />
-      ))}
-      <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 24}}>
-        <AnimatedWords text="نروي قصة الدرعية للعالم" dir="rtl" size={120} color={COLORS.neoWhite} weight={900} />
-        <GrowLine delay={15} width={700} color={COLORS.neoBlueLight} />
-        <AnimatedWords text="Telling Diriyah's story to the world" delay={22} size={58} color={COLORS.copperLight} />
-      </div>
-    </SceneFade>
-  );
-};
-
-// المشهد 6 (22–27 ث): توقيع الرئيس التنفيذي والمؤسس
-const SignatureScene: React.FC = () => {
-  const frame = useCurrentFrame();
-  // كشف التوقيع العربي من اليمين لليسار كأنه يُكتب بالقلم
-  const write = interpolate(frame, [10, 55], [0, 1], clamp);
-  const writeEn = interpolate(frame, [50, 80], [0, 1], clamp);
-  const flourish = interpolate(frame, [45, 75], [1, 0], clamp);
-  const info = interpolate(frame, [60, 80], [0, 1], clamp);
-  const nibX = 1 - write;
-  return (
-    <SceneFade duration={SCENES.signature.duration}>
-      <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 6}}>
-        <AnimatedWords
-          text="نصنع لإرث الدرعية حضوراً يليق به"
-          dir="rtl"
-          size={56}
-          color={COLORS.neoWhite}
-          weight={400}
-          stagger={3}
-        />
-        <div style={{position: 'relative', marginTop: 20}}>
-          <div
-            dir="rtl"
-            style={{
-              fontFamily: SIGNATURE_AR,
-              fontSize: 190,
-              fontWeight: 700,
-              lineHeight: 1.25,
-              color: COLORS.copperLight,
-              textShadow: `0 0 30px ${COLORS.copper}88`,
-              clipPath: `inset(0 0 0 ${nibX * 100}%)`,
-              padding: '0 30px',
-            }}
-          >
-            سامي البجيدي
-          </div>
-          {/* رأس القلم المضيء */}
-          {write > 0 && write < 1 ? (
-            <div
-              style={{
-                position: 'absolute',
-                top: '55%',
-                left: `${nibX * 100}%`,
-                width: 18,
-                height: 18,
-                borderRadius: '50%',
-                background: COLORS.sand,
-                boxShadow: `0 0 30px 10px ${COLORS.copperLight}`,
-              }}
-            />
-          ) : null}
-          <svg width={760} height={60} viewBox="0 0 760 60" style={{display: 'block', margin: '-30px auto 0'}}>
-            <path
-              d="M740 30 C 560 60, 300 0, 120 34 S 20 40, 40 20"
-              fill="none"
-              stroke={COLORS.copper}
-              strokeWidth={4}
-              strokeLinecap="round"
-              pathLength={1}
-              strokeDasharray={1}
-              strokeDashoffset={flourish}
-            />
-          </svg>
-        </div>
-        <div
-          style={{
-            fontFamily: SIGNATURE_EN,
-            fontSize: 76,
-            color: COLORS.neoBlueLight,
-            clipPath: `inset(0 ${(1 - writeEn) * 100}% 0 0)`,
-            marginTop: -6,
-          }}
-        >
-          Sami Albujaidi
-        </div>
-        <div style={{opacity: info, transform: `translateY(${(1 - info) * 20}px)`, textAlign: 'center', fontFamily: FONT}}>
-          <div dir="rtl" style={{fontSize: 46, fontWeight: 700, color: COLORS.neoWhite}}>
-            الأستاذ سامي البجيدي — الرئيس التنفيذي والمؤسس، نيو كابتا
-          </div>
-          <div style={{fontSize: 32, fontWeight: 400, color: COLORS.copperLight, letterSpacing: 4, marginTop: 6}}>
-            FOUNDER &amp; CEO — NEO CAPTA
-          </div>
-        </div>
-      </div>
-    </SceneFade>
-  );
-};
-
-// المشهد 7 (27–30 ث): الختام
+// المشهد 6 (26–30 ث): بطاقة الختام
 const OutroScene: React.FC = () => {
   const frame = useCurrentFrame();
   const {fps} = useVideoConfig();
   const p = spring({frame, fps, config: {damping: 14}});
-  const out = interpolate(frame, [75, 90], [1, 0], clamp);
+  const out = interpolate(frame, [100, 120], [1, 0], clamp);
   return (
     <AbsoluteFill style={{justifyContent: 'center', alignItems: 'center', opacity: out}}>
-      <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 40}}>
-        <div style={{display: 'flex', alignItems: 'center', gap: 50, transform: `scale(${p})`}}>
+      <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 36}}>
+        <div style={{display: 'flex', alignItems: 'center', gap: 60, transform: `scale(${p})`}}>
           <NeoLogo size={260} />
-          <div style={{fontFamily: FONT, fontSize: 90, color: COLORS.neoWhite}}>×</div>
+          <div style={{fontFamily: FONT, fontSize: 90, color: COLORS.copperLight}}>×</div>
           <DiriyahLogo size={260} />
         </div>
-        <AnimatedWords text="معاً نصنع المستقبل" dir="rtl" delay={8} size={96} color={COLORS.sand} weight={900} />
-        <AnimatedWords text="Together, we shape the future" delay={18} size={50} color={COLORS.neoBlueLight} />
+        <AnimatedWords text="Neo Capta × Diriyah Company" delay={10} size={64} color={COLORS.neoWhite} weight={700} />
+        <AnimatedWords text="شراكة استراتيجية" dir="rtl" delay={20} size={48} color={COLORS.copperLight} weight={700} />
+        <AnimatedWords text="STRATEGIC PARTNERSHIP" delay={26} size={32} color={COLORS.copperLight} weight={400} letterSpacing={8} />
       </div>
     </AbsoluteFill>
   );
@@ -336,34 +429,27 @@ export const PartnershipVideo: React.FC = () => {
       document.fonts.load(`900 40px Cairo`, 'نيو'),
       document.fonts.load(`700 40px Cairo`, 'نيو'),
       document.fonts.load(`400 40px Cairo`, 'Neo'),
-      document.fonts.load(`700 40px 'Aref Ruqaa'`, 'سامي'),
-      document.fonts.load(`400 40px 'Great Vibes'`, 'Sami'),
     ]).then(() => continueRender(handle));
   }, [handle]);
 
   return (
     <AbsoluteFill style={{backgroundColor: COLORS.neoBlack}}>
       <Audio src={staticFile('music.wav')} />
-      <GradientBackground />
-      <NajdiBorder position="top" />
-      <NajdiBorder position="bottom" />
+      <CeremonyBackground />
       <Sequence from={SCENES.logos.from} durationInFrames={SCENES.logos.duration}>
         <LogosScene />
       </Sequence>
       <Sequence from={SCENES.announce.from} durationInFrames={SCENES.announce.duration}>
         <AnnounceScene />
       </Sequence>
-      <Sequence from={SCENES.heritage.from} durationInFrames={SCENES.heritage.duration}>
-        <HeritageScene />
+      <Sequence from={SCENES.signing.from} durationInFrames={SCENES.signing.duration}>
+        <SigningScene />
       </Sequence>
-      <Sequence from={SCENES.services.from} durationInFrames={SCENES.services.duration}>
-        <ServicesScene />
+      <Sequence from={SCENES.union.from} durationInFrames={SCENES.union.duration}>
+        <UnionScene />
       </Sequence>
-      <Sequence from={SCENES.story.from} durationInFrames={SCENES.story.duration}>
-        <StoryScene />
-      </Sequence>
-      <Sequence from={SCENES.signature.from} durationInFrames={SCENES.signature.duration}>
-        <SignatureScene />
+      <Sequence from={SCENES.tagline.from} durationInFrames={SCENES.tagline.duration}>
+        <TaglineScene />
       </Sequence>
       <Sequence from={SCENES.outro.from} durationInFrames={SCENES.outro.duration}>
         <OutroScene />

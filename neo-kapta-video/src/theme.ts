@@ -17,16 +17,16 @@ export const FPS = 30;
 export const DURATION = 30 * FPS; // 30 ثانية
 
 export const FONT = "'Cairo', sans-serif";
-export const SIGNATURE_AR = "'Aref Ruqaa', serif";
-export const SIGNATURE_EN = "'Great Vibes', cursive";
 
-// توقيت المشاهد بالإطارات
+// توقيت المشاهد بالإطارات — فكرة «مراسم التوقيع»
 export const SCENES = {
   logos: {from: 0, duration: 3 * FPS},
-  announce: {from: 3 * FPS, duration: 4 * FPS},
-  heritage: {from: 7 * FPS, duration: 5 * FPS},
-  services: {from: 12 * FPS, duration: 6 * FPS},
-  story: {from: 18 * FPS, duration: 4 * FPS},
-  signature: {from: 22 * FPS, duration: 5 * FPS},
-  outro: {from: 27 * FPS, duration: 3 * FPS},
+  announce: {from: 3 * FPS, duration: 6 * FPS},
+  signing: {from: 9 * FPS, duration: 6 * FPS},
+  union: {from: 15 * FPS, duration: 6 * FPS},
+  tagline: {from: 21 * FPS, duration: 5 * FPS},
+  outro: {from: 26 * FPS, duration: 4 * FPS},
 };
+
+// لحظات ختم الشعارين على الاتفاقية (إطارات داخل مشهد التوقيع) — تُستخدم أيضاً في الموسيقى
+export const SEAL_FRAMES = [100, 118];

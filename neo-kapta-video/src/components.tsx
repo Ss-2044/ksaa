@@ -2,6 +2,7 @@ import React from 'react';
 import {
   AbsoluteFill,
   Img,
+  random,
   interpolate,
   spring,
   staticFile,
@@ -229,5 +230,101 @@ export const LightSweep: React.FC<{delay: number; size: number; round?: boolean}
         }}
       />
     </div>
+  );
+};
+
+// خلفية «القاعة الملكية»: كحلي عميق، شعاعا ضوء أزرق ونحاسي يتقاطعان، وجزيئات ذهبية تصعد
+export const CeremonyBackground: React.FC = () => {
+  const frame = useCurrentFrame();
+  const sway = Math.sin(frame / 50) * 6;
+  return (
+    <AbsoluteFill>
+      <AbsoluteFill
+        style={{
+          background: `radial-gradient(ellipse at 50% 120%, ${COLORS.navy} 0%, ${COLORS.neoBlack} 70%)`,
+        }}
+      />
+      {/* شعاعا ضوء */}
+      {[
+        {color: COLORS.neoBlue, left: '18%', rot: 22 + sway},
+        {color: COLORS.copper, left: '68%', rot: -22 - sway},
+      ].map((b, i) => (
+        <div
+          key={i}
+          style={{
+            position: 'absolute',
+            top: -200,
+            left: b.left,
+            width: 380,
+            height: 1600,
+            transformOrigin: 'top center',
+            transform: `rotate(${b.rot}deg)`,
+            background: `linear-gradient(180deg, ${b.color}66 0%, ${b.color}11 60%, transparent 100%)`,
+            filter: 'blur(40px)',
+          }}
+        />
+      ))}
+      <Particles />
+      <AbsoluteFill
+        style={{background: 'radial-gradient(ellipse at center, transparent 50%, rgba(0,0,0,0.7) 100%)'}}
+      />
+    </AbsoluteFill>
+  );
+};
+
+const Particles: React.FC = () => {
+  const frame = useCurrentFrame();
+  return (
+    <AbsoluteFill>
+      {new Array(60).fill(0).map((_, i) => {
+        const x = random(`x${i}`) * 1920;
+        const speed = 0.6 + random(`s${i}`) * 1.6;
+        const size = 2 + random(`z${i}`) * 5;
+        const y = 1100 - ((frame * speed + random(`y${i}`) * 1100) % 1200);
+        const tw = 0.4 + 0.6 * Math.abs(Math.sin(frame / 15 + i));
+        const c = i % 3 === 0 ? COLORS.neoBlueLight : COLORS.copperLight;
+        return (
+          <div
+            key={i}
+            style={{
+              position: 'absolute',
+              left: x + Math.sin(frame / 40 + i) * 20,
+              top: y,
+              width: size,
+              height: size,
+              borderRadius: '50%',
+              background: c,
+              opacity: tw * 0.7,
+              boxShadow: `0 0 ${size * 3}px ${c}`,
+            }}
+          />
+        );
+      })}
+    </AbsoluteFill>
+  );
+};
+
+// موجة صدمة دائرية عند ختم/ظهور عنصر
+export const Shockwave: React.FC<{at: number; color: string; size?: number}> = ({at, color, size = 300}) => {
+  const frame = useCurrentFrame();
+  const p = interpolate(frame - at, [0, 20], [0, 1], clamp);
+  if (frame < at || p >= 1) return null;
+  return (
+    <div
+      style={{
+        position: 'absolute',
+        left: '50%',
+        top: '50%',
+        width: size,
+        height: size,
+        marginLeft: -size / 2,
+        marginTop: -size / 2,
+        borderRadius: '50%',
+        border: `4px solid ${color}`,
+        transform: `scale(${0.6 + p * 1.4})`,
+        opacity: 1 - p,
+        pointerEvents: 'none',
+      }}
+    />
   );
 };
