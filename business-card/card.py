@@ -62,11 +62,19 @@ y=PH-B-15*mm
 c.setFillColorRGB(*WHITE); c.setFont('Helvetica-Bold',13); c.drawString(m,y,'NEO CAPTA')
 c.setFillColorRGB(*BLUE); c.rect(m,y-3.2*mm,8*mm,0.5*mm,stroke=0,fill=1)
 # contacts
-rows=[('T','+966 55 054 8453'),('E','contact@neocapta.com')]
-yy=B+14*mm
+rows=[('T','+966 55 054 8453'),('E','contact@neocapta.com'),('IG','@neocapta.sa')]
+yy=B+16.5*mm
 for icon,txt in rows:
     c.setFillColorRGB(*BLUE); c.circle(m+1.3*mm,yy+0.85*mm,1.5*mm,stroke=0,fill=1)
-    c.setFillColorRGB(*WHITE); c.setFont('Helvetica-Bold',5.5); c.drawCentredString(m+1.3*mm,yy+0.2*mm,icon)
+    cx,cy=m+1.3*mm,yy+0.85*mm
+    if icon=='IG':
+        # simple Instagram glyph: rounded square, lens, dot
+        c.setStrokeColorRGB(*WHITE); c.setLineWidth(0.45)
+        c.roundRect(cx-0.85*mm,cy-0.85*mm,1.7*mm,1.7*mm,0.45*mm,stroke=1,fill=0)
+        c.circle(cx,cy,0.4*mm,stroke=1,fill=0)
+        c.setFillColorRGB(*WHITE); c.circle(cx+0.5*mm,cy+0.5*mm,0.12*mm,stroke=0,fill=1)
+    else:
+        c.setFillColorRGB(*WHITE); c.setFont('Helvetica-Bold',5.5); c.drawCentredString(cx,yy+0.2*mm,icon)
     c.setFont('Helvetica',7.5); c.drawString(m+4.5*mm,yy,txt)
-    yy-=5*mm
+    yy-=4.8*mm
 c.showPage(); c.save()
