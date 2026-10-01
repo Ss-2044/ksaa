@@ -1,4 +1,5 @@
 import {ThreeCanvas} from '@remotion/three';
+import {useThree} from '@react-three/fiber';
 import {useEffect, useMemo, useState} from 'react';
 import {continueRender, delayRender, staticFile} from 'remotion';
 import * as THREE from 'three';
@@ -58,6 +59,15 @@ const atmoVert = `
 varying vec3 vN; varying vec3 vView;
 void main(){ vN = normalize(normalMatrix * normal); vec4 mv = modelViewMatrix * vec4(position,1.0); vView = -mv.xyz; gl_Position = projectionMatrix * mv; }`;
 
+// The canvas `camera` prop is only read on mount, so drive the camera every frame here.
+const CameraRig: React.FC<{z: number}> = ({z}) => {
+  const camera = useThree((st) => st.camera);
+  camera.position.set(0, 0, z);
+  camera.lookAt(0, 0, 0);
+  camera.updateProjectionMatrix();
+  return null;
+};
+
 export type Pin = {lat: number; lon: number; on: number};
 
 export const Globe: React.FC<{
@@ -99,6 +109,7 @@ export const Globe: React.FC<{
   if (!tex || !earthMat) return null; // mount the canvas only once textures exist (ThreeCanvas renders on frame change)
   return (
     <ThreeCanvas width={width} height={height} camera={{position: [0, 0, camZ], fov: 30}} gl={{antialias: true, alpha: true}}>
+      <CameraRig z={camZ} />
       {orbits.map((o, i) => (
         <group key={i} rotation={[o.tilt, 0, 0.35]}>
           <mesh rotation={[Math.PI / 2, 0, 0]}>
