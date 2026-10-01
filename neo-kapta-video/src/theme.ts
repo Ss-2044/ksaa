@@ -18,15 +18,15 @@ export const DURATION = 30 * FPS; // 30 ثانية
 
 export const FONT = "'Cairo', sans-serif";
 
-// توقيت المشاهد بالإطارات — فكرة «مراسم التوقيع»
+// الإيقاع: 120 BPM → كل ضربة = 15 إطاراً (نصف ثانية)، والموسيقى مبنية على نفس الشبكة
+export const BEAT = 15;
+
+// توقيت المشاهد بالإطارات — فكرة «العدّ التنازلي والكشف»
 export const SCENES = {
   logos: {from: 0, duration: 3 * FPS},
-  announce: {from: 3 * FPS, duration: 6 * FPS},
-  signing: {from: 9 * FPS, duration: 6 * FPS},
-  union: {from: 15 * FPS, duration: 6 * FPS},
-  tagline: {from: 21 * FPS, duration: 5 * FPS},
-  outro: {from: 26 * FPS, duration: 4 * FPS},
+  countdown: {from: 3 * FPS, duration: 3 * FPS},
+  reveal: {from: 6 * FPS, duration: 5 * FPS},
+  equation: {from: 11 * FPS, duration: 7 * FPS},
+  slam: {from: 18 * FPS, duration: 6 * FPS},
+  outro: {from: 24 * FPS, duration: 6 * FPS},
 };
-
-// لحظات ختم الشعارين على الاتفاقية (إطارات داخل مشهد التوقيع) — تُستخدم أيضاً في الموسيقى
-export const SEAL_FRAMES = [100, 118];
