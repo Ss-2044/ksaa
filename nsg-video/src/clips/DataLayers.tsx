@@ -4,8 +4,13 @@ import {Caption} from './Caption';
 
 const clamp = {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'} as const;
 const S = 820;
-const DROP_AT = (i: number) => 30 + i * 60; // one layer per bar
-const COLLAPSE = [330, 360] as const;
+// Synced to "Tech Talk" (110 BPM → one beat = 16.36 frames, story frame 0 = the drop).
+// Each layer lands on beat 2 + 4i; the stack collapses on beats 20 → 22.
+export const TT_BEAT = (30 * 60) / 110;
+const LAND = (i: number) => Math.round((2 + 4 * i) * TT_BEAT);
+const FALL = 12;
+const DROP_AT = (i: number) => LAND(i) - FALL;
+const COLLAPSE = [Math.round(20 * TT_BEAT), Math.round(22 * TT_BEAT)] as const;
 
 const contour = (k: number, i: number) =>
   new Array(60)
@@ -79,15 +84,17 @@ export const DataLayers: React.FC = () => {
   const collapse = interpolate(frame, COLLAPSE, [0, 1], {...clamp, easing: Easing.in(Easing.cubic)});
   const spin = interpolate(frame, [0, 450], [-48, -28]);
   const flash = interpolate(frame, [COLLAPSE[1], COLLAPSE[1] + 3, COLLAPSE[1] + 20], [0, 0.85, 0], clamp);
-  const current = LAYERS.findIndex((_, i) => frame < DROP_AT(i + 1));
+  const current = LAYERS.findIndex((_, i) => frame < LAND(i + 1));
+  // subtle camera kick on every beat after the drop
+  const kick = Math.exp(-((frame % TT_BEAT) / 4));
   return (
     <AbsoluteFill>
       <AbsoluteFill style={{perspective: 2400, alignItems: 'center', justifyContent: 'center', left: -220}}>
-        <div style={{width: S, height: S, position: 'relative', transformStyle: 'preserve-3d', transform: `translateY(60px) rotateX(58deg) rotateZ(${spin}deg)`}}>
+        <div style={{width: S, height: S, position: 'relative', transformStyle: 'preserve-3d', transform: `translateY(60px) rotateX(58deg) rotateZ(${spin}deg) scale(${1 + kick * 0.012})`}}>
           {/* base plate */}
           <div style={{position: 'absolute', inset: 0, background: 'rgba(44,45,67,0.9)', border: '2px solid rgba(255,255,255,0.4)', boxShadow: '0 0 120px rgba(157,162,230,0.25)'}} />
           {LAYERS.map((l, i) => {
-            const drop = interpolate(frame, [DROP_AT(i), DROP_AT(i) + 16], [0, 1], {...clamp, easing: Easing.out(Easing.back(1.4))});
+            const drop = interpolate(frame, [DROP_AT(i), LAND(i)], [0, 1], {...clamp, easing: Easing.out(Easing.back(1.2))});
             const stackZ = (i + 1) * 70;
             const z = interpolate(drop, [0, 1], [1600, stackZ]) * (1 - collapse) + collapse * 2;
             return (
@@ -111,7 +118,7 @@ export const DataLayers: React.FC = () => {
       {/* legend */}
       <div style={{position: 'absolute', right: 140, top: 230, display: 'flex', flexDirection: 'column', gap: 22}}>
         {LAYERS.map((l, i) => {
-          const p = interpolate(frame, [DROP_AT(i) + 4, DROP_AT(i) + 14], [0, 1], clamp);
+          const p = interpolate(frame, [LAND(i) - 4, LAND(i) + 4], [0, 1], clamp);
           const active = i === current && frame < COLLAPSE[0];
           return (
             <div key={l.en} style={{display: 'flex', flexDirection: 'row-reverse', alignItems: 'center', gap: 20, opacity: p * (active || frame >= COLLAPSE[0] ? 1 : 0.55), transform: `translateX(${(1 - p) * 60}px)`}}>
@@ -127,8 +134,8 @@ export const DataLayers: React.FC = () => {
         })}
       </div>
       <AbsoluteFill style={{background: '#fff', opacity: flash}} />
-      <Caption ar="الخريطة ليست صورة… بل طبقات من البيانات" en="A map is not a picture — it is layers of data" from={0} to={326} pos="top" size={54} />
-      <Caption ar="طبقات كثيرة… رؤية واحدة" en="Many layers. One clear view." from={362} to={450} pos="top" size={64} />
+      <Caption ar="الخريطة ليست صورة… بل طبقات من البيانات" en="A map is not a picture — it is layers of data" from={0} to={COLLAPSE[0]} pos="top" size={54} />
+      <Caption ar="طبقات كثيرة… رؤية واحدة" en="Many layers. One clear view." from={COLLAPSE[1] + 2} to={460} pos="top" size={64} />
     </AbsoluteFill>
   );
 };

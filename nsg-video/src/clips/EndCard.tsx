@@ -1,7 +1,7 @@
 import {AbsoluteFill, Img, interpolate, spring, staticFile, useCurrentFrame, useVideoConfig} from 'remotion';
 import {fonts} from '../theme';
 
-export const EndCard: React.FC<{ar: string; en: string}> = ({ar, en}) => {
+export const EndCard: React.FC<{ar: string; en: string; credit?: string}> = ({ar, en, credit}) => {
   const frame = useCurrentFrame();
   const {fps} = useVideoConfig();
   const p = spring({frame, fps, config: {damping: 14, mass: 0.6}});
@@ -15,6 +15,9 @@ export const EndCard: React.FC<{ar: string; en: string}> = ({ar, en}) => {
         {en}
       </div>
       <Img src={staticFile('nsg-logo.png')} style={{width: 340, marginTop: 60, opacity: p, transform: `scale(${0.85 + 0.15 * p})`}} />
+      {credit ? (
+        <div style={{position: 'absolute', bottom: 40, left: 0, right: 0, textAlign: 'center', fontFamily: fonts.en, fontSize: 15, color: 'rgba(255,255,255,0.55)', letterSpacing: '0.04em'}}>{credit}</div>
+      ) : null}
       <AbsoluteFill style={{background: '#fff', opacity: flash}} />
     </AbsoluteFill>
   );

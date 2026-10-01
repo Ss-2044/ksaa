@@ -3,7 +3,7 @@ import {NSGVideo} from './Video';
 import {FPS} from './theme';
 import {timeline30, timeline60, totalFrames} from './timelines';
 import {NSGVideoB} from './designB/VideoB';
-import {Clip, CLIP_FRAMES} from './clips/Clip';
+import {Clip, STORIES, StoryId, clipFrames} from './clips/Clip';
 import {timelineB30, timelineB60, totalB} from './designB/timelinesB';
 
 export const RemotionRoot: React.FC = () => {
@@ -47,12 +47,12 @@ export const RemotionRoot: React.FC = () => {
         defaultProps={{timeline: timelineB60, music: 'music-b-60.mp3'}}
       />
       {/* Short story clips — space & geospatial data (20 s each) */}
-      {(['pixel', 'zoom', 'orbit', 'layers'] as const).map((story) => (
+      {(Object.keys(STORIES) as StoryId[]).map((story) => (
         <Composition
           key={story}
           id={`Clip-${story}`}
           component={Clip}
-          durationInFrames={CLIP_FRAMES}
+          durationInFrames={clipFrames(story)}
           fps={FPS}
           width={1920}
           height={1080}

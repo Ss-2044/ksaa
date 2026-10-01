@@ -9,6 +9,7 @@
 | `NSG30B` | 30 ثانية — التصميم الثاني | `out/nsg-B-30s.mp4` |
 | `NSG60B` | 60 ثانية — التصميم الثاني | `out/nsg-B-60s.mp4` |
 | `Clip-pixel` · `Clip-zoom` · `Clip-orbit` · `Clip-layers` | 20 ثانية لكل مقطع — فضاء وبيانات جيومكانية | `out/clip-*.mp4` (السيناريوهات في `docs/03-clips-scenarios.md`) |
+| `Clip-memory` · `Clip-night` · `Clip-art` · `Clip-map` | 20 ثانية — صور فضائية حقيقية (NASA) وخرائط (OpenStreetMap) وموسيقى Kevin MacLeod | `out/clip-*.mp4` (السيناريوهات في `docs/04-photo-clips-scenarios.md`، والحقوق في `CREDITS.md`) |
 
 1920×1080 · 30fps · H.264.
 
