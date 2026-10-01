@@ -1,0 +1,24 @@
+{
+  "name": "nsg-video",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Neo Space Group promo video built with Remotion (Arabic + English)",
+  "scripts": {
+    "studio": "remotion studio",
+    "render": "remotion render NSG30 out/nsg-30s.mp4",
+    "render:60": "remotion render NSG60 out/nsg-60s.mp4",
+    "render:all": "npm run render && npm run render:60"
+  },
+  "dependencies": {
+    "@fontsource/ibm-plex-sans-arabic": "^5.0.0",
+    "@fontsource/montserrat": "^5.0.0",
+    "@remotion/cli": "4.0.531",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "remotion": "4.0.531"
+  },
+  "devDependencies": {
+    "@types/react": "^18.3.0",
+    "typescript": "^5.6.0"
+  }
+}
