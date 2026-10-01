@@ -7,7 +7,10 @@
     "studio": "remotion studio",
     "render": "remotion render NSG30 out/nsg-30s.mp4",
     "render:60": "remotion render NSG60 out/nsg-60s.mp4",
-    "render:all": "npm run render && npm run render:60"
+    "render:all": "npm run render && npm run render:60 && npm run render:b && npm run render:b60",
+    "music": "node scripts/make-music.mjs 30 /tmp/m30.wav && ffmpeg -y -i /tmp/m30.wav -af \"aecho=0.8:0.5:250|500:0.18|0.1,loudnorm=I=-14:TP=-1.5:LRA=9\" -ar 48000 -b:a 192k public/music-b-30.mp3 && node scripts/make-music.mjs 60 /tmp/m60.wav && ffmpeg -y -i /tmp/m60.wav -af \"aecho=0.8:0.5:250|500:0.18|0.1,loudnorm=I=-14:TP=-1.5:LRA=9\" -ar 48000 -b:a 192k public/music-b-60.mp3",
+    "render:b": "remotion render NSG30B out/nsg-B-30s.mp4",
+    "render:b60": "remotion render NSG60B out/nsg-B-60s.mp4"
   },
   "dependencies": {
     "@fontsource/ibm-plex-sans-arabic": "^5.0.0",
