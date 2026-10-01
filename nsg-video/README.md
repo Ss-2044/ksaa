@@ -10,6 +10,8 @@
 | `NSG60B` | 60 ثانية — التصميم الثاني | `out/nsg-B-60s.mp4` |
 | `Clip-pixel` · `Clip-zoom` · `Clip-orbit` · `Clip-layers` | 20 ثانية لكل مقطع — فضاء وبيانات جيومكانية | `out/clip-*.mp4` (السيناريوهات في `docs/03-clips-scenarios.md`) |
 | `Clip-memory` · `Clip-night` · `Clip-art` · `Clip-map` | 20 ثانية — صور فضائية حقيقية (NASA) وخرائط (OpenStreetMap) وموسيقى Kevin MacLeod | `out/clip-*.mp4` (السيناريوهات في `docs/04-photo-clips-scenarios.md`، والحقوق في `CREDITS.md`) |
+| `Clip-riyadh` · `Clip-pixels` · `Clip-cloud` · `Clip-coast` · `Clip-road` | 20 ثانية — الدفعة الثالثة | `out/clip-*.mp4` (`docs/05-more-clips.md`) |
+| `Vertical-<اسم>` | نسخة 9:16 (1080×1920) لكل مقطع | `out/vertical/vertical-*.mp4` |
 
 1920×1080 · 30fps · H.264.
 
@@ -25,7 +27,8 @@ npm run render      # تصدير 30 ثانية
 npm run render:60   # تصدير 60 ثانية
 npm run render:b    # التصميم الثاني 30 ثانية
 npm run render:b60  # التصميم الثاني 60 ثانية
-npm run render:clips # المقاطع الأربعة القصيرة
+npm run render:clips # كل المقاطع القصيرة (16:9)
+npm run render:vertical # النسخ الرأسية 9:16
 ```
 > في بيئة لا يتوفر فيها Chrome أضف: `--browser-executable=/path/to/chrome`
 

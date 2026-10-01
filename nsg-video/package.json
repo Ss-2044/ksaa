@@ -11,7 +11,8 @@
     "music": "node scripts/make-music.mjs 30 /tmp/m30.wav && ffmpeg -y -i /tmp/m30.wav -af \"aecho=0.8:0.5:250|500:0.18|0.1,loudnorm=I=-14:TP=-1.5:LRA=9\" -ar 48000 -b:a 192k public/music-b-30.mp3 && node scripts/make-music.mjs 60 /tmp/m60.wav && ffmpeg -y -i /tmp/m60.wav -af \"aecho=0.8:0.5:250|500:0.18|0.1,loudnorm=I=-14:TP=-1.5:LRA=9\" -ar 48000 -b:a 192k public/music-b-60.mp3",
     "render:b": "remotion render NSG30B out/nsg-B-30s.mp4",
     "render:b60": "remotion render NSG60B out/nsg-B-60s.mp4",
-    "render:clips": "for c in pixel zoom orbit layers memory night art map; do remotion render Clip-$c out/clip-$c.mp4; done"
+    "render:clips": "for c in pixel zoom orbit layers memory night art map riyadh pixels cloud coast road; do remotion render Clip-$c out/clip-$c.mp4; done",
+    "render:vertical": "for c in pixel zoom orbit layers memory night art map riyadh pixels cloud coast road; do remotion render Vertical-$c out/vertical/vertical-$c.mp4 --crf=23; done"
   },
   "dependencies": {
     "@fontsource/ibm-plex-sans-arabic": "^5.0.0",

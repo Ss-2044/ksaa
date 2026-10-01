@@ -1,5 +1,6 @@
 import {AbsoluteFill, interpolate, random, useCurrentFrame, useVideoConfig} from 'remotion';
 import {colors} from '../theme';
+import {useFrameSize} from '../frameSize';
 
 const STARS = new Array(260).fill(0).map((_, i) => ({
   x: random(`x${i}`) * 100,
@@ -13,7 +14,8 @@ const STARS = new Array(260).fill(0).map((_, i) => ({
 // Persistent backdrop: brand gradient, drifting nebula glow and a parallax starfield.
 export const Background: React.FC = () => {
   const frame = useCurrentFrame();
-  const {durationInFrames, width, height} = useVideoConfig();
+  const {durationInFrames} = useVideoConfig();
+  const {width, height} = useFrameSize();
   const t = frame / durationInFrames;
   const angle = interpolate(t, [0, 1], [135, 165]);
   const glowX = interpolate(t, [0, 1], [70, 30]);

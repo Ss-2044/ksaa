@@ -4,6 +4,7 @@ import {FPS} from './theme';
 import {timeline30, timeline60, totalFrames} from './timelines';
 import {NSGVideoB} from './designB/VideoB';
 import {Clip, STORIES, StoryId, clipFrames} from './clips/Clip';
+import {VerticalClip} from './clips/Vertical';
 import {timelineB30, timelineB60, totalB} from './designB/timelinesB';
 
 export const RemotionRoot: React.FC = () => {
@@ -56,6 +57,19 @@ export const RemotionRoot: React.FC = () => {
           fps={FPS}
           width={1920}
           height={1080}
+          defaultProps={{story}}
+        />
+      ))}
+      {/* 9:16 versions of every clip */}
+      {(Object.keys(STORIES) as StoryId[]).map((story) => (
+        <Composition
+          key={`v-${story}`}
+          id={`Vertical-${story}`}
+          component={VerticalClip}
+          durationInFrames={clipFrames(story)}
+          fps={FPS}
+          width={1080}
+          height={1920}
           defaultProps={{story}}
         />
       ))}

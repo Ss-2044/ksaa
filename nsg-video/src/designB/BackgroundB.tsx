@@ -1,10 +1,11 @@
-import {AbsoluteFill, useCurrentFrame, useVideoConfig} from 'remotion';
+import {AbsoluteFill, useCurrentFrame} from 'remotion';
+import {useFrameSize} from '../frameSize';
 import {colors} from '../theme';
 
 // Two-tone hard diagonal split + technical grid + line-art orbit rings that pulse on the beat.
 export const BackgroundB: React.FC = () => {
   const frame = useCurrentFrame();
-  const {width, height} = useVideoConfig();
+  const {width, height} = useFrameSize();
   const pulse = frame >= 90 ? Math.exp(-(frame % 15) / 4) : 0;
   const split = 58 + 6 * Math.sin(frame / 120);
   return (
