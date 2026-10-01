@@ -38,15 +38,7 @@ def halftone(c, band_center, band_width, avoid=None, maxr=0.55*mm, step=1.5*mm, 
 def bg(c):
     c.setFillColorRGB(0,0,0); c.rect(0,0,PW,PH,stroke=0,fill=1)
 
-# ---------- FRONT ----------
-bg(c)
-lh_t=30*mm; lw_t=lh_t*lw/lh
-lx=(PW-lw_t)/2; ly=(PH-lh_t)/2
-halftone(c,(PW*0.62,PH*0.55),9*mm,avoid=(lx,ly,lw_t,lh_t))
-c.drawImage(logo,lx,ly,lw_t,lh_t,mask='auto')
-c.showPage()
-
-# ---------- BACK ----------
+# ---------- FRONT (contact info) ----------
 bg(c)
 halftone(c,(PW*1.05,PH*0.0),6*mm,strength=0.8,maxr=0.45*mm)
 m=B+7*mm
@@ -77,4 +69,12 @@ for icon,txt in rows:
         c.setFillColorRGB(*WHITE); c.setFont('Helvetica-Bold',5.5); c.drawCentredString(cx,yy+0.2*mm,icon)
     c.setFont('Helvetica',7.5); c.drawString(m+4.5*mm,yy,txt)
     yy-=4.8*mm
+c.showPage()
+
+# ---------- BACK (logo) ----------
+bg(c)
+lh_t=30*mm; lw_t=lh_t*lw/lh
+lx=(PW-lw_t)/2; ly=(PH-lh_t)/2
+halftone(c,(PW*0.62,PH*0.55),9*mm,avoid=(lx,ly,lw_t,lh_t))
+c.drawImage(logo,lx,ly,lw_t,lh_t,mask='auto')
 c.showPage(); c.save()
