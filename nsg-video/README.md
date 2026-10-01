@@ -14,6 +14,7 @@
 | `Clip-globe` · `Clip-mosaic` · `Clip-numbers` · `Clip-circles` | 20 ثانية — **التصميم C**: فاتح تحريري + كرة أرضية ثلاثية الأبعاد (`npm run render:c`) | `out/clip-*.mp4` (`docs/06-design-c.md`) |
 | `Clip-satellite` · `Clip-terrain` · `Clip-lights` | 20 ثانية — **التصميم D**: سينمائي ثلاثي الأبعاد (`npm run render:d`) | `out/clip-*.mp4` (`docs/07-design-d-cinematic.md`) |
 | `Reel-guess1` · `Reel-guess2` · `Reel-truefalse` · `Reel-top5` · `Reel-pipeline` | ريلز تفاعلية 9:16 أصلية مع مؤثرات صوتية (`npm run render:reels`) | `out/reels/*.mp4` (`docs/08-interactive-reels.md`) |
+| `LinkedIn-ep01` … `LinkedIn-ep04` | سلسلة لينكدإن «من المدار» 4:5 (1080×1350) — معلومات بدون صوت (`npm run render:linkedin`) | `out/linkedin/*.mp4` (`docs/09-linkedin-plan.md`) |
 | `Vertical-<اسم>` | نسخة 9:16 (1080×1920) لكل مقطع | `out/vertical/vertical-*.mp4` |
 
 1920×1080 · 30fps · H.264.
