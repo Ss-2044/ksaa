@@ -1,0 +1,167 @@
+import React from 'react';
+import {
+  AbsoluteFill,
+  Img,
+  interpolate,
+  spring,
+  staticFile,
+  useCurrentFrame,
+  useVideoConfig,
+} from 'remotion';
+import {COLORS, DURATION, FONT} from './theme';
+
+const clamp = {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'} as const;
+
+// خلفية متدرجة متحركة: أسود → كحلي → لمعة نحاسية + نقاط هافتون مثل شعار نيو كابتا
+export const GradientBackground: React.FC = () => {
+  const frame = useCurrentFrame();
+  const t = frame / DURATION;
+  const angle = 120 + t * 90;
+  const blueX = 20 + Math.sin(frame / 60) * 15;
+  const blueY = 30 + Math.cos(frame / 75) * 15;
+  const copperX = 80 - Math.sin(frame / 70) * 15;
+  const copperY = 70 + Math.cos(frame / 55) * 12;
+
+  return (
+    <AbsoluteFill>
+      <AbsoluteFill
+        style={{
+          background: `linear-gradient(${angle}deg, ${COLORS.neoBlack} 0%, ${COLORS.navy} 55%, #1a0f0a 100%)`,
+        }}
+      />
+      <AbsoluteFill
+        style={{
+          background: `radial-gradient(circle at ${blueX}% ${blueY}%, ${COLORS.neoBlue}88 0%, transparent 45%),
+            radial-gradient(circle at ${copperX}% ${copperY}%, ${COLORS.copper}77 0%, transparent 40%)`,
+        }}
+      />
+      {/* نقاط هافتون متحركة */}
+      <AbsoluteFill
+        style={{
+          backgroundImage: `radial-gradient(${COLORS.neoWhite}33 1.6px, transparent 1.8px)`,
+          backgroundSize: '22px 22px',
+          backgroundPosition: `${frame * 0.4}px ${frame * 0.2}px`,
+          maskImage: `linear-gradient(${angle + 30}deg, transparent 20%, black 50%, transparent 80%)`,
+          WebkitMaskImage: `linear-gradient(${angle + 30}deg, transparent 20%, black 50%, transparent 80%)`,
+        }}
+      />
+      {/* تظليل الأطراف */}
+      <AbsoluteFill
+        style={{background: 'radial-gradient(ellipse at center, transparent 55%, rgba(0,0,0,0.65) 100%)'}}
+      />
+    </AbsoluteFill>
+  );
+};
+
+// نص يظهر كلمة كلمة
+export const AnimatedWords: React.FC<{
+  text: string;
+  delay?: number;
+  size: number;
+  color: string;
+  weight?: number;
+  dir?: 'rtl' | 'ltr';
+  stagger?: number;
+  letterSpacing?: number;
+}> = ({text, delay = 0, size, color, weight = 700, dir = 'ltr', stagger = 4, letterSpacing = 0}) => {
+  const frame = useCurrentFrame();
+  const {fps} = useVideoConfig();
+  const words = text.split(' ');
+  return (
+    <div
+      dir={dir}
+      style={{
+        fontFamily: FONT,
+        fontSize: size,
+        fontWeight: weight,
+        color,
+        display: 'flex',
+        flexWrap: 'wrap',
+        justifyContent: 'center',
+        gap: size * 0.28,
+        lineHeight: 1.3,
+        letterSpacing,
+      }}
+    >
+      {words.map((w, i) => {
+        const s = spring({frame: frame - delay - i * stagger, fps, config: {damping: 14, mass: 0.6}});
+        return (
+          <span
+            key={i}
+            style={{
+              display: 'inline-block',
+              opacity: s,
+              transform: `translateY(${(1 - s) * 40}px)`,
+              filter: `blur(${(1 - s) * 8}px)`,
+            }}
+          >
+            {w}
+          </span>
+        );
+      })}
+    </div>
+  );
+};
+
+// خط نحاسي يتمدد
+export const GrowLine: React.FC<{delay?: number; width?: number; color?: string}> = ({
+  delay = 0,
+  width = 520,
+  color = COLORS.copper,
+}) => {
+  const frame = useCurrentFrame();
+  const p = interpolate(frame - delay, [0, 20], [0, 1], clamp);
+  return (
+    <div
+      style={{
+        width: width * p,
+        height: 3,
+        borderRadius: 2,
+        background: `linear-gradient(90deg, transparent, ${color}, transparent)`,
+        margin: '0 auto',
+      }}
+    />
+  );
+};
+
+export const NeoLogo: React.FC<{size: number; style?: React.CSSProperties}> = ({size, style}) => (
+  <Img
+    src={staticFile('neo-kapta-logo.jpg')}
+    style={{
+      width: size,
+      height: size,
+      borderRadius: size * 0.12,
+      boxShadow: `0 0 60px ${COLORS.neoBlue}88`,
+      border: `2px solid ${COLORS.neoBlue}`,
+      ...style,
+    }}
+  />
+);
+
+export const DiriyahLogo: React.FC<{size: number; style?: React.CSSProperties}> = ({size, style}) => (
+  <Img
+    src={staticFile('diriyah-logo.jpg')}
+    style={{
+      width: size,
+      height: size,
+      borderRadius: '50%',
+      objectFit: 'cover',
+      objectPosition: '50% 50%',
+      boxShadow: `0 0 60px ${COLORS.copper}88`,
+      border: `3px solid ${COLORS.copper}`,
+      ...style,
+    }}
+  />
+);
+
+// انتقال دخول/خروج لكل مشهد
+export const SceneFade: React.FC<{duration: number; children: React.ReactNode}> = ({duration, children}) => {
+  const frame = useCurrentFrame();
+  const opacity = interpolate(frame, [0, 10, duration - 10, duration], [0, 1, 1, 0], clamp);
+  const scale = interpolate(frame, [0, duration], [1.04, 1], clamp);
+  return (
+    <AbsoluteFill style={{opacity, transform: `scale(${scale})`, justifyContent: 'center', alignItems: 'center'}}>
+      {children}
+    </AbsoluteFill>
+  );
+};

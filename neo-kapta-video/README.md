@@ -1,0 +1,16 @@
+# Neo Kapta × Diriyah — Remotion video
+
+30-second 1920×1080 partnership announcement, Arabic + English animated text, logo colors, animated gradient background.
+
+```bash
+npm install
+npm run studio   # live preview
+npm run render   # exports out/neo-kapta-diriyah.mp4
+```
+
+If Remotion can't download its browser, add `--browser-executable=/path/to/chrome`.
+
+- Scenes & timing: `src/theme.ts` (`SCENES`), colors: `COLORS`
+- Scene components: `src/PartnershipVideo.tsx`
+- Logos: `public/`
+- Script, storyboard, AI video prompts: `CREATIVE_BRIEF.md`
