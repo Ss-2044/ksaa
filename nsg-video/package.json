@@ -14,7 +14,8 @@
     "render:clips": "for c in pixel zoom orbit layers memory night art map riyadh pixels cloud coast road; do remotion render Clip-$c out/clip-$c.mp4; done",
     "render:vertical": "for c in pixel zoom orbit layers memory night art map riyadh pixels cloud coast road globe mosaic numbers circles satellite terrain lights; do remotion render Vertical-$c out/vertical/vertical-$c.mp4 --crf=23 --gl=angle; done",
     "render:c": "for c in globe mosaic numbers circles; do remotion render Clip-$c out/clip-$c.mp4 --gl=angle; done",
-    "render:d": "for c in satellite terrain lights; do remotion render Clip-$c out/clip-$c.mp4 --gl=angle; done"
+    "render:d": "for c in satellite terrain lights; do remotion render Clip-$c out/clip-$c.mp4 --gl=angle; done",
+    "render:reels": "for id in guess1 guess2 truefalse top5 pipeline; do remotion render Reel-$id out/reels/reel-$id.mp4 --crf=22; done"
   },
   "dependencies": {
     "@fontsource/ibm-plex-sans-arabic": "^5.0.0",
