@@ -126,7 +126,7 @@ export const GrowLine: React.FC<{delay?: number; width?: number; color?: string}
 
 export const NeoLogo: React.FC<{size: number; style?: React.CSSProperties}> = ({size, style}) => (
   <Img
-    src={staticFile('neo-kapta-logo.jpg')}
+    src={staticFile('neo-capta-logo.jpg')}
     style={{
       width: size,
       height: size,
@@ -163,5 +163,71 @@ export const SceneFade: React.FC<{duration: number; children: React.ReactNode}> 
     <AbsoluteFill style={{opacity, transform: `scale(${scale})`, justifyContent: 'center', alignItems: 'center'}}>
       {children}
     </AbsoluteFill>
+  );
+};
+
+// شريط مثلثات نجدية (مستوحى من إطار شعار الدرعية) يتحرك على حافتي الإطار
+export const NajdiBorder: React.FC<{position: 'top' | 'bottom'}> = ({position}) => {
+  const frame = useCurrentFrame();
+  const appear = interpolate(frame, [60, 90], [0, 1], clamp);
+  const shift = (frame * (position === 'top' ? 1 : -1)) % 60;
+  const tri = 60;
+  return (
+    <div
+      style={{
+        position: 'absolute',
+        left: -tri,
+        right: -tri,
+        [position]: 28,
+        height: 26,
+        opacity: appear * 0.55,
+        transform: `translateX(${shift}px)`,
+      }}
+    >
+      <svg width="100%" height="26">
+        <defs>
+          <pattern id={`najdi-${position}`} width={tri} height={26} patternUnits="userSpaceOnUse">
+            <path
+              d={position === 'top' ? 'M6 2 L30 24 L54 2 Z' : 'M6 24 L30 2 L54 24 Z'}
+              fill="none"
+              stroke={COLORS.copper}
+              strokeWidth={2}
+            />
+          </pattern>
+        </defs>
+        <rect width="100%" height="26" fill={`url(#najdi-${position})`} />
+      </svg>
+    </div>
+  );
+};
+
+// لمعة ضوء تمر فوق العنصر
+export const LightSweep: React.FC<{delay: number; size: number; round?: boolean}> = ({delay, size, round}) => {
+  const frame = useCurrentFrame();
+  const x = interpolate(frame - delay, [0, 22], [-1.2, 1.2], clamp);
+  return (
+    <div
+      style={{
+        position: 'absolute',
+        inset: 0,
+        width: size,
+        height: size,
+        borderRadius: round ? '50%' : size * 0.12,
+        overflow: 'hidden',
+        pointerEvents: 'none',
+      }}
+    >
+      <div
+        style={{
+          position: 'absolute',
+          top: -size * 0.5,
+          left: x * size,
+          width: size * 0.35,
+          height: size * 2,
+          transform: 'rotate(25deg)',
+          background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.55), transparent)',
+        }}
+      />
+    </div>
   );
 };

@@ -1,19 +1,32 @@
 import '@fontsource/cairo/400.css';
 import '@fontsource/cairo/700.css';
 import '@fontsource/cairo/900.css';
+import '@fontsource/aref-ruqaa/700.css';
+import '@fontsource/great-vibes/400.css';
 import React, {useEffect, useState} from 'react';
 import {
   AbsoluteFill,
+  Audio,
   continueRender,
   delayRender,
   interpolate,
   Sequence,
   spring,
+  staticFile,
   useCurrentFrame,
   useVideoConfig,
 } from 'remotion';
-import {AnimatedWords, DiriyahLogo, GradientBackground, GrowLine, NeoLogo, SceneFade} from './components';
-import {COLORS, FONT, SCENES} from './theme';
+import {
+  AnimatedWords,
+  DiriyahLogo,
+  GradientBackground,
+  GrowLine,
+  LightSweep,
+  NajdiBorder,
+  NeoLogo,
+  SceneFade,
+} from './components';
+import {COLORS, FONT, SCENES, SIGNATURE_AR, SIGNATURE_EN} from './theme';
 
 const clamp = {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'} as const;
 
@@ -28,7 +41,10 @@ const LogosScene: React.FC = () => {
   return (
     <AbsoluteFill style={{justifyContent: 'center', alignItems: 'center', opacity: out}}>
       <div style={{display: 'flex', alignItems: 'center', gap: 90}}>
-        <NeoLogo size={420} style={{transform: `translateX(${(1 - left) * -500}px) scale(${left})`}} />
+        <div style={{position: 'relative', transform: `translateX(${(1 - left) * -500}px) scale(${left})`}}>
+          <NeoLogo size={420} />
+          <LightSweep delay={30} size={420} />
+        </div>
         <div
           style={{
             fontFamily: FONT,
@@ -40,13 +56,16 @@ const LogosScene: React.FC = () => {
         >
           ×
         </div>
-        <DiriyahLogo size={420} style={{transform: `translateX(${(1 - right) * 500}px) scale(${right})`}} />
+        <div style={{position: 'relative', transform: `translateX(${(1 - right) * 500}px) scale(${right})`}}>
+          <DiriyahLogo size={420} />
+          <LightSweep delay={40} size={420} round />
+        </div>
       </div>
     </AbsoluteFill>
   );
 };
 
-// المشهد 2 (3–8 ث): إعلان الشراكة
+// المشهد 2 (3–7 ث): إعلان الشراكة
 const AnnounceScene: React.FC = () => (
   <SceneFade duration={SCENES.announce.duration}>
     <div style={{display: 'flex', flexDirection: 'column', gap: 30, alignItems: 'center'}}>
@@ -61,7 +80,7 @@ const AnnounceScene: React.FC = () => (
         letterSpacing={10}
       />
       <AnimatedWords
-        text="Neo Kapta × Diriyah Company"
+        text="Neo Capta × Diriyah Company"
         delay={40}
         size={44}
         color={COLORS.neoBlueLight}
@@ -71,7 +90,7 @@ const AnnounceScene: React.FC = () => (
   </SceneFade>
 );
 
-// المشهد 3 (8–14 ث): حيث يلتقي التاريخ بالإبداع — خطوط الجبل من شعار الدرعية ترسم نفسها
+// المشهد 3 (7–12 ث): حيث يلتقي التاريخ بالإبداع — خطوط الجبل من شعار الدرعية ترسم نفسها
 const HeritageScene: React.FC = () => {
   const frame = useCurrentFrame();
   const draw = interpolate(frame, [0, 60], [1, 0], clamp);
@@ -112,7 +131,7 @@ const HeritageScene: React.FC = () => {
   );
 };
 
-// المشهد 4 (14–22 ث): ما تقدمه نيو كابتا في الشراكة
+// المشهد 4 (12–18 ث): ما تقدمه نيو كابتا في الشراكة
 const SERVICES = [
   {ar: 'التسويق', en: 'Marketing', icon: '◆'},
   {ar: 'الدعاية', en: 'Advertising', icon: '▲'},
@@ -171,7 +190,7 @@ const ServicesScene: React.FC = () => {
   );
 };
 
-// المشهد 5 (22–27 ث): نروي قصة الدرعية للعالم
+// المشهد 5 (18–22 ث): نروي قصة الدرعية للعالم
 const StoryScene: React.FC = () => {
   const frame = useCurrentFrame();
   const ring = interpolate(frame, [0, 150], [0.6, 1.5]);
@@ -200,7 +219,95 @@ const StoryScene: React.FC = () => {
   );
 };
 
-// المشهد 6 (27–30 ث): الختام
+// المشهد 6 (22–27 ث): توقيع الرئيس التنفيذي والمؤسس
+const SignatureScene: React.FC = () => {
+  const frame = useCurrentFrame();
+  // كشف التوقيع العربي من اليمين لليسار كأنه يُكتب بالقلم
+  const write = interpolate(frame, [10, 55], [0, 1], clamp);
+  const writeEn = interpolate(frame, [50, 80], [0, 1], clamp);
+  const flourish = interpolate(frame, [45, 75], [1, 0], clamp);
+  const info = interpolate(frame, [60, 80], [0, 1], clamp);
+  const nibX = 1 - write;
+  return (
+    <SceneFade duration={SCENES.signature.duration}>
+      <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 6}}>
+        <AnimatedWords
+          text="نصنع لإرث الدرعية حضوراً يليق به"
+          dir="rtl"
+          size={56}
+          color={COLORS.neoWhite}
+          weight={400}
+          stagger={3}
+        />
+        <div style={{position: 'relative', marginTop: 20}}>
+          <div
+            dir="rtl"
+            style={{
+              fontFamily: SIGNATURE_AR,
+              fontSize: 190,
+              fontWeight: 700,
+              lineHeight: 1.25,
+              color: COLORS.copperLight,
+              textShadow: `0 0 30px ${COLORS.copper}88`,
+              clipPath: `inset(0 0 0 ${nibX * 100}%)`,
+              padding: '0 30px',
+            }}
+          >
+            سامي البجيدي
+          </div>
+          {/* رأس القلم المضيء */}
+          {write > 0 && write < 1 ? (
+            <div
+              style={{
+                position: 'absolute',
+                top: '55%',
+                left: `${nibX * 100}%`,
+                width: 18,
+                height: 18,
+                borderRadius: '50%',
+                background: COLORS.sand,
+                boxShadow: `0 0 30px 10px ${COLORS.copperLight}`,
+              }}
+            />
+          ) : null}
+          <svg width={760} height={60} viewBox="0 0 760 60" style={{display: 'block', margin: '-30px auto 0'}}>
+            <path
+              d="M740 30 C 560 60, 300 0, 120 34 S 20 40, 40 20"
+              fill="none"
+              stroke={COLORS.copper}
+              strokeWidth={4}
+              strokeLinecap="round"
+              pathLength={1}
+              strokeDasharray={1}
+              strokeDashoffset={flourish}
+            />
+          </svg>
+        </div>
+        <div
+          style={{
+            fontFamily: SIGNATURE_EN,
+            fontSize: 76,
+            color: COLORS.neoBlueLight,
+            clipPath: `inset(0 ${(1 - writeEn) * 100}% 0 0)`,
+            marginTop: -6,
+          }}
+        >
+          Sami Albujaidi
+        </div>
+        <div style={{opacity: info, transform: `translateY(${(1 - info) * 20}px)`, textAlign: 'center', fontFamily: FONT}}>
+          <div dir="rtl" style={{fontSize: 46, fontWeight: 700, color: COLORS.neoWhite}}>
+            الأستاذ سامي البجيدي — الرئيس التنفيذي والمؤسس، نيو كابتا
+          </div>
+          <div style={{fontSize: 32, fontWeight: 400, color: COLORS.copperLight, letterSpacing: 4, marginTop: 6}}>
+            FOUNDER &amp; CEO — NEO CAPTA
+          </div>
+        </div>
+      </div>
+    </SceneFade>
+  );
+};
+
+// المشهد 7 (27–30 ث): الختام
 const OutroScene: React.FC = () => {
   const frame = useCurrentFrame();
   const {fps} = useVideoConfig();
@@ -229,12 +336,17 @@ export const PartnershipVideo: React.FC = () => {
       document.fonts.load(`900 40px Cairo`, 'نيو'),
       document.fonts.load(`700 40px Cairo`, 'نيو'),
       document.fonts.load(`400 40px Cairo`, 'Neo'),
+      document.fonts.load(`700 40px 'Aref Ruqaa'`, 'سامي'),
+      document.fonts.load(`400 40px 'Great Vibes'`, 'Sami'),
     ]).then(() => continueRender(handle));
   }, [handle]);
 
   return (
     <AbsoluteFill style={{backgroundColor: COLORS.neoBlack}}>
+      <Audio src={staticFile('music.wav')} />
       <GradientBackground />
+      <NajdiBorder position="top" />
+      <NajdiBorder position="bottom" />
       <Sequence from={SCENES.logos.from} durationInFrames={SCENES.logos.duration}>
         <LogosScene />
       </Sequence>
@@ -249,6 +361,9 @@ export const PartnershipVideo: React.FC = () => {
       </Sequence>
       <Sequence from={SCENES.story.from} durationInFrames={SCENES.story.duration}>
         <StoryScene />
+      </Sequence>
+      <Sequence from={SCENES.signature.from} durationInFrames={SCENES.signature.duration}>
+        <SignatureScene />
       </Sequence>
       <Sequence from={SCENES.outro.from} durationInFrames={SCENES.outro.duration}>
         <OutroScene />

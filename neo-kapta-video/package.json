@@ -1,14 +1,16 @@
 {
-  "name": "neo-kapta-diriyah-video",
+  "name": "neo-capta-diriyah-video",
   "version": "1.0.0",
   "private": true,
   "scripts": {
     "studio": "remotion studio",
-    "render": "remotion render PartnershipVideo out/neo-kapta-diriyah.mp4 --codec=h264 --crf=18",
+    "render": "remotion render PartnershipVideo out/neo-capta-diriyah.mp4 --codec=h264 --crf=18",
     "still": "remotion still PartnershipVideo out/preview.png --frame=120"
   },
   "dependencies": {
+    "@fontsource/aref-ruqaa": "^5.3.0",
     "@fontsource/cairo": "^5.3.0",
+    "@fontsource/great-vibes": "^5.3.0",
     "@fontsource/tajawal": "^5.3.0",
     "@remotion/cli": "^4.0.532",
     "react": "^18.3.1",
