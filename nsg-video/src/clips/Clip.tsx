@@ -25,6 +25,11 @@ import {IntroC} from '../designC/IntroC';
 import {LightBg} from '../designC/LightBg';
 import {Mosaic} from '../designC/Mosaic';
 import {Numbers} from '../designC/Numbers';
+import {EndCardD} from '../designD/EndCardD';
+import {IntroD} from '../designD/IntroD';
+import {LightsScene} from '../designD/LightsScene';
+import {SatelliteScene} from '../designD/SatelliteScene';
+import {TerrainScene} from '../designD/TerrainScene';
 
 const INTRO = 90;
 const MAC = 'Music: Kevin MacLeod (incompetech.com) · Licensed under CC BY 4.0';
@@ -34,8 +39,8 @@ type Story = {
   titleAr: string; // used by the 9:16 version header
   titleEn: string;
   volume?: number;
-  intro: 'A' | 'B' | 'C';
-  bg: 'A' | 'B' | 'C';
+  intro: 'A' | 'B' | 'C' | 'D';
+  bg: 'A' | 'B' | 'C' | 'D';
   endAr: string;
   endEn: string;
   story?: number; // story frames (default 450)
@@ -220,6 +225,43 @@ export const STORIES = {
     trimBefore: 34,
     credit: `Imagery: NASA/JPL (Terra ASTER, Landsat, EarthKAM) · ${MAC} — "Clean Soul"`,
   },
+  // —— Design D: cinematic 3D, letterboxed ——
+  satellite: {
+    titleAr: 'عينٌ في المدار',
+    titleEn: 'An eye in orbit',
+    Body: SatelliteScene,
+    intro: 'D',
+    bg: 'D',
+    endAr: 'من المدار… نرى ما لا يُرى',
+    endEn: 'From orbit, we see the unseen',
+    music: 'music/interloper.mp3',
+    trimBefore: 1.5,
+    credit: `Earth textures: NASA Visible Earth (Blue Marble, Black Marble) · Satellite is illustrative · ${MAC} — "Interloper"`,
+  },
+  terrain: {
+    titleAr: 'تضاريس عسير',
+    titleEn: 'The Asir terrain',
+    Body: TerrainScene,
+    intro: 'D',
+    bg: 'D',
+    endAr: 'كل قمّة… رقمٌ على الخريطة',
+    endEn: 'Every peak is a number on the map',
+    music: 'music/echoes-of-time.mp3',
+    trimBefore: 8,
+    credit: `Elevation: AWS Terrain Tiles (Mapzen; SRTM and other public sources) · 3× vertical exaggeration · ${MAC} — "Echoes of Time"`,
+  },
+  lights: {
+    titleAr: 'أعمدة الضوء',
+    titleEn: 'Columns of light',
+    Body: LightsScene,
+    intro: 'D',
+    bg: 'D',
+    endAr: 'البيانات الجيومكانية… ترى الحياة',
+    endEn: 'Geospatial data sees life itself',
+    music: 'music/night-vigil.mp3',
+    trimBefore: 1.5,
+    credit: `Imagery: NASA Black Marble 2016 & Blue Marble · ${MAC} — "Night Vigil"`,
+  },
 } satisfies Record<string, Story>;
 
 export type StoryId = keyof typeof STORIES;
@@ -234,10 +276,10 @@ export const Clip: React.FC<{story: StoryId}> = ({story}) => {
   const {fps, durationInFrames} = useVideoConfig();
   const s: Story = STORIES[story];
   const body = s.story ?? 450;
-  const Intro = s.intro === 'A' ? LogoIntro : s.intro === 'B' ? IntroB : IntroC;
+  const Intro = s.intro === 'A' ? LogoIntro : s.intro === 'B' ? IntroB : s.intro === 'C' ? IntroC : IntroD;
   return (
     <AbsoluteFill>
-      {s.bg === 'A' ? <Background /> : s.bg === 'B' ? <BackgroundB /> : <LightBg />}
+      {s.bg === 'A' ? <Background /> : s.bg === 'B' ? <BackgroundB /> : s.bg === 'C' ? <LightBg /> : <AbsoluteFill style={{background: '#000'}} />}
       <Sequence durationInFrames={INTRO} name="logo">
         <Intro duration={INTRO} />
       </Sequence>
@@ -245,7 +287,7 @@ export const Clip: React.FC<{story: StoryId}> = ({story}) => {
         <s.Body />
       </Sequence>
       <Sequence from={INTRO + body} name="end">
-        {s.bg === 'C' ? <EndCardC ar={s.endAr} en={s.endEn} credit={s.credit} /> : <EndCard ar={s.endAr} en={s.endEn} credit={s.credit} />}
+        {s.bg === 'C' ? <EndCardC ar={s.endAr} en={s.endEn} credit={s.credit} /> : s.bg === 'D' ? <EndCardD ar={s.endAr} en={s.endEn} credit={s.credit} /> : <EndCard ar={s.endAr} en={s.endEn} credit={s.credit} />}
       </Sequence>
       <Audio
         src={staticFile(s.music)}

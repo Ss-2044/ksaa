@@ -20,7 +20,7 @@ export const faceAngles = (lat: number, lon: number) => {
   return {rotY: a, rotX: b};
 };
 
-const useTextures = (urls: string[]) => {
+export const useTextures = (urls: string[]) => {
   const [handle] = useState(() => delayRender('textures'));
   const [tex, setTex] = useState<THREE.Texture[] | null>(null);
   useEffect(() => {
@@ -38,10 +38,10 @@ const useTextures = (urls: string[]) => {
   return tex;
 };
 
-const earthVert = `
+export const earthVert = `
 varying vec2 vUv; varying vec3 vN;
 void main(){ vUv = uv; vN = normalize(mat3(modelMatrix) * normal); gl_Position = projectionMatrix * modelViewMatrix * vec4(position,1.0); }`;
-const earthFrag = `
+export const earthFrag = `
 uniform sampler2D day; uniform sampler2D night; uniform vec3 sun; uniform float nightBoost;
 varying vec2 vUv; varying vec3 vN;
 void main(){
