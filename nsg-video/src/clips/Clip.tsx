@@ -18,6 +18,13 @@ import {Coastline} from './Coastline';
 import {PixelCounter} from './PixelCounter';
 import {RiyadhGrows} from './RiyadhGrows';
 import {RoadOfLight} from './RoadOfLight';
+import {Circles} from '../designC/Circles';
+import {EndCardC} from '../designC/EndCardC';
+import {GlobeStory} from '../designC/GlobeStory';
+import {IntroC} from '../designC/IntroC';
+import {LightBg} from '../designC/LightBg';
+import {Mosaic} from '../designC/Mosaic';
+import {Numbers} from '../designC/Numbers';
 
 const INTRO = 90;
 const MAC = 'Music: Kevin MacLeod (incompetech.com) · Licensed under CC BY 4.0';
@@ -27,8 +34,8 @@ type Story = {
   titleAr: string; // used by the 9:16 version header
   titleEn: string;
   volume?: number;
-  intro: 'A' | 'B';
-  bg: 'A' | 'B';
+  intro: 'A' | 'B' | 'C';
+  bg: 'A' | 'B' | 'C';
   endAr: string;
   endEn: string;
   story?: number; // story frames (default 450)
@@ -166,6 +173,53 @@ export const STORIES = {
     music: 'music/equatorial-complex.mp3',
     credit: `Imagery: NASA ISS crew photography · Route is illustrative · ${MAC} — "Equatorial Complex"`,
   },
+  // —— Design C: light editorial ——
+  globe: {
+    titleAr: 'الكوكب',
+    titleEn: 'The planet',
+    Body: GlobeStory,
+    intro: 'C',
+    bg: 'C',
+    endAr: 'نرى الأرض… لنفهمها',
+    endEn: 'We see Earth to understand it',
+    music: 'music/impact-moderato.mp3',
+    volume: 0.85,
+    credit: `Earth textures: NASA Visible Earth (Blue Marble, Black Marble) · ${MAC} — "Impact Moderato"`,
+  },
+  mosaic: {
+    titleAr: 'فسيفساء الأرض',
+    titleEn: "Earth's mosaic",
+    Body: Mosaic,
+    intro: 'C',
+    bg: 'C',
+    endAr: 'فسيفساء الأرض… من الفضاء',
+    endEn: "Earth's mosaic, from space",
+    music: 'music/ascending-the-vale.mp3',
+    credit: `Imagery: NASA (ISS, Terra, Landsat, Apollo 17, Galileo) · Map data © OpenStreetMap contributors · ${MAC} — "Ascending the Vale"`,
+  },
+  numbers: {
+    titleAr: 'أرقام من المدار',
+    titleEn: 'Numbers from orbit',
+    Body: Numbers,
+    intro: 'C',
+    bg: 'C',
+    endAr: 'خلف كل صورة… أرقام مذهلة',
+    endEn: 'Behind every image, remarkable numbers',
+    music: 'music/hyperfun.mp3',
+    credit: `Imagery: NASA (ISS, Apollo 17, Galileo, Landsat) · ${MAC} — "Hyperfun"`,
+  },
+  circles: {
+    titleAr: 'دوائر في الصحراء',
+    titleEn: 'Circles in the desert',
+    Body: Circles,
+    intro: 'C',
+    bg: 'C',
+    endAr: 'الصحراء تخضرّ… والفضاء يشهد',
+    endEn: 'The desert turns green, and space bears witness',
+    music: 'music/clean-soul.mp3',
+    trimBefore: 34,
+    credit: `Imagery: NASA/JPL (Terra ASTER, Landsat, EarthKAM) · ${MAC} — "Clean Soul"`,
+  },
 } satisfies Record<string, Story>;
 
 export type StoryId = keyof typeof STORIES;
@@ -180,10 +234,10 @@ export const Clip: React.FC<{story: StoryId}> = ({story}) => {
   const {fps, durationInFrames} = useVideoConfig();
   const s: Story = STORIES[story];
   const body = s.story ?? 450;
-  const Intro = s.intro === 'A' ? LogoIntro : IntroB;
+  const Intro = s.intro === 'A' ? LogoIntro : s.intro === 'B' ? IntroB : IntroC;
   return (
     <AbsoluteFill>
-      {s.bg === 'A' ? <Background /> : <BackgroundB />}
+      {s.bg === 'A' ? <Background /> : s.bg === 'B' ? <BackgroundB /> : <LightBg />}
       <Sequence durationInFrames={INTRO} name="logo">
         <Intro duration={INTRO} />
       </Sequence>
@@ -191,7 +245,7 @@ export const Clip: React.FC<{story: StoryId}> = ({story}) => {
         <s.Body />
       </Sequence>
       <Sequence from={INTRO + body} name="end">
-        <EndCard ar={s.endAr} en={s.endEn} credit={s.credit} />
+        {s.bg === 'C' ? <EndCardC ar={s.endAr} en={s.endEn} credit={s.credit} /> : <EndCard ar={s.endAr} en={s.endEn} credit={s.credit} />}
       </Sequence>
       <Audio
         src={staticFile(s.music)}
