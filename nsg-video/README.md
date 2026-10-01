@@ -8,6 +8,7 @@
 | `NSG60` | 60 ثانية (1800 إطار) | `out/nsg-60s.mp4` |
 | `NSG30B` | 30 ثانية — التصميم الثاني | `out/nsg-B-30s.mp4` |
 | `NSG60B` | 60 ثانية — التصميم الثاني | `out/nsg-B-60s.mp4` |
+| `Clip-pixel` · `Clip-zoom` · `Clip-orbit` · `Clip-layers` | 20 ثانية لكل مقطع — فضاء وبيانات جيومكانية | `out/clip-*.mp4` (السيناريوهات في `docs/03-clips-scenarios.md`) |
 
 1920×1080 · 30fps · H.264.
 
@@ -23,6 +24,7 @@ npm run render      # تصدير 30 ثانية
 npm run render:60   # تصدير 60 ثانية
 npm run render:b    # التصميم الثاني 30 ثانية
 npm run render:b60  # التصميم الثاني 60 ثانية
+npm run render:clips # المقاطع الأربعة القصيرة
 ```
 > في بيئة لا يتوفر فيها Chrome أضف: `--browser-executable=/path/to/chrome`
 

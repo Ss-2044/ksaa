@@ -1,16 +1,30 @@
 // Original synthesized soundtrack for design B: 120 BPM, A minor, Am–F–C–G.
-// Usage: node scripts/make-music.mjs <seconds> <out.wav>
+// Usage: node scripts/make-music.mjs <seconds> <out.wav> [preset]
+// Presets change key, progression and texture; all stay at 120 BPM so cuts land on 15-frame beats.
 import {writeFileSync} from 'node:fs';
 
 const SECONDS = Number(process.argv[2] ?? 60);
 const OUT = process.argv[3] ?? 'music.wav';
+const PRESETS = {
+  // design B (default): A minor, Am–F–C–G
+  b: {chords: [[57, 60, 64], [53, 57, 60], [55, 60, 64], [55, 59, 62]], bass: [45, 41, 48, 43], outro: 4, halfTimeUntil: 0, click: false, barImpacts: false, arp: [0, 1, 2, 1, 2, 0, 1, 2], seed: 7},
+  // Clip 1 "pixel": D minor, warm and hopeful, Dm–Bb–F–C
+  pixel: {chords: [[50, 53, 57], [46, 50, 53], [53, 57, 60], [48, 52, 55]], bass: [38, 34, 41, 36], outro: 2, halfTimeUntil: 7, click: false, barImpacts: false, arp: [0, 2, 1, 2, 0, 2, 1, 2], seed: 11},
+  // Clip 2 "zoom": E minor, tense descent, Em–C–Am–B
+  zoom: {chords: [[52, 55, 59], [48, 52, 55], [45, 48, 52], [47, 51, 54]], bass: [40, 36, 45, 35], outro: 2, halfTimeUntil: 9, click: false, barImpacts: true, arp: [2, 1, 0, 1, 2, 1, 0, 1], seed: 23},
+  // Clip 3 "orbit": F# minor, ticking clock, F#m–D–A–E
+  orbit: {chords: [[54, 57, 61], [50, 54, 57], [49, 52, 57], [52, 56, 59]], bass: [42, 38, 45, 40], outro: 2, halfTimeUntil: 0, click: true, barImpacts: false, arp: [0, 1, 2, 0, 1, 2, 0, 1], seed: 31},
+  // Clip 4 "layers": C minor, heavy drops each bar, Cm–Ab–Eb–Bb
+  layers: {chords: [[48, 51, 55], [44, 48, 51], [51, 55, 58], [46, 50, 53]], bass: [36, 32, 39, 34], outro: 2, halfTimeUntil: 0, click: false, barImpacts: true, arp: [0, 2, 0, 1, 0, 2, 0, 1], seed: 43},
+};
+const P = PRESETS[process.argv[4] ?? 'b'];
 const SR = 44100;
 const N = Math.floor(SECONDS * SR);
 const BPM = 120;
 const BEAT = 60 / BPM; // 0.5 s = 15 frames @ 30fps
 const BAR = BEAT * 4;
 const DROP = 3; // logo intro ends, full beat starts
-const OUTRO = SECONDS - 4; // last 2 bars: final chord ring-out
+const OUTRO = SECONDS - P.outro; // final chord ring-out
 
 const L = new Float32Array(N);
 const R = new Float32Array(N);
@@ -21,26 +35,26 @@ const add = (i, l, r = l) => {
   }
 };
 const midi = (m) => 440 * Math.pow(2, (m - 69) / 12);
-let seed = 7;
+let seed = P.seed;
 const noise = () => ((seed = (seed * 1103515245 + 12345) & 0x7fffffff) / 0x7fffffff) * 2 - 1;
 
 // Chords (MIDI): Am, F, C, G
-const CHORDS = [
-  [57, 60, 64],
-  [53, 57, 60],
-  [55, 60, 64],
-  [55, 59, 62],
-];
-const BASS = [45, 41, 48, 43];
+const CHORDS = P.chords;
+const BASS = P.bass;
 const chordAt = (t) => Math.floor(Math.max(0, t - DROP) / BAR) % 4;
 
 // Breakdown in the 60s version (pads + arp only, no drums) under the Vision scene
 const BREAK = [46, 50];
-const isBreak = (t) => SECONDS >= 60 && t >= BREAK[0] && t < BREAK[1];
+const isBreak = (t) => process.argv[4] === undefined && SECONDS >= 60 && t >= BREAK[0] && t < BREAK[1];
+// half-time feel: kick only on beats 1 & 3 until halfTimeUntil
+const isHalf = (t) => t < P.halfTimeUntil;
 
 // ---- sidechain envelope from kick times
 const kicks = [];
-for (let t = DROP; t < OUTRO; t += BEAT) if (!isBreak(t)) kicks.push(t);
+for (let t = DROP; t < OUTRO; t += BEAT) {
+  const b = Math.round((t - DROP) / BEAT);
+  if (!isBreak(t) && !(isHalf(t) && b % 2 === 1)) kicks.push(t);
+}
 const duck = new Float32Array(N).fill(1);
 for (const t of kicks) {
   const s = Math.floor(t * SR);
@@ -76,7 +90,13 @@ for (let t = DROP; t < OUTRO; t += BEAT / 2) {
       add(s + k, hp * Math.exp(-(k / SR) * 70) * 0.09, hp * Math.exp(-(k / SR) * 70) * 0.12);
     }
   }
-  if (beatIdx % 4 === 2) {
+  if (P.click && beatIdx % 2 === 0) {
+    for (let k = 0; k < 0.02 * SR; k++) {
+      const v = Math.sin(2 * Math.PI * 3200 * (k / SR)) * Math.exp(-(k / SR) * 300) * 0.12;
+      add(s + k, v * 0.7, v);
+    }
+  }
+  if (beatIdx % 4 === 2 && !isHalf(t)) {
     let lp = 0;
     for (let k = 0; k < 0.2 * SR; k++) {
       const n = noise();
@@ -130,7 +150,7 @@ for (let t = DROP; t < OUTRO; t += BEAT / 2) {
 for (let t = DROP + BAR; t < OUTRO; t += BEAT / 4) {
   const step = Math.round((t - DROP) / (BEAT / 4));
   const chord = CHORDS[chordAt(t)];
-  const pattern = [0, 1, 2, 1, 2, 0, 1, 2];
+  const pattern = P.arp;
   const m = chord[pattern[step % 8]] + 12;
   const f = midi(m);
   const s = Math.floor(t * SR);
@@ -169,7 +189,8 @@ const impact = (t0, gain) => {
 impact(1.25, 0.35);
 impact(DROP, 0.6);
 impact(OUTRO, 0.55);
-if (SECONDS >= 60) impact(BREAK[1], 0.5);
+if (process.argv[4] === undefined && SECONDS >= 60) impact(BREAK[1], 0.5);
+if (P.barImpacts) for (let t = DROP + BAR; t < OUTRO - 0.1; t += BAR) impact(t, 0.22);
 
 // ---- final chord ring-out
 for (const m of [...CHORDS[0], 69, 45]) {
