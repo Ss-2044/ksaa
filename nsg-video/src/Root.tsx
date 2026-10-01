@@ -6,6 +6,7 @@ import {NSGVideoB} from './designB/VideoB';
 import {Clip, STORIES, StoryId, clipFrames} from './clips/Clip';
 import {VerticalClip} from './clips/Vertical';
 import {REELS, ReelById, reelFrames} from './reels/reels';
+import {EPISODES, EpisodeById, epFrames} from './linkedin/episodes';
 import {timelineB30, timelineB60, totalB} from './designB/timelinesB';
 
 export const RemotionRoot: React.FC = () => {
@@ -60,6 +61,10 @@ export const RemotionRoot: React.FC = () => {
           height={1080}
           defaultProps={{story}}
         />
+      ))}
+      {/* LinkedIn 4:5 educational series «من المدار» */}
+      {Object.keys(EPISODES).map((id) => (
+        <Composition key={`li-${id}`} id={`LinkedIn-${id}`} component={EpisodeById} durationInFrames={epFrames(id)} fps={FPS} width={1080} height={1350} defaultProps={{id}} />
       ))}
       {/* Native 9:16 interactive reels */}
       {Object.keys(REELS).map((id) => (
