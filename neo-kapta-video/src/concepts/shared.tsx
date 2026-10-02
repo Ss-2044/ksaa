@@ -1,3 +1,5 @@
+import '@fontsource/cairo/200.css';
+import '@fontsource/cairo/300.css';
 import '@fontsource/cairo/400.css';
 import '@fontsource/cairo/700.css';
 import '@fontsource/cairo/900.css';
@@ -16,6 +18,8 @@ export const useFonts = () => {
       document.fonts.load(`900 40px Cairo`, 'نيو'),
       document.fonts.load(`700 40px Cairo`, 'نيو'),
       document.fonts.load(`400 40px Cairo`, 'Neo'),
+      document.fonts.load(`300 40px Cairo`, 'رؤية Neo'),
+      document.fonts.load(`200 40px Cairo`, 'رؤية Neo'),
       document.fonts.load(`400 20px 'Press Start 2P'`, 'NEO'),
       document.fonts.load(`700 40px 'Aref Ruqaa'`, 'الدرعية'),
     ]).then(() => continueRender(handle));

@@ -4,6 +4,9 @@ Twenty-two 30-second partnership announcements (twenty-one 1920×1080, one 1080�
 
 | Composition | Idea | Output |
 |---|---|---|
+| `Film1-WhereVisionMeets` | Client script: cinematic, luxurious — Where Vision Meets Impact | `out/Film1-WhereVisionMeets.mp4` |
+| `Film2-FromDiriyahEverywhere` | Client script: from the heart of Diriyah to everywhere | `out/Film2-FromDiriyahEverywhere.mp4` |
+| `Film3-NotJustAPartnership` | Client script: not just a partnership — A New Chapter Begins | `out/Film3-NotJustAPartnership.mp4` |
 | `Idea1-Notification` | Told through a phone: notifications → chat → "Accept" | `out/Idea1-Notification.mp4` |
 | `Idea2-Constellation` | Stars connect into Diriyah's mountain and a megaphone | `out/Idea2-Constellation.mp4` |
 | `Idea3-Arcade` | 8-bit arcade: Player 1 + Player 2 → co-op mode | `out/Idea3-Arcade.mp4` |

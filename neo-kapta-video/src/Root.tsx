@@ -21,6 +21,9 @@ import {WaxSealConcept} from './concepts/WaxSeal';
 import {MicroscopeConcept} from './concepts/Microscope';
 import {FloatingIslandConcept} from './concepts/FloatingIsland';
 import {ReflectionConcept} from './concepts/Reflection';
+import {FilmVision} from './concepts/FilmVision';
+import {FilmEverywhere} from './concepts/FilmEverywhere';
+import {FilmNotJust} from './concepts/FilmNotJust';
 import {WeatherConcept} from './concepts/Weather';
 import {DURATION, FPS} from './theme';
 
@@ -47,6 +50,9 @@ const CONCEPTS = [
   {id: 'Idea20-Microscope', component: MicroscopeConcept},
   {id: 'Idea21-FloatingIsland', component: FloatingIslandConcept},
   {id: 'Idea22-Reflection', component: ReflectionConcept},
+  {id: 'Film1-WhereVisionMeets', component: FilmVision},
+  {id: 'Film2-FromDiriyahEverywhere', component: FilmEverywhere},
+  {id: 'Film3-NotJustAPartnership', component: FilmNotJust},
 ];
 
 // فكرة عمودية كاملة (9:16، 30 ث)

@@ -1583,6 +1583,176 @@ def reflection():
     T.save('music-reflection.wav', drive=1.3, fade_out=2.5)
 
 
+# ======================================================================
+# Cinematic films (23–25) — new sound palette: bowed cello/strings, soft choir, grand piano, braams
+# ======================================================================
+def _bowed(m, length, att=0.35, rel=0.5, vib=0.006):
+    t = tt(length)
+    f0 = hz(m) * (1 + vib * np.sin(2 * np.pi * 5.2 * t) * np.minimum(1, t / 0.6))
+    ph = np.cumsum(f0) / SR
+    saw = 2 * (ph % 1) - 1
+    s = onepole(saw, 0.08) + 0.3 * onepole(saw, 0.02)
+    env = np.minimum(1, t / att) * np.minimum(1, (length - t) / rel)
+    return s * env
+
+
+def _choir(notes, length, att=1.5):
+    t = tt(length)
+    out = np.zeros(len(t))
+    for m in notes:
+        for d in (-0.06, 0.0, 0.06):
+            f0 = hz(m + d) * (1 + 0.004 * np.sin(2 * np.pi * 4.6 * t + m))
+            ph = 2 * np.pi * np.cumsum(f0) / SR
+            # vowel-like "aah": fundamental + formant-ish partials
+            out += np.sin(ph) + 0.5 * np.sin(2 * ph) + 0.35 * np.sin(3 * ph) + 0.12 * np.sin(5 * ph)
+    env = np.minimum(1, t / att) * np.minimum(1, (length - t) / 1.2)
+    return onepole(out / (3 * len(notes)), 0.25) * env
+
+
+def _grand(T, m, length=3.0):
+    t = tt(length)
+    f0 = hz(m)
+    s = sum(a * np.sin(2 * np.pi * f0 * k * (1 + 0.0004 * k * k) * t) * np.exp(-t * (0.9 + k * 0.6)) for k, a in ((1, 1.0), (2, 0.5), (3, 0.25), (4, 0.12), (5, 0.06)))
+    hammer = onepole(T.noise(int(0.02 * SR)), 0.5) * np.exp(-tt(0.02) * 200)
+    s[: len(hammer)] += hammer * 0.4
+    return s * np.minimum(1, t * 400)
+
+
+def _braam(notes, length=3.0):
+    t = tt(length)
+    out = np.zeros(len(t))
+    for m in notes:
+        for d in (-0.15, 0.0, 0.15):
+            out += 2 * ((t * hz(m + d)) % 1) - 1
+    cut = 0.02 + 0.18 * np.exp(-t * 1.2)
+    y = np.empty(len(t))
+    acc = 0.0
+    for i in range(len(t)):
+        acc += cut[i] * (out[i] - acc)
+        y[i] = acc
+    return np.tanh(2.2 * y / len(notes)) * np.minimum(1, t / 0.05) * np.exp(-t * 0.7)
+
+
+def _sub(length=3.0, f0=38):
+    t = tt(length)
+    return np.sin(2 * np.pi * np.cumsum(f0 * (1 + 0.6 * np.exp(-t * 6))) / SR) * np.exp(-t * 1.1)
+
+
+def film_vision():
+    # luxurious & calm: grand piano, cello lines, soft choir swells
+    T = Track(26)
+    prog = [([50, 57, 62, 65], 0.0), ([46, 53, 58, 62], 5.0), ([48, 55, 60, 64], 10.0), ([45, 52, 57, 61], 15.0), ([50, 57, 62, 66], 23.0)]
+    for notes, at in prog:
+        ln = 5.6 if at < 23 else 7.0
+        T.add(_bowed(notes[0] - 12, ln, att=1.0, rel=1.2), at, gain=0.28)
+        T.add(_bowed(notes[1], ln, att=1.2, rel=1.2), at, pan=-0.3, gain=0.18)
+    motif = [74, 72, 69, 72, 74, 77, 76, 74]
+    for i in range(16):
+        at = 0.4 + i * 0.62
+        T.add(_grand(T, motif[i % 8] - (12 if i >= 8 else 0)), at, pan=0.2, gain=0.22)
+    T.add(_choir([62, 65, 69], 5.5, att=1.2), fr(300), gain=0.35)
+    T.add(_grand(T, 50, 4.0), fr(305), gain=0.35)
+    T.add(_grand(T, 62, 4.0), fr(350), gain=0.3)
+    # 15–23s montage: gentle pulse with cello pizzicato-like plucks
+    for k, at in enumerate(np.arange(15.0, 23.0, 0.5)):
+        T.add(_ks(T, [50, 57, 62, 57][k % 4], 0.8, 0.4), at, pan=-0.3, gain=0.25)
+        if k % 2 == 0:
+            t = tt(0.4)
+            T.add(np.sin(2 * np.pi * np.cumsum(70 * np.exp(-t * 12) + 45) / SR) * np.exp(-t * 8), at, gain=0.3)
+    T.add(_choir([50, 57, 62, 66, 69], 7.0, att=0.8), fr(690), gain=0.45)
+    for i, m in enumerate((62, 66, 69, 74, 78)):
+        T.add(_grand(T, m, 5.0), fr(715) + i * 0.18, gain=0.2)
+    T.save('music-film-vision.wav', drive=1.1, fade_out=2.0)
+
+
+def film_everywhere():
+    # bold premium: heartbeat, deep sub, glass FM plucks spreading, braam on the logos
+    T = Track(27)
+
+    def heart():
+        t = tt(0.3)
+        return np.sin(2 * np.pi * np.cumsum(55 * np.exp(-t * 10) + 38) / SR) * np.exp(-t * 14)
+
+    def glass(m, length=0.9):
+        t = tt(length)
+        f0 = hz(m)
+        mod = np.sin(2 * np.pi * f0 * 1.41 * t) * 2.5 * np.exp(-t * 5)
+        return np.sin(2 * np.pi * f0 * t + mod) * np.exp(-t * 4)
+
+    def whoosh(length=1.6):
+        t = tt(length)
+        x = T.noise(len(t))
+        out = np.empty(len(t))
+        acc = 0.0
+        for i in range(len(t)):
+            acc += (0.004 + 0.25 * (t[i] / length) ** 2) * (x[i] - acc)
+            out[i] = acc
+        return out * (t / length) ** 2
+
+    for b in np.arange(0.0, 4.0, 1.0):
+        T.add(heart(), b, gain=0.9)
+        T.add(heart(), b + 0.22, gain=0.6)
+    T.add(_sub(4.0), fr(65), gain=0.8)
+    T.add(_bowed(38, 26.0, att=3.0, rel=2.0, vib=0.002), 2.0, gain=0.35)
+    rng = np.random.default_rng(12)
+    notes = [74, 76, 79, 81, 83, 86]
+    at = fr(190)
+    while at < fr(420):
+        T.add(glass(notes[rng.integers(len(notes))]), at, pan=rng.uniform(-0.8, 0.8), gain=0.16)
+        at += 0.12 + 0.2 * (1 - (at - fr(190)) / (fr(420) - fr(190)))
+    for b in np.arange(4.0, 20.0, 1.0):
+        T.add(heart(), b, gain=0.45 + 0.02 * (b - 4))
+    T.add(whoosh(1.6), fr(420) - 1.4, gain=0.7)
+    T.add(_sub(3.0, 34), fr(425), gain=0.9)
+    T.add(_choir([62, 69, 74], 6.0, att=0.5), fr(430), gain=0.25)
+    T.add(whoosh(1.2), fr(600) - 1.1, gain=0.6)
+    T.add(_braam([38, 45, 50], 4.0), fr(600), gain=0.8)
+    T.add(_sub(3.0), fr(600), gain=0.7)
+    T.add(_choir([50, 57, 62, 66, 69], 6.0, att=0.6), fr(752), gain=0.5)
+    T.add(glass(86, 3.0), fr(790), gain=0.35)
+    T.add(_braam([38, 50, 57], 4.0), fr(825), gain=0.45)
+    T.save('music-film-everywhere.wav', drive=1.5, fade_out=1.5)
+
+
+def film_notjust():
+    # big news: staccato string ostinato, a silence, braams on the logos, driving toms, uplifting choir finish
+    T = Track(28)
+    bpm16 = 60 / 120 / 4
+
+    def stacc(m):
+        return _bowed(m, 0.13, att=0.01, rel=0.05, vib=0.0)
+
+    def tom(f0=90):
+        t = tt(0.6)
+        return np.sin(2 * np.pi * np.cumsum(f0 * np.exp(-t * 6) + f0 * 0.5) / SR) * np.exp(-t * 6)
+
+    pattern = [50, 50, 62, 50, 50, 62, 57, 50]
+    for k, at in enumerate(np.arange(0.2, 4.95, bpm16)):
+        T.add(stacc(pattern[k % 8] - 12), at, pan=-0.2, gain=0.35)
+    T.add(_bowed(38, 5.0, att=1.5, rel=0.6), 0.0, gain=0.4)
+    # silence 5–6s, then a soft tick pulse through the creative shots
+    for k, at in enumerate(np.arange(6.0, 11.0, 0.25)):
+        t = tt(0.03)
+        T.add(np.sin(2 * np.pi * 1700 * t) * np.exp(-t * 150), at, pan=0.3, gain=0.2)
+        if k % 4 == 0:
+            T.add(tom(70), at, gain=0.3)
+    T.add(_bowed(45, 5.0, att=2.0, rel=0.4), 6.0, gain=0.35)
+    T.add(_braam([38, 45, 50], 3.0), fr(340), gain=0.85)
+    T.add(_braam([41, 48, 53], 3.0), fr(392), gain=0.85)
+    T.add(_sub(3.0), fr(340), gain=0.6)
+    for k, at in enumerate(np.arange(16.0, 23.0, bpm16)):
+        T.add(stacc([50, 57, 62, 57][k % 4]), at, pan=-0.25, gain=0.28)
+        if k % 8 == 0:
+            T.add(tom(95), at, gain=0.45)
+        if k % 8 == 6:
+            T.add(tom(120), at, gain=0.3)
+    T.add(_bowed(38, 7.2, att=0.5, rel=0.5), 16.0, gain=0.35)
+    T.add(_choir([50, 57, 62, 66, 69], 7.0, att=1.0), fr(690), gain=0.5)
+    T.add(_bowed(50, 7.0, att=1.0, rel=1.5), fr(690), gain=0.35)
+    T.add(_braam([38, 50, 57, 62], 4.0), fr(805), gain=0.55)
+    T.save('music-film-notjust.wav', drive=1.5, fade_out=1.5)
+
+
 if __name__ == '__main__':
     import sys
 
@@ -1612,6 +1782,9 @@ if __name__ == '__main__':
         'microscope': microscope,
         'island': island,
         'reflection': reflection,
+        'film-vision': film_vision,
+        'film-everywhere': film_everywhere,
+        'film-notjust': film_notjust,
     }
     for name in sys.argv[1:] or tracks:
         tracks[name]()
