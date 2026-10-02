@@ -12,6 +12,9 @@ import {TimeHasComeConcept} from './concepts/TimeHasCome';
 import {DoorsConcept} from './concepts/Doors';
 import {PostcardsConcept} from './concepts/Postcards';
 import {ViewfinderConcept} from './concepts/Viewfinder';
+import {FlightConcept} from './concepts/Flight';
+import {LettersConcept} from './concepts/Letters';
+import {SketchConcept} from './concepts/Sketch';
 import {WeatherConcept} from './concepts/Weather';
 import {DURATION, FPS} from './theme';
 
@@ -29,6 +32,9 @@ const CONCEPTS = [
   {id: 'Idea11-Doors', component: DoorsConcept},
   {id: 'Idea12-Postcards', component: PostcardsConcept},
   {id: 'Idea13-Viewfinder', component: ViewfinderConcept},
+  {id: 'Idea14-Flight', component: FlightConcept},
+  {id: 'Idea15-Letters', component: LettersConcept},
+  {id: 'Idea16-Sketch', component: SketchConcept},
 ];
 
 // فكرة عمودية كاملة (9:16، 30 ث)

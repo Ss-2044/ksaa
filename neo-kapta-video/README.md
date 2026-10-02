@@ -1,6 +1,6 @@
-# Neo Capta × Diriyah — Remotion videos (13 ideas + 3 teasers)
+# Neo Capta × Diriyah — Remotion videos (16 ideas + 3 teasers)
 
-Thirteen 30-second partnership announcements (twelve 1920×1080, one 1080×1920) and three 10-second 1080×1920 teasers, each with its own design and original soundtrack:
+Sixteen 30-second partnership announcements (fifteen 1920×1080, one 1080×1920) and three 10-second 1080×1920 teasers, each with its own design and original soundtrack:
 
 | Composition | Idea | Output |
 |---|---|---|
@@ -17,6 +17,9 @@ Thirteen 30-second partnership announcements (twelve 1920×1080, one 1080×1920)
 | `Idea11-Doors` | Najdi doors open onto At-Turaif, Al Bujairi, Wadi Hanifa | `out/Idea11-Doors.mp4` |
 | `Idea12-Postcards` | Postcards from Diriyah; the last one is a message to the world | `out/Idea12-Postcards.mp4` |
 | `Idea13-Viewfinder` | A Neo Capta camera viewfinder shooting Diriyah | `out/Idea13-Viewfinder.mp4` |
+| `Idea14-Flight` | Airport: split-flap board, boarding pass, plane window over Diriyah | `out/Idea14-Flight.mp4` |
+| `Idea15-Letters` | Kinetic type with Diriyah photos inside giant letters | `out/Idea15-Letters.mp4` |
+| `Idea16-Sketch` | Pencil sketch painted into the real photo | `out/Idea16-Sketch.mp4` |
 | `Teaser1-WhoIsIt` | Vertical teaser: Neo Capta × mystery partner | `out/Teaser1-WhoIsIt.mp4` |
 | `Teaser2-Tomorrow` | Vertical teaser: 24h countdown + keyhole glimpses | `out/Teaser2-Tomorrow.mp4` |
 | `Teaser3-MissingPiece` | Vertical teaser: a puzzle piece looking for its match | `out/Teaser3-MissingPiece.mp4` |

@@ -75,7 +75,7 @@ const WallWithDoor: React.FC<{open: number; finale?: boolean; logos?: boolean; b
 type Room = {slot?: Slot; ar: string; en: string};
 const ROOMS: Room[] = [
   {slot: 'turaif-sunset', ar: 'خلف كل باب… حكاية', en: 'BEHIND EVERY DOOR, A STORY'},
-  {slot: 'bujairi-terrace', ar: 'البجيري… نبض الدرعية', en: 'AL BUJAIRI, THE HEART OF DIRIYAH'},
+  {slot: 'bujairi-terrace', ar: 'قلب الدرعية… ينبض', en: 'THE HEART OF DIRIYAH'},
   {slot: 'wadi-hanifa', ar: 'الدرعية… مستقبل يُبنى', en: 'DIRIYAH, A FUTURE IN THE MAKING'},
   {ar: 'باب جديد يُفتح…', en: 'A NEW DOOR OPENS'},
 ];

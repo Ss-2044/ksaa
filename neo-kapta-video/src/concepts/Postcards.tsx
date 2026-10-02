@@ -62,7 +62,7 @@ const Card: React.FC<{slot: Slot; caption: string; en: string}> = ({slot, captio
 
 const CARDS: {slot: Slot; caption: string; en: string; x: number; y: number; rot: number}[] = [
   {slot: 'turaif-sunset', caption: 'تحية من الدرعية', en: 'GREETINGS FROM DIRIYAH', x: 300, y: 120, rot: -6},
-  {slot: 'bujairi-terrace', caption: 'سلامات من البجيري', en: 'SALAAM FROM AL BUJAIRI', x: 820, y: 330, rot: 5},
+  {slot: 'bujairi-terrace', caption: 'سلامات من الدرعية', en: 'SALAAM FROM DIRIYAH', x: 820, y: 330, rot: 5},
   {slot: 'turaif-wall', caption: 'حيث الطين يحكي', en: 'WHERE MUD-BRICK SPEAKS', x: 160, y: 420, rot: 4},
   {slot: 'wadi-hanifa', caption: 'مستقبل يُبنى', en: 'A FUTURE IN THE MAKING', x: 900, y: 60, rot: -4},
 ];

@@ -165,8 +165,8 @@ export const DiriyahScene: React.FC<{mood: Mood; variant: number}> = ({mood, var
 export const SLOTS = {
   'turaif-sunset': {mood: 'sunset' as Mood, variant: 0, ar: 'الدرعية من الأعلى', en: 'DIRIYAH FROM ABOVE'},
   'turaif-wall': {mood: 'golden' as Mood, variant: 1, ar: 'الطين النجدي', en: 'NAJDI MUD-BRICK'},
-  'bujairi-night': {mood: 'night' as Mood, variant: 2, ar: 'البجيري ليلاً', en: 'AL BUJAIRI AT NIGHT'},
-  'bujairi-terrace': {mood: 'night' as Mood, variant: 4, ar: 'البجيري', en: 'AL BUJAIRI'},
+  'bujairi-night': {mood: 'night' as Mood, variant: 2, ar: 'الدرعية ليلاً', en: 'DIRIYAH AT NIGHT'},
+  'bujairi-terrace': {mood: 'night' as Mood, variant: 4, ar: 'قلب الدرعية', en: 'THE HEART OF DIRIYAH'},
   'wadi-hanifa': {mood: 'dawn' as Mood, variant: 3, ar: 'شوارع الدرعية', en: "DIRIYAH'S BOULEVARDS"},
 };
 export type Slot = keyof typeof SLOTS;
@@ -177,8 +177,8 @@ type Real = {file: string; pos: string; zoom?: number};
 const REAL: Partial<Record<Slot, Real>> = {
   'turaif-sunset': {file: 'diriyah/aerial.jpg', pos: '50% 50%'},
   'turaif-wall': {file: 'diriyah/tower-night.jpg', pos: '50% 50%'},
-  'bujairi-night': {file: 'diriyah/bujairi-night.jpg', pos: '50% 60%'},
-  'bujairi-terrace': {file: 'diriyah/bujairi-night.jpg', pos: '50% 70%', zoom: 1.15},
+  'bujairi-night': {file: 'diriyah/tower-night.jpg', pos: '50% 85%', zoom: 1.2},
+  'bujairi-terrace': {file: 'diriyah/aerial.jpg', pos: '85% 60%', zoom: 1.6},
   'wadi-hanifa': {file: 'diriyah/aerial.jpg', pos: '15% 85%', zoom: 1.9},
 };
 

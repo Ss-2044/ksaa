@@ -1161,6 +1161,185 @@ def viewfinder():
     T.save('music-viewfinder.wav', drive=1.5)
 
 
+# ======================================================================
+# 14) Flight — lounge electronic: airport chime, split-flap clatter, printer, jet rumble
+# ======================================================================
+def flight():
+    T = Track(17)
+    beat = 60 / 112
+
+    def chime(seq=(76, 72, 79)):
+        out = np.zeros(int(2.4 * SR))
+        for i, m in enumerate(seq):
+            t = tt(1.4)
+            s = (np.sin(2 * np.pi * hz(m) * t) + 0.3 * np.sin(2 * np.pi * hz(m + 12) * t)) * np.exp(-t * 2.5)
+            k = int(i * 0.45 * SR)
+            out[k : k + len(s)] += s[: len(out) - k]
+        return out
+
+    def flap():
+        t = tt(0.025)
+        x = T.noise(len(t))
+        return (x - onepole(x, 0.4)) * np.exp(-t * 200)
+
+    def rhodes(notes, length):
+        t = tt(length)
+        out = sum((np.sin(2 * np.pi * hz(m) * t) + 0.25 * np.sin(4 * np.pi * hz(m) * t) * np.exp(-t * 4)) for m in notes)
+        return out / len(notes) * (1 + 0.15 * np.sin(2 * np.pi * 4 * t)) * np.exp(-t * 0.7) * np.minimum(1, t * 100)
+
+    def kick():
+        t = tt(0.25)
+        return np.sin(2 * np.pi * np.cumsum(110 * np.exp(-t * 30) + 50) / SR) * np.exp(-t * 11)
+
+    def hat(op=False):
+        t = tt(0.15 if op else 0.04)
+        x = T.noise(len(t))
+        return (x - onepole(x, 0.8)) * np.exp(-t * (18 if op else 110))
+
+    def printer(length):
+        t = tt(length)
+        return np.sign(np.sin(2 * np.pi * 95 * t)) * (0.5 + 0.5 * np.sign(np.sin(2 * np.pi * 7 * t))) * 0.25
+
+    def rumble(length):
+        t = tt(length)
+        x = onepole(T.noise(len(t)), 0.01) * 6
+        return x * np.minimum(1, t / 1.5) * np.minimum(1, (length - t) / 1.5)
+
+    def stamp():
+        t = tt(0.5)
+        return np.sin(2 * np.pi * np.cumsum(90 * np.exp(-t * 20) + 50) / SR) * np.exp(-t * 12)
+
+    chords = [[62, 65, 69, 72], [60, 64, 67, 71], [58, 62, 65, 69], [57, 60, 64, 67]]  # Dm9 Cmaj7 Bbmaj7 Am7
+    t0, k = 0.0, 0
+    while t0 < 28.5:
+        T.add(rhodes(chords[k % 4], 4 * beat), t0, gain=0.35)
+        T.add(rhodes([chords[k % 4][0] - 24], 4 * beat), t0, gain=0.4)
+        if t0 >= 3.0 and not (15.0 <= t0 < 23.0):
+            for b in range(4):
+                at = t0 + b * beat
+                T.add(kick(), at, gain=0.45)
+                T.add(hat(True), at + beat / 2, pan=0.35, gain=0.12)
+        t0 += 4 * beat
+        k += 1
+    T.add(chime((72, 76, 79)), 0.1, gain=0.45)
+    for i in range(140):
+        T.add(flap(), fr(100) + i * 0.022 + T.rng.uniform(0, 0.01), pan=T.rng.uniform(-0.5, 0.5), gain=0.35)
+    T.add(chime(), fr(190), gain=0.6)
+    T.add(printer(1.4), fr(275), gain=0.4)
+    T.add(stamp(), fr(380), gain=0.9)
+    T.add(rumble(8.0), fr(450), gain=0.5)
+    T.add(rhodes([62, 66, 69, 74, 78], 4.0), fr(690), gain=0.5)
+    T.add(chime((79, 76, 72)), fr(812), gain=0.45)
+    T.save('music-flight.wav', drive=1.5, fade_out=1.5)
+
+
+# ======================================================================
+# 15) Letters — stomp-clap anthem: stomps, crowd claps, synth drone, a hit on every word
+# ======================================================================
+def letters():
+    T = Track(18)
+    beat = 60 / 96
+
+    def stomp():
+        t = tt(0.4)
+        thud = np.sin(2 * np.pi * np.cumsum(80 * np.exp(-t * 15) + 45) / SR) * np.exp(-t * 9)
+        wood = onepole(T.noise(len(t)), 0.2) * np.exp(-t * 30)
+        return thud + wood * 0.5
+
+    def clap():
+        t = tt(0.22)
+        out = np.zeros(len(t))
+        for d in (0.0, 0.007, 0.015, 0.022, 0.03):
+            i = int(d * SR)
+            x = T.noise(len(t) - i)
+            out[i:] += (x - onepole(x, 0.3)) * np.exp(-t[: len(t) - i] * 26)
+        return out * 0.4
+
+    def drone(notes, length):
+        t = tt(length)
+        out = sum(2 * ((t * hz(m + d)) % 1) - 1 for m in notes for d in (-0.1, 0.1))
+        return onepole(out / (2 * len(notes)), 0.04) * np.minimum(1, t / 0.5) * np.minimum(1, (length - t) / 0.5)
+
+    def hit():
+        t = tt(1.6)
+        return np.sin(2 * np.pi * np.cumsum(60 * np.exp(-t * 3) + 32) / SR) * np.exp(-t * 2.5) + onepole(T.noise(len(t)), 0.25) * np.exp(-t * 7)
+
+    def riser(length):
+        t = tt(length)
+        tone = np.sin(2 * np.pi * np.cumsum(120 + 1100 * (t / length) ** 2) / SR) * 0.4
+        return (tone + onepole(T.noise(len(t)), 0.15) * 0.6) * (t / length) ** 2
+
+    T.add(hit(), 0.0, gain=0.7)
+    T.add(hit(), fr(8), gain=0.5)
+    chords = [[50, 57, 62], [46, 53, 58], [48, 55, 60], [45, 52, 57]]
+    t0, k = 3.0, 0
+    while t0 < 19.0:
+        T.add(drone(chords[k % 4], 4 * beat), t0, gain=0.3)
+        for b in range(4):
+            at = t0 + b * beat
+            if b in (0, 2):
+                T.add(stomp(), at, gain=0.7)
+            else:
+                T.add(clap(), at, pan=0.2, gain=0.6)
+        t0 += 4 * beat
+        k += 1
+    for frm in (90, 210, 330, 450):
+        T.add(hit(), fr(frm), gain=0.8)
+    T.add(riser(2.2), fr(570), gain=0.7)
+    T.add(hit(), fr(640), gain=1.0)
+    T.add(drone([50, 57, 62, 66, 69], 5.0), fr(645), gain=0.45)
+    t0 = fr(660)
+    while t0 < 27.5:
+        T.add(stomp(), t0, gain=0.6)
+        T.add(clap(), t0 + beat, gain=0.5)
+        t0 += 2 * beat
+    T.add(hit(), fr(782), gain=0.7)
+    T.save('music-letters.wav', drive=1.6)
+
+
+# ======================================================================
+# 16) Sketch — gentle piano & strings, pencil scratching, brush swishes
+# ======================================================================
+def sketch():
+    T = Track(19)
+
+    def piano(m, length=2.5):
+        t = tt(length)
+        f = hz(m)
+        return (np.sin(2 * np.pi * f * t) + 0.35 * np.sin(4 * np.pi * f * t) * np.exp(-t * 3) + 0.1 * np.sin(6 * np.pi * f * t)) * np.exp(-t * 1.4) * np.minimum(1, t * 200)
+
+    def pencil(length):
+        t = tt(length)
+        x = T.noise(len(t))
+        x = x - onepole(x, 0.5)
+        strokes = 0.5 + 0.5 * np.sign(np.sin(2 * np.pi * 3.2 * t + np.sin(2 * np.pi * 0.7 * t)))
+        return x * strokes * 0.25
+
+    def brush(length=0.6):
+        t = tt(length)
+        x = onepole(T.noise(len(t)), 0.08)
+        return x * np.sin(np.pi * t / length) ** 2 * 2.5
+
+    arps = [[60, 64, 67, 72], [57, 60, 64, 69], [53, 57, 60, 65], [55, 59, 62, 67]]  # C Am F G
+    t0, k = 0.2, 0
+    while t0 < 28.0:
+        for i, m in enumerate(arps[k % 4] + arps[k % 4][::-1][1:3]):
+            T.add(piano(m), t0 + i * 0.4, pan=(-0.25 if i % 2 else 0.25), gain=0.22)
+        T.add(_pad([arps[k % 4][0] - 12, arps[k % 4][2] - 12], 2.6), t0, gain=0.25)
+        t0 += 2.4
+        k += 1
+    T.add(pencil(fr(120)), fr(95), pan=0.3, gain=0.6)
+    T.add(pencil(fr(80)), fr(455), pan=0.3, gain=0.6)
+    T.add(pencil(fr(50)), fr(665), pan=-0.2, gain=0.5)
+    for i in range(5):
+        T.add(brush(), fr(300 + i * 16), pan=(-0.4 + i * 0.2), gain=0.5)
+        T.add(brush(), fr(545 + i * 14), pan=(0.4 - i * 0.2), gain=0.5)
+    for m in (60, 64, 67, 72, 76):
+        T.add(piano(m, 4.0), fr(720) + (m - 60) * 0.02, gain=0.25)
+    T.add(_pad([48, 55, 60, 64, 67], 3.0), fr(812), gain=0.4)
+    T.save('music-sketch.wav', drive=1.6, fade_out=1.5)
+
+
 if __name__ == '__main__':
     import sys
 
@@ -1181,6 +1360,9 @@ if __name__ == '__main__':
         'doors': doors,
         'postcards': postcards,
         'viewfinder': viewfinder,
+        'flight': flight,
+        'letters': letters,
+        'sketch': sketch,
     }
     for name in sys.argv[1:] or tracks:
         tracks[name]()
