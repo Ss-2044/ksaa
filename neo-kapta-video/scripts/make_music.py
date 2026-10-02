@@ -1753,6 +1753,99 @@ def film_notjust():
     T.save('music-film-notjust.wav', drive=1.5, fade_out=1.5)
 
 
+def film_firstlight():
+    # sunrise: dark drone → strings crescendo → harp arpeggios as light spreads → warm choir
+    T = Track(29)
+    T.add(_bowed(38, 10.0, att=3.0, rel=2.0, vib=0.002), 0.0, gain=0.4)
+    T.add(_bowed(45, 9.0, att=4.0, rel=2.0), 1.0, gain=0.2)
+    prog = [([50, 57, 62, 65], 5.0), ([46, 53, 58, 62], 10.0), ([50, 57, 62, 66], 15.0), ([43, 50, 55, 59], 20.0), ([50, 57, 62, 66, 69], 25.0)]
+    for notes, at in prog:
+        for m in notes:
+            T.add(_bowed(m, 5.6, att=1.4, rel=1.2), at, pan=(m % 3 - 1) * 0.3, gain=0.12 + 0.02 * (at / 5))
+    harp = [62, 66, 69, 74, 78, 81, 78, 74]
+    for k, at in enumerate(np.arange(fr(160), 20.0, 0.18)):
+        T.add(_ks(T, harp[k % 8] + (0 if at < 15 else 5 if at < 17.5 else 0), 1.4, 0.75), at, pan=np.sin(k) * 0.6, gain=0.14)
+    T.add(_choir([62, 66, 69], 5.0, att=0.8), fr(450), gain=0.35)
+    T.add(_choir([50, 57, 62, 66, 69], 7.0, att=1.0), fr(600), gain=0.4)
+    T.save('music-film-firstlight.wav', drive=1.2, fade_out=2.0)
+
+
+def film_imprint():
+    # minimal: sparse grand piano motif, low cello, a single heartbeat at the meeting, whoosh through
+    T = Track(30)
+    motif = [(62, 0.0), (69, 0.9), (67, 1.8), (65, 2.7), (64, 3.9)]
+    for rep in range(6):
+        base = 0.5 + rep * 4.6
+        for m, off in motif:
+            T.add(_grand(T, m - (12 if rep % 2 else 0), 3.5), base + off, pan=0.2, gain=0.22)
+    T.add(_bowed(38, 10.0, att=2.0, rel=2.0), 0.0, gain=0.3)
+    T.add(_bowed(41, 10.0, att=2.0, rel=2.0), 10.0, gain=0.3)
+    T.add(_bowed(43, 6.0, att=1.5, rel=1.5), 20.0, gain=0.3)
+    t = tt(0.4)
+    hb = np.sin(2 * np.pi * np.cumsum(55 * np.exp(-t * 10) + 38) / SR) * np.exp(-t * 12)
+    for at in (fr(540), fr(540) + 0.25, fr(570), fr(570) + 0.25):
+        T.add(hb, at, gain=0.8)
+    t2 = tt(2.5)
+    x = T.noise(len(t2))
+    out = np.empty(len(t2))
+    acc = 0.0
+    for i in range(len(t2)):
+        acc += (0.004 + 0.2 * (t2[i] / 2.5) ** 2) * (x[i] - acc)
+        out[i] = acc
+    T.add(out * (t2 / 2.5) ** 2, fr(600), gain=0.5)
+    T.add(_choir([50, 57, 62, 65, 69], 7.0, att=0.8), fr(680), gain=0.4)
+    T.save('music-film-imprint.wav', drive=1.2, fade_out=2.0)
+
+
+def film_rhythm():
+    # restrained Saudi-inspired groove at 100 BPM: tabl on each beat, samri-like claps, deep bass, qanun-like plucks
+    T = Track(31)
+    beat = 0.6
+
+    def tabl():
+        t = tt(0.5)
+        return np.sin(2 * np.pi * np.cumsum(85 * np.exp(-t * 14) + 52) / SR) * np.exp(-t * 7)
+
+    def clap():
+        t = tt(0.2)
+        out = np.zeros(len(t))
+        for d in (0.0, 0.009, 0.018):
+            i = int(d * SR)
+            x = T.noise(len(t) - i)
+            out[i:] += (x - onepole(x, 0.3)) * np.exp(-t[: len(t) - i] * 30)
+        return out * 0.35
+
+    def bass(m, length):
+        t = tt(length)
+        return np.tanh(1.5 * np.sin(2 * np.pi * hz(m) * t)) * np.exp(-t * 1.6) * np.minimum(1, (length - t) * 30)
+
+    T.add(tabl(), 0.13, gain=0.7)
+    T.add(tabl(), 0.13 + beat, gain=0.7)
+    T.add(_bowed(38, 3.0, att=0.8, rel=0.5), 0.0, gain=0.3)
+    kurd = [62, 63, 65, 67, 69, 70, 72, 74]
+    line = [0, 2, 3, 4, 3, 2, 1, 0, 4, 5, 4, 3, 2, 1, 2, 0]
+    roots = [38, 38, 41, 36]
+    start = 3.0
+    end = 26.6
+    k = 0
+    at = start
+    while at < end:
+        T.add(tabl(), at, gain=0.6 if k % 2 == 0 else 0.4)
+        if k % 4 in (1, 3):
+            T.add(clap(), at + beat * 0.5, pan=0.25, gain=0.5)
+        if k % 4 == 3:
+            T.add(clap(), at + beat * 0.75, pan=-0.25, gain=0.35)
+        if k % 2 == 0:
+            T.add(bass(roots[(k // 4) % 4], beat * 1.8), at, gain=0.4)
+        T.add(_ks(T, kurd[line[k % 16]] + 12, 0.9, 0.8), at + beat * 0.5, pan=-0.3, gain=0.16)
+        at += beat
+        k += 1
+    T.add(_choir([50, 57, 62, 65], 6.0, att=1.0), fr(630), gain=0.35)
+    T.add(tabl(), fr(800), gain=0.8)
+    T.add(_bowed(38, 3.5, att=0.2, rel=1.5), fr(800), gain=0.35)
+    T.save('music-film-rhythm.wav', drive=1.4, fade_out=1.5)
+
+
 if __name__ == '__main__':
     import sys
 
@@ -1785,6 +1878,9 @@ if __name__ == '__main__':
         'film-vision': film_vision,
         'film-everywhere': film_everywhere,
         'film-notjust': film_notjust,
+        'film-firstlight': film_firstlight,
+        'film-imprint': film_imprint,
+        'film-rhythm': film_rhythm,
     }
     for name in sys.argv[1:] or tracks:
         tracks[name]()

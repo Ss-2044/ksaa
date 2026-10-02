@@ -24,6 +24,9 @@ import {ReflectionConcept} from './concepts/Reflection';
 import {FilmVision} from './concepts/FilmVision';
 import {FilmEverywhere} from './concepts/FilmEverywhere';
 import {FilmNotJust} from './concepts/FilmNotJust';
+import {FilmFirstLight} from './concepts/FilmFirstLight';
+import {FilmImprint} from './concepts/FilmImprint';
+import {FilmRhythm} from './concepts/FilmRhythm';
 import {WeatherConcept} from './concepts/Weather';
 import {DURATION, FPS} from './theme';
 
@@ -53,6 +56,9 @@ const CONCEPTS = [
   {id: 'Film1-WhereVisionMeets', component: FilmVision},
   {id: 'Film2-FromDiriyahEverywhere', component: FilmEverywhere},
   {id: 'Film3-NotJustAPartnership', component: FilmNotJust},
+  {id: 'Film4-FirstLight', component: FilmFirstLight},
+  {id: 'Film5-Imprint', component: FilmImprint},
+  {id: 'Film6-Rhythm', component: FilmRhythm},
 ];
 
 // فكرة عمودية كاملة (9:16، 30 ث)
