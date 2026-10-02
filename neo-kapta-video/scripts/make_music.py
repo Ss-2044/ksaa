@@ -637,6 +637,241 @@ def teaser_tomorrow():
     T.save('music-teaser-tomorrow.wav', drive=1.3, fade_out=0.4)
 
 
+# ======================================================================
+# 7) Puzzle — light & playful: pizzicato, glockenspiel, soft kick, the big "click"
+# ======================================================================
+def puzzle():
+    T = Track(9)
+    beat = 0.6
+
+    def pizz(m, length=0.35):
+        t = tt(length)
+        f = hz(m)
+        return (np.sin(2 * np.pi * f * t) + 0.4 * np.sin(4 * np.pi * f * t)) * np.exp(-t * 14)
+
+    def glock(m, length=1.2):
+        t = tt(length)
+        f = hz(m)
+        return (np.sin(2 * np.pi * f * t) + 0.3 * np.sin(2 * np.pi * f * 2.76 * t) * np.exp(-t * 6)) * np.exp(-t * 3.5)
+
+    def kick():
+        t = tt(0.25)
+        return np.sin(2 * np.pi * np.cumsum(100 * np.exp(-t * 30) + 50) / SR) * np.exp(-t * 14)
+
+    def click():
+        t = tt(0.25)
+        x = T.noise(len(t))
+        return (x - onepole(x, 0.5)) * np.exp(-t * 80) + np.sin(2 * np.pi * 180 * t) * np.exp(-t * 25)
+
+    def whoosh(length=0.5):
+        t = tt(length)
+        return onepole(T.noise(len(t)), 0.08) * np.sin(np.pi * t / length) ** 2
+
+    chords = [[60, 64, 67], [57, 60, 64], [53, 57, 60], [55, 59, 62]]
+    t0, k = 0.0, 0
+    while t0 < 29.0:
+        ch = chords[k % 4]
+        for e in range(8):
+            at = t0 + e * beat / 2
+            if at >= 29:
+                break
+            T.add(pizz(ch[e % 3] + (12 if e in (3, 7) else 0)), at, pan=(-0.3 if e % 2 else 0.3), gain=0.35)
+            if t0 >= 3.0 and e % 2 == 0 and not (9.0 <= at < 11.0):
+                T.add(kick(), at, gain=0.35)
+        T.add(pizz(ch[0] - 12, 0.6), t0, gain=0.45)
+        t0 += 4 * beat
+        k += 1
+    for i, m in enumerate((72, 76, 79)):
+        T.add(glock(m), 0.1 + i * 0.12, gain=0.3)
+    # tension before the snap, then CLICK
+    for i in range(10):
+        T.add(glock(72 + i, 0.4), 9.0 + i * 0.2, gain=0.12 + i * 0.015)
+    T.add(click(), fr(330), gain=1.0)
+    for i, m in enumerate((72, 76, 79, 84)):
+        T.add(glock(m, 1.5), fr(332) + i * 0.07, gain=0.35)
+    for i in range(6):
+        T.add(whoosh(), fr(405 + i * 15), pan=(-0.5 if i % 2 else 0.5), gain=0.35)
+        T.add(click(), fr(425 + i * 15), gain=0.4)
+    for i, m in enumerate((79, 84, 88, 91)):
+        T.add(glock(m, 2.0), fr(610) + i * 0.1, gain=0.3)
+    T.add(glock(84, 2.5), 28.0, gain=0.4)
+    T.save('music-puzzle.wav', drive=2.3)
+
+
+# ======================================================================
+# 8) Coffee — oud (Karplus-Strong) in maqam Kurd, riq & frame drum, pouring, cup clink
+# ======================================================================
+def coffee():
+    T = Track(10)
+    beat = 60 / 90
+
+    def oud(m, length=1.2, bright=0.55):
+        n = int(length * SR)
+        p = int(SR / hz(m))
+        buf = T.rng.uniform(-1, 1, p)
+        out = np.empty(n)
+        for i in range(n):
+            v = buf[i % p]
+            out[i] = v
+            buf[i % p] = 0.995 * (bright * v + (1 - bright) * buf[(i + 1) % p])
+        return out
+
+    def tar():
+        t = tt(0.5)
+        return np.sin(2 * np.pi * np.cumsum(80 * np.exp(-t * 12) + 60) / SR) * np.exp(-t * 6)
+
+    def riq():
+        t = tt(0.15)
+        x = T.noise(len(t))
+        return (x - onepole(x, 0.8)) * np.exp(-t * 25) * 0.6
+
+    def pour(length):
+        t = tt(length)
+        x = onepole(T.noise(len(t)), 0.15)
+        bub = np.sin(2 * np.pi * (500 + 200 * np.sin(2 * np.pi * 7 * t)) * t) * 0.15
+        return (x + bub) * np.minimum(1, t * 5) * np.minimum(1, (length - t) * 5)
+
+    def clink():
+        t = tt(1.5)
+        return sum(np.sin(2 * np.pi * f0 * t) * np.exp(-t * d) for f0, d in ((2350, 4), (3410, 6), (5120, 9))) / 3
+
+    def drone(length):
+        t = tt(length)
+        return (np.sin(2 * np.pi * hz(38) * t) + 0.5 * np.sin(2 * np.pi * hz(45) * t)) * np.minimum(1, t / 2) * np.minimum(1, (length - t) / 2)
+
+    KURD = [62, 63, 65, 67, 69, 70, 72, 74]
+    phrase = [(0, 1), (1, 0.5), (2, 0.5), (3, 1), (4, 1), (3, 0.5), (2, 0.5), (1, 1), (0, 2),
+              (4, 1), (5, 0.5), (4, 0.5), (3, 1), (2, 1), (3, 0.5), (2, 0.5), (1, 1), (0, 2)]
+    T.add(drone(29.0), 0.0, gain=0.25)
+    t0 = 0.3
+    while t0 < 27.5:
+        for deg, b in phrase:
+            if t0 >= 27.5:
+                break
+            T.add(oud(KURD[deg]), t0, pan=-0.2, gain=0.3)
+            t0 += b * beat
+    # frame drum (samai-like) from 3s
+    pat = [(0, 'D'), (1.5, 'D'), (2, 't'), (3, 't'), (3.5, 't')]
+    bar = 3.0
+    while bar < 26.0:
+        for off, kind in pat:
+            at = bar + off * beat
+            T.add(tar() if kind == 'D' else riq(), at, pan=(0 if kind == 'D' else 0.35), gain=0.45 if kind == 'D' else 0.3)
+        bar += 4 * beat
+    T.add(pour(fr(70)), fr(158), pan=-0.2, gain=0.5)
+    T.add(pour(fr(70)), fr(328), pan=0.2, gain=0.5)
+    for i, m in enumerate((62, 65, 69, 74)):
+        T.add(oud(m, 2.0, 0.7), fr(520) + i * 0.12, gain=0.3)
+    T.add(clink(), fr(820), gain=0.6)
+    for m in (50, 57, 62, 65):
+        T.add(oud(m, 3.0, 0.6), fr(822), gain=0.3)
+    T.save('music-coffee.wav', drive=1.5, fade_out=1.5)
+
+
+# ======================================================================
+# 9) Live stream — trap beat: 808 slides, hat rolls, snaps, airy pad, drop at the reveal
+# ======================================================================
+def live():
+    T = Track(11)
+    beat = 60 / 140
+
+    def kick808(m, length):
+        t = tt(length)
+        f = hz(m) * (1 + 1.5 * np.exp(-t * 30))
+        return np.tanh(2 * np.sin(2 * np.pi * np.cumsum(f) / SR)) * np.exp(-t * 1.2) * np.minimum(1, (length - t) * 30)
+
+    def snap():
+        t = tt(0.12)
+        x = T.noise(len(t))
+        return (x - onepole(x, 0.4)) * np.exp(-t * 40)
+
+    def hat():
+        t = tt(0.04)
+        x = T.noise(len(t))
+        return (x - onepole(x, 0.8)) * np.exp(-t * 120)
+
+    def pad(notes, length):
+        t = tt(length)
+        out = sum(np.sin(2 * np.pi * hz(m + d) * t) for m in notes for d in (-0.08, 0.08))
+        return out / (2 * len(notes)) * np.minimum(1, t / 0.8) * np.minimum(1, (length - t) / 0.8)
+
+    def blip(m):
+        t = tt(0.12)
+        return np.sin(2 * np.pi * hz(m) * t) * np.exp(-t * 30)
+
+    def chime():
+        t = tt(1.5)
+        return sum(np.sin(2 * np.pi * hz(m) * t) * np.exp(-t * 3) for m in (84, 88, 91)) / 3
+
+    def impact():
+        t = tt(2.0)
+        return np.sin(2 * np.pi * np.cumsum(60 * np.exp(-t * 2) + 30) / SR) * np.exp(-t * 2) + onepole(T.noise(len(t)), 0.2) * np.exp(-t * 6)
+
+    chords = [[57, 60, 64, 67], [53, 57, 60, 64], [55, 59, 62, 65], [52, 55, 59, 62]]  # Am7 Fmaj7 G7 Em7
+    roots = [33, 29, 31, 28]
+    bar_len = 4 * beat
+    t0, k = 0.0, 0
+    while t0 < 28.5:
+        T.add(pad(chords[k % 4], bar_len + 0.3), t0, gain=0.3)
+        drop = t0 >= 15.0
+        if t0 >= 3.0:
+            T.add(kick808(roots[k % 4] + 12, beat * (1.5 if drop else 1.0)), t0, gain=0.6)
+            T.add(kick808(roots[k % 4] + 12, beat * 0.9), t0 + beat * 2.5, gain=0.5)
+            T.add(snap(), t0 + beat, pan=0.1, gain=0.5)
+            T.add(snap(), t0 + 3 * beat, pan=0.1, gain=0.5)
+            for s16 in range(16):
+                at = t0 + s16 * beat / 4
+                if s16 % 2 == 0 or (drop and s16 in (13, 14, 15)):
+                    T.add(hat(), at, pan=0.35, gain=0.18)
+            if drop and k % 2 == 1:
+                for r in range(6):
+                    T.add(hat(), t0 + 3.5 * beat + r * beat / 12, pan=0.35, gain=0.15)
+        t0 += bar_len
+        k += 1
+    # comment pops
+    for at in (100, 125, 150, 180, 215, 300, 330, 365, 500, 522, 545, 570, 600):
+        T.add(blip(84 + (at % 5) * 2), fr(at), pan=-0.4, gain=0.25)
+    T.add(impact(), fr(450), gain=0.9)
+    T.add(chime(), fr(470), gain=0.5)
+    T.add(chime(), fr(640), gain=0.35)
+    T.add(impact(), fr(780), gain=0.6)
+    T.save('music-live.wav', drive=1.5)
+
+
+def teaser_piece():
+    T = Track(12, 10.0)
+
+    def piano(m, length=2.5):
+        t = tt(length)
+        f = hz(m)
+        return (np.sin(2 * np.pi * f * t) + 0.3 * np.sin(4 * np.pi * f * t) * np.exp(-t * 3)) * np.exp(-t * 1.5) * np.minimum(1, t * 200)
+
+    def tick():
+        t = tt(0.03)
+        return np.sin(2 * np.pi * 1600 * t) * np.exp(-t * 150)
+
+    def whoosh(length=0.6):
+        t = tt(length)
+        return onepole(T.noise(len(t)), 0.06) * np.sin(np.pi * t / length) ** 2
+
+    def thud():
+        t = tt(1.5)
+        return np.sin(2 * np.pi * np.cumsum(70 * np.exp(-t * 4) + 35) / SR) * np.exp(-t * 3)
+
+    notes = [69, 72, 76, 74, 72, 71, 69, 68]
+    for i, m in enumerate(notes):
+        T.add(piano(m), 0.2 + i * 0.9, pan=(-0.3 if i % 2 else 0.3), gain=0.35)
+        T.add(piano(m - 24, 2.0), 0.2 + i * 0.9, gain=0.2)
+    for s in np.arange(0.0, 7.2, 0.5):
+        T.add(tick(), s, gain=0.25)
+    for at in (90, 160):
+        T.add(whoosh(), fr(at), gain=0.4)
+    T.add(thud(), fr(220), gain=0.9)
+    for m in (57, 64, 69, 72, 76):
+        T.add(piano(m, 3.0), fr(222), gain=0.25)
+    T.save('music-teaser-piece.wav', drive=1.3, fade_out=0.5)
+
+
 if __name__ == '__main__':
     import sys
 
@@ -649,6 +884,10 @@ if __name__ == '__main__':
         'crossword': crossword,
         'teaser-who': teaser_who,
         'teaser-tomorrow': teaser_tomorrow,
+        'puzzle': puzzle,
+        'coffee': coffee,
+        'live': live,
+        'teaser-piece': teaser_piece,
     }
     for name in sys.argv[1:] or tracks:
         tracks[name]()

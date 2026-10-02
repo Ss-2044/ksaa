@@ -3,6 +3,7 @@ import React from 'react';
 import {AbsoluteFill, Audio, Img, interpolate, spring, staticFile, useCurrentFrame, useVideoConfig} from 'remotion';
 import {NeoLogo} from '../components';
 import {COLORS, FONT} from '../theme';
+import {Piece, S as PIECE} from './Puzzle';
 import {clamp, useFonts} from './shared';
 
 const Line: React.FC<{at: number; children: React.ReactNode; size: number; color: string; dir?: 'rtl' | 'ltr'; spacing?: number}> = ({
@@ -226,6 +227,62 @@ export const TeaserTomorrow: React.FC = () => {
       )}
       <AbsoluteFill style={{background: '#fff', opacity: flash}} />
       <AbsoluteFill style={{background: '#000', opacity: interpolate(f, [290, 300], [0, 1], clamp)}} />
+    </AbsoluteFill>
+  );
+};
+
+// تشويق 3: «القطعة الناقصة» — قطعة بازل نيو كابتا وبجانبها فراغ نحاسي ينتظر قطعته
+export const TeaserMissingPiece: React.FC = () => {
+  useFonts();
+  const f = useCurrentFrame();
+  const {fps} = useVideoConfig();
+  const enter = spring({frame: f, fps, config: {damping: 13}});
+  // القطعة تحاول الاقتراب من الفراغ مرتين ثم تتراجع
+  const tryFit = f < 200 ? Math.max(0, Math.sin(((f - 60) / 70) * Math.PI)) * (f > 60 ? 40 : 0) : 0;
+  const glow = 0.5 + 0.5 * Math.sin(f / 8);
+  const end = spring({frame: f - 220, fps, config: {damping: 12}});
+  return (
+    <AbsoluteFill style={{background: COLORS.sand}}>
+      <Audio src={staticFile('music-teaser-piece.wav')} />
+      <AbsoluteFill
+        style={{
+          backgroundImage: 'linear-gradient(rgba(0,0,0,0.05) 2px, transparent 2px), linear-gradient(90deg, rgba(0,0,0,0.05) 2px, transparent 2px)',
+          backgroundSize: '60px 60px',
+        }}
+      />
+      <div style={{position: 'absolute', top: 640, left: 540 - PIECE, width: 2 * PIECE, height: PIECE}}>
+        <Piece
+          edges={[0, 0, 0, -1]}
+          fill={`rgba(185,122,87,${0.08 + glow * 0.12})`}
+          stroke={COLORS.copper}
+          dashed
+          style={{left: PIECE, top: 0}}
+        >
+          <div style={{fontFamily: FONT, fontSize: 200, fontWeight: 900, color: COLORS.copper, opacity: 0.4 + glow * 0.6}}>؟</div>
+        </Piece>
+        <Piece
+          edges={[0, 1, 0, 0]}
+          fill={COLORS.neoBlack}
+          style={{left: tryFit - (1 - enter) * 700, top: 0, transform: `rotate(${-tryFit / 8}deg)`}}
+        >
+          <NeoLogo size={220} style={{boxShadow: 'none', border: 'none'}} />
+        </Piece>
+      </div>
+      <div style={{position: 'absolute', top: 1080, width: '100%', display: 'flex', flexDirection: 'column', gap: 10}}>
+        {f < 215 ? (
+          <>
+            <Line at={30} size={92} color={COLORS.navy}>ينقصنا قطعة…</Line>
+            <Line at={60} size={34} color={COLORS.copper} dir="ltr" spacing={8}>ONE PIECE IS MISSING…</Line>
+            <Line at={120} size={76} color={COLORS.copper}>قطعة بحجم التاريخ</Line>
+          </>
+        ) : (
+          <div style={{textAlign: 'center', fontFamily: FONT, transform: `scale(${end})`}}>
+            <div dir="rtl" style={{fontSize: 110, fontWeight: 900, color: COLORS.navy}}>غداً تكتمل الصورة</div>
+            <div style={{fontSize: 36, letterSpacing: 8, color: COLORS.copper}}>TOMORROW, THE PICTURE IS COMPLETE</div>
+          </div>
+        )}
+      </div>
+      <AbsoluteFill style={{background: COLORS.sand, opacity: interpolate(f, [290, 300], [0, 1], clamp)}} />
     </AbsoluteFill>
   );
 };

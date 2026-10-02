@@ -11,9 +11,13 @@
     "render:Idea4-Clay": "remotion render Idea4-Clay out/Idea4-Clay.mp4 --codec=h264 --crf=18",
     "render:Idea5-Weather": "remotion render Idea5-Weather out/Idea5-Weather.mp4 --codec=h264 --crf=18",
     "render:Idea6-Crossword": "remotion render Idea6-Crossword out/Idea6-Crossword.mp4 --codec=h264 --crf=18",
+    "render:Idea7-Puzzle": "remotion render Idea7-Puzzle out/Idea7-Puzzle.mp4 --codec=h264 --crf=18",
+    "render:Idea8-Coffee": "remotion render Idea8-Coffee out/Idea8-Coffee.mp4 --codec=h264 --crf=18",
+    "render:Idea9-LiveStream": "remotion render Idea9-LiveStream out/Idea9-LiveStream.mp4 --codec=h264 --crf=18",
     "render:Teaser1-WhoIsIt": "remotion render Teaser1-WhoIsIt out/Teaser1-WhoIsIt.mp4 --codec=h264 --crf=18",
     "render:Teaser2-Tomorrow": "remotion render Teaser2-Tomorrow out/Teaser2-Tomorrow.mp4 --codec=h264 --crf=18",
-    "render": "npm run render:Idea1-Notification && npm run render:Idea2-Constellation && npm run render:Idea3-Arcade && npm run render:Idea4-Clay && npm run render:Idea5-Weather && npm run render:Idea6-Crossword && npm run render:Teaser1-WhoIsIt && npm run render:Teaser2-Tomorrow"
+    "render:Teaser3-MissingPiece": "remotion render Teaser3-MissingPiece out/Teaser3-MissingPiece.mp4 --codec=h264 --crf=18",
+    "render": "npm run render:Idea1-Notification && npm run render:Idea2-Constellation && npm run render:Idea3-Arcade && npm run render:Idea4-Clay && npm run render:Idea5-Weather && npm run render:Idea6-Crossword && npm run render:Idea7-Puzzle && npm run render:Idea8-Coffee && npm run render:Idea9-LiveStream && npm run render:Teaser1-WhoIsIt && npm run render:Teaser2-Tomorrow && npm run render:Teaser3-MissingPiece"
   },
   "dependencies": {
     "@fontsource/aref-ruqaa": "^5.3.0",

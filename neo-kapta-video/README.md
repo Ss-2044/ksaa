@@ -1,6 +1,6 @@
-# Neo Capta × Diriyah — Remotion videos (6 ideas + 2 teasers)
+# Neo Capta × Diriyah — Remotion videos (9 ideas + 3 teasers)
 
-Six 30-second 1920×1080 partnership announcements and two 10-second 1080×1920 teasers, each with its own design and original soundtrack:
+Nine 30-second partnership announcements (eight 1920×1080, one 1080×1920) and three 10-second 1080×1920 teasers, each with its own design and original soundtrack:
 
 | Composition | Idea | Output |
 |---|---|---|
@@ -10,8 +10,12 @@ Six 30-second 1920×1080 partnership announcements and two 10-second 1080×1920 
 | `Idea4-Clay` | Clay wall cracks and shatters into a digital world | `out/Idea4-Clay.mp4` |
 | `Idea5-Weather` | TV weather forecast: radar, "100% partnership", breaking news | `out/Idea5-Weather.mp4` |
 | `Idea6-Crossword` | Newspaper crossword whose answer is "partnership" | `out/Idea6-Crossword.mp4` |
+| `Idea7-Puzzle` | Two puzzle pieces click together, then the full picture completes | `out/Idea7-Puzzle.mp4` |
+| `Idea8-Coffee` | A dallah pours two cups; the steam writes the news | `out/Idea8-Coffee.mp4` |
+| `Idea9-LiveStream` | Vertical: told as a live stream with comments and hearts | `out/Idea9-LiveStream.mp4` |
 | `Teaser1-WhoIsIt` | Vertical teaser: Neo Capta × mystery partner | `out/Teaser1-WhoIsIt.mp4` |
 | `Teaser2-Tomorrow` | Vertical teaser: 24h countdown + keyhole glimpses | `out/Teaser2-Tomorrow.mp4` |
+| `Teaser3-MissingPiece` | Vertical teaser: a puzzle piece looking for its match | `out/Teaser3-MissingPiece.mp4` |
 
 ```bash
 npm install
