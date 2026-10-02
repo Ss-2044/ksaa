@@ -126,9 +126,9 @@ export const TimeHasComeConcept: React.FC = () => {
       ) : null}
 
       {/* 3–18 ث: جولة الصور */}
-      <Photo slot="turaif-sunset" from={85} dur={160} dir={1} />
+      <Photo slot="bujairi-night" from={85} dur={160} dir={1} />
       <Photo slot="turaif-wall" from={235} dur={160} dir={-1} />
-      <Photo slot="bujairi-night" from={385} dur={170} dir={1} />
+      <Photo slot="turaif-sunset" from={385} dur={170} dir={1} />
       <Caption from={95} to={240} ar="الدرعية… حيث بدأت الحكاية" en="DIRIYAH… WHERE IT ALL BEGAN" />
       <Caption from={245} to={390} ar="إرثٌ صنع التاريخ" en="A HERITAGE THAT SHAPED HISTORY" />
       <Caption from={395} to={545} ar="واليوم… العالم كله يتجه إليها" en="TODAY, THE WORLD IS LOOKING HERE" />
@@ -159,7 +159,7 @@ export const TimeHasComeConcept: React.FC = () => {
       {/* 23–27 ث: للشراكة — الصورة تنقسم: نصف بإضاءة نيو كابتا الزرقاء ونصف نحاسي */}
       {f >= 688 && f < 815 ? (
         <AbsoluteFill style={{opacity: interpolate(f, [800, 815], [1, 0], clamp)}}>
-          <Photo slot="wadi-hanifa" from={688} dur={127} dir={-1} />
+          <Photo slot="bujairi-terrace" from={688} dur={127} dir={-1} />
           <AbsoluteFill style={{background: `linear-gradient(90deg, ${COLORS.neoBlue}cc 0%, ${COLORS.neoBlue}55 ${50 * split}%, ${COLORS.copper}55 ${100 - 50 * split}%, ${COLORS.copper}cc 100%)`, mixBlendMode: 'multiply'}} />
           <AbsoluteFill style={{justifyContent: 'center', alignItems: 'center', fontFamily: FONT}}>
             <div dir="rtl" style={{fontSize: 190, fontWeight: 900, color: '#fff', transform: `scale(${word})`, textShadow: '0 8px 40px rgba(0,0,0,0.6)'}}>

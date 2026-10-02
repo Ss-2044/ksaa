@@ -4,7 +4,7 @@ import React from 'react';
 import {AbsoluteFill, Audio, interpolate, spring, staticFile, useCurrentFrame, useVideoConfig} from 'remotion';
 import {DiriyahLogo, NeoLogo} from '../components';
 import {COLORS, FONT} from '../theme';
-import {DiriyahImage, Slot} from './diriyah';
+import {DiriyahImage, SLOTS, Slot} from './diriyah';
 import {clamp, useFonts} from './shared';
 
 const W = 600; // عرض فتحة الباب
@@ -76,7 +76,7 @@ type Room = {slot?: Slot; ar: string; en: string};
 const ROOMS: Room[] = [
   {slot: 'turaif-sunset', ar: 'خلف كل باب… حكاية', en: 'BEHIND EVERY DOOR, A STORY'},
   {slot: 'bujairi-terrace', ar: 'البجيري… نبض الدرعية', en: 'AL BUJAIRI, THE HEART OF DIRIYAH'},
-  {slot: 'wadi-hanifa', ar: 'وادي حنيفة… حياة لا تتوقف', en: 'WADI HANIFA, TIMELESS LIFE'},
+  {slot: 'wadi-hanifa', ar: 'الدرعية… مستقبل يُبنى', en: 'DIRIYAH, A FUTURE IN THE MAKING'},
   {ar: 'باب جديد يُفتح…', en: 'A NEW DOOR OPENS'},
 ];
 const ROOM_START = 90;
@@ -147,7 +147,7 @@ export const DoorsConcept: React.FC = () => {
         {!finale ? (
           <div style={{position: 'absolute', bottom: 100, right: 120, textAlign: 'right', fontFamily: FONT, opacity: capO}}>
             <div dir="rtl" style={{fontSize: 30, fontWeight: 700, color: COLORS.sand, letterSpacing: 2}}>
-              📍 {room.slot === 'turaif-sunset' ? 'حي الطريف' : room.slot === 'bujairi-terrace' ? 'البجيري' : 'وادي حنيفة'}
+              📍 {SLOTS[room.slot!].ar}
             </div>
             <div dir="rtl" style={{fontSize: 96, fontWeight: 900, color: '#fff', textShadow: '0 4px 30px rgba(0,0,0,0.7)'}}>{room.ar}</div>
             <div style={{fontSize: 32, letterSpacing: 8, color: COLORS.sand}}>{room.en}</div>

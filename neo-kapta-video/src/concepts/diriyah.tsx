@@ -1,6 +1,5 @@
 // صور الدرعية المشتركة بين المقاطع.
-// ضع صوركم الحقيقية في public/diriyah/<slot>.jpg (الأسماء في SLOTS) وأعد التصدير —
-// تُستخدم تلقائياً بدل المشاهد المرسومة في كل المقاطع.
+// الصور الحقيقية معرّفة في REAL أدناه؛ أي مكان بلا صورة يُعرض كمشهد مرسوم.
 import React from 'react';
 import {AbsoluteFill, Img, getStaticFiles, staticFile} from 'remotion';
 import {seeded} from './shared';
@@ -164,21 +163,52 @@ export const DiriyahScene: React.FC<{mood: Mood; variant: number}> = ({mood, var
 
 
 export const SLOTS = {
-  'turaif-sunset': {mood: 'sunset' as Mood, variant: 0, ar: 'حي الطريف', en: 'AT-TURAIF'},
+  'turaif-sunset': {mood: 'sunset' as Mood, variant: 0, ar: 'الدرعية من الأعلى', en: 'DIRIYAH FROM ABOVE'},
   'turaif-wall': {mood: 'golden' as Mood, variant: 1, ar: 'الطين النجدي', en: 'NAJDI MUD-BRICK'},
   'bujairi-night': {mood: 'night' as Mood, variant: 2, ar: 'البجيري ليلاً', en: 'AL BUJAIRI AT NIGHT'},
   'bujairi-terrace': {mood: 'night' as Mood, variant: 4, ar: 'البجيري', en: 'AL BUJAIRI'},
-  'wadi-hanifa': {mood: 'dawn' as Mood, variant: 3, ar: 'وادي حنيفة', en: 'WADI HANIFA'},
+  'wadi-hanifa': {mood: 'dawn' as Mood, variant: 3, ar: 'شوارع الدرعية', en: "DIRIYAH'S BOULEVARDS"},
 };
 export type Slot = keyof typeof SLOTS;
 
-export const hasRealPhoto = (slot: Slot) => getStaticFiles().some((s) => s.name === `diriyah/${slot}.jpg`);
+// الصور الحقيقية لكل مكان (في public/diriyah/) — مع موضع القصّ والتكبير لتناسب 16:9.
+// الصورتان الطوليتان تُقصّان حول المباني. احذف سطراً ليعود المشهد المرسوم.
+type Real = {file: string; pos: string; zoom?: number};
+const REAL: Partial<Record<Slot, Real>> = {
+  'turaif-sunset': {file: 'diriyah/aerial.jpg', pos: '50% 50%'},
+  'turaif-wall': {file: 'diriyah/tower-night.jpg', pos: '50% 50%'},
+  'bujairi-night': {file: 'diriyah/bujairi-night.jpg', pos: '50% 60%'},
+  'bujairi-terrace': {file: 'diriyah/bujairi-night.jpg', pos: '50% 70%', zoom: 1.15},
+  'wadi-hanifa': {file: 'diriyah/aerial.jpg', pos: '15% 85%', zoom: 1.9},
+};
+
+export const hasRealPhoto = (slot: Slot) => {
+  const r = REAL[slot];
+  return !!r && getStaticFiles().some((s) => s.name === r.file);
+};
 
 // صورة المكان: الحقيقية إن وُجدت، وإلا المشهد المرسوم.
 // w/h: مقاس الإطار إن كان أصغر من الشاشة، ليُصغَّر المشهد المرسوم ويغطي الإطار (مثل object-fit: cover)
 export const DiriyahImage: React.FC<{slot: Slot; w?: number; h?: number}> = ({slot, w = 1920, h = 1080}) => {
   if (hasRealPhoto(slot)) {
-    return <Img src={staticFile(`diriyah/${slot}.jpg`)} style={{position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover'}} />;
+    const r = REAL[slot]!;
+    return (
+      <div style={{position: 'absolute', inset: 0, overflow: 'hidden'}}>
+        <Img
+          src={staticFile(r.file)}
+          style={{
+            position: 'absolute',
+            inset: 0,
+            width: '100%',
+            height: '100%',
+            objectFit: 'cover',
+            objectPosition: r.pos,
+            transform: `scale(${r.zoom ?? 1})`,
+            transformOrigin: r.pos,
+          }}
+        />
+      </div>
+    );
   }
   const s = Math.max(w / 1920, h / 1080);
   return (
