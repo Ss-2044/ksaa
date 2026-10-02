@@ -1483,6 +1483,106 @@ def waxseal():
 LINES_TIMING = [120, 160, 200, 240, 280]
 
 
+# ======================================================================
+# Calm tracks for the surreal ideas (20–22)
+# ======================================================================
+def _glass(m, length=4.0):
+    t = tt(length)
+    f0 = hz(m)
+    s = np.sin(2 * np.pi * f0 * t) + 0.4 * np.sin(2 * np.pi * f0 * 2.01 * t) * np.exp(-t * 1.2) + 0.15 * np.sin(2 * np.pi * f0 * 3.98 * t) * np.exp(-t * 2)
+    return s * np.exp(-t * 0.9) * np.minimum(1, t * 60)
+
+
+def microscope():
+    # glassy ambient: long airy chords, sparse crystal tones, soft sub hum, gentle focus swells
+    T = Track(23)
+    chords = [[50, 57, 62, 64], [48, 55, 60, 64], [46, 53, 58, 62], [45, 52, 57, 64]]
+    for k in range(5):
+        T.add(_pad(chords[k % 4], 7.5, att=3.0), k * 6.0, gain=0.4)
+    t = tt(30.0)
+    T.add(np.sin(2 * np.pi * 41 * t) * 0.25 * np.minimum(1, t / 4) * np.minimum(1, (30 - t) / 3), 0.0, gain=0.6)
+    scale = [74, 76, 79, 81, 83, 86, 88]
+    rng = np.random.default_rng(8)
+    at = 0.6
+    while at < 28.0:
+        T.add(_glass(scale[rng.integers(len(scale))]), at, pan=rng.uniform(-0.6, 0.6), gain=0.12)
+        at += rng.choice([1.2, 1.6, 2.0])
+    for frm in (90, 240, 420):
+        t2 = tt(2.0)
+        sw = onepole(T.noise(len(t2)), 0.02) * np.sin(np.pi * t2 / 2.0) ** 2 * 3
+        T.add(sw, fr(frm) - 0.8, gain=0.3)
+    T.add(_pad([50, 57, 62, 66, 69], 7.0, att=1.5), fr(600), gain=0.45)
+    T.save('music-microscope.wav', drive=1.2, fade_out=2.5)
+
+
+def island():
+    # dreamy music box waltz (3/4) over a soft pad and wind
+    T = Track(24)
+    beat = 60 / 72
+
+    def box(m, length=2.2):
+        t = tt(length)
+        f0 = hz(m)
+        return (np.sin(2 * np.pi * f0 * t) + 0.25 * np.sin(2 * np.pi * f0 * 4.2 * t) * np.exp(-t * 6)) * np.exp(-t * 2.2) * np.minimum(1, t * 300)
+
+    t = tt(30.0)
+    wind = onepole(T.noise(len(t)), 0.004) * 4 * (0.6 + 0.4 * np.sin(2 * np.pi * 0.07 * t))
+    T.add(wind, 0.0, gain=0.15)
+    chords = [[60, 64, 67], [57, 60, 64], [53, 57, 60], [55, 59, 62]]
+    melody = [76, 79, 84, 83, 79, 76, 77, 81, 84, 83, 79, 74]
+    bar, k = 0.5, 0
+    while bar < 28.0:
+        ch = chords[k % 4]
+        T.add(_pad([c - 12 for c in ch], 3 * beat + 0.4, att=0.8), bar, gain=0.28)
+        T.add(box(ch[0] - 12 + 24, 1.6), bar, pan=-0.2, gain=0.18)
+        T.add(box(ch[1] + 12, 1.2), bar + beat, pan=0.2, gain=0.12)
+        T.add(box(ch[2] + 12, 1.2), bar + 2 * beat, pan=0.2, gain=0.12)
+        if bar >= 3.0:
+            T.add(box(melody[k % len(melody)]), bar, pan=0.1, gain=0.2)
+            T.add(box(melody[(k + 3) % len(melody)], 1.6), bar + 1.5 * beat, pan=-0.1, gain=0.12)
+        bar += 3 * beat
+        k += 1
+    for i, m in enumerate((84, 88, 91, 96)):
+        T.add(box(m, 2.5), fr(560) + i * 0.15, gain=0.18)
+    T.save('music-island.wav', drive=1.3, fade_out=2.5)
+
+
+def reflection():
+    # water drops, soft felt piano, low warm drone
+    T = Track(25)
+
+    def plip(m=88):
+        t = tt(0.5)
+        f = hz(m) * (1 + 0.8 * np.exp(-t * 30))
+        return np.sin(2 * np.pi * np.cumsum(f) / SR) * np.exp(-t * 9)
+
+    def felt(m, length=3.5):
+        t = tt(length)
+        f0 = hz(m)
+        s = np.sin(2 * np.pi * f0 * t) + 0.2 * np.sin(4 * np.pi * f0 * t) * np.exp(-t * 3)
+        return onepole(s, 0.3) * np.exp(-t * 1.0) * np.minimum(1, t * 80)
+
+    t = tt(30.0)
+    T.add((np.sin(2 * np.pi * hz(38) * t) + 0.5 * np.sin(2 * np.pi * hz(45) * t)) * np.minimum(1, t / 4) * np.minimum(1, (30 - t) / 3), 0.0, gain=0.18)
+    prog = [[62, 65, 69, 72], [58, 62, 65, 69], [60, 64, 67, 71], [57, 60, 64, 69]]
+    at, k = 0.4, 0
+    while at < 28.0:
+        ch = prog[k % 4]
+        for i, m in enumerate(ch):
+            T.add(felt(m), at + i * 0.55, pan=(-0.3 if i % 2 else 0.3), gain=0.22)
+        at += 3.2
+        k += 1
+    rng = np.random.default_rng(3)
+    a = 1.0
+    while a < 28.5:
+        T.add(plip(int(rng.integers(84, 96))), a, pan=rng.uniform(-0.7, 0.7), gain=0.08)
+        a += rng.uniform(0.8, 2.2)
+    for d, m in zip((150, 420, 610), (86, 81, 74)):
+        T.add(plip(m), fr(d), gain=0.6)
+        T.add(_pad([m - 24, m - 17, m - 12], 4.0, att=0.5), fr(d), gain=0.25)
+    T.save('music-reflection.wav', drive=1.3, fade_out=2.5)
+
+
 if __name__ == '__main__':
     import sys
 
@@ -1509,6 +1609,9 @@ if __name__ == '__main__':
         'projection': projection,
         'yesterday': yesterday,
         'waxseal': waxseal,
+        'microscope': microscope,
+        'island': island,
+        'reflection': reflection,
     }
     for name in sys.argv[1:] or tracks:
         tracks[name]()

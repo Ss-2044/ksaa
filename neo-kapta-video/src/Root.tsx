@@ -18,6 +18,9 @@ import {SketchConcept} from './concepts/Sketch';
 import {ProjectionConcept} from './concepts/Projection';
 import {YesterdayTomorrowConcept} from './concepts/YesterdayTomorrow';
 import {WaxSealConcept} from './concepts/WaxSeal';
+import {MicroscopeConcept} from './concepts/Microscope';
+import {FloatingIslandConcept} from './concepts/FloatingIsland';
+import {ReflectionConcept} from './concepts/Reflection';
 import {WeatherConcept} from './concepts/Weather';
 import {DURATION, FPS} from './theme';
 
@@ -41,6 +44,9 @@ const CONCEPTS = [
   {id: 'Idea17-Projection', component: ProjectionConcept},
   {id: 'Idea18-YesterdayTomorrow', component: YesterdayTomorrowConcept},
   {id: 'Idea19-WaxSeal', component: WaxSealConcept},
+  {id: 'Idea20-Microscope', component: MicroscopeConcept},
+  {id: 'Idea21-FloatingIsland', component: FloatingIslandConcept},
+  {id: 'Idea22-Reflection', component: ReflectionConcept},
 ];
 
 // فكرة عمودية كاملة (9:16، 30 ث)

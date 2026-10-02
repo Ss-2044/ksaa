@@ -17,7 +17,7 @@
     "render:Teaser1-WhoIsIt": "remotion render Teaser1-WhoIsIt out/Teaser1-WhoIsIt.mp4 --codec=h264 --crf=18",
     "render:Teaser2-Tomorrow": "remotion render Teaser2-Tomorrow out/Teaser2-Tomorrow.mp4 --codec=h264 --crf=18",
     "render:Teaser3-MissingPiece": "remotion render Teaser3-MissingPiece out/Teaser3-MissingPiece.mp4 --codec=h264 --crf=18",
-    "render": "npm run render:Idea1-Notification && npm run render:Idea2-Constellation && npm run render:Idea3-Arcade && npm run render:Idea4-Clay && npm run render:Idea5-Weather && npm run render:Idea6-Crossword && npm run render:Idea7-Puzzle && npm run render:Idea8-Coffee && npm run render:Idea9-LiveStream && npm run render:Teaser1-WhoIsIt && npm run render:Teaser2-Tomorrow && npm run render:Teaser3-MissingPiece && npm run render:Idea10-TimeHasCome && npm run render:Idea11-Doors && npm run render:Idea12-Postcards && npm run render:Idea13-Viewfinder && npm run render:Idea14-Flight && npm run render:Idea15-Letters && npm run render:Idea16-Sketch && npm run render:Idea17-Projection && npm run render:Idea18-YesterdayTomorrow && npm run render:Idea19-WaxSeal",
+    "render": "npm run render:Idea1-Notification && npm run render:Idea2-Constellation && npm run render:Idea3-Arcade && npm run render:Idea4-Clay && npm run render:Idea5-Weather && npm run render:Idea6-Crossword && npm run render:Idea7-Puzzle && npm run render:Idea8-Coffee && npm run render:Idea9-LiveStream && npm run render:Teaser1-WhoIsIt && npm run render:Teaser2-Tomorrow && npm run render:Teaser3-MissingPiece && npm run render:Idea10-TimeHasCome && npm run render:Idea11-Doors && npm run render:Idea12-Postcards && npm run render:Idea13-Viewfinder && npm run render:Idea14-Flight && npm run render:Idea15-Letters && npm run render:Idea16-Sketch && npm run render:Idea17-Projection && npm run render:Idea18-YesterdayTomorrow && npm run render:Idea19-WaxSeal && npm run render:Idea20-Microscope && npm run render:Idea21-FloatingIsland && npm run render:Idea22-Reflection",
     "render:Idea10-TimeHasCome": "remotion render Idea10-TimeHasCome out/Idea10-TimeHasCome.mp4 --codec=h264 --crf=18",
     "render:Idea11-Doors": "remotion render Idea11-Doors out/Idea11-Doors.mp4 --codec=h264 --crf=18",
     "render:Idea12-Postcards": "remotion render Idea12-Postcards out/Idea12-Postcards.mp4 --codec=h264 --crf=18",
@@ -27,7 +27,10 @@
     "render:Idea16-Sketch": "remotion render Idea16-Sketch out/Idea16-Sketch.mp4 --codec=h264 --crf=18",
     "render:Idea17-Projection": "remotion render Idea17-Projection out/Idea17-Projection.mp4 --codec=h264 --crf=18",
     "render:Idea18-YesterdayTomorrow": "remotion render Idea18-YesterdayTomorrow out/Idea18-YesterdayTomorrow.mp4 --codec=h264 --crf=18",
-    "render:Idea19-WaxSeal": "remotion render Idea19-WaxSeal out/Idea19-WaxSeal.mp4 --codec=h264 --crf=18"
+    "render:Idea19-WaxSeal": "remotion render Idea19-WaxSeal out/Idea19-WaxSeal.mp4 --codec=h264 --crf=18",
+    "render:Idea20-Microscope": "remotion render Idea20-Microscope out/Idea20-Microscope.mp4 --codec=h264 --crf=18",
+    "render:Idea21-FloatingIsland": "remotion render Idea21-FloatingIsland out/Idea21-FloatingIsland.mp4 --codec=h264 --crf=18",
+    "render:Idea22-Reflection": "remotion render Idea22-Reflection out/Idea22-Reflection.mp4 --codec=h264 --crf=18"
   },
   "dependencies": {
     "@fontsource/aref-ruqaa": "^5.3.0",
