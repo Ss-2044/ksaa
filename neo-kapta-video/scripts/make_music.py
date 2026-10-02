@@ -968,6 +968,199 @@ def time_has_come():
     T.save('music-time.wav', drive=1.5, fade_out=1.5)
 
 
+# shared helpers for the photo-based clips
+def _ks(T, m, length=1.4, bright=0.55, decay=0.995):
+    n = int(length * SR)
+    p = int(SR / hz(m))
+    buf = T.rng.uniform(-1, 1, p)
+    out = np.empty(n)
+    for i in range(n):
+        v = buf[i % p]
+        out[i] = v
+        buf[i % p] = decay * (bright * v + (1 - bright) * buf[(i + 1) % p])
+    return out
+
+
+def _pad(notes, length, att=1.2):
+    t = tt(length)
+    out = np.zeros(len(t))
+    for m in notes:
+        for det in (-0.07, 0.07):
+            ph = 2 * np.pi * np.cumsum(hz(m + det) * (1 + 0.003 * np.sin(2 * np.pi * 5 * t + m))) / SR
+            out += np.sin(ph) + 0.25 * np.sin(2 * ph)
+    return out / (2 * len(notes)) * np.minimum(1, t / att) * np.minimum(1, (length - t) / 1.0)
+
+
+# ======================================================================
+# 11) Doors — wind, wooden creaks, oud, warm strings; a thump each time a door opens
+# ======================================================================
+def doors():
+    T = Track(14)
+
+    def wind(length):
+        t = tt(length)
+        x = T.noise(len(t))
+        out = np.empty(len(t))
+        acc = 0.0
+        for i in range(len(t)):
+            acc += (0.01 + 0.01 * np.sin(2 * np.pi * 0.2 * t[i])) * (x[i] - acc)
+            out[i] = acc
+        return out * 4
+
+    def creak(length=1.0):
+        t = tt(length)
+        f = 140 + 60 * np.sin(2 * np.pi * 1.3 * t) + 30 * T.noise(len(t)) * 0.1
+        s = np.sign(np.sin(2 * np.pi * np.cumsum(f) / SR)) * (0.5 + 0.5 * np.sin(2 * np.pi * 23 * t))
+        return onepole(s, 0.2) * np.sin(np.pi * t / length) * 0.4
+
+    def thump():
+        t = tt(1.2)
+        return np.sin(2 * np.pi * np.cumsum(70 * np.exp(-t * 5) + 35) / SR) * np.exp(-t * 4)
+
+    def whoosh(length=1.2):
+        t = tt(length)
+        return onepole(T.noise(len(t)), 0.05) * np.sin(np.pi * t / length) ** 2 * 2
+
+    T.add(wind(30.0), 0.0, gain=0.1)
+    T.add(thump(), 0.05, gain=0.7)
+    chords = [[50, 57, 62, 65], [46, 53, 58, 62], [48, 55, 60, 64], [45, 52, 57, 61]]
+    for k in range(5):
+        T.add(_pad(chords[k % 4], 6.6), 3.0 + k * 6.0 - 0.3, gain=0.32 if k < 4 else 0.0)
+    hijaz = [62, 63, 66, 67, 69, 70, 72, 74]
+    motif = [(0, 1), (2, 0.5), (3, 0.5), (4, 1), (3, 0.5), (2, 0.5), (1, 1), (0, 1.5)]
+    for start in (6.0, 12.0, 18.0):
+        t0 = start
+        for deg, b in motif:
+            T.add(_ks(T, hijaz[deg]), t0, pan=0.25, gain=0.3)
+            t0 += b * 0.55
+    for r in range(4):
+        base = fr(90 + r * 180)
+        T.add(creak(1.1), base + fr(15), pan=-0.2, gain=0.5)
+        T.add(whoosh(), base + fr(48), gain=0.45)
+        T.add(thump(), base + fr(85), gain=0.5)
+    # final door: bright D major swell + sparkle
+    T.add(_pad([50, 57, 62, 66, 69, 74], 5.5), fr(630), gain=0.55)
+    for i, m in enumerate((74, 78, 81, 86, 90)):
+        T.add(_ks(T, m, 1.5, 0.7), fr(690) + i * 0.09, gain=0.25)
+    T.add(creak(1.0), fr(810), gain=0.4)
+    T.add(thump(), fr(840), gain=0.6)
+    T.save('music-doors.wav', drive=1.5, fade_out=1.5)
+
+
+# ======================================================================
+# 12) Postcards — warm acoustic guitar, shaker, paper whooshes, stamp thuds
+# ======================================================================
+def postcards():
+    T = Track(15)
+    beat = 60 / 96
+
+    def shaker():
+        t = tt(0.08)
+        x = T.noise(len(t))
+        return (x - onepole(x, 0.6)) * np.exp(-t * 50) * 0.5
+
+    def stamp():
+        t = tt(0.6)
+        return np.sin(2 * np.pi * np.cumsum(90 * np.exp(-t * 20) + 50) / SR) * np.exp(-t * 12) + onepole(T.noise(len(t)), 0.3) * np.exp(-t * 40)
+
+    def paper(length=0.5):
+        t = tt(length)
+        x = T.noise(len(t))
+        return (x - onepole(x, 0.3)) * np.sin(np.pi * t / length) ** 2 * 0.5
+
+    chords = [[55, 59, 62, 67, 71], [52, 55, 59, 64, 67], [48, 52, 55, 60, 64], [50, 54, 57, 62, 66]]  # G Em C D
+    t0, k = 0.2, 0
+    while t0 < 28.5:
+        ch = chords[k % 4]
+        for e, idx in enumerate([0, 2, 3, 4, 3, 2, 1, 2]):  # fingerpicking
+            T.add(_ks(T, ch[idx], 1.2, 0.5, 0.996), t0 + e * beat / 2, pan=(-0.2 if e % 2 else 0.2), gain=0.28)
+        if t0 >= 3.0:
+            for e in range(8):
+                T.add(shaker(), t0 + e * beat / 2, pan=0.4, gain=0.3 if e % 2 else 0.18)
+        t0 += 4 * beat
+        k += 1
+    T.add(stamp(), fr(6), gain=0.9)
+    T.add(stamp(), fr(18), gain=0.9)
+    for i in range(4):
+        T.add(paper(), fr(90 + i * 120), pan=(0.4 if i % 2 else -0.4), gain=0.6)
+    T.add(paper(0.8), fr(570), gain=0.6)
+    T.add(paper(0.7), fr(620), gain=0.5)
+    T.add(stamp(), fr(715), gain=1.0)
+    for i, m in enumerate((67, 71, 74, 79)):
+        T.add(_ks(T, m, 2.0, 0.6), fr(720) + i * 0.1, gain=0.3)
+    T.add(stamp(), fr(792), gain=0.7)
+    T.save('music-postcards.wav', drive=2.4, fade_out=1.5)
+
+
+# ======================================================================
+# 13) Viewfinder — chill modern beat with camera shutter clicks and focus beeps
+# ======================================================================
+def viewfinder():
+    T = Track(16)
+    beat = 60 / 100
+
+    def kick():
+        t = tt(0.3)
+        return np.sin(2 * np.pi * np.cumsum(120 * np.exp(-t * 30) + 48) / SR) * np.exp(-t * 9)
+
+    def snare():
+        t = tt(0.2)
+        x = T.noise(len(t))
+        return ((x - onepole(x, 0.3)) * 0.7 + np.sin(2 * np.pi * 190 * t) * 0.5) * np.exp(-t * 20)
+
+    def hat():
+        t = tt(0.04)
+        x = T.noise(len(t))
+        return (x - onepole(x, 0.8)) * np.exp(-t * 110)
+
+    def keys(notes, length):
+        t = tt(length)
+        out = sum(np.sin(2 * np.pi * hz(m) * t) + 0.2 * np.sin(4 * np.pi * hz(m) * t) * np.exp(-t * 4) for m in notes)
+        return out / len(notes) * np.exp(-t * 0.8) * np.minimum(1, t * 100)
+
+    def shutter():
+        out = np.zeros(int(0.25 * SR))
+        for d in (0.0, 0.06):
+            t = tt(0.05)
+            x = T.noise(len(t))
+            s = (x - onepole(x, 0.4)) * np.exp(-t * 120)
+            i = int(d * SR)
+            out[i : i + len(s)] += s
+        return out
+
+    def beep():
+        t = tt(0.12)
+        s = np.sin(2 * np.pi * 2600 * t) * np.exp(-t * 20)
+        return np.concatenate([s, np.zeros(int(0.04 * SR)), s])
+
+    chords = [[57, 60, 64, 67], [53, 57, 60, 64], [48, 52, 55, 59], [55, 59, 62, 65]]  # Am7 Fmaj7 Cmaj7 G7
+    roots = [33, 29, 36, 31]
+    t0, k = 0.0, 0
+    while t0 < 28.5:
+        T.add(keys(chords[k % 4], 4 * beat), t0, gain=0.35)
+        T.add(keys([roots[k % 4] + 12], 4 * beat), t0, gain=0.35)
+        if t0 >= 3.0:
+            for b in range(4):
+                at = t0 + b * beat
+                if b in (0, 2):
+                    T.add(kick(), at, gain=0.55)
+                if b in (1, 3):
+                    T.add(snare(), at, gain=0.35)
+                T.add(hat(), at, pan=0.35, gain=0.15)
+                T.add(hat(), at + beat / 2, pan=0.35, gain=0.1)
+        t0 += 4 * beat
+        k += 1
+    T.add(beep(), fr(48), gain=0.3)
+    for i in range(4):
+        base = 90 + i * 135
+        T.add(beep(), fr(base + 55), gain=0.3)
+        T.add(shutter(), fr(base + 95), gain=0.9)
+    T.add(keys([69, 72, 76, 81], 3.0), fr(655), gain=0.4)
+    T.add(keys([62, 66, 69, 74], 3.0), fr(812), gain=0.4)
+    T.add(shutter(), fr(812), gain=0.7)
+    T.save('music-viewfinder.wav', drive=1.5)
+
+
 if __name__ == '__main__':
     import sys
 
@@ -985,6 +1178,9 @@ if __name__ == '__main__':
         'live': live,
         'teaser-piece': teaser_piece,
         'time': time_has_come,
+        'doors': doors,
+        'postcards': postcards,
+        'viewfinder': viewfinder,
     }
     for name in sys.argv[1:] or tracks:
         tracks[name]()

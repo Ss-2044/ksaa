@@ -1,167 +1,24 @@
 // الفكرة 10: «جاء الوقت» — جولة سينمائية في الدرعية (صور بحركة كاميرا بطيئة) وساعة تدق،
 // ثم تتوقف العقارب عند 12: «وجاء الوقت… للشراكة»
 //
-// الصور: ضع صورك الحقيقية في public/diriyah/photo-1.jpg … photo-4.jpg وأعد التصدير —
-// تُستخدم تلقائياً بدل المشاهد المرسومة.
+// الصور: public/diriyah/<slot>.jpg (انظر SLOTS في diriyah.tsx) — تُستخدم تلقائياً بدل المشاهد المرسومة.
 import React from 'react';
-import {AbsoluteFill, Audio, Img, getStaticFiles, interpolate, spring, staticFile, useCurrentFrame, useVideoConfig} from 'remotion';
+import {AbsoluteFill, Audio, interpolate, spring, staticFile, useCurrentFrame, useVideoConfig} from 'remotion';
 import {DiriyahLogo, NeoLogo} from '../components';
 import {COLORS, FONT} from '../theme';
-import {clamp, seeded, useFonts} from './shared';
-
-type Mood = 'sunset' | 'golden' | 'night' | 'dawn';
-
-const SKY: Record<Mood, string> = {
-  sunset: 'linear-gradient(180deg, #2c2342 0%, #8a4a52 35%, #e08a5a 62%, #f6c27f 75%)',
-  golden: 'linear-gradient(180deg, #7fa3c7 0%, #d9c4a0 55%, #f1d29c 75%)',
-  night: 'linear-gradient(180deg, #03040c 0%, #0b1036 55%, #2a1f3a 78%)',
-  dawn: 'linear-gradient(180deg, #4b5d8c 0%, #c7a3a4 50%, #f2c9a0 72%)',
-};
-
-const MUD: Record<Mood, [string, string]> = {
-  sunset: ['#b06d48', '#7a4630'],
-  golden: ['#d0a072', '#a77650'],
-  night: ['#6b4430', '#3a2418'],
-  dawn: ['#b98a6c', '#86604a'],
-};
-
-// مبنى نجدي: جدار بشرفات مثلثة ونوافذ مثلثة ورؤوس جذوع خشبية
-const Building: React.FC<{x: number; w: number; h: number; base: number; mood: Mood; tower?: boolean; seed: string}> = ({
-  x,
-  w,
-  h,
-  base,
-  mood,
-  tower,
-  seed,
-}) => {
-  const [c1, c2] = MUD[mood];
-  const top = base - h;
-  const taper = tower ? w * 0.12 : 0;
-  const tri = 22;
-  const n = Math.floor((w - 2 * taper) / tri);
-  const wins = seeded(Math.max(1, Math.floor(w / 90)), seed);
-  const lit = mood === 'night';
-  return (
-    <g>
-      <path d={`M${x} ${base} L${x + taper} ${top} L${x + w - taper} ${top} L${x + w} ${base} Z`} fill={`url(#mud-${mood})`} />
-      {/* شرفات مثلثة */}
-      {new Array(n).fill(0).map((_, i) => (
-        <path key={i} d={`M${x + taper + i * tri} ${top} l${tri / 2} -${tri * 0.9} l${tri / 2} ${tri * 0.9} Z`} fill={c1} />
-      ))}
-      {/* رؤوس جذوع الأثل */}
-      {new Array(Math.floor(w / 26)).fill(0).map((_, i) => (
-        <circle key={`b${i}`} cx={x + 14 + i * 26} cy={top + 40} r={3.5} fill={c2} />
-      ))}
-      {/* نوافذ مثلثة صغيرة */}
-      {wins.map((s, i) => {
-        const wx = x + 30 + s.x * (w - 70);
-        const wy = top + 70 + s.y * Math.max(10, h - 140);
-        return (
-          <g key={`w${i}`}>
-            {[0, 1, 2].map((k) => (
-              <path key={k} d={`M${wx + k * 14} ${wy} l6 -11 l6 11 Z`} fill={lit ? '#ffcf7a' : '#3a2418'} opacity={lit ? 0.95 : 0.8} />
-            ))}
-          </g>
-        );
-      })}
-      {/* تظليل جانبي */}
-      <path d={`M${x + w * 0.7} ${base} L${x + w * 0.7} ${top} L${x + w - taper} ${top} L${x + w} ${base} Z`} fill="#000" opacity={0.15} />
-    </g>
-  );
-};
-
-const Palm: React.FC<{x: number; base: number; h: number; dark: string}> = ({x, base, h, dark}) => (
-  <g>
-    <path d={`M${x} ${base} Q ${x + 12} ${base - h / 2}, ${x + 6} ${base - h}`} stroke={dark} strokeWidth={10} fill="none" />
-    {[-150, -120, -80, -40, -10, 20, 60].map((a, i) => {
-      const r = 90 + (i % 2) * 20;
-      const rad = (a * Math.PI) / 180;
-      const ex = x + 6 + Math.cos(rad) * r;
-      const ey = base - h + Math.sin(rad) * r * 0.6 + 30;
-      return <path key={i} d={`M${x + 6} ${base - h} Q ${(x + 6 + ex) / 2} ${base - h - 40}, ${ex} ${ey}`} stroke={dark} strokeWidth={9} fill="none" strokeLinecap="round" />;
-    })}
-  </g>
-);
-
-// مشهد مرسوم للدرعية — يُستبدل تلقائياً بالصورة الحقيقية إن وُجدت
-const DiriyahScene: React.FC<{mood: Mood; variant: number}> = ({mood, variant}) => {
-  const [c1, c2] = MUD[mood];
-  const base = variant === 1 ? 1080 : 860;
-  const dark = mood === 'night' ? '#05060a' : '#2a1a12';
-  const layout =
-    variant === 1
-      ? // لقطة قريبة لجدار وبرج
-        [
-          {x: -40, w: 900, h: 760, tower: false},
-          {x: 860, w: 360, h: 940, tower: true},
-          {x: 1220, w: 760, h: 700, tower: false},
-        ]
-      : [
-          {x: -60, w: 420, h: 300, tower: false},
-          {x: 300, w: 180, h: 420, tower: true},
-          {x: 470, w: 520, h: 340, tower: false},
-          {x: 960, w: 200, h: 470, tower: true},
-          {x: 1150, w: 480, h: 360, tower: false},
-          {x: 1600, w: 380, h: 280, tower: false},
-        ];
-  return (
-    <AbsoluteFill style={{background: SKY[mood]}}>
-      {mood === 'night'
-        ? seeded(120, 'ns').map((s, i) => (
-            <div key={i} style={{position: 'absolute', left: s.x * 1920, top: s.y * 500, width: 2 + s.a * 2, height: 2 + s.a * 2, borderRadius: '50%', background: '#fff', opacity: 0.4 + s.b * 0.6}} />
-          ))
-        : null}
-      {mood === 'sunset' || mood === 'dawn' ? (
-        <div style={{position: 'absolute', left: 1250, top: 430, width: 220, height: 220, borderRadius: '50%', background: '#ffe2b0', boxShadow: '0 0 160px 60px rgba(255,200,140,0.6)'}} />
-      ) : null}
-      <svg width={1920} height={1080} style={{position: 'absolute', inset: 0}}>
-        <defs>
-          <linearGradient id={`mud-${mood}`} x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0" stopColor={c1} />
-            <stop offset="1" stopColor={c2} />
-          </linearGradient>
-        </defs>
-        <path d="M0 800 C 400 760, 800 790, 1200 770 S 1700 760, 1920 790 L1920 1080 L0 1080 Z" fill={c2} opacity={0.6} />
-        {variant === 3
-          ? [140, 420, 760, 1080, 1400, 1700].map((x, i) => <Palm key={i} x={x} base={1000} h={330 + (i % 3) * 60} dark={dark} />)
-          : null}
-        {layout.map((b, i) => (
-          <Building key={i} x={b.x} w={b.w} h={b.h} base={base} mood={mood} tower={b.tower} seed={`${variant}-${i}`} />
-        ))}
-        {variant !== 3 && variant !== 1
-          ? [80, 1760].map((x, i) => <Palm key={i} x={x} base={1000} h={380} dark={dark} />)
-          : null}
-        <rect x={0} y={base} width={1920} height={1080 - base} fill={c2} />
-      </svg>
-      {mood === 'night' ? <AbsoluteFill style={{background: 'radial-gradient(ellipse at 50% 85%, rgba(255,180,90,0.35), transparent 60%)'}} /> : null}
-    </AbsoluteFill>
-  );
-};
-
-const PHOTOS = [
-  {file: 'diriyah/photo-1.jpg', mood: 'sunset' as Mood, variant: 0},
-  {file: 'diriyah/photo-2.jpg', mood: 'golden' as Mood, variant: 1},
-  {file: 'diriyah/photo-3.jpg', mood: 'night' as Mood, variant: 2},
-  {file: 'diriyah/photo-4.jpg', mood: 'dawn' as Mood, variant: 3},
-];
+import {DiriyahImage, DiriyahScene, Slot} from './diriyah';
+import {clamp, useFonts} from './shared';
 
 // صورة بحركة «كين بيرنز» (تكبير وانزلاق بطيء)
-const Photo: React.FC<{i: number; from: number; dur: number; dir?: 1 | -1}> = ({i, from, dur, dir = 1}) => {
+const Photo: React.FC<{slot: Slot; from: number; dur: number; dir?: 1 | -1}> = ({slot, from, dur, dir = 1}) => {
   const f = useCurrentFrame();
   const t = interpolate(f, [from, from + dur], [0, 1], clamp);
   const o = interpolate(f, [from, from + 15, from + dur - 15, from + dur], [0, 1, 1, 0], clamp);
   if (f < from || f > from + dur) return null;
-  const p = PHOTOS[i];
-  const real = getStaticFiles().some((s) => s.name === p.file);
   return (
     <AbsoluteFill style={{opacity: o, overflow: 'hidden'}}>
       <AbsoluteFill style={{transform: `scale(${1.08 + t * 0.12}) translateX(${dir * (t - 0.5) * 60}px)`}}>
-        {real ? (
-          <Img src={staticFile(p.file)} style={{width: '100%', height: '100%', objectFit: 'cover'}} />
-        ) : (
-          <DiriyahScene mood={p.mood} variant={p.variant} />
-        )}
+        <DiriyahImage slot={slot} />
       </AbsoluteFill>
       <AbsoluteFill style={{background: 'linear-gradient(180deg, rgba(0,0,0,0.35) 0%, transparent 35%, transparent 55%, rgba(0,0,0,0.75) 100%)'}} />
     </AbsoluteFill>
@@ -269,9 +126,9 @@ export const TimeHasComeConcept: React.FC = () => {
       ) : null}
 
       {/* 3–18 ث: جولة الصور */}
-      <Photo i={0} from={85} dur={160} dir={1} />
-      <Photo i={1} from={235} dur={160} dir={-1} />
-      <Photo i={2} from={385} dur={170} dir={1} />
+      <Photo slot="turaif-sunset" from={85} dur={160} dir={1} />
+      <Photo slot="turaif-wall" from={235} dur={160} dir={-1} />
+      <Photo slot="bujairi-night" from={385} dur={170} dir={1} />
       <Caption from={95} to={240} ar="الدرعية… حيث بدأت الحكاية" en="DIRIYAH… WHERE IT ALL BEGAN" />
       <Caption from={245} to={390} ar="إرثٌ صنع التاريخ" en="A HERITAGE THAT SHAPED HISTORY" />
       <Caption from={395} to={545} ar="واليوم… العالم كله يتجه إليها" en="TODAY, THE WORLD IS LOOKING HERE" />
@@ -302,7 +159,7 @@ export const TimeHasComeConcept: React.FC = () => {
       {/* 23–27 ث: للشراكة — الصورة تنقسم: نصف بإضاءة نيو كابتا الزرقاء ونصف نحاسي */}
       {f >= 688 && f < 815 ? (
         <AbsoluteFill style={{opacity: interpolate(f, [800, 815], [1, 0], clamp)}}>
-          <Photo i={3} from={688} dur={127} dir={-1} />
+          <Photo slot="wadi-hanifa" from={688} dur={127} dir={-1} />
           <AbsoluteFill style={{background: `linear-gradient(90deg, ${COLORS.neoBlue}cc 0%, ${COLORS.neoBlue}55 ${50 * split}%, ${COLORS.copper}55 ${100 - 50 * split}%, ${COLORS.copper}cc 100%)`, mixBlendMode: 'multiply'}} />
           <AbsoluteFill style={{justifyContent: 'center', alignItems: 'center', fontFamily: FONT}}>
             <div dir="rtl" style={{fontSize: 190, fontWeight: 900, color: '#fff', transform: `scale(${word})`, textShadow: '0 8px 40px rgba(0,0,0,0.6)'}}>

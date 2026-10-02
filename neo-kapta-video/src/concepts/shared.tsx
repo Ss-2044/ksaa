@@ -2,6 +2,7 @@ import '@fontsource/cairo/400.css';
 import '@fontsource/cairo/700.css';
 import '@fontsource/cairo/900.css';
 import '@fontsource/press-start-2p/400.css';
+import '@fontsource/aref-ruqaa/700.css';
 import {useEffect, useState} from 'react';
 import {continueRender, delayRender, random} from 'remotion';
 
@@ -16,6 +17,7 @@ export const useFonts = () => {
       document.fonts.load(`700 40px Cairo`, 'نيو'),
       document.fonts.load(`400 40px Cairo`, 'Neo'),
       document.fonts.load(`400 20px 'Press Start 2P'`, 'NEO'),
+      document.fonts.load(`700 40px 'Aref Ruqaa'`, 'الدرعية'),
     ]).then(() => continueRender(handle));
   }, [handle]);
 };

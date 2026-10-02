@@ -9,6 +9,9 @@ import {NotificationConcept} from './concepts/Notification';
 import {PuzzleConcept} from './concepts/Puzzle';
 import {TeaserMissingPiece, TeaserTomorrow, TeaserWho} from './concepts/Teasers';
 import {TimeHasComeConcept} from './concepts/TimeHasCome';
+import {DoorsConcept} from './concepts/Doors';
+import {PostcardsConcept} from './concepts/Postcards';
+import {ViewfinderConcept} from './concepts/Viewfinder';
 import {WeatherConcept} from './concepts/Weather';
 import {DURATION, FPS} from './theme';
 
@@ -23,6 +26,9 @@ const CONCEPTS = [
   {id: 'Idea7-Puzzle', component: PuzzleConcept},
   {id: 'Idea8-Coffee', component: CoffeeConcept},
   {id: 'Idea10-TimeHasCome', component: TimeHasComeConcept},
+  {id: 'Idea11-Doors', component: DoorsConcept},
+  {id: 'Idea12-Postcards', component: PostcardsConcept},
+  {id: 'Idea13-Viewfinder', component: ViewfinderConcept},
 ];
 
 // فكرة عمودية كاملة (9:16، 30 ث)
