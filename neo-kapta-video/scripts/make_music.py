@@ -1340,6 +1340,149 @@ def sketch():
     T.save('music-sketch.wav', drive=1.6, fade_out=1.5)
 
 
+# ======================================================================
+# 17) Projection — dark ambient electronic: projector relay clunks, deep pulses, glitch, swells
+# ======================================================================
+def projection():
+    T = Track(20)
+
+    def clunk():
+        t = tt(0.3)
+        return (np.sin(2 * np.pi * np.cumsum(140 * np.exp(-t * 40) + 60) / SR) * np.exp(-t * 18) + onepole(T.noise(len(t)), 0.4) * np.exp(-t * 60)) * 0.9
+
+    def pulse():
+        t = tt(0.9)
+        return np.sin(2 * np.pi * np.cumsum(55 * np.exp(-t * 4) + 38) / SR) * np.exp(-t * 3.5)
+
+    def glitch(length=0.25):
+        t = tt(length)
+        return np.sign(np.sin(2 * np.pi * (300 + 900 * T.rng.random()) * t)) * (T.noise(len(t)) > 0.3) * np.exp(-t * 12) * 0.4
+
+    def arp(m, length=0.18):
+        t = tt(length)
+        return (2 * ((t * hz(m)) % 1) - 1) * np.exp(-t * 14) * 0.6
+
+    T.add(_pad([38, 45, 50], 30.0, att=3.0), 0.0, gain=0.3)
+    for at in (0.2, fr(90), fr(140), fr(245), fr(428), fr(600), fr(655), fr(790)):
+        T.add(clunk(), at, gain=0.8)
+    for b in np.arange(3.0, 26.0, 0.75):
+        T.add(pulse(), b, gain=0.5)
+    notes = [62, 65, 69, 72, 74, 72, 69, 65]
+    for k, at in enumerate(np.arange(8.2, 20.0, 0.1875)):
+        T.add(arp(notes[k % 8] + (12 if at > 14 else 0)), at, pan=(-0.4 if k % 2 else 0.4), gain=0.18)
+    for f0 in (47, 61, 94, 122, 141, 183, 244, 305, 366, 427, 488, 549):
+        T.add(glitch(), fr(f0), pan=T.rng.uniform(-0.6, 0.6), gain=0.35)
+    T.add(_pad([50, 57, 62, 66, 69], 6.0, att=1.0), fr(600), gain=0.5)
+    T.add(_pad([50, 57, 62, 66], 3.0), fr(790), gain=0.4)
+    T.save('music-projection.wav', drive=1.6, fade_out=1.5)
+
+
+# ======================================================================
+# 18) Yesterday × Tomorrow — oud & frame drum (yesterday) answered by synth & piano (tomorrow), then merged
+# ======================================================================
+def yesterday():
+    T = Track(21)
+
+    def tar():
+        t = tt(0.5)
+        return np.sin(2 * np.pi * np.cumsum(80 * np.exp(-t * 12) + 60) / SR) * np.exp(-t * 6)
+
+    def synth(m, length=0.4):
+        t = tt(length)
+        s = sum(2 * ((t * hz(m + d)) % 1) - 1 for d in (-0.1, 0.1)) / 2
+        return onepole(s, 0.15) * np.exp(-t * 5)
+
+    def piano(m, length=2.0):
+        t = tt(length)
+        f0 = hz(m)
+        return (np.sin(2 * np.pi * f0 * t) + 0.3 * np.sin(4 * np.pi * f0 * t) * np.exp(-t * 3)) * np.exp(-t * 1.5) * np.minimum(1, t * 200)
+
+    def whoosh(length=0.8):
+        t = tt(length)
+        return onepole(T.noise(len(t)), 0.06) * np.sin(np.pi * t / length) ** 2 * 2
+
+    T.add(tar(), 0.1, gain=0.8)
+    T.add(synth(74, 0.8), fr(8), gain=0.5)
+    kurd = [62, 63, 65, 67, 69, 70, 72, 74]
+    phrase = [(0, 1), (1, 0.5), (2, 0.5), (3, 1), (4, 1), (3, 0.5), (2, 0.5), (1, 1), (0, 1)]
+    t0 = 3.1
+    for deg, b in phrase:
+        T.add(_ks(T, kurd[deg]), t0, pan=-0.5, gain=0.35)
+        t0 += b * 0.6
+    for b in np.arange(3.0, 9.0, 1.2):
+        T.add(tar(), b, pan=-0.4, gain=0.5)
+    t0 = 9.1
+    for k in range(32):
+        T.add(synth([62, 65, 69, 74][k % 4] + (12 if k % 8 > 5 else 0), 0.25), t0 + k * 0.1875, pan=0.5, gain=0.25)
+    for k, m in enumerate((74, 72, 69, 65, 69, 72)):
+        T.add(piano(m), 9.0 + k * 0.9, pan=0.4, gain=0.3)
+    # the slider (15–21s): both voices alternate
+    for k in range(12):
+        at = 15.0 + k * 0.5
+        if k % 2 == 0:
+            T.add(_ks(T, kurd[k % 8]), at, pan=-0.5, gain=0.3)
+            T.add(tar(), at, pan=-0.4, gain=0.4)
+        else:
+            T.add(synth(kurd[k % 8] + 12, 0.3), at, pan=0.5, gain=0.3)
+    T.add(whoosh(1.2), fr(630), gain=0.6)
+    # merged: both together on D major
+    T.add(_pad([50, 57, 62, 66, 69], 6.0, att=0.8), fr(640), gain=0.5)
+    for k in range(16):
+        at = fr(690) + k * 0.3
+        T.add(_ks(T, [62, 66, 69, 74][k % 4]), at, pan=-0.3, gain=0.25)
+        T.add(synth([74, 78, 81, 86][k % 4], 0.25), at + 0.15, pan=0.3, gain=0.18)
+    T.add(tar(), fr(790), gain=0.7)
+    T.add(_pad([50, 57, 62, 66], 3.2), fr(790), gain=0.4)
+    T.save('music-yesterday.wav', drive=1.5, fade_out=1.5)
+
+
+# ======================================================================
+# 19) Wax seal — chamber strings & harp-like plucks, quill scratching, paper folds, wax and the seal thud
+# ======================================================================
+def waxseal():
+    T = Track(22)
+
+    def quill(length):
+        t = tt(length)
+        x = T.noise(len(t))
+        x = x - onepole(x, 0.6)
+        return x * (0.5 + 0.5 * np.sign(np.sin(2 * np.pi * 5 * t))) * 0.2
+
+    def fold():
+        t = tt(0.5)
+        x = T.noise(len(t))
+        return (x - onepole(x, 0.2)) * np.sin(np.pi * t / 0.5) ** 2 * 0.6
+
+    def drip():
+        t = tt(0.4)
+        return np.sin(2 * np.pi * np.cumsum(700 * np.exp(-t * 18) + 200) / SR) * np.exp(-t * 14) * 0.4
+
+    def thud():
+        t = tt(0.8)
+        return np.sin(2 * np.pi * np.cumsum(70 * np.exp(-t * 12) + 40) / SR) * np.exp(-t * 7) + onepole(T.noise(len(t)), 0.2) * np.exp(-t * 30)
+
+    prog = [[50, 57, 62, 65], [46, 53, 58, 62], [43, 50, 55, 58], [45, 52, 57, 61]]
+    for k in range(7):
+        T.add(_pad(prog[k % 4], 4.6, att=0.8), k * 4.0, gain=0.35)
+        for i, m in enumerate(prog[k % 4] + [prog[k % 4][1] + 12, prog[k % 4][2] + 12]):
+            T.add(_ks(T, m + 12, 1.6, 0.7), k * 4.0 + i * 0.25, pan=(-0.3 if i % 2 else 0.3), gain=0.18)
+    T.add(thud(), fr(6), gain=0.8)
+    T.add(thud(), fr(20), gain=0.8)
+    for i in range(len(LINES_TIMING)):
+        T.add(quill(1.1), fr(LINES_TIMING[i]), pan=0.2, gain=0.6)
+    T.add(fold(), fr(345), gain=0.8)
+    T.add(fold(), fr(385), gain=0.8)
+    for i in range(4):
+        T.add(drip(), fr(455) + i * 0.25, gain=0.6)
+    T.add(thud(), fr(505), gain=1.0)
+    T.add(_pad([50, 57, 62, 66, 69], 5.0, att=0.6), fr(620), gain=0.5)
+    T.add(_pad([50, 57, 62, 66], 3.0), fr(792), gain=0.4)
+    T.save('music-waxseal.wav', drive=1.6, fade_out=1.5)
+
+
+LINES_TIMING = [120, 160, 200, 240, 280]
+
+
 if __name__ == '__main__':
     import sys
 
@@ -1363,6 +1506,9 @@ if __name__ == '__main__':
         'flight': flight,
         'letters': letters,
         'sketch': sketch,
+        'projection': projection,
+        'yesterday': yesterday,
+        'waxseal': waxseal,
     }
     for name in sys.argv[1:] or tracks:
         tracks[name]()

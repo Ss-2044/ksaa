@@ -15,6 +15,9 @@ import {ViewfinderConcept} from './concepts/Viewfinder';
 import {FlightConcept} from './concepts/Flight';
 import {LettersConcept} from './concepts/Letters';
 import {SketchConcept} from './concepts/Sketch';
+import {ProjectionConcept} from './concepts/Projection';
+import {YesterdayTomorrowConcept} from './concepts/YesterdayTomorrow';
+import {WaxSealConcept} from './concepts/WaxSeal';
 import {WeatherConcept} from './concepts/Weather';
 import {DURATION, FPS} from './theme';
 
@@ -35,6 +38,9 @@ const CONCEPTS = [
   {id: 'Idea14-Flight', component: FlightConcept},
   {id: 'Idea15-Letters', component: LettersConcept},
   {id: 'Idea16-Sketch', component: SketchConcept},
+  {id: 'Idea17-Projection', component: ProjectionConcept},
+  {id: 'Idea18-YesterdayTomorrow', component: YesterdayTomorrowConcept},
+  {id: 'Idea19-WaxSeal', component: WaxSealConcept},
 ];
 
 // فكرة عمودية كاملة (9:16، 30 ث)
