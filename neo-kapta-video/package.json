@@ -5,10 +5,15 @@
   "scripts": {
     "studio": "remotion studio",
     "music": "python3 scripts/make_music.py",
-    "render:1": "remotion render Idea1-Notification out/Idea1-Notification.mp4 --codec=h264 --crf=18",
-    "render:2": "remotion render Idea2-Constellation out/Idea2-Constellation.mp4 --codec=h264 --crf=18",
-    "render:3": "remotion render Idea3-Arcade out/Idea3-Arcade.mp4 --codec=h264 --crf=18",
-    "render": "npm run render:1 && npm run render:2 && npm run render:3"
+    "render:Idea1-Notification": "remotion render Idea1-Notification out/Idea1-Notification.mp4 --codec=h264 --crf=18",
+    "render:Idea2-Constellation": "remotion render Idea2-Constellation out/Idea2-Constellation.mp4 --codec=h264 --crf=18",
+    "render:Idea3-Arcade": "remotion render Idea3-Arcade out/Idea3-Arcade.mp4 --codec=h264 --crf=18",
+    "render:Idea4-Clay": "remotion render Idea4-Clay out/Idea4-Clay.mp4 --codec=h264 --crf=18",
+    "render:Idea5-Weather": "remotion render Idea5-Weather out/Idea5-Weather.mp4 --codec=h264 --crf=18",
+    "render:Idea6-Crossword": "remotion render Idea6-Crossword out/Idea6-Crossword.mp4 --codec=h264 --crf=18",
+    "render:Teaser1-WhoIsIt": "remotion render Teaser1-WhoIsIt out/Teaser1-WhoIsIt.mp4 --codec=h264 --crf=18",
+    "render:Teaser2-Tomorrow": "remotion render Teaser2-Tomorrow out/Teaser2-Tomorrow.mp4 --codec=h264 --crf=18",
+    "render": "npm run render:Idea1-Notification && npm run render:Idea2-Constellation && npm run render:Idea3-Arcade && npm run render:Idea4-Clay && npm run render:Idea5-Weather && npm run render:Idea6-Crossword && npm run render:Teaser1-WhoIsIt && npm run render:Teaser2-Tomorrow"
   },
   "dependencies": {
     "@fontsource/aref-ruqaa": "^5.3.0",
