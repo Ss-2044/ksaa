@@ -872,6 +872,102 @@ def teaser_piece():
     T.save('music-teaser-piece.wav', drive=1.3, fade_out=0.5)
 
 
+# ======================================================================
+# 10) Time has come — clock ticks under cinematic strings, oud motif, a bell toll at 12
+# ======================================================================
+def time_has_come():
+    T = Track(13)
+
+    def tick(tock=False):
+        t = tt(0.06)
+        x = T.noise(len(t))
+        body = np.sin(2 * np.pi * (1300 if tock else 1750) * t) * np.exp(-t * 90)
+        return (body + (x - onepole(x, 0.5)) * 0.4) * np.exp(-t * 60)
+
+    def strings(notes, length):
+        t = tt(length)
+        out = np.zeros(len(t))
+        for m in notes:
+            for det in (-0.07, 0.0, 0.07):
+                f = hz(m + det) * (1 + 0.004 * np.sin(2 * np.pi * 5 * t + m))
+                ph = 2 * np.pi * np.cumsum(f) / SR
+                out += np.sin(ph) + 0.3 * np.sin(2 * ph) + 0.12 * np.sin(3 * ph)
+        return out / (3 * len(notes)) * np.minimum(1, t / 1.2) * np.minimum(1, (length - t) / 1.0)
+
+    def oud(m, length=1.4):
+        n = int(length * SR)
+        p = int(SR / hz(m))
+        buf = T.rng.uniform(-1, 1, p)
+        out = np.empty(n)
+        for i in range(n):
+            v = buf[i % p]
+            out[i] = v
+            buf[i % p] = 0.995 * (0.55 * v + 0.45 * buf[(i + 1) % p])
+        return out
+
+    def pulse():
+        t = tt(0.5)
+        return np.sin(2 * np.pi * np.cumsum(60 * np.exp(-t * 10) + 40) / SR) * np.exp(-t * 7)
+
+    def bell(length=6.0):
+        t = tt(length)
+        partials = [(0.5, 1.0, 0.6), (1.0, 0.8, 0.8), (1.19, 0.5, 1.1), (1.5, 0.4, 1.3), (2.0, 0.35, 1.6), (2.74, 0.25, 2.2)]
+        f0 = hz(50)
+        return sum(a * np.sin(2 * np.pi * f0 * r * t) * np.exp(-t * d) for r, a, d in partials) / 3
+
+    def impact(length=3.0):
+        t = tt(length)
+        return np.sin(2 * np.pi * np.cumsum(55 * np.exp(-t * 1.5) + 28) / SR) * np.exp(-t * 1.4) + onepole(T.noise(len(t)), 0.15) * np.exp(-t * 5)
+
+    def whoosh_up(length):
+        t = tt(length)
+        x = T.noise(len(t))
+        out = np.empty(len(t))
+        acc = 0.0
+        for i in range(len(t)):
+            acc += (0.005 + 0.35 * (t[i] / length) ** 2) * (x[i] - acc)
+            out[i] = acc
+        return out * (t / length) ** 1.5
+
+    # opening hit under the logos
+    T.add(impact(), 0.0, gain=0.7)
+    # strings: Dm – Bb – Gm – A during the tour, then D major for the partnership
+    prog = [([50, 57, 62, 65], 3.0), ([46, 53, 58, 62], 7.0), ([43, 50, 55, 58], 11.0), ([45, 52, 57, 61], 15.0)]
+    for notes, at in prog:
+        T.add(strings(notes, 4.6), at, gain=0.4)
+    # clock ticks 3–18s with a heartbeat pulse every second
+    for k, at in enumerate(np.arange(3.0, 18.0, 0.5)):
+        T.add(tick(k % 2 == 1), at, pan=-0.3, gain=0.5)
+        if k % 2 == 0:
+            T.add(pulse(), at, gain=0.35)
+    # oud motif (maqam Hijaz on D)
+    hijaz = [62, 63, 66, 67, 69, 70, 72, 74]
+    motif = [(0, 1), (1, 0.5), (2, 0.5), (3, 1), (4, 1), (3, 0.5), (2, 0.5), (1, 1), (0, 2)]
+    for start in (3.5, 10.5):
+        t0 = start
+        for deg, b in motif:
+            T.add(oud(hijaz[deg]), t0, pan=0.25, gain=0.32)
+            t0 += b * 0.5
+    # clock spins (18–20.5s), accelerating ticks + rising whoosh, then the bell strikes twelve
+    t0, step = 18.0, 0.25
+    while t0 < 20.4:
+        T.add(tick(), t0, gain=0.5)
+        t0 += step
+        step = max(0.04, step * 0.85)
+    T.add(whoosh_up(2.5), 18.0, gain=0.6)
+    T.add(bell(), fr(618), gain=0.9)
+    T.add(impact(), fr(618), gain=0.8)
+    # «للشراكة» — warm D major swell
+    T.add(strings([50, 57, 62, 66, 69], 4.5), fr(690), gain=0.55)
+    T.add(impact(2.0), fr(690), gain=0.6)
+    for i, m in enumerate((62, 66, 69, 74)):
+        T.add(oud(m, 2.0), fr(705) + i * 0.12, gain=0.3)
+    # ending
+    T.add(strings([38, 50, 57, 62, 66], 3.2), fr(812), gain=0.5)
+    T.add(bell(3.0), fr(812), gain=0.4)
+    T.save('music-time.wav', drive=1.5, fade_out=1.5)
+
+
 if __name__ == '__main__':
     import sys
 
@@ -888,6 +984,7 @@ if __name__ == '__main__':
         'coffee': coffee,
         'live': live,
         'teaser-piece': teaser_piece,
+        'time': time_has_come,
     }
     for name in sys.argv[1:] or tracks:
         tracks[name]()

@@ -8,6 +8,7 @@ import {LiveConcept} from './concepts/Live';
 import {NotificationConcept} from './concepts/Notification';
 import {PuzzleConcept} from './concepts/Puzzle';
 import {TeaserMissingPiece, TeaserTomorrow, TeaserWho} from './concepts/Teasers';
+import {TimeHasComeConcept} from './concepts/TimeHasCome';
 import {WeatherConcept} from './concepts/Weather';
 import {DURATION, FPS} from './theme';
 
@@ -21,6 +22,7 @@ const CONCEPTS = [
   {id: 'Idea6-Crossword', component: CrosswordConcept},
   {id: 'Idea7-Puzzle', component: PuzzleConcept},
   {id: 'Idea8-Coffee', component: CoffeeConcept},
+  {id: 'Idea10-TimeHasCome', component: TimeHasComeConcept},
 ];
 
 // فكرة عمودية كاملة (9:16، 30 ث)
