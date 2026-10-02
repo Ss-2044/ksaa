@@ -7,6 +7,11 @@ import {Clip, STORIES, StoryId, clipFrames} from './clips/Clip';
 import {VerticalClip} from './clips/Vertical';
 import {REELS, ReelById, reelFrames} from './reels/reels';
 import {EPISODES, EpisodeById, epFrames} from './linkedin/episodes';
+import {GLOSS_FRAMES, GlossaryById, TERMS} from './linkedin2/Glossary';
+import {PHOTO_FRAMES, PHOTOS, PhotoWeekById} from './linkedin2/PhotoWeek';
+import {AltitudeLadder, CHART_FRAMES, LandsatTimeline} from './linkedin2/Charts';
+import {QAPlate, QALive, QA_FRAMES} from './linkedin2/QA';
+import {CarouselSlide} from './linkedin2/Carousel';
 import {timelineB30, timelineB60, totalB} from './designB/timelinesB';
 
 export const RemotionRoot: React.FC = () => {
@@ -66,6 +71,18 @@ export const RemotionRoot: React.FC = () => {
       {Object.keys(EPISODES).map((id) => (
         <Composition key={`li-${id}`} id={`LinkedIn-${id}`} component={EpisodeById} durationInFrames={epFrames(id)} fps={FPS} width={1080} height={1350} defaultProps={{id}} />
       ))}
+      {/* LinkedIn formats, batch 2 */}
+      {Object.keys(TERMS).map((id) => (
+        <Composition key={`g-${id}`} id={`Term-${id}`} component={GlossaryById} durationInFrames={GLOSS_FRAMES} fps={FPS} width={1080} height={1350} defaultProps={{id}} />
+      ))}
+      {Object.keys(PHOTOS).map((id) => (
+        <Composition key={`p-${id}`} id={`Photo-${id}`} component={PhotoWeekById} durationInFrames={PHOTO_FRAMES} fps={FPS} width={1080} height={1350} defaultProps={{id}} />
+      ))}
+      <Composition id="Chart-landsat" component={LandsatTimeline} durationInFrames={CHART_FRAMES} fps={FPS} width={1080} height={1350} />
+      <Composition id="Chart-altitudes" component={AltitudeLadder} durationInFrames={CHART_FRAMES} fps={FPS} width={1080} height={1350} />
+      <Composition id="QA-plate" component={QAPlate} durationInFrames={QA_FRAMES} fps={FPS} width={1080} height={1350} />
+      <Composition id="QA-live" component={QALive} durationInFrames={QA_FRAMES} fps={FPS} width={1080} height={1350} />
+      <Composition id="Carousel" component={CarouselSlide} durationInFrames={1} fps={FPS} width={1080} height={1350} defaultProps={{i: 0}} />
       {/* Native 9:16 interactive reels */}
       {Object.keys(REELS).map((id) => (
         <Composition key={`reel-${id}`} id={`Reel-${id}`} component={ReelById} durationInFrames={reelFrames(id)} fps={FPS} width={1080} height={1920} defaultProps={{id}} />
