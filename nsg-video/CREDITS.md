@@ -21,6 +21,8 @@
 | `public/space/hejaz-coast.jpg` | iss067e286537 | Hejaz coast NW of Medina — ISS Expedition 67 crew |
 | `public/space/jeddah*.jpg/png` | iss010e20261 | Jeddah — ISS Expedition 10 crew (pixelated versions are derived) |
 | `public/space/jubail-night.jpg` | iss031e143143 | Al Jubayl at night — ISS Expedition 31 crew |
+| `public/space/ubar-radar.jpg`, `ubar-optical.jpg` | PIA01302 | Ubar region, Empty Quarter — SIR-C/X-SAR radar & shuttle optical (NASA/JPL) |
+| `public/space/asir-*.png/jpg` | — | rendered from the AWS Terrain Tiles DEM |
 | `public/space/cloud-shadows.jpg` | GSFC_20171208_Archive_e001930 | crop of the Landsat 7 Empty Quarter scene |
 
 ## Earth textures (Design C globe)
