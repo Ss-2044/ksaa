@@ -1846,6 +1846,142 @@ def film_rhythm():
     T.save('music-film-rhythm.wav', drive=1.4, fade_out=1.5)
 
 
+# ======================================================================
+# Films 7–9 — calm, each with its own instrument palette
+# ======================================================================
+def film_sadu():
+    # Najdi loom: wooden beater knocks, rababa-like bowed line with wide vibrato, oud plucks, low drone
+    T = Track(32)
+
+    def knock(bright=0.4):
+        t = tt(0.18)
+        body = np.sin(2 * np.pi * 210 * t) * np.exp(-t * 38)
+        x = T.noise(len(t))
+        return (body + bright * (x - onepole(x, 0.4)) * np.exp(-t * 90)) * 0.8
+
+    def rababa(m, length):
+        t = tt(length)
+        f0 = hz(m) * (1 + 0.012 * np.sin(2 * np.pi * 5.8 * t) * np.minimum(1, t / 0.4))
+        ph = np.cumsum(f0) / SR
+        s = 2 * (ph % 1) - 1
+        s = onepole(s, 0.12) - 0.6 * onepole(s, 0.02)  # nasal band
+        return s * np.minimum(1, t / 0.15) * np.minimum(1, (length - t) / 0.3)
+
+    T.add(_bowed(38, 30.0, att=4.0, rel=2.0, vib=0.002), 0.0, gain=0.22)
+    T.add(_bowed(45, 30.0, att=6.0, rel=2.0, vib=0.002), 0.0, pan=0.3, gain=0.12)
+    # thread 1 (copper): solo rababa phrase; thread 2 (blue): oud answer
+    for m, at, ln in ((62, 0.6, 1.2), (63, 1.8, 0.6), (65, 2.4, 1.0), (63, 3.4, 0.6), (62, 4.0, 1.4)):
+        T.add(rababa(m, ln), at, pan=0.25, gain=0.2)
+    for m, at in ((69, 5.6), (67, 6.1), (65, 6.6), (63, 7.1), (62, 7.6), (69, 8.6)):
+        T.add(_ks(T, m, 1.6, 0.6), at, pan=-0.3, gain=0.3)
+    T.add(_glass(86, 3.0), fr(262), gain=0.25)
+    # weaving: loom knocks at a slow 0.75s pulse + oud ostinato
+    seq = [62, 69, 65, 69, 63, 69, 65, 74]
+    at = 10.0
+    k = 0
+    while at < 26.0:
+        T.add(knock(0.5 if k % 2 == 0 else 0.25), at, pan=0.15 * (1 if k % 2 else -1), gain=0.45 if k % 4 == 0 else 0.3)
+        T.add(_ks(T, seq[k % 8], 1.0, 0.65), at + 0.375, pan=-0.25, gain=0.18)
+        at += 0.75
+        k += 1
+    for m, at, ln in ((74, 11.0, 1.4), (72, 12.6, 0.7), (70, 13.3, 0.7), (69, 14.0, 2.0), (65, 16.5, 1.0), (67, 17.5, 1.0), (69, 18.5, 2.5),
+                      (70, 21.5, 0.8), (69, 22.3, 0.8), (67, 23.1, 0.8), (65, 23.9, 0.8), (62, 24.7, 2.4)):
+        T.add(rababa(m, ln), at, pan=0.25, gain=0.17)
+    T.add(_choir([50, 57, 62, 65], 7.0, att=2.0), fr(515), gain=0.3)
+    T.add(_choir([50, 57, 62, 66], 5.0, att=1.0), fr(790), gain=0.35)
+    T.add(_ks(T, 50, 3.0, 0.5), fr(795), gain=0.4)
+    T.add(_ks(T, 62, 3.0, 0.6), fr(800), gain=0.3)
+    T.save('music-film-sadu.wav', drive=1.3, fade_out=1.8)
+
+
+def film_ink():
+    # water and paper: ink-drop plinks, airy felt piano, soft bloom swells
+    T = Track(33)
+
+    def drop(f0=1400):
+        t = tt(0.35)
+        return np.sin(2 * np.pi * np.cumsum(f0 * np.exp(-t * 9) + 300) / SR) * np.exp(-t * 14)
+
+    def bloom(notes, length):
+        return _pad(notes, length, att=length * 0.45)
+
+    def felt(m, length=3.0):
+        return onepole(_grand(T, m, length), 0.35)
+
+    T.add(drop(1500), fr(22), gain=0.5)
+    T.add(_sub(3.0, 34), fr(22), gain=0.35)
+    T.add(bloom([53, 60, 64, 67, 71], 9.0), fr(22), gain=0.35)
+    mel = [(72, 2.0), (76, 3.0), (79, 3.8), (77, 5.0), (76, 6.2), (72, 7.4), (74, 8.6)]
+    for m, at in mel:
+        T.add(felt(m), at, pan=0.2, gain=0.3)
+    T.add(drop(1100), fr(322), gain=0.5)
+    T.add(_sub(3.0, 40), fr(322), gain=0.3)
+    T.add(bloom([50, 57, 62, 64, 69], 9.0), fr(322), gain=0.35)
+    for m, at in ((74, 11.4), (79, 12.4), (81, 13.2), (79, 14.4), (78, 15.4), (74, 16.6), (76, 17.8)):
+        T.add(felt(m), at, pan=-0.2, gain=0.28)
+    for at in (4.5, 9.0, 13.7, 16.2):
+        T.add(drop(2200), at, pan=0.5 * np.sin(at), gain=0.12)
+    # merge: both keys together, wider bloom
+    T.add(bloom([46, 53, 57, 60, 64, 69], 10.0), fr(470), gain=0.4)
+    T.add(_choir([58, 65, 69, 72], 8.0, att=3.0), fr(560), gain=0.25)
+    for i, m in enumerate((65, 69, 72, 76, 77, 76, 72, 69)):
+        T.add(felt(m, 2.5), fr(600) + i * 0.45, pan=0.3 * (1 if i % 2 else -1), gain=0.22)
+    T.add(felt(53, 5.0), fr(790), gain=0.35)
+    T.add(felt(65, 5.0), fr(790), gain=0.25)
+    T.add(felt(72, 5.0), fr(800), gain=0.25)
+    T.add(bloom([53, 60, 65, 69], 4.0), fr(790), gain=0.3)
+    T.save('music-film-ink.wav', drive=1.2, fade_out=1.8)
+
+
+def film_blueprint():
+    # drafting table: clock-like ticks, pencil scratches, glass-bell ostinato, a stamp thud
+    T = Track(34)
+
+    def tick(hi=True):
+        t = tt(0.05)
+        x = T.noise(len(t))
+        return (x - onepole(x, 0.6)) * np.exp(-t * 160) * (1.0 if hi else 0.6)
+
+    def pencil(length):
+        t = tt(length)
+        x = T.noise(len(t))
+        x = onepole(x - onepole(x, 0.2), 0.5)
+        grain = 0.6 + 0.4 * np.sin(2 * np.pi * 9 * t) ** 2
+        return x * grain * np.minimum(1, t / 0.05) * np.minimum(1, (length - t) / 0.1)
+
+    def thud():
+        t = tt(1.2)
+        x = T.noise(len(t))
+        return _sub(1.2, 45) * 0.9 + onepole(x, 0.08) * np.exp(-t * 20) * 1.5
+
+    T.add(_pad([45, 52, 57, 60], 30.0, att=3.0), 0.0, gain=0.18)
+    for k, at in enumerate(np.arange(0.5, 26.0, 0.5)):
+        T.add(tick(k % 2 == 0), at, pan=0.35, gain=0.2)
+    for at, ln in ((0.6, 1.2), (2.0, 0.8), (3.0, 1.4), (4.6, 0.7), (5.5, 1.0)):
+        T.add(pencil(ln), at, pan=-0.3, gain=0.12)
+    arp = [69, 72, 76, 71, 69, 72, 76, 79]
+    for i, at in enumerate(np.arange(1.0, 7.8, 0.5)):
+        T.add(_glass(arp[i % 8], 2.0), at, pan=0.2 * (1 if i % 2 else -1), gain=0.11)
+    # scan to reality
+    T.add(_choir([57, 64, 69, 72], 5.0, att=1.5), fr(240), gain=0.3)
+    T.add(_sub(3.0, 36), fr(320), gain=0.3)
+    # campaign plans: brighter ostinato, pencil again
+    arp2 = [72, 76, 79, 83, 81, 79, 76, 74]
+    for i, at in enumerate(np.arange(13.2, 20.0, 0.25)):
+        T.add(_glass(arp2[i % 8], 1.4), at, pan=0.3 * np.sin(i), gain=0.08)
+    for at, ln in ((13.2, 0.9), (14.4, 1.2), (15.7, 0.8)):
+        T.add(pencil(ln), at, pan=-0.3, gain=0.1)
+    T.add(_bowed(45, 7.0, att=2.0, rel=1.5), 13.0, gain=0.22)
+    # stamp
+    T.add(thud(), fr(646), gain=0.8)
+    T.add(_choir([50, 57, 62, 66, 69], 6.0, att=0.6), fr(700), gain=0.32)
+    T.add(_grand(T, 50, 5.0), fr(700), gain=0.35)
+    T.add(_grand(T, 62, 5.0), fr(795), gain=0.3)
+    T.add(_grand(T, 66, 5.0), fr(800), gain=0.25)
+    T.add(_grand(T, 69, 5.0), fr(805), gain=0.25)
+    T.save('music-film-blueprint.wav', drive=1.3, fade_out=1.8)
+
+
 if __name__ == '__main__':
     import sys
 
@@ -1881,6 +2017,9 @@ if __name__ == '__main__':
         'film-firstlight': film_firstlight,
         'film-imprint': film_imprint,
         'film-rhythm': film_rhythm,
+        'film-sadu': film_sadu,
+        'film-ink': film_ink,
+        'film-blueprint': film_blueprint,
     }
     for name in sys.argv[1:] or tracks:
         tracks[name]()

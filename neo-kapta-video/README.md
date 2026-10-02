@@ -10,6 +10,9 @@ Twenty-two 30-second partnership announcements (twenty-one 1920×1080, one 1080�
 | `Film4-FirstLight` | Sunrise light sweeps reveal Diriyah — A New Light | `out/Film4-FirstLight.mp4` |
 | `Film5-Imprint` | Copper and blue fingerprints meet — Leave an Imprint | `out/Film5-Imprint.mp4` |
 | `Film6-Rhythm` | Beat-synced split-screen edit — Every Beat, A Story | `out/Film6-Rhythm.mp4` |
+| `Film7-Sadu` | Two threads weave a Najdi Sadu pattern with windows onto Diriyah — Woven Together | `out/Film7-Sadu.mp4` |
+| `Film8-Ink` | Ink drops on paper bloom into Diriyah — Written Together | `out/Film8-Ink.mp4` |
+| `Film9-Blueprint` | Blueprint drawings turn into reality + approval stamp — From Blueprint to Landmark | `out/Film9-Blueprint.mp4` |
 | `Idea1-Notification` | Told through a phone: notifications → chat → "Accept" | `out/Idea1-Notification.mp4` |
 | `Idea2-Constellation` | Stars connect into Diriyah's mountain and a megaphone | `out/Idea2-Constellation.mp4` |
 | `Idea3-Arcade` | 8-bit arcade: Player 1 + Player 2 → co-op mode | `out/Idea3-Arcade.mp4` |

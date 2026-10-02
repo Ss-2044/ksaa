@@ -17,7 +17,7 @@
     "render:Teaser1-WhoIsIt": "remotion render Teaser1-WhoIsIt out/Teaser1-WhoIsIt.mp4 --codec=h264 --crf=18",
     "render:Teaser2-Tomorrow": "remotion render Teaser2-Tomorrow out/Teaser2-Tomorrow.mp4 --codec=h264 --crf=18",
     "render:Teaser3-MissingPiece": "remotion render Teaser3-MissingPiece out/Teaser3-MissingPiece.mp4 --codec=h264 --crf=18",
-    "render": "npm run render:Idea1-Notification && npm run render:Idea2-Constellation && npm run render:Idea3-Arcade && npm run render:Idea4-Clay && npm run render:Idea5-Weather && npm run render:Idea6-Crossword && npm run render:Idea7-Puzzle && npm run render:Idea8-Coffee && npm run render:Idea9-LiveStream && npm run render:Teaser1-WhoIsIt && npm run render:Teaser2-Tomorrow && npm run render:Teaser3-MissingPiece && npm run render:Idea10-TimeHasCome && npm run render:Idea11-Doors && npm run render:Idea12-Postcards && npm run render:Idea13-Viewfinder && npm run render:Idea14-Flight && npm run render:Idea15-Letters && npm run render:Idea16-Sketch && npm run render:Idea17-Projection && npm run render:Idea18-YesterdayTomorrow && npm run render:Idea19-WaxSeal && npm run render:Idea20-Microscope && npm run render:Idea21-FloatingIsland && npm run render:Idea22-Reflection && npm run render:Film1-WhereVisionMeets && npm run render:Film2-FromDiriyahEverywhere && npm run render:Film3-NotJustAPartnership && npm run render:Film4-FirstLight && npm run render:Film5-Imprint && npm run render:Film6-Rhythm",
+    "render": "npm run render:Idea1-Notification && npm run render:Idea2-Constellation && npm run render:Idea3-Arcade && npm run render:Idea4-Clay && npm run render:Idea5-Weather && npm run render:Idea6-Crossword && npm run render:Idea7-Puzzle && npm run render:Idea8-Coffee && npm run render:Idea9-LiveStream && npm run render:Teaser1-WhoIsIt && npm run render:Teaser2-Tomorrow && npm run render:Teaser3-MissingPiece && npm run render:Idea10-TimeHasCome && npm run render:Idea11-Doors && npm run render:Idea12-Postcards && npm run render:Idea13-Viewfinder && npm run render:Idea14-Flight && npm run render:Idea15-Letters && npm run render:Idea16-Sketch && npm run render:Idea17-Projection && npm run render:Idea18-YesterdayTomorrow && npm run render:Idea19-WaxSeal && npm run render:Idea20-Microscope && npm run render:Idea21-FloatingIsland && npm run render:Idea22-Reflection && npm run render:Film1-WhereVisionMeets && npm run render:Film2-FromDiriyahEverywhere && npm run render:Film3-NotJustAPartnership && npm run render:Film4-FirstLight && npm run render:Film5-Imprint && npm run render:Film6-Rhythm && npm run render:Film7-Sadu && npm run render:Film8-Ink && npm run render:Film9-Blueprint",
     "render:Idea10-TimeHasCome": "remotion render Idea10-TimeHasCome out/Idea10-TimeHasCome.mp4 --codec=h264 --crf=18",
     "render:Idea11-Doors": "remotion render Idea11-Doors out/Idea11-Doors.mp4 --codec=h264 --crf=18",
     "render:Idea12-Postcards": "remotion render Idea12-Postcards out/Idea12-Postcards.mp4 --codec=h264 --crf=18",
@@ -36,7 +36,10 @@
     "render:Film3-NotJustAPartnership": "remotion render Film3-NotJustAPartnership out/Film3-NotJustAPartnership.mp4 --codec=h264 --crf=20",
     "render:Film4-FirstLight": "remotion render Film4-FirstLight out/Film4-FirstLight.mp4 --codec=h264 --crf=20",
     "render:Film5-Imprint": "remotion render Film5-Imprint out/Film5-Imprint.mp4 --codec=h264 --crf=20",
-    "render:Film6-Rhythm": "remotion render Film6-Rhythm out/Film6-Rhythm.mp4 --codec=h264 --crf=20"
+    "render:Film6-Rhythm": "remotion render Film6-Rhythm out/Film6-Rhythm.mp4 --codec=h264 --crf=20",
+    "render:Film7-Sadu": "remotion render Film7-Sadu out/Film7-Sadu.mp4 --codec=h264 --crf=20",
+    "render:Film8-Ink": "remotion render Film8-Ink out/Film8-Ink.mp4 --codec=h264 --crf=20",
+    "render:Film9-Blueprint": "remotion render Film9-Blueprint out/Film9-Blueprint.mp4 --codec=h264 --crf=20"
   },
   "dependencies": {
     "@fontsource/aref-ruqaa": "^5.3.0",

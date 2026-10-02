@@ -27,6 +27,9 @@ import {FilmNotJust} from './concepts/FilmNotJust';
 import {FilmFirstLight} from './concepts/FilmFirstLight';
 import {FilmImprint} from './concepts/FilmImprint';
 import {FilmRhythm} from './concepts/FilmRhythm';
+import {FilmSadu} from './concepts/FilmSadu';
+import {FilmInk} from './concepts/FilmInk';
+import {FilmBlueprint} from './concepts/FilmBlueprint';
 import {WeatherConcept} from './concepts/Weather';
 import {DURATION, FPS} from './theme';
 
@@ -59,6 +62,9 @@ const CONCEPTS = [
   {id: 'Film4-FirstLight', component: FilmFirstLight},
   {id: 'Film5-Imprint', component: FilmImprint},
   {id: 'Film6-Rhythm', component: FilmRhythm},
+  {id: 'Film7-Sadu', component: FilmSadu},
+  {id: 'Film8-Ink', component: FilmInk},
+  {id: 'Film9-Blueprint', component: FilmBlueprint},
 ];
 
 // فكرة عمودية كاملة (9:16، 30 ث)
