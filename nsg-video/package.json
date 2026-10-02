@@ -16,7 +16,7 @@
     "render:c": "for c in globe mosaic numbers circles; do remotion render Clip-$c out/clip-$c.mp4 --gl=angle; done",
     "render:d": "for c in satellite terrain lights; do remotion render Clip-$c out/clip-$c.mp4 --gl=angle; done",
     "render:reels": "for id in guess1 guess2 truefalse top5 pipeline; do remotion render Reel-$id out/reels/reel-$id.mp4 --crf=22; done",
-    "render:linkedin": "for e in ep01 ep02 ep03 ep04 ep05 ep06 ep07 ep08 ep09 ep10 ep11 ep12; do remotion render LinkedIn-$e out/linkedin/linkedin-$e.mp4 --crf=20; done"
+    "render:linkedin": "for e in ep01 ep02 ep03 ep04 ep05 ep06 ep07 ep08 ep09 ep10 ep11 ep12 ep13 ep14 ep15 ep16 ep17 ep18 ep19 ep20; do remotion render LinkedIn-$e out/linkedin/linkedin-$e.mp4 --crf=20; done"
   },
   "dependencies": {
     "@fontsource/ibm-plex-sans-arabic": "^5.0.0",

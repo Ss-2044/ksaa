@@ -23,6 +23,9 @@
 | `public/space/jubail-night.jpg` | iss031e143143 | Al Jubayl at night — ISS Expedition 31 crew |
 | `public/space/ubar-radar.jpg`, `ubar-optical.jpg` | PIA01302 | Ubar region, Empty Quarter — SIR-C/X-SAR radar & shuttle optical (NASA/JPL) |
 | `public/space/asir-*.png/jpg` | — | rendered from the AWS Terrain Tiles DEM |
+| `public/space/dust-*.jpg` | PIA04360 | Elevated dust over the Middle East — NASA Terra MISR (NASA/JPL) |
+| `public/space/gulf-dust-iss.jpg` | iss040e113700 | Dust storm over the Persian Gulf — ISS Expedition 40 crew |
+| `public/space/redsea-dust-iss.jpg` | iss036e011050 | Dust plume over the Red Sea — ISS Expedition 36 crew (downloaded) |
 | `public/space/cloud-shadows.jpg` | GSFC_20171208_Archive_e001930 | crop of the Landsat 7 Empty Quarter scene |
 
 ## Earth textures (Design C globe)
