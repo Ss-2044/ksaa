@@ -91,8 +91,16 @@ dx=PW-B-7*mm-s_w-6*mm
 c.line(dx,B+10*mm,dx,PH-B-10*mm)
 # name
 y=PH-B-15*mm
-c.setFillColorRGB(*WHITE); c.setFont('Helvetica-Bold',13); c.drawString(m,y,'NEO CAPTA')
-c.setFillColorRGB(*BLUE); c.rect(m,y-3.2*mm,8*mm,0.5*mm,stroke=0,fill=1)
+PERSON=os.environ.get('NAME')
+if PERSON:
+    # personal card: Arabic name as headline (added after save with PyMuPDF,
+    # which shapes Arabic properly), company name underneath
+    NAME_POS=(m,PH-y)
+    c.setFillColorRGB(*BLUE); c.rect(m,y-3.2*mm,8*mm,0.5*mm,stroke=0,fill=1)
+    c.setFont('Helvetica-Bold',7); c.drawString(m,y-7.5*mm,'NEO CAPTA')
+else:
+    c.setFillColorRGB(*WHITE); c.setFont('Helvetica-Bold',13); c.drawString(m,y,'NEO CAPTA')
+    c.setFillColorRGB(*BLUE); c.rect(m,y-3.2*mm,8*mm,0.5*mm,stroke=0,fill=1)
 # contacts
 rows=[('WA','+966 55 054 8453'),('E','contact@neocapta.com'),('IG','@neocapta.sa')]
 yy=B+16.5*mm
@@ -132,3 +140,15 @@ lx=(PW-lw_t)/2; ly=(PH-lh_t)/2
 halftone(c,(PW*0.62,PH*0.55),9*mm,avoid=(lx,ly,lw_t,lh_t))
 c.drawImage(logo,lx,ly,lw_t,lh_t,mask='auto')
 c.showPage(); c.save()
+
+if PERSON:
+    import pymupdf
+    out=os.environ.get('OUT','/home/user/ksaa/business-card/NEO-CAPTA-business-card-print.pdf')
+    doc=pymupdf.open(out); pg=doc[0]
+    font=os.path.join(os.path.dirname(os.path.abspath(__file__)),'fonts/NotoKufiArabic-Bold.ttf')
+    x,base=NAME_POS
+    html=f'<p style="font-family:kufi;font-size:13pt;color:#e8e8ec;margin:0;line-height:1;text-align:left">{PERSON}</p>'
+    css=f'@font-face{{font-family:kufi;src:url({os.path.basename(font)});}}'
+    arch=pymupdf.Archive(os.path.dirname(font))
+    pg.insert_htmlbox(pymupdf.Rect(x,base-16,x+60*mm,base+10),html,css=css,archive=arch)
+    doc.save(out+'.tmp',garbage=3,deflate=True); doc.close(); os.replace(out+'.tmp',out)
