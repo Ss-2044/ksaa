@@ -42,9 +42,27 @@ def bg(c):
 bg(c)
 halftone(c,(PW*1.05,PH*0.0),6*mm,strength=0.8,maxr=0.45*mm)
 m=B+7*mm
-# logo on the right, vertically centred
+# right column: small logo on top, Instagram QR code below
 s_h=20*mm; s_w=s_h*lw/lh
-c.drawImage(logo,PW-B-7*mm-s_w,(PH-s_h)/2,s_w,s_h,mask='auto')
+xc=PW-B-7*mm-s_w/2
+l_h=10*mm; l_w=l_h*lw/lh
+c.drawImage(logo,xc-l_w/2,PH-B-7*mm-l_h,l_w,l_h,mask='auto')
+q=17*mm; pad=1.4*mm
+qy=B+6*mm
+c.setFillColorRGB(*WHITE); c.roundRect(xc-q/2-pad,qy-pad,q+2*pad,q+2*pad,1.2*mm,stroke=0,fill=1)
+import qrcode
+qr=qrcode.QRCode(error_correction=qrcode.constants.ERROR_CORRECT_M,border=0)
+qr.add_data('https://instagram.com/neocapta.sa'); qr.make(fit=True)
+mat=qr.get_matrix(); n=len(mat); cell=q/n; ov=0.02*mm
+c.setFillColorRGB(0.02,0.02,0.06)
+for r in range(n):
+    col=0
+    while col<n:
+        if mat[r][col]:
+            st=col
+            while col<n and mat[r][col]: col+=1
+            c.rect(xc-q/2+st*cell,qy+q-(r+1)*cell-ov,(col-st)*cell,cell+2*ov,stroke=0,fill=1)
+        else: col+=1
 # thin blue divider
 c.setStrokeColorRGB(*BLUE); c.setLineWidth(0.5)
 dx=PW-B-7*mm-s_w-6*mm
