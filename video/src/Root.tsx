@@ -70,6 +70,11 @@ import { LaunchVideo } from "./marketing/LaunchVideo";
 import launchTimeline from "./marketing/launch.json";
 import { TipVideo } from "./marketing/TipVideo";
 import { tips, tipLength } from "./marketing/tips";
+import { GlowupVideo } from "./marketing/GlowupVideo";
+import { ChatVideo } from "./marketing/ChatVideo";
+import { MythsVideo } from "./marketing/MythsVideo";
+import { FunnelVideo } from "./marketing/FunnelVideo";
+import series2 from "./marketing/series2.json";
 import timeline from "./timeline.json";
 
 const vertical = { fps: 30, width: 1080, height: 1920 };
@@ -82,6 +87,12 @@ export const RemotionRoot: React.FC = () => {
       {tips.map((t) => (
         <Composition key={t.id} id={t.id} component={TipVideo} durationInFrames={tipLength} defaultProps={{ tip: t }} {...vertical} />
       ))}
+
+      {/* marketing series 2: before/after, chat, myths, funnel */}
+      <Composition id="Glowup" component={GlowupVideo} durationInFrames={series2.glowup.duration} {...vertical} />
+      <Composition id="Chat" component={ChatVideo} durationInFrames={series2.chat.duration} {...vertical} />
+      <Composition id="Myths" component={MythsVideo} durationInFrames={series2.myths.duration} {...vertical} />
+      <Composition id="Funnel" component={FunnelVideo} durationInFrames={series2.funnel.duration} {...vertical} />
 
       {/* launch series (studio soundtracks) */}
       <Composition id="Countdown" component={CountdownVideo} durationInFrames={countdownTimeline.durationInFrames} {...vertical} />
