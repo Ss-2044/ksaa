@@ -70,7 +70,7 @@ styles={
     'lightblue':(LIGHTBLUE, NAVY,      NAVY),
     'bluedots': (None,      LIGHTBLUE, WHITE),
 }
-tile,mod,eye=styles[os.environ.get('QR_STYLE','blue')]
+tile,mod,eye=styles[os.environ.get('QR_STYLE','bluedots')]
 gap=tile or (0,0,0)
 if tile:
     c.setFillColorRGB(*tile); c.roundRect(xc-q/2-pad,qy-pad,q+2*pad,q+2*pad,1.6*mm,stroke=0,fill=1)
