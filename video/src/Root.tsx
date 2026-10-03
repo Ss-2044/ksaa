@@ -66,6 +66,10 @@ import chessTimeline from "./chess/timeline.json";
 import passportTimeline from "./passport/timeline.json";
 import journeyTimeline from "./journey/timeline.json";
 import { aiDuration } from "./ai/shots";
+import { LaunchVideo } from "./marketing/LaunchVideo";
+import launchTimeline from "./marketing/launch.json";
+import { TipVideo } from "./marketing/TipVideo";
+import { tips, tipLength } from "./marketing/tips";
 import timeline from "./timeline.json";
 
 const vertical = { fps: 30, width: 1080, height: 1920 };
@@ -73,6 +77,12 @@ const vertical = { fps: 30, width: 1080, height: 1920 };
 export const RemotionRoot: React.FC = () => {
   return (
     <>
+      {/* we're live + marketing tips */}
+      <Composition id="Launch" component={LaunchVideo} durationInFrames={launchTimeline.durationInFrames} {...vertical} />
+      {tips.map((t) => (
+        <Composition key={t.id} id={t.id} component={TipVideo} durationInFrames={tipLength} defaultProps={{ tip: t }} {...vertical} />
+      ))}
+
       {/* launch series (studio soundtracks) */}
       <Composition id="Countdown" component={CountdownVideo} durationInFrames={countdownTimeline.durationInFrames} {...vertical} />
       <Composition id="Diamond" component={DiamondVideo} durationInFrames={diamondTimeline.durationInFrames} {...vertical} />
