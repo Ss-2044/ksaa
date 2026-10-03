@@ -5,6 +5,7 @@ import math, random
 W,H=90*mm,50*mm; B=3*mm
 PW,PH=W+2*B,H+2*B
 BLUE=(58/255,78/255,190/255); WHITE=(232/255,232/255,236/255)
+LIGHTBLUE=(140/255,158/255,240/255)
 logo=ImageReader('/home/user/ksaa/business-card/logo.png'); lw,lh=logo.getSize()
 c=canvas.Canvas('/home/user/ksaa/business-card/NEO-CAPTA-business-card-print.pdf',pagesize=(PW,PH))
 c.setTitle('NEO CAPTA Business Card'); c.setAuthor('NEO CAPTA')
@@ -24,6 +25,8 @@ def halftone(c, band_center, band_width, avoid=None, maxr=0.55*mm, step=1.5*mm, 
             if avoid:
                 ax,ay,aw,ah=avoid
                 dx=max(ax-x,0,x-(ax+aw)); dy=max(ay-y,0,y-(ay+ah))
+                if math.hypot(dx,dy)<2*mm:
+                    x+=step; continue
                 v*=min(1,math.hypot(dx,dy)/(6*mm))
             r=maxr*(0.18+0.82*v)
             # colour: blue at edges of band, white in the core
@@ -40,7 +43,6 @@ def bg(c):
 
 # ---------- FRONT (contact info) ----------
 bg(c)
-halftone(c,(PW*1.05,PH*0.0),6*mm,strength=0.8,maxr=0.45*mm)
 m=B+7*mm
 # right column: small logo on top, Instagram QR code below
 s_h=20*mm; s_w=s_h*lw/lh
@@ -49,7 +51,7 @@ l_h=10*mm; l_w=l_h*lw/lh
 c.drawImage(logo,xc-l_w/2,PH-B-7*mm-l_h,l_w,l_h,mask='auto')
 q=17*mm; pad=1.4*mm
 qy=B+6*mm
-c.setFillColorRGB(*WHITE); c.roundRect(xc-q/2-pad,qy-pad,q+2*pad,q+2*pad,1.2*mm,stroke=0,fill=1)
+halftone(c,(PW*1.05,PH*0.0),6*mm,strength=0.8,maxr=0.45*mm,avoid=(xc-q/2-pad,qy-pad,q+2*pad,q+2*pad))
 import qrcode
 qr=qrcode.QRCode(error_correction=qrcode.constants.ERROR_CORRECT_M,border=0)
 qr.add_data('https://instagram.com/neocapta.sa'); qr.make(fit=True)
@@ -58,18 +60,18 @@ def X(col): return xc-q/2+col*cell
 def Y(row): return qy+q-(row+1)*cell
 eyes=[(0,0),(0,n-7),(n-7,0)]
 def in_eye(r,col): return any(er<=r<er+7 and ec<=col<ec+7 for er,ec in eyes)
-# data modules: logo-blue rounded dots
-c.setFillColorRGB(*BLUE)
+# data modules: logo-white rounded dots on the black card
+c.setFillColorRGB(*WHITE)
 for r in range(n):
     for col in range(n):
         if mat[r][col] and not in_eye(r,col):
             c.roundRect(X(col)+0.04*cell,Y(r)+0.04*cell,0.92*cell,0.92*cell,0.32*cell,stroke=0,fill=1)
-# finder eyes: dark ring + blue centre, rounded like the logo letters
+# finder eyes: white ring + light-blue centre (must stay light for the code to scan), rounded like the logo letters
 for er,ec in eyes:
     x0,y0=X(ec),Y(er+6)
-    c.setFillColorRGB(0.02,0.02,0.06); c.roundRect(x0,y0,7*cell,7*cell,2*cell,stroke=0,fill=1)
-    c.setFillColorRGB(*WHITE); c.roundRect(x0+cell,y0+cell,5*cell,5*cell,1.4*cell,stroke=0,fill=1)
-    c.setFillColorRGB(*BLUE); c.roundRect(x0+2*cell,y0+2*cell,3*cell,3*cell,0.9*cell,stroke=0,fill=1)
+    c.setFillColorRGB(*WHITE); c.roundRect(x0,y0,7*cell,7*cell,2*cell,stroke=0,fill=1)
+    c.setFillColorRGB(0,0,0); c.roundRect(x0+cell,y0+cell,5*cell,5*cell,1.4*cell,stroke=0,fill=1)
+    c.setFillColorRGB(*LIGHTBLUE); c.roundRect(x0+2*cell,y0+2*cell,3*cell,3*cell,0.9*cell,stroke=0,fill=1)
 # thin blue divider
 c.setStrokeColorRGB(*BLUE); c.setLineWidth(0.5)
 dx=PW-B-7*mm-s_w-6*mm
