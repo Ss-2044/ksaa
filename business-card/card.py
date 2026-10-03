@@ -53,16 +53,23 @@ c.setFillColorRGB(*WHITE); c.roundRect(xc-q/2-pad,qy-pad,q+2*pad,q+2*pad,1.2*mm,
 import qrcode
 qr=qrcode.QRCode(error_correction=qrcode.constants.ERROR_CORRECT_M,border=0)
 qr.add_data('https://instagram.com/neocapta.sa'); qr.make(fit=True)
-mat=qr.get_matrix(); n=len(mat); cell=q/n; ov=0.02*mm
-c.setFillColorRGB(0.02,0.02,0.06)
+mat=qr.get_matrix(); n=len(mat); cell=q/n
+def X(col): return xc-q/2+col*cell
+def Y(row): return qy+q-(row+1)*cell
+eyes=[(0,0),(0,n-7),(n-7,0)]
+def in_eye(r,col): return any(er<=r<er+7 and ec<=col<ec+7 for er,ec in eyes)
+# data modules: logo-blue rounded dots
+c.setFillColorRGB(*BLUE)
 for r in range(n):
-    col=0
-    while col<n:
-        if mat[r][col]:
-            st=col
-            while col<n and mat[r][col]: col+=1
-            c.rect(xc-q/2+st*cell,qy+q-(r+1)*cell-ov,(col-st)*cell,cell+2*ov,stroke=0,fill=1)
-        else: col+=1
+    for col in range(n):
+        if mat[r][col] and not in_eye(r,col):
+            c.roundRect(X(col)+0.04*cell,Y(r)+0.04*cell,0.92*cell,0.92*cell,0.32*cell,stroke=0,fill=1)
+# finder eyes: dark ring + blue centre, rounded like the logo letters
+for er,ec in eyes:
+    x0,y0=X(ec),Y(er+6)
+    c.setFillColorRGB(0.02,0.02,0.06); c.roundRect(x0,y0,7*cell,7*cell,2*cell,stroke=0,fill=1)
+    c.setFillColorRGB(*WHITE); c.roundRect(x0+cell,y0+cell,5*cell,5*cell,1.4*cell,stroke=0,fill=1)
+    c.setFillColorRGB(*BLUE); c.roundRect(x0+2*cell,y0+2*cell,3*cell,3*cell,0.9*cell,stroke=0,fill=1)
 # thin blue divider
 c.setStrokeColorRGB(*BLUE); c.setLineWidth(0.5)
 dx=PW-B-7*mm-s_w-6*mm
