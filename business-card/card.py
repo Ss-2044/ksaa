@@ -1,3 +1,4 @@
+import os
 from reportlab.pdfgen import canvas
 from reportlab.lib.units import mm
 from reportlab.lib.utils import ImageReader
@@ -7,7 +8,7 @@ PW,PH=W+2*B,H+2*B
 BLUE=(58/255,78/255,190/255); WHITE=(232/255,232/255,236/255)
 LIGHTBLUE=(140/255,158/255,240/255)
 logo=ImageReader('/home/user/ksaa/business-card/logo.png'); lw,lh=logo.getSize()
-c=canvas.Canvas('/home/user/ksaa/business-card/NEO-CAPTA-business-card-print.pdf',pagesize=(PW,PH))
+c=canvas.Canvas(os.environ.get('OUT','/home/user/ksaa/business-card/NEO-CAPTA-business-card-print.pdf'),pagesize=(PW,PH))
 c.setTitle('NEO CAPTA Business Card'); c.setAuthor('NEO CAPTA')
 
 def halftone(c, band_center, band_width, avoid=None, maxr=0.55*mm, step=1.5*mm, strength=1.0):
@@ -60,18 +61,30 @@ def X(col): return xc-q/2+col*cell
 def Y(row): return qy+q-(row+1)*cell
 eyes=[(0,0),(0,n-7),(n-7,0)]
 def in_eye(r,col): return any(er<=r<er+7 and ec<=col<ec+7 for er,ec in eyes)
-# data modules: logo-white rounded dots on the black card
-c.setFillColorRGB(*WHITE)
+# QR style (QR_STYLE env var picks a variant; default is the chosen one)
+import os
+NAVY=(0.03,0.04,0.12)
+styles={
+    # tile colour, module colour, eye-centre colour
+    'blue':     (BLUE,      WHITE,     WHITE),
+    'lightblue':(LIGHTBLUE, NAVY,      NAVY),
+    'bluedots': (None,      LIGHTBLUE, WHITE),
+}
+tile,mod,eye=styles[os.environ.get('QR_STYLE','blue')]
+gap=tile or (0,0,0)
+if tile:
+    c.setFillColorRGB(*tile); c.roundRect(xc-q/2-pad,qy-pad,q+2*pad,q+2*pad,1.6*mm,stroke=0,fill=1)
+c.setFillColorRGB(*mod)
 for r in range(n):
     for col in range(n):
         if mat[r][col] and not in_eye(r,col):
             c.roundRect(X(col)+0.04*cell,Y(r)+0.04*cell,0.92*cell,0.92*cell,0.32*cell,stroke=0,fill=1)
-# finder eyes: white ring + light-blue centre (must stay light for the code to scan), rounded like the logo letters
+# finder eyes, rounded like the logo letters
 for er,ec in eyes:
     x0,y0=X(ec),Y(er+6)
-    c.setFillColorRGB(*WHITE); c.roundRect(x0,y0,7*cell,7*cell,2*cell,stroke=0,fill=1)
-    c.setFillColorRGB(0,0,0); c.roundRect(x0+cell,y0+cell,5*cell,5*cell,1.4*cell,stroke=0,fill=1)
-    c.setFillColorRGB(*LIGHTBLUE); c.roundRect(x0+2*cell,y0+2*cell,3*cell,3*cell,0.9*cell,stroke=0,fill=1)
+    c.setFillColorRGB(*mod); c.roundRect(x0,y0,7*cell,7*cell,2*cell,stroke=0,fill=1)
+    c.setFillColorRGB(*gap); c.roundRect(x0+cell,y0+cell,5*cell,5*cell,1.4*cell,stroke=0,fill=1)
+    c.setFillColorRGB(*eye); c.roundRect(x0+2*cell,y0+2*cell,3*cell,3*cell,0.9*cell,stroke=0,fill=1)
 # thin blue divider
 c.setStrokeColorRGB(*BLUE); c.setLineWidth(0.5)
 dx=PW-B-7*mm-s_w-6*mm
