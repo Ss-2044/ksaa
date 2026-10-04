@@ -110,6 +110,17 @@ npm run render:blueprint
 | `neocapta-gulf-owais-post.png` | `GulfOwaisPost` | 1080×1350 |
 | `neocapta-gulf-owais-story.png` | `GulfOwaisStory` | 1080×1920 |
 
+### التصميم الثالث: بوستر ملعب (`src/gulf/Posters3.tsx`)
+
+خلفية الملعب والجمهور (`public/gulf/stadium.jpg`) مع أشعة الكشافات. اللاعبين مقصوصين من خلفياتهم (`team-cut.png` و `owais-cut.png`، قصّيناهم بأداة rembg)، ويوقفون قدّام الكلمة الكبيرة عشان يطلع إحساس العمق. وفيه شريط ذهبي «لا لعب» تحتهم.
+
+| الملف | Composition | المقاس |
+|---|---|---|
+| `neocapta-gulf-team-art-post.png` | `GulfTeamArt` | 1080×1350 |
+| `neocapta-gulf-team-art-story.png` | `GulfTeamArtStory` | 1080×1920 |
+| `neocapta-gulf-owais-art-post.png` | `GulfOwaisArt` | 1080×1350 |
+| `neocapta-gulf-owais-art-story.png` | `GulfOwaisArtStory` | 1080×1920 |
+
 ## سلسلة التسويق الثانية — أفكار مختلفة — `src/marketing/`
 
 الموسيقى من `npm run music:marketing2`، والتصدير بـ `npm run render:marketing2`. التوقيتات كلها في `src/marketing/series2.json`.
