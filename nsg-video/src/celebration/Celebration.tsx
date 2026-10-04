@@ -127,7 +127,7 @@ export const Celebration: React.FC<{animate?: boolean}> = ({animate = true}) => 
   const pulse = 1 + 0.02 * Math.sin(frame / 8);
 
   const L = story
-    ? {teamTop: 170, teamH: 820, circle: 520, circleTop: 830, textTop: 1400, l1: 120, l2: 102}
+    ? {teamTop: 180, teamH: 530, circle: 600, circleTop: 600, textTop: 1290, l1: 120, l2: 102}
     : {teamTop: 140, teamH: 560, circle: 400, circleTop: 520, textTop: 950, l1: 116, l2: 98};
 
   return (
@@ -142,7 +142,7 @@ export const Celebration: React.FC<{animate?: boolean}> = ({animate = true}) => 
       <div style={{position: 'absolute', top: L.circleTop, left: (width - L.circle) / 2, width: L.circle, height: L.circle, transform: `scale(${owaisIn})`}}>
         <div style={{position: 'absolute', inset: -16, borderRadius: '50%', background: `conic-gradient(from ${frame * 2}deg, #FFF3B0, #F5C542, #B07B14, #FFE27A, #FFF3B0)`, boxShadow: '0 0 60px rgba(245,197,66,0.6)'}} />
         <div style={{position: 'absolute', inset: 0, borderRadius: '50%', overflow: 'hidden', border: `6px solid ${DEEP}`}}>
-          {owais ? <Img src={staticFile(owais)} style={{width: '100%', height: '100%', objectFit: 'cover', objectPosition: '50% 25%'}} /> : <OwaisPlaceholder />}
+          {owais ? <Img src={staticFile(owais)} style={{width: '100%', height: '100%', objectFit: 'cover', objectPosition: '55% 50%'}} /> : <OwaisPlaceholder />}
         </div>
       </div>
       {/* headline */}
