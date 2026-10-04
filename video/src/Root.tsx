@@ -75,6 +75,8 @@ import { ChatVideo } from "./marketing/ChatVideo";
 import { MythsVideo } from "./marketing/MythsVideo";
 import { FunnelVideo } from "./marketing/FunnelVideo";
 import series2 from "./marketing/series2.json";
+import { GulfCupVideo, GulfCupPoster } from "./gulf/GulfCup";
+import gulfTimeline from "./gulf/timeline.json";
 import timeline from "./timeline.json";
 
 const vertical = { fps: 30, width: 1080, height: 1920 };
@@ -87,6 +89,11 @@ export const RemotionRoot: React.FC = () => {
       {tips.map((t) => (
         <Composition key={t.id} id={t.id} component={TipVideo} durationInFrames={tipLength} defaultProps={{ tip: t }} {...vertical} />
       ))}
+
+      {/* Gulf Cup celebration */}
+      <Composition id="GulfCup" component={GulfCupVideo} durationInFrames={gulfTimeline.duration} {...vertical} />
+      <Composition id="GulfCupPoster" component={GulfCupPoster} durationInFrames={1} fps={30} width={1080} height={1350} />
+      <Composition id="GulfCupStory" component={GulfCupPoster} durationInFrames={1} fps={30} width={1080} height={1920} />
 
       {/* marketing series 2: before/after, chat, myths, funnel */}
       <Composition id="Glowup" component={GlowupVideo} durationInFrames={series2.glowup.duration} {...vertical} />

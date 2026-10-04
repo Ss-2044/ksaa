@@ -44,6 +44,8 @@
     "render:tips": "remotion render src/index.ts TipMistakes out/neocapta-tip-mistakes.mp4 && remotion render src/index.ts TipBrand out/neocapta-tip-brand.mp4 && remotion render src/index.ts TipQuestions out/neocapta-tip-questions.mp4",
     "music:marketing2": "node scripts/make-marketing2-music.mjs",
     "render:marketing2": "remotion render src/index.ts Glowup out/neocapta-glowup.mp4 && remotion render src/index.ts Chat out/neocapta-chat.mp4 && remotion render src/index.ts Myths out/neocapta-myths.mp4 && remotion render src/index.ts Funnel out/neocapta-funnel.mp4",
+    "music:gulf": "node scripts/make-gulf-music.mjs",
+    "render:gulf": "remotion render src/index.ts GulfCup out/neocapta-gulfcup.mp4 && remotion still src/index.ts GulfCupPoster neocapta-gulfcup-poster.png && remotion still src/index.ts GulfCupStory neocapta-gulfcup-story.png",
     "render:chess-series": "remotion render src/index.ts ChessEp1 out/neocapta-chess-ep1.mp4 && remotion render src/index.ts ChessEp2 out/neocapta-chess-ep2.mp4 && remotion render src/index.ts ChessEp3 out/neocapta-chess-ep3.mp4",
     "render:promo": "remotion render src/index.ts Promo out/neocapta-promo.mp4 --muted",
     "render:ai": "remotion render src/index.ts AIPromo out/neocapta-ai-promo.mp4 --muted",
