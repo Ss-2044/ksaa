@@ -9,7 +9,7 @@ import { gold, goldGradient, green } from "./parts";
 // (public/gulf/*-cut.png) and stand in front of giant type for depth.
 const STADIUM = { src: staticFile("gulf/stadium.jpg"), w: 1638, h: 2048, lights: [[0.29, 0.07], [0.82, 0.07]] };
 const TEAM_CUT = { src: staticFile("gulf/team-cut.png"), w: 1469, h: 725 };
-const OWAIS_CUT = { src: staticFile("gulf/owais-cut.png"), w: 1022, h: 1097 };
+const OWAIS_CUT = { src: staticFile("gulf/owais-cut.png"), w: 1023, h: 1097 };
 
 const Logo: React.FC = () => (
   <Img src={staticFile("neocapta-logo.png")} style={{ position: "absolute", top: 20, left: 32, width: 180, height: 180 * LOGO_RATIO, filter: "drop-shadow(0 4px 14px rgba(0,0,0,0.9))" }} />
@@ -94,7 +94,7 @@ const Ribbon: React.FC<{ top: number; size: number }> = ({ top, size }) => (
     <span style={{ width: size * 0.16, height: size * 0.16, background: green.deep, transform: "rotate(45deg)" }} />
     <span dir="rtl" style={{ fontFamily: fonts.ar, fontWeight: 900, fontSize: size, lineHeight: 1.3, color: green.deep }}>لا لعب</span>
     <span style={{ width: size * 0.16, height: size * 0.16, background: green.deep, transform: "rotate(45deg)" }} />
-    <span style={{ fontFamily: fonts.en, fontWeight: 800, fontSize: size * 0.3, letterSpacing: 6, color: green.deep, opacity: 0.75 }}>NO GAMES</span>
+    <span style={{ fontFamily: fonts.en, fontWeight: 800, fontSize: size * 0.3, letterSpacing: 6, color: green.deep, opacity: 0.75 }}>NO JOKE</span>
   </div>
 );
 
@@ -142,9 +142,9 @@ export const GulfOwaisKeyArt: React.FC = () => {
   useFonts();
   const { height: H } = useVideoConfig();
   const tall = H > 1500;
-  const cw = tall ? 1120 : 1000;
+  const cw = tall ? 1260 : 1080;
   const ch = (cw / OWAIS_CUT.w) * OWAIS_CUT.h;
-  const cutTop = tall ? 560 : 300;
+  const cutTop = tall ? 560 : 410;
   return (
     <AbsoluteFill style={{ backgroundColor: "#050302", overflow: "hidden" }}>
       <Stadium H={H} dim={0.55} zoom={1.15} shiftY={tall ? 160 : 120} />
@@ -152,15 +152,12 @@ export const GulfOwaisKeyArt: React.FC = () => {
       <AbsoluteFill style={{ background: `radial-gradient(circle at 45% ${((cutTop + ch * 0.35) / H) * 100}%, rgba(255,140,40,0.35) 0%, rgba(255,140,40,0) 40%)` }} />
       <Sparkles H={H} seed="ow" y0={0.1} y1={0.55} n={55} />
       <Kicker top={tall ? 250 : 170} />
-      {/* giant outlined "لا لعب" behind him */}
-      <div dir="rtl" style={{ position: "absolute", top: cutTop - (tall ? 150 : 130), left: -60, right: -60, textAlign: "center", fontFamily: fonts.handAr, fontSize: tall ? 440 : 400, lineHeight: 1.1, color: "rgba(233,194,90,0.12)", WebkitTextStroke: `4px ${gold.mid}`, filter: "drop-shadow(0 0 30px rgba(233,194,90,0.35))" }}>
-        لا لعب
+      {/* headline above his head */}
+      <div dir="rtl" style={{ position: "absolute", top: tall ? 330 : 215, left: 0, right: 0, textAlign: "center", fontFamily: fonts.ar, fontWeight: 900, fontSize: tall ? 165 : 140, lineHeight: 1.15, color: "#fff", textShadow: "0 0 60px rgba(31,174,91,0.7), 0 10px 30px rgba(0,0,0,0.9)" }}>
+        هذا <span style={{ backgroundImage: "linear-gradient(180deg, #6ff0a4, #1fae5b)", WebkitBackgroundClip: "text", backgroundClip: "text", color: "transparent" }}>الأخضر</span>
       </div>
       <Img src={OWAIS_CUT.src} style={{ position: "absolute", left: (1080 - cw) / 2 - 20, top: cutTop, width: cw, height: ch, filter: "drop-shadow(0 0 30px rgba(255,150,60,0.35)) drop-shadow(0 20px 40px rgba(0,0,0,0.7))" }} />
-      <AbsoluteFill style={{ background: `linear-gradient(180deg, rgba(5,3,2,0) ${H * (tall ? 0.6 : 0.56)}px, rgba(5,3,2,0.92) ${H * (tall ? 0.76 : 0.75)}px, #050302 100%)` }} />
-      <div dir="rtl" style={{ position: "absolute", left: 0, right: 0, bottom: tall ? 300 : 230, textAlign: "center" }}>
-        <div style={{ fontFamily: fonts.ar, fontWeight: 900, fontSize: tall ? 150 : 124, lineHeight: 1.1, color: "#fff", textShadow: "0 0 60px rgba(31,174,91,0.6), 0 10px 30px rgba(0,0,0,0.9)" }}>هذا الأخضر</div>
-      </div>
+      <AbsoluteFill style={{ background: `linear-gradient(180deg, rgba(5,3,2,0) ${H * (tall ? 0.74 : 0.7)}px, rgba(5,3,2,0.92) ${H * (tall ? 0.86 : 0.84)}px, #050302 100%)` }} />
       <Ribbon top={H - (tall ? 290 : 228)} size={tall ? 84 : 72} />
       <GoldCupLine top={H - (tall ? 160 : 112)} size={tall ? 60 : 52} />
       <Logo />
