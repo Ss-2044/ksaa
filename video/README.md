@@ -99,6 +99,17 @@ npm run render:blueprint
 | `neocapta-gulfcup-poster.png` | `GulfCupPoster` | 1080×1350 (منشور) | البوستر |
 | `neocapta-gulfcup-story.png` | `GulfCupStory` | 1080×1920 (ستوري) | البوستر بمقاس الستوري |
 
+### التصميم الثاني (`src/gulf/Posters2.tsx`)
+
+بوستر رياضي بأشرطة ذهبية وخضراء تقطع الصورة، وصورة المنتخب لحال وصورة العويس لحال:
+
+| الملف | Composition | المقاس |
+|---|---|---|
+| `neocapta-gulf-team-post.png` | `GulfTeamPost` | 1080×1350 |
+| `neocapta-gulf-team-story.png` | `GulfTeamStory` | 1080×1920 |
+| `neocapta-gulf-owais-post.png` | `GulfOwaisPost` | 1080×1350 |
+| `neocapta-gulf-owais-story.png` | `GulfOwaisStory` | 1080×1920 |
+
 ## سلسلة التسويق الثانية — أفكار مختلفة — `src/marketing/`
 
 الموسيقى من `npm run music:marketing2`، والتصدير بـ `npm run render:marketing2`. التوقيتات كلها في `src/marketing/series2.json`.

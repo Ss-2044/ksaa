@@ -46,6 +46,7 @@
     "render:marketing2": "remotion render src/index.ts Glowup out/neocapta-glowup.mp4 && remotion render src/index.ts Chat out/neocapta-chat.mp4 && remotion render src/index.ts Myths out/neocapta-myths.mp4 && remotion render src/index.ts Funnel out/neocapta-funnel.mp4",
     "music:gulf": "node scripts/make-gulf-music.mjs",
     "render:gulf": "remotion render src/index.ts GulfCup out/neocapta-gulfcup.mp4 && remotion still src/index.ts GulfCupPoster neocapta-gulfcup-poster.png && remotion still src/index.ts GulfCupStory neocapta-gulfcup-story.png",
+    "render:gulf-posters": "remotion still src/index.ts GulfTeamPost neocapta-gulf-team-post.png && remotion still src/index.ts GulfTeamStory neocapta-gulf-team-story.png && remotion still src/index.ts GulfOwaisPost neocapta-gulf-owais-post.png && remotion still src/index.ts GulfOwaisStory neocapta-gulf-owais-story.png",
     "render:chess-series": "remotion render src/index.ts ChessEp1 out/neocapta-chess-ep1.mp4 && remotion render src/index.ts ChessEp2 out/neocapta-chess-ep2.mp4 && remotion render src/index.ts ChessEp3 out/neocapta-chess-ep3.mp4",
     "render:promo": "remotion render src/index.ts Promo out/neocapta-promo.mp4 --muted",
     "render:ai": "remotion render src/index.ts AIPromo out/neocapta-ai-promo.mp4 --muted",
