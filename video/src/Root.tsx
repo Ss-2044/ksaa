@@ -79,6 +79,7 @@ import { GulfCupVideo, GulfCupPoster } from "./gulf/GulfCup";
 import gulfTimeline from "./gulf/timeline.json";
 import { GulfTeamPoster, GulfOwaisPoster } from "./gulf/Posters2";
 import { GulfTeamKeyArt, GulfOwaisKeyArt } from "./gulf/Posters3";
+import { GulfTeamClean, GulfOwaisClean } from "./gulf/Posters4";
 import timeline from "./timeline.json";
 
 const vertical = { fps: 30, width: 1080, height: 1920 };
@@ -95,6 +96,10 @@ export const RemotionRoot: React.FC = () => {
       {/* Gulf Cup celebration */}
       <Composition id="GulfCup" component={GulfCupVideo} durationInFrames={gulfTimeline.duration} {...vertical} />
       <Composition id="GulfCupPoster" component={GulfCupPoster} durationInFrames={1} fps={30} width={1080} height={1350} />
+      <Composition id="GulfTeamClean" component={GulfTeamClean} durationInFrames={1} fps={30} width={1080} height={1350} />
+      <Composition id="GulfTeamCleanStory" component={GulfTeamClean} durationInFrames={1} fps={30} width={1080} height={1920} />
+      <Composition id="GulfOwaisClean" component={GulfOwaisClean} durationInFrames={1} fps={30} width={1080} height={1350} />
+      <Composition id="GulfOwaisCleanStory" component={GulfOwaisClean} durationInFrames={1} fps={30} width={1080} height={1920} />
       <Composition id="GulfTeamArt" component={GulfTeamKeyArt} durationInFrames={1} fps={30} width={1080} height={1350} />
       <Composition id="GulfTeamArtStory" component={GulfTeamKeyArt} durationInFrames={1} fps={30} width={1080} height={1920} />
       <Composition id="GulfOwaisArt" component={GulfOwaisKeyArt} durationInFrames={1} fps={30} width={1080} height={1350} />

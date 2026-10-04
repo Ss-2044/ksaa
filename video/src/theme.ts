@@ -8,6 +8,10 @@ import "@fontsource/aref-ruqaa/700.css";
 import "@fontsource/playfair-display/700.css";
 import "@fontsource/playfair-display/400-italic.css";
 import "@fontsource/ibm-plex-mono/500.css";
+import "@fontsource/alexandria/500.css";
+import "@fontsource/alexandria/700.css";
+import "@fontsource/alexandria/900.css";
+import "@fontsource/lalezar/400.css";
 import "@fontsource/ibm-plex-mono/700.css";
 
 // NEO CAPTA palette: royal blue "NEO", silver-white "CAPTA", black halftone background.
@@ -29,9 +33,11 @@ export const fonts = {
   handAr: "'Aref Ruqaa', serif",
   serif: "'Playfair Display', serif",
   mono: "'IBM Plex Mono', monospace",
+  display: "Alexandria, Cairo, sans-serif",
+  punch: "Lalezar, Cairo, sans-serif",
 };
 
-export const fontFamilies = ["Cairo", "Montserrat", "Caveat", "Aref Ruqaa", "Playfair Display", "IBM Plex Mono"];
+export const fontFamilies = ["Cairo", "Montserrat", "Caveat", "Aref Ruqaa", "Playfair Display", "IBM Plex Mono", "Alexandria", "Lalezar"];
 
 export const silverText: React.CSSProperties = {
   background: `linear-gradient(180deg, ${colors.white} 0%, ${colors.silver} 55%, ${colors.steel} 100%)`,

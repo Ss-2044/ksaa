@@ -121,6 +121,17 @@ npm run render:blueprint
 | `neocapta-gulf-owais-art-post.png` | `GulfOwaisArt` | 1080×1350 |
 | `neocapta-gulf-owais-art-story.png` | `GulfOwaisArtStory` | 1080×1920 |
 
+### التصميم الرابع: ستايل بوستات الأندية (`src/gulf/Posters4.tsx`)
+
+تصميم هادي ونظيف: خلفية الملعب مغبّشة، واللاعبين مقصوصين وواضحين، وعنوان واحد قوي بخط Alexandria، ولوحة فاتحة تحت فيها «لا لعب.» بخط Lalezar الأخضر. ما فيه توهج ولا لمعة.
+
+| الملف | Composition | المقاس |
+|---|---|---|
+| `neocapta-gulf-clean-team-post.png` | `GulfTeamClean` | 1080×1350 |
+| `neocapta-gulf-clean-team-story.png` | `GulfTeamCleanStory` | 1080×1920 |
+| `neocapta-gulf-clean-owais-post.png` | `GulfOwaisClean` | 1080×1350 |
+| `neocapta-gulf-clean-owais-story.png` | `GulfOwaisCleanStory` | 1080×1920 |
+
 ## سلسلة التسويق الثانية — أفكار مختلفة — `src/marketing/`
 
 الموسيقى من `npm run music:marketing2`، والتصدير بـ `npm run render:marketing2`. التوقيتات كلها في `src/marketing/series2.json`.
