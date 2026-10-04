@@ -12,6 +12,7 @@ import {PHOTO_FRAMES, PHOTOS, PhotoWeekById} from './linkedin2/PhotoWeek';
 import {AltitudeLadder, CHART_FRAMES, LandsatTimeline} from './linkedin2/Charts';
 import {QAPlate, QALive, QA_FRAMES} from './linkedin2/QA';
 import {CarouselSlide} from './linkedin2/Carousel';
+import {CELEB_FRAMES, Celebration} from './celebration/Celebration';
 import {timelineB30, timelineB60, totalB} from './designB/timelinesB';
 
 export const RemotionRoot: React.FC = () => {
@@ -71,6 +72,11 @@ export const RemotionRoot: React.FC = () => {
       {Object.keys(EPISODES).map((id) => (
         <Composition key={`li-${id}`} id={`LinkedIn-${id}`} component={EpisodeById} durationInFrames={epFrames(id)} fps={FPS} width={1080} height={1350} defaultProps={{id}} />
       ))}
+      {/* Gulf Cup celebration */}
+      <Composition id="Celeb-post" component={Celebration} durationInFrames={1} fps={FPS} width={1080} height={1350} defaultProps={{animate: false}} />
+      <Composition id="Celeb-story" component={Celebration} durationInFrames={1} fps={FPS} width={1080} height={1920} defaultProps={{animate: false}} />
+      <Composition id="Celeb-video-post" component={Celebration} durationInFrames={CELEB_FRAMES} fps={FPS} width={1080} height={1350} defaultProps={{animate: true}} />
+      <Composition id="Celeb-video-story" component={Celebration} durationInFrames={CELEB_FRAMES} fps={FPS} width={1080} height={1920} defaultProps={{animate: true}} />
       {/* LinkedIn formats, batch 2 */}
       {Object.keys(TERMS).map((id) => (
         <Composition key={`g-${id}`} id={`Term-${id}`} component={GlossaryById} durationInFrames={GLOSS_FRAMES} fps={FPS} width={1080} height={1350} defaultProps={{id}} />
