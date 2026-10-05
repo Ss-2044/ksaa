@@ -88,6 +88,9 @@ import { StampVideo } from "./paper/StampVideo";
 import { MagnetVideo } from "./paper/MagnetVideo";
 import { PuzzleVideo } from "./paper/PuzzleVideo";
 import { SeedVideo } from "./paper/SeedVideo";
+import { ScaleVideo } from "./paper/ScaleVideo";
+import { TyperVideo } from "./paper/TyperVideo";
+import { ThreadVideo } from "./paper/ThreadVideo";
 import paperTimelines from "./paper/timelines.json";
 import timeline from "./timeline.json";
 
@@ -110,6 +113,9 @@ export const RemotionRoot: React.FC = () => {
       <Composition id="Magnet" component={MagnetVideo} durationInFrames={paperTimelines.magnet.duration} {...vertical} />
       <Composition id="Puzzle" component={PuzzleVideo} durationInFrames={paperTimelines.puzzle.duration} {...vertical} />
       <Composition id="Seed" component={SeedVideo} durationInFrames={paperTimelines.seed.duration} {...vertical} />
+      <Composition id="Scale" component={ScaleVideo} durationInFrames={paperTimelines.scale.duration} {...vertical} />
+      <Composition id="Typer" component={TyperVideo} durationInFrames={paperTimelines.typer.duration} {...vertical} />
+      <Composition id="Thread" component={ThreadVideo} durationInFrames={paperTimelines.thread.duration} {...vertical} />
 
       {/* Gulf Cup celebration */}
       <Composition id="GulfCup" component={GulfCupVideo} durationInFrames={gulfTimeline.duration} {...vertical} />

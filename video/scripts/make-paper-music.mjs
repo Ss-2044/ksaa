@@ -6,11 +6,15 @@
 //   magnet  – funk: slap bass, clav stabs; harsh shouts first, then a smooth groove with pings as people arrive
 //   puzzle  – jazz trio: walking bass, brushes, ii-V-I e-piano, a woodblock snap per piece, vibes when complete
 //   seed    – kalimba and soft percussion, water drops, a rising pad as the tree grows, bells for fruit
+//   scale   – pizzicato tango (habanera), a heavy thud and coins for the budget, a bright ding for the idea
+//   typer   – typewriter keys, line-end bell, scratch-outs over lo-fi piano
+//   thread  – harp arpeggios over a soft pad, a note for every stitch, a glissando when it pulls tight
 //   node scripts/make-paper-music.mjs [name]
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { createStudio } from "./studio.mjs";
+import { getLength, getPointAtLength } from "@remotion/paths";
 
 const root = path.join(path.dirname(fileURLToPath(import.meta.url)), "..");
 const json = (p) => JSON.parse(fs.readFileSync(path.join(root, p), "utf8"));
@@ -278,6 +282,114 @@ const tracks = {
     for (let i = 0; i < 11; i++) s.bell(T.fruits + i * 6, hz(81 + (i % 5) * 2), 0.05, { ratio: 2, index: 0.8, dec: 0.8 });
     s.chime(T.end, 0.12);
     return { s, file: "seed-music.wav", mix: { duckDepth: 0.3 } };
+  },
+  scale: () => {
+    const T = json("src/paper/timelines.json").scale;
+    const s = createStudio({ seconds: T.duration / 30, fps: 30, bpm: T.bpm, seed: 1371 });
+    const pizz = (f, m, g = 0.12) => s.pluck(f, hz(m), g, { bright: 0.45, decay: 0.988, pan: (m % 7) / 10 - 0.3 });
+    // habanera: dotted-eighth, sixteenth, eighth, eighth
+    const bass = [[45, 52], [40, 47], [45, 52], [44, 52]];
+    s.beatsBetween(0, T.duration - 40, (f, b) => {
+      if (b % 2 === 0) {
+        const [r, fifth] = bass[Math.floor(b / 2) % 4];
+        pizz(f, r - 12, 0.18);
+        pizz(f + s.beat * 0.75, fifth - 12, 0.12);
+        pizz(f + s.beat, r - 12, 0.14);
+        pizz(f + s.beat * 1.5, fifth - 12, 0.12);
+      }
+      if (b % 4 === 3) s.clap(f, 0.2);
+      if (f > T.ideaLand) s.hat(f + s.beat / 2, 0.04);
+    });
+    [69, 72, 76, 74, 72, 71, 69].forEach((m, i) => pizz(10 + i * s.beat * 0.5, m, 0.08));
+    // budget lands: heavy thud, coins, creak
+    s.taiko(T.budget + 14, 0.9);
+    s.boom(T.budget + 14, 0.5);
+    for (let i = 0; i < 9; i++) s.tick(T.budget + 16 + i * 2.5, 4200 + (i % 3) * 600, 0.08);
+    s.whistle(T.budget + 20, 0.6, 0.02, 300, 200);
+    // idea lands: light ding, then the tip
+    s.bell(T.ideaLand, hz(88), 0.12, { ratio: 2, index: 1, dec: 1.4 });
+    s.whistle(T.ideaLand + 6, 0.7, 0.02, 220, 320);
+    s.chime(T.ideaLand + 14, 0.12);
+    s.impact(T.ideaLand + 20, 0.5);
+    [69, 73, 76, 81].forEach((m, i) => pizz(T.ideaLand + 20 + i * 2, m, 0.1));
+    s.rhodes(T.line, chord(57, "maj"), 2, 0.04);
+    return { s, file: "scale-music.wav", mix: { duckDepth: 0.25 } };
+  },
+
+  typer: () => {
+    const T = json("src/paper/timelines.json").typer;
+    const s = createStudio({ seconds: T.duration / 30, fps: 30, bpm: T.bpm, seed: 1381 });
+    // lo-fi bed
+    const prog = [[57, "min"], [53, "maj"], [60, "maj"], [55, "maj"]];
+    s.vinyl(0, T.duration, 0.025);
+    for (let f = 0, i = 0; f < T.duration - 30; f += s.beat * 4, i++) {
+      const [r, k] = prog[i % 4];
+      s.rhodes(f, chord(r, k).concat([hz(r + 10)]), 2.6, 0.04);
+    }
+    s.beatsBetween(T.lines[0][0], T.duration - 40, (f, b) => {
+      if (b % 4 === 0 || b % 4 === 2.5) s.kick(f, 0.4);
+      if (b % 2 === 1) s.snare(f, 0.14, 0.3);
+      s.hat(f + s.beat * 0.58, 0.03);
+    });
+    // typewriter: a key per character, a bell + carriage return at the end of each line
+    const lens = [26, 22, 36];
+    T.lines.forEach(([a, b], i) => {
+      for (let c = 0; c < lens[i]; c++) s.tick(a + ((b - a) * c) / lens[i], 1700 + ((c * 397) % 900), 0.09);
+      s.bell(b + 2, hz(96), 0.06, { ratio: 3, index: 1.2, dec: 0.5 });
+      s.whoosh(b + 6, 0.25, 0.1, true);
+    });
+    T.cross.forEach((c) => (s.noiseSweep(c, c + 10, { up: false, gain: 0.2 }), s.sub(c, hz(40), 0.2, 0.15)));
+    s.chime(T.check, 0.13);
+    s.strum(T.check + 4, chord(60, "maj").concat([hz(72), hz(76)]), 0.08);
+    return { s, file: "typer-music.wav", mix: { duckDepth: 0.25 } };
+  },
+
+  thread: () => {
+    const T = json("src/paper/timelines.json").thread;
+    const s = createStudio({ seconds: T.duration / 30, fps: 30, bpm: T.bpm, seed: 1391 });
+    const harp = (f, m, g = 0.08) => s.pluck(f, hz(m), g, { bright: 0.65, decay: 0.996, pan: ((m % 12) / 12 - 0.5) * 0.8, send: 0.45 });
+    const prog = [[62, "maj"], [59, "min"], [55, "maj"], [57, "maj"]];
+    for (let f = 0, i = 0; f < T.duration - 30; f += s.beat * 4, i++) {
+      const [r, k] = prog[i % 4];
+      s.supersaw(f, f + s.beat * 4, chord(r - 12, k), 0.006, { cutoff: 0.02, attack: 0.6 });
+      const notes = chord(r, k).map((x) => Math.round(69 + 12 * Math.log2(x / 440)));
+      [0, 1, 2, 1, 0, 1, 2, 1].forEach((n, j) => harp(f + j * s.beat * 0.5, notes[n] + (j > 3 ? 12 : 0), 0.05));
+    }
+    // icons pop in
+    for (let i = 0; i < 5; i++) s.bell(T.icons + i * 9, hz(74 + i * 2), 0.04, { ratio: 2, index: 0.6, dec: 0.6 });
+    // a stitch note when the needle reaches each icon (same path as ThreadVideo)
+    const START = [80, 470];
+    const AT = [[260, 650], [800, 800], [300, 1090], [790, 1300], [380, 1530]];
+    const pts = [START, ...AT];
+    const get = (i) => pts[Math.max(0, Math.min(pts.length - 1, i))];
+    let d = `M ${pts[0][0]} ${pts[0][1]}`;
+    for (let i = 0; i < pts.length - 1; i++) {
+      const [p0, p1, p2, p3] = [get(i - 1), get(i), get(i + 1), get(i + 2)];
+      d += ` C ${p1[0] + (p2[0] - p0[0]) / 5} ${p1[1] + (p2[1] - p0[1]) / 5}, ${p2[0] - (p3[0] - p1[0]) / 5} ${p2[1] - (p3[1] - p1[1]) / 5}, ${p2[0]} ${p2[1]}`;
+    }
+    const len = getLength(d);
+    const ease = (x) => -(Math.cos(Math.PI * x) - 1) / 2; // Easing.inOut(Easing.sin)
+    const inv = (y) => Math.acos(1 - 2 * y) / Math.PI;
+    AT.forEach(([x, y], i) => {
+      let frac = 1;
+      for (let l = 0; l <= len; l += 6) {
+        const p = getPointAtLength(d, l);
+        if (Math.hypot(p.x - x, p.y - y) < 20) { frac = l / len; break; }
+      }
+      const f = T.needle[0] + inv(frac) * (T.needle[1] - T.needle[0]);
+      harp(f, 74 + [0, 2, 4, 7, 9][i], 0.12);
+      harp(f + 2, 86 + [0, 2, 4, 7, 9][i], 0.06);
+    });
+    // pull tight: glissando + chord, then a fuller groove
+    for (let i = 0; i < 14; i++) harp(T.tighten[0] + i * 2.4, 62 + [0, 2, 4, 7, 9][i % 5] + Math.floor(i / 5) * 12, 0.06);
+    s.whoosh(T.tighten[0], 0.8, 0.2, true);
+    s.chime(T.tighten[1], 0.13);
+    s.beatsBetween(T.tighten[1], T.duration - 40, (f, b) => {
+      s.kick(f, b % 2 ? 0.3 : 0.5);
+      if (b % 2 === 1) s.clap(f, 0.14);
+      s.hat(f + s.beat / 2, 0.04);
+    });
+    return { s, file: "thread-music.wav", mix: { duckDepth: 0.3 } };
   },
 };
 

@@ -89,5 +89,54 @@
     "fruits": 340,
     "line": 420,
     "end": 510
+  },
+  "scale": {
+    "duration": 630,
+    "bpm": 100,
+    "budget": 50,
+    "idea": 170,
+    "ideaLand": 205,
+    "line": 300,
+    "end": 510
+  },
+  "typer": {
+    "duration": 660,
+    "bpm": 84,
+    "lines": [
+      [
+        30,
+        105
+      ],
+      [
+        150,
+        225
+      ],
+      [
+        275,
+        365
+      ]
+    ],
+    "cross": [
+      125,
+      245
+    ],
+    "check": 385,
+    "line": 420,
+    "end": 540
+  },
+  "thread": {
+    "duration": 630,
+    "bpm": 96,
+    "icons": 30,
+    "needle": [
+      110,
+      330
+    ],
+    "tighten": [
+      340,
+      380
+    ],
+    "line": 395,
+    "end": 510
   }
 }
