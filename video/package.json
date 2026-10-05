@@ -53,6 +53,8 @@
     "render:dot": "remotion render src/index.ts Dot out/neocapta-dot.mp4",
     "music:kinetic": "node scripts/make-kinetic-music.mjs",
     "render:kinetic": "remotion render src/index.ts KinSeconds out/neocapta-kinetic-3seconds.mp4 && remotion render src/index.ts KinNotthis out/neocapta-kinetic-notthis.mp4 && remotion render src/index.ts KinManifesto out/neocapta-kinetic-manifesto.mp4",
+    "music:clay": "node scripts/make-clay-music.mjs",
+    "render:clay": "remotion render src/index.ts ClayRecipe out/neocapta-clay-recipe.mp4 && remotion render src/index.ts ClayCart out/neocapta-clay-cart.mp4 && remotion render src/index.ts ClayDash out/neocapta-clay-dashboard.mp4",
     "render:chess-series": "remotion render src/index.ts ChessEp1 out/neocapta-chess-ep1.mp4 && remotion render src/index.ts ChessEp2 out/neocapta-chess-ep2.mp4 && remotion render src/index.ts ChessEp3 out/neocapta-chess-ep3.mp4",
     "render:promo": "remotion render src/index.ts Promo out/neocapta-promo.mp4 --muted",
     "render:ai": "remotion render src/index.ts AIPromo out/neocapta-ai-promo.mp4 --muted",

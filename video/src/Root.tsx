@@ -92,6 +92,10 @@ import { ScaleVideo } from "./paper/ScaleVideo";
 import { TyperVideo } from "./paper/TyperVideo";
 import { ThreadVideo } from "./paper/ThreadVideo";
 import { KineticVideo, CLIPS, clipLength } from "./kinetic/KineticVideo";
+import { RecipeVideo } from "./clay/RecipeVideo";
+import { CartVideo } from "./clay/CartVideo";
+import { DashVideo } from "./clay/DashVideo";
+import clayTimelines from "./clay/timelines.json";
 import paperTimelines from "./paper/timelines.json";
 import timeline from "./timeline.json";
 
@@ -105,6 +109,11 @@ export const RemotionRoot: React.FC = () => {
       {tips.map((t) => (
         <Composition key={t.id} id={t.id} component={TipVideo} durationInFrames={tipLength} defaultProps={{ tip: t }} {...vertical} />
       ))}
+
+      {/* «صلصال» soft 3D clay series */}
+      <Composition id="ClayRecipe" component={RecipeVideo} durationInFrames={clayTimelines.recipe.duration} {...vertical} />
+      <Composition id="ClayCart" component={CartVideo} durationInFrames={clayTimelines.cart.duration} {...vertical} />
+      <Composition id="ClayDash" component={DashVideo} durationInFrames={clayTimelines.dash.duration} {...vertical} />
 
       {/* «حركة» kinetic type series */}
       {Object.keys(CLIPS).map((k) => (

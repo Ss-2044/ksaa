@@ -1,0 +1,5 @@
+{
+  "recipe": { "duration": 630, "bpm": 110, "drops": [60, 115, 170, 225], "stir": [290, 380], "pop": 390, "line": 420, "end": 510 },
+  "cart": { "duration": 660, "bpm": 118, "feed": 20, "tapAd": 120, "product": 140, "tapAdd": 230, "fly": [250, 290], "checkout": 370, "done": 395, "line": 480, "end": 540 },
+  "dash": { "duration": 630, "bpm": 100, "widgets": [70, 110, 150, 190, 240], "line": 380, "end": 510 }
+}
