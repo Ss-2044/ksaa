@@ -82,6 +82,10 @@ import { GulfTeamKeyArt, GulfOwaisKeyArt } from "./gulf/Posters3";
 import { GulfTeamClean, GulfOwaisClean } from "./gulf/Posters4";
 import { DotVideo } from "./dot/DotVideo";
 import dotTimeline from "./dot/timeline.json";
+import { PlaneVideo } from "./paper/PlaneVideo";
+import { EraserVideo } from "./paper/EraserVideo";
+import { StampVideo } from "./paper/StampVideo";
+import paperTimelines from "./paper/timelines.json";
 import timeline from "./timeline.json";
 
 const vertical = { fps: 30, width: 1080, height: 1920 };
@@ -97,6 +101,9 @@ export const RemotionRoot: React.FC = () => {
 
       {/* first idea re-told: the dot */}
       <Composition id="Dot" component={DotVideo} durationInFrames={dotTimeline.durationInFrames} {...vertical} />
+      <Composition id="Plane" component={PlaneVideo} durationInFrames={paperTimelines.plane.duration} {...vertical} />
+      <Composition id="Eraser" component={EraserVideo} durationInFrames={paperTimelines.eraser.duration} {...vertical} />
+      <Composition id="Stamp" component={StampVideo} durationInFrames={paperTimelines.stamp.duration} {...vertical} />
 
       {/* Gulf Cup celebration */}
       <Composition id="GulfCup" component={GulfCupVideo} durationInFrames={gulfTimeline.duration} {...vertical} />
