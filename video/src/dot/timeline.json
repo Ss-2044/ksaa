@@ -1,0 +1,30 @@
+{
+  "fps": 30,
+  "durationInFrames": 900,
+  "bpm": 120,
+  "dot": 10,
+  "grid": {
+    "from": 60,
+    "each": 15
+  },
+  "collapse": {
+    "from": 290,
+    "to": 350
+  },
+  "line1": 360,
+  "wander": {
+    "from": 480,
+    "to": 620
+  },
+  "retract": {
+    "from": 620,
+    "to": 660
+  },
+  "shoot": {
+    "target": 664,
+    "line": 690,
+    "travel": 712,
+    "hit": 738
+  },
+  "outro": 790
+}

@@ -80,6 +80,8 @@ import gulfTimeline from "./gulf/timeline.json";
 import { GulfTeamPoster, GulfOwaisPoster } from "./gulf/Posters2";
 import { GulfTeamKeyArt, GulfOwaisKeyArt } from "./gulf/Posters3";
 import { GulfTeamClean, GulfOwaisClean } from "./gulf/Posters4";
+import { DotVideo } from "./dot/DotVideo";
+import dotTimeline from "./dot/timeline.json";
 import timeline from "./timeline.json";
 
 const vertical = { fps: 30, width: 1080, height: 1920 };
@@ -92,6 +94,9 @@ export const RemotionRoot: React.FC = () => {
       {tips.map((t) => (
         <Composition key={t.id} id={t.id} component={TipVideo} durationInFrames={tipLength} defaultProps={{ tip: t }} {...vertical} />
       ))}
+
+      {/* first idea re-told: the dot */}
+      <Composition id="Dot" component={DotVideo} durationInFrames={dotTimeline.durationInFrames} {...vertical} />
 
       {/* Gulf Cup celebration */}
       <Composition id="GulfCup" component={GulfCupVideo} durationInFrames={gulfTimeline.duration} {...vertical} />
