@@ -51,6 +51,8 @@
     "music:paper": "node scripts/make-paper-music.mjs",
     "render:paper": "remotion render src/index.ts Plane out/neocapta-plane.mp4 && remotion render src/index.ts Eraser out/neocapta-eraser.mp4 && remotion render src/index.ts Stamp out/neocapta-stamp.mp4 && remotion render src/index.ts Magnet out/neocapta-magnet.mp4 && remotion render src/index.ts Puzzle out/neocapta-puzzle.mp4 && remotion render src/index.ts Seed out/neocapta-seed.mp4 && remotion render src/index.ts Scale out/neocapta-scale.mp4 && remotion render src/index.ts Typer out/neocapta-typewriter.mp4 && remotion render src/index.ts Thread out/neocapta-thread.mp4",
     "render:dot": "remotion render src/index.ts Dot out/neocapta-dot.mp4",
+    "music:kinetic": "node scripts/make-kinetic-music.mjs",
+    "render:kinetic": "remotion render src/index.ts KinSeconds out/neocapta-kinetic-3seconds.mp4 && remotion render src/index.ts KinNotthis out/neocapta-kinetic-notthis.mp4 && remotion render src/index.ts KinManifesto out/neocapta-kinetic-manifesto.mp4",
     "render:chess-series": "remotion render src/index.ts ChessEp1 out/neocapta-chess-ep1.mp4 && remotion render src/index.ts ChessEp2 out/neocapta-chess-ep2.mp4 && remotion render src/index.ts ChessEp3 out/neocapta-chess-ep3.mp4",
     "render:promo": "remotion render src/index.ts Promo out/neocapta-promo.mp4 --muted",
     "render:ai": "remotion render src/index.ts AIPromo out/neocapta-ai-promo.mp4 --muted",

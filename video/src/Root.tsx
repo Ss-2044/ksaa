@@ -91,6 +91,7 @@ import { SeedVideo } from "./paper/SeedVideo";
 import { ScaleVideo } from "./paper/ScaleVideo";
 import { TyperVideo } from "./paper/TyperVideo";
 import { ThreadVideo } from "./paper/ThreadVideo";
+import { KineticVideo, CLIPS, clipLength } from "./kinetic/KineticVideo";
 import paperTimelines from "./paper/timelines.json";
 import timeline from "./timeline.json";
 
@@ -103,6 +104,11 @@ export const RemotionRoot: React.FC = () => {
       <Composition id="Launch" component={LaunchVideo} durationInFrames={launchTimeline.durationInFrames} {...vertical} />
       {tips.map((t) => (
         <Composition key={t.id} id={t.id} component={TipVideo} durationInFrames={tipLength} defaultProps={{ tip: t }} {...vertical} />
+      ))}
+
+      {/* «حركة» kinetic type series */}
+      {Object.keys(CLIPS).map((k) => (
+        <Composition key={k} id={`Kin${k[0].toUpperCase()}${k.slice(1)}`} component={KineticVideo} durationInFrames={clipLength(CLIPS[k])} defaultProps={{ clip: k }} {...vertical} />
       ))}
 
       {/* first idea re-told: the dot */}

@@ -1,0 +1,60 @@
+{
+  "seconds": {
+    "bpm": 120, "beats": 40, "endAt": 32, "music": "kin-seconds-music.wav",
+    "end": { "ar": "إحنا نعرف وش نقول.", "en": "We know what to say." },
+    "shots": [
+      { "b": 0, "d": 2, "ar": "عندك", "bg": "black", "anim": "slam", "label": "ATTENTION SPAN" },
+      { "b": 2, "d": 2, "ar": "٣ ثواني", "bg": "acid", "anim": "slam", "en": "3 SECONDS" },
+      { "b": 4, "d": 2, "ar": "قبل لا", "bg": "white", "anim": "up" },
+      { "b": 6, "d": 2, "ar": "يسحب.", "bg": "blue", "anim": "slam", "exit": "swipe", "en": "BEFORE THEY SWIPE" },
+      { "b": 8, "d": 2, "num": "3", "ar": "اصدم", "en": "HOOK", "bg": "black", "anim": "slam" },
+      { "b": 10, "d": 2, "num": "2", "ar": "وضّح", "en": "CLARIFY", "bg": "black", "anim": "slam" },
+      { "b": 12, "d": 2, "num": "1", "ar": "اطلب", "en": "ASK", "bg": "acid", "anim": "slam" },
+      { "b": 14, "d": 2, "ar": "أغلب الإعلانات", "bg": "white", "anim": "up", "en": "MOST ADS" },
+      { "b": 16, "d": 2, "ar": "تضيعها", "bg": "black", "anim": "slam", "strike": true, "en": "WASTE THEM" },
+      { "b": 18, "d": 2, "ar": "بمقدمة طويلة.", "bg": "black", "anim": "up", "en": "ON A LONG INTRO" },
+      { "b": 20, "d": 2, "ar": "إعلانك؟", "bg": "blue", "anim": "slam", "en": "YOURS?" },
+      { "b": 22, "d": 4, "ar": "يبدأ بالنتيجة.", "bg": "acid", "anim": "up", "en": "STARTS WITH THE PAYOFF" },
+      { "b": 26, "d": 2, "ar": "مباشر.", "bg": "white", "anim": "slam", "en": "DIRECT" },
+      { "b": 28, "d": 2, "ar": "واضح.", "bg": "black", "anim": "slam", "en": "CLEAR" },
+      { "b": 30, "d": 2, "ar": "يبيع.", "bg": "blue", "anim": "slam", "en": "SELLS" }
+    ]
+  },
+  "notthis": {
+    "bpm": 180, "beats": 60, "endAt": 48, "music": "kin-notthis-music.wav",
+    "end": { "ar": "التسويق الصح يبدأ من هنا.", "en": "Real marketing starts here." },
+    "shots": [
+      { "b": 0, "d": 4, "ar": "التسويق", "bg": "black", "anim": "slam", "label": "MARKETING" },
+      { "b": 4, "d": 4, "ar": "مو كذا…", "bg": "white", "anim": "up", "en": "NOT THIS…" },
+      { "b": 8, "d": 4, "ar": "إعلان", "bg": "black", "anim": "cut", "mark": "x", "strike": true, "en": "AN AD" },
+      { "b": 12, "d": 4, "ar": "قصة", "bg": "acid", "anim": "slam", "mark": "check", "en": "A STORY" },
+      { "b": 16, "d": 4, "ar": "متابعين", "bg": "black", "anim": "cut", "mark": "x", "strike": true, "en": "FOLLOWERS" },
+      { "b": 20, "d": 4, "ar": "عملاء", "bg": "blue", "anim": "slam", "mark": "check", "en": "CUSTOMERS" },
+      { "b": 24, "d": 4, "ar": "ترند", "bg": "black", "anim": "cut", "mark": "x", "strike": true, "en": "A TREND" },
+      { "b": 28, "d": 4, "ar": "هوية", "bg": "acid", "anim": "slam", "mark": "check", "en": "AN IDENTITY" },
+      { "b": 32, "d": 4, "ar": "صراخ", "bg": "black", "anim": "cut", "mark": "x", "strike": true, "en": "NOISE" },
+      { "b": 36, "d": 4, "ar": "قيمة", "bg": "blue", "anim": "slam", "mark": "check", "en": "VALUE" },
+      { "b": 40, "d": 4, "ar": "كذا.", "bg": "white", "anim": "slam", "en": "THIS." },
+      { "b": 44, "d": 4, "ar": "بالضبط.", "bg": "acid", "anim": "up", "en": "EXACTLY." }
+    ]
+  },
+  "manifesto": {
+    "bpm": 90, "beats": 30, "endAt": 22, "music": "kin-manifesto-music.wav",
+    "end": { "ar": "لكل فكرة وجهة.", "en": "Every idea, a direction." },
+    "shots": [
+      { "b": 0, "d": 2, "ar": "إحنا", "bg": "black", "anim": "up", "label": "MANIFESTO" },
+      { "b": 2, "d": 1, "ar": "ما نسوي", "bg": "black", "anim": "up" },
+      { "b": 3, "d": 2, "ar": "إعلانات.", "bg": "white", "anim": "slam", "strike": true, "en": "WE DON'T MAKE ADS" },
+      { "b": 5, "d": 1, "ar": "نسوي", "bg": "black", "anim": "up" },
+      { "b": 6, "d": 3, "ar": "اتجاه.", "bg": "blue", "anim": "slam", "en": "WE MAKE DIRECTION" },
+      { "b": 9, "d": 1, "ar": "نسمع.", "bg": "white", "anim": "cut", "label": "01", "en": "LISTEN" },
+      { "b": 10, "d": 1, "ar": "نفهم.", "bg": "black", "anim": "cut", "label": "02", "en": "UNDERSTAND" },
+      { "b": 11, "d": 1, "ar": "نخطط.", "bg": "acid", "anim": "cut", "label": "03", "en": "PLAN" },
+      { "b": 12, "d": 1, "ar": "ننفّذ.", "bg": "blue", "anim": "cut", "label": "04", "en": "EXECUTE" },
+      { "b": 13, "d": 2, "ar": "نقيس.", "bg": "white", "anim": "cut", "label": "05", "en": "MEASURE" },
+      { "b": 15, "d": 2, "ar": "وبعدين؟", "bg": "black", "anim": "up", "en": "THEN?" },
+      { "b": 17, "d": 2, "ar": "نعيد.", "bg": "acid", "anim": "slam", "en": "AGAIN." },
+      { "b": 19, "d": 3, "ar": "لين توصل.", "bg": "blue", "anim": "up", "en": "UNTIL YOU GET THERE." }
+    ]
+  }
+}
