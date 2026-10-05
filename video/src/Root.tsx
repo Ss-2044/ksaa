@@ -85,6 +85,9 @@ import dotTimeline from "./dot/timeline.json";
 import { PlaneVideo } from "./paper/PlaneVideo";
 import { EraserVideo } from "./paper/EraserVideo";
 import { StampVideo } from "./paper/StampVideo";
+import { MagnetVideo } from "./paper/MagnetVideo";
+import { PuzzleVideo } from "./paper/PuzzleVideo";
+import { SeedVideo } from "./paper/SeedVideo";
 import paperTimelines from "./paper/timelines.json";
 import timeline from "./timeline.json";
 
@@ -104,6 +107,9 @@ export const RemotionRoot: React.FC = () => {
       <Composition id="Plane" component={PlaneVideo} durationInFrames={paperTimelines.plane.duration} {...vertical} />
       <Composition id="Eraser" component={EraserVideo} durationInFrames={paperTimelines.eraser.duration} {...vertical} />
       <Composition id="Stamp" component={StampVideo} durationInFrames={paperTimelines.stamp.duration} {...vertical} />
+      <Composition id="Magnet" component={MagnetVideo} durationInFrames={paperTimelines.magnet.duration} {...vertical} />
+      <Composition id="Puzzle" component={PuzzleVideo} durationInFrames={paperTimelines.puzzle.duration} {...vertical} />
+      <Composition id="Seed" component={SeedVideo} durationInFrames={paperTimelines.seed.duration} {...vertical} />
 
       {/* Gulf Cup celebration */}
       <Composition id="GulfCup" component={GulfCupVideo} durationInFrames={gulfTimeline.duration} {...vertical} />

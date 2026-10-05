@@ -1,6 +1,93 @@
 {
   "fps": 30,
-  "plane": { "duration": 660, "bpm": 110, "folds": [30, 60, 90], "foldLen": 22, "launch": 160, "crash": 292, "reset": 315, "route": 335, "fly": [385, 505], "pins": [0.3, 0.58, 0.82], "end": 540 },
-  "eraser": { "duration": 630, "bpm": 132, "clutter": 40, "every": 11, "says": 205, "erase": [235, 395], "clean": 400, "end": 510 },
-  "stamp": { "duration": 640, "bpm": 96, "items": 60, "each": 60, "slam": 22, "all": 365, "logo": 470, "end": 500 }
+  "plane": {
+    "duration": 660,
+    "bpm": 110,
+    "folds": [
+      30,
+      60,
+      90
+    ],
+    "foldLen": 22,
+    "launch": 160,
+    "crash": 292,
+    "reset": 315,
+    "route": 335,
+    "fly": [
+      385,
+      505
+    ],
+    "pins": [
+      0.3,
+      0.58,
+      0.82
+    ],
+    "end": 540
+  },
+  "eraser": {
+    "duration": 630,
+    "bpm": 132,
+    "clutter": 40,
+    "every": 11,
+    "says": 205,
+    "erase": [
+      235,
+      395
+    ],
+    "clean": 400,
+    "end": 510
+  },
+  "stamp": {
+    "duration": 640,
+    "bpm": 96,
+    "items": 60,
+    "each": 60,
+    "slam": 22,
+    "all": 365,
+    "logo": 470,
+    "end": 500
+  },
+  "magnet": {
+    "duration": 630,
+    "bpm": 104,
+    "blasts": [
+      50,
+      80,
+      110,
+      140,
+      170
+    ],
+    "drop": 205,
+    "magnet": 220,
+    "gather": [
+      240,
+      400
+    ],
+    "line": 420,
+    "end": 510
+  },
+  "puzzle": {
+    "duration": 630,
+    "bpm": 92,
+    "scatter": 30,
+    "place": 120,
+    "each": 34,
+    "done": 330,
+    "word": 390,
+    "end": 510
+  },
+  "seed": {
+    "duration": 630,
+    "bpm": 80,
+    "seed": 15,
+    "drops": [
+      80,
+      150,
+      220
+    ],
+    "tree": 290,
+    "fruits": 340,
+    "line": 420,
+    "end": 510
+  }
 }

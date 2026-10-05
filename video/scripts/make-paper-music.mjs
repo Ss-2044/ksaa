@@ -3,6 +3,9 @@
 //   plane   – acoustic folk-pop: strummed guitar, whistled melody, wind; a crash, then a steady road beat
 //   eraser  – chaos (clashing pops and stabs), a record-stop, rubbing strokes, then a calm clean piano
 //   stamp   – stomp-stomp-clap anthem, a heavy thud on every stamp
+//   magnet  – funk: slap bass, clav stabs; harsh shouts first, then a smooth groove with pings as people arrive
+//   puzzle  – jazz trio: walking bass, brushes, ii-V-I e-piano, a woodblock snap per piece, vibes when complete
+//   seed    – kalimba and soft percussion, water drops, a rising pad as the tree grows, bells for fruit
 //   node scripts/make-paper-music.mjs [name]
 import fs from "node:fs";
 import path from "node:path";
@@ -184,6 +187,97 @@ const tracks = {
     s.applause(T.logo + 4, 3, 0.3);
     s.chime(T.logo + 6, 0.12);
     return { s, file: "stamp-music.wav", mix: { duckDepth: 0.3 } };
+  },
+  magnet: () => {
+    const T = json("src/paper/timelines.json").magnet;
+    const s = createStudio({ seconds: T.duration / 30, fps: 30, bpm: T.bpm, seed: 1341 });
+    // shouting: tense riff + a harsh stab and impact on each blast
+    s.beatsBetween(0, T.drop, (f, b) => {
+      s.kick(f, 0.6);
+      s.hat(f + s.beat / 2, 0.06);
+      s.sub(f, hz(40 + (b % 2)), 0.2, 0.18);
+    });
+    T.blasts.forEach((b) => {
+      s.supersaw(b, b + 10, [hz(64), hz(65), hz(70)], 0.03, { cutoff: 0.2, attack: 0.002, release: 0.05 });
+      s.impact(b, 0.4);
+      s.noiseSweep(b, b + 8, { up: false, gain: 0.15 });
+    });
+    s.whoosh(T.drop, 0.5, 0.25, false);
+    s.taiko(T.drop + 14, 0.5);
+    // funk groove: slap bass + clav + drums (Em9 – A7)
+    const bass = [40, 40, 52, 40, 43, 45, 47, 45];
+    s.beatsBetween(T.magnet, T.duration - 40, (f, b) => {
+      s.kick(f, b % 4 === 2 ? 0.4 : 0.75);
+      if (b % 2 === 1) s.snare(f, 0.28), s.clap(f, 0.12);
+      s.hat(f + s.beat / 2, 0.07, b % 4 === 3);
+      s.hat(f + s.beat / 4, 0.035);
+      s.pluck(f, hz(bass[b % 8]), 0.22, { bright: 0.9, decay: 0.985, pan: 0 });
+      s.pluck(f + s.beat * 0.75, hz(bass[(b + 3) % 8]), 0.14, { bright: 0.9, decay: 0.98 });
+      const chordNotes = Math.floor(b / 4) % 2 ? [57, 61, 64, 67] : [52, 55, 59, 66];
+      if (b % 2 === 1) chordNotes.forEach((m) => s.pluck(f + s.beat / 2, hz(m + 12), 0.035, { bright: 1, decay: 0.97, pan: 0.4 }));
+      if (b % 8 === 0) s.rhodes(f, chordNotes.map(hz), 1.6, 0.04);
+    });
+    for (let i = 0; i < 24; i++) s.bell(T.gather[0] + 45 + i * 4.5, hz(76 + (i % 6) * 2), 0.03, { ratio: 2, index: 0.8, dec: 0.4 });
+    s.chime(T.end, 0.12);
+    return { s, file: "magnet-music.wav", mix: { duckDepth: 0.4 } };
+  },
+
+  puzzle: () => {
+    const T = json("src/paper/timelines.json").puzzle;
+    const s = createStudio({ seconds: T.duration / 30, fps: 30, bpm: T.bpm, seed: 1351 });
+    // ii-V-I in C, walking bass, brushes, swung ride
+    const prog = [[[50, 53, 57, 60], [38, 41, 45, 47]], [[55, 59, 62, 65], [43, 47, 50, 52]], [[48, 52, 55, 59], [36, 40, 43, 45]], [[57, 60, 64, 67], [45, 48, 52, 55]]];
+    s.beatsBetween(10, T.duration - 40, (f, b) => {
+      const [ch, walk] = prog[Math.floor(b / 4) % 4];
+      s.pluck(f, hz(walk[b % 4]), 0.2, { bright: 0.25, decay: 0.992, pan: -0.1 });
+      s.hat(f, 0.045);
+      s.hat(f + s.beat * 0.66, 0.035);
+      if (b % 2 === 1) s.brush(f, 0.3, 0.1);
+      if (b % 4 === 0) s.rhodes(f, ch.map(hz), 1.9, 0.045);
+      if (b % 4 === 2) s.rhodes(f + s.beat * 0.66, ch.map(hz), 0.7, 0.03);
+    });
+    // scatter: little vibes as pieces drop in
+    for (let i = 0; i < 6; i++) s.bell(T.scatter + i * 6, hz(79 + i), 0.04, { ratio: 4, index: 0.5, dec: 0.8 });
+    // snaps
+    for (let i = 0; i < 6; i++) {
+      const f = T.place + i * T.each + 18;
+      s.tick(f, 1200, 0.25);
+      s.tick(f + 1, 900, 0.15);
+      s.pluck(f, hz(72 + [0, 2, 4, 5, 7, 9][i]), 0.08, { bright: 0.7 });
+    }
+    // complete: vibraphone chord + cymbal swell
+    s.noiseSweep(T.done - 20, T.done, { gain: 0.15 });
+    [60, 64, 67, 71, 74].forEach((m, i) => s.bell(T.done + i * 2, hz(m + 12), 0.07, { ratio: 4, index: 0.6, dec: 2.4 }));
+    s.chime(T.word, 0.12);
+    return { s, file: "puzzle-music.wav", mix: { duckDepth: 0.25 } };
+  },
+
+  seed: () => {
+    const T = json("src/paper/timelines.json").seed;
+    const s = createStudio({ seconds: T.duration / 30, fps: 30, bpm: T.bpm, seed: 1361 });
+    const kal = (f, m, g = 0.09) => s.pluck(f, hz(m), g, { bright: 0.95, decay: 0.982, pan: Math.sin(m) * 0.4, send: 0.45 });
+    const penta = [62, 64, 67, 69, 71, 74, 76, 79, 81, 83];
+    // kalimba ostinato the whole way, getting fuller
+    s.beatsBetween(0, T.duration - 40, (f, b) => {
+      kal(f, penta[(b * 3) % 6], 0.08);
+      kal(f + s.beat / 2, penta[(b * 3 + 2) % 7], 0.05);
+      if (f >= T.drops[1]) s.kick(f, b % 2 ? 0.25 : 0.45), s.hat(f + s.beat / 2, 0.035);
+      if (f >= T.tree && b % 2 === 1) s.clap(f, 0.15);
+    });
+    s.tick(T.seed + 20, 900, 0.2); // seed lands
+    // water drops: a falling "plip" and a splash
+    T.drops.forEach((d, i) => {
+      s.whistle(d + 18, 0.12, 0.08, 1900, 700);
+      s.brush(d + 22, 0.2, 0.1);
+      s.bell(d + 24, hz(74 + i * 3), 0.06, { ratio: 2, index: 0.6, dec: 1 });
+      s.supersaw(d + 22, d + 60, [hz(50 + i * 2), hz(57 + i * 2)], 0.006, { cutoff: 0.02, attack: 0.3 });
+    });
+    // the tree: rising pad, then fruit bells
+    s.noiseSweep(T.tree - 10, T.tree + 40, { gain: 0.12 });
+    s.supersaw(T.tree, T.duration - 30, [hz(50), hz(57), hz(62), hz(66)], 0.012, { cutoff: 0.03, attack: 1 });
+    for (let i = 0; i < 11; i++) s.bell(T.fruits + i * 6, hz(81 + (i % 5) * 2), 0.05, { ratio: 2, index: 0.8, dec: 0.8 });
+    s.chime(T.end, 0.12);
+    return { s, file: "seed-music.wav", mix: { duckDepth: 0.3 } };
   },
 };
 
