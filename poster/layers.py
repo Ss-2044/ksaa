@@ -13,7 +13,7 @@ im=Image.fromarray(a.clip(0,255).astype('uint8'))
 fg=np.ones((H,W),bool)
 yy,xx=np.mgrid[0:H,0:W]
 clear=(xx>=471)&(xx<=697)&(yy<160)
-head=((xx-591)/35.0)**2+((yy-116)/48.0)**2<1
+head=(((xx-591)/37.0)**2+((yy-116)/50.0)**2<1)|(((xx-446)/34.0)**2+((yy-107)/47.0)**2<1)|(((xx-716)/34.0)**2+((yy-106)/49.0)**2<1)
 neck=(xx>568)&(xx<614)&(yy>140)
 fg[clear & ~head & ~neck]=False
 fgA=Image.fromarray((fg*255).astype('uint8')).filter(ImageFilter.GaussianBlur(1.5))
