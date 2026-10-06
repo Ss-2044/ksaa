@@ -96,6 +96,7 @@ import { RecipeVideo } from "./clay/RecipeVideo";
 import { CartVideo } from "./clay/CartVideo";
 import { DashVideo } from "./clay/DashVideo";
 import clayTimelines from "./clay/timelines.json";
+import { ComicVideo, COMICS } from "./comic/ComicVideo";
 import paperTimelines from "./paper/timelines.json";
 import timeline from "./timeline.json";
 
@@ -108,6 +109,11 @@ export const RemotionRoot: React.FC = () => {
       <Composition id="Launch" component={LaunchVideo} durationInFrames={launchTimeline.durationInFrames} {...vertical} />
       {tips.map((t) => (
         <Composition key={t.id} id={t.id} component={TipVideo} durationInFrames={tipLength} defaultProps={{ tip: t }} {...vertical} />
+      ))}
+
+      {/* «كوميكس» comic-book series */}
+      {Object.keys(COMICS).map((k) => (
+        <Composition key={k} id={`Comic${k[0].toUpperCase()}${k.slice(1)}`} component={ComicVideo} durationInFrames={COMICS[k].duration} defaultProps={{ clip: k }} {...vertical} />
       ))}
 
       {/* «صلصال» soft 3D clay series */}

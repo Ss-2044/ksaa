@@ -1,0 +1,51 @@
+{
+  "hero": {
+    "duration": 660, "bpm": 132, "music": "comic-hero-music.wav", "end": 540,
+    "endLine": "كل مشروع يستاهل بطل.", "endEn": "Every business deserves a hero.",
+    "pages": [
+      { "from": 0, "to": 300, "panels": [
+        { "x": 40, "y": 260, "w": 1000, "h": 560, "at": 20, "bg": "#FFD60A", "scene": "shop", "caption": "في يوم من الأيام…", "bubble": { "text": "محد يدري عنا…", "x": 0.62, "y": 0.12, "tail": "left" } },
+        { "x": 40, "y": 850, "w": 480, "h": 560, "at": 100, "bg": "#00B4D8", "scene": "call", "bubble": { "text": "ألو… نيو كابتا؟", "x": 0.08, "y": 0.06, "tail": "down" }, "sfx": { "text": "رن رن!", "x": 0.04, "y": 0.66, "rot": -12 } },
+        { "x": 560, "y": 850, "w": 480, "h": 560, "at": 170, "bg": "#3D5AFE", "scene": "hero", "sfx": { "text": "وصلنا!", "x": 0.1, "y": 0.66, "rot": 8 } }
+      ] },
+      { "from": 300, "to": 540, "panels": [
+        { "x": 40, "y": 260, "w": 1000, "h": 520, "at": 310, "bg": "#FFFFFF", "scene": "plan", "bubble": { "text": "الخطة جاهزة!", "x": 0.06, "y": 0.08, "tail": "down" } },
+        { "x": 40, "y": 810, "w": 480, "h": 600, "at": 380, "bg": "#EF233C", "scene": "post", "sfx": { "text": "نشر!", "x": 0.1, "y": 0.72, "rot": -10 } },
+        { "x": 560, "y": 810, "w": 480, "h": 600, "at": 450, "bg": "#FFD60A", "scene": "crowd", "sfx": { "text": "زحمة!!", "x": 0.18, "y": 0.06, "rot": 6 } }
+      ] }
+    ]
+  },
+  "faq": {
+    "duration": 630, "bpm": 140, "music": "comic-faq-music.wav", "end": 530,
+    "endLine": "عندك سؤال؟ إحنا نجاوب.", "endEn": "Got a question? We've got answers.",
+    "pages": [
+      { "from": 0, "to": 180, "panels": [
+        { "x": 40, "y": 260, "w": 1000, "h": 520, "at": 15, "bg": "#00B4D8", "scene": "ask", "caption": "سؤال ١", "bubble": { "text": "كم يكلف التسويق؟", "x": 0.42, "y": 0.1, "tail": "left" } },
+        { "x": 40, "y": 810, "w": 1000, "h": 600, "at": 75, "bg": "#3D5AFE", "scene": "answer", "answer": "على قد هدفك… ونبدأ بخطة تناسب ميزانيتك.", "sfx": { "text": "!", "x": 0.82, "y": 0.06, "rot": 10 } }
+      ] },
+      { "from": 180, "to": 355, "panels": [
+        { "x": 40, "y": 260, "w": 1000, "h": 520, "at": 190, "bg": "#FFD60A", "scene": "ask", "caption": "سؤال ٢", "bubble": { "text": "متى أشوف نتيجة؟", "x": 0.42, "y": 0.1, "tail": "left" } },
+        { "x": 40, "y": 810, "w": 1000, "h": 600, "at": 250, "bg": "#EF233C", "scene": "answer", "answer": "من أول شهر نقيس… وكل أسبوع نطوّر.", "sfx": { "text": "تك تك!", "x": 0.7, "y": 0.06, "rot": -8 } }
+      ] },
+      { "from": 355, "to": 530, "panels": [
+        { "x": 40, "y": 260, "w": 1000, "h": 520, "at": 365, "bg": "#FFFFFF", "scene": "ask", "caption": "سؤال ٣", "bubble": { "text": "وش يميزكم عن غيركم؟", "x": 0.38, "y": 0.1, "tail": "left" } },
+        { "x": 40, "y": 810, "w": 1000, "h": 600, "at": 425, "bg": "#3D5AFE", "scene": "answer", "answer": "نبدأ من فكرتك… مو من قالب جاهز.", "sfx": { "text": "بوم!", "x": 0.72, "y": 0.06, "rot": 12 } }
+      ] }
+    ]
+  },
+  "day": {
+    "duration": 660, "bpm": 150, "music": "comic-day-music.wav", "end": 540,
+    "endLine": "كل يوم… نشتغل على فكرتك.", "endEn": "Every day, working on your idea.",
+    "pages": [
+      { "from": 0, "to": 400, "panels": [
+        { "x": 40, "y": 260, "w": 490, "h": 560, "at": 25, "bg": "#00B4D8", "scene": "meeting", "caption": "٩:٠٠ ص", "bubble": { "text": "وش يبي جمهورك؟", "x": 0.08, "y": 0.05, "tail": "down" } },
+        { "x": 550, "y": 260, "w": 490, "h": 560, "at": 110, "bg": "#FFD60A", "scene": "bulbs", "caption": "١١:٠٠ ص", "sfx": { "text": "فكرة!", "x": 0.2, "y": 0.68, "rot": -8 } },
+        { "x": 40, "y": 850, "w": 490, "h": 560, "at": 195, "bg": "#EF233C", "scene": "camera", "caption": "٢:٠٠ م", "sfx": { "text": "كليك!", "x": 0.42, "y": 0.06, "rot": 10 } },
+        { "x": 550, "y": 850, "w": 490, "h": 560, "at": 280, "bg": "#3D5AFE", "scene": "rocket", "caption": "٦:٠٠ م", "sfx": { "text": "ووووش!", "x": 0.05, "y": 0.7, "rot": -14 } }
+      ] },
+      { "from": 400, "to": 540, "panels": [
+        { "x": 40, "y": 260, "w": 1000, "h": 1150, "at": 405, "bg": "#FFD60A", "scene": "chart", "caption": "وبكرة؟", "bubble": { "text": "نقيس… ونطوّر!", "x": 0.08, "y": 0.06, "tail": "down" }, "sfx": { "text": "بوم!", "x": 0.6, "y": 0.4, "rot": 10 } }
+      ] }
+    ]
+  }
+}
