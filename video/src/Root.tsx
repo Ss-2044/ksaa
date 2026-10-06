@@ -77,6 +77,7 @@ import { FunnelVideo } from "./marketing/FunnelVideo";
 import series2 from "./marketing/series2.json";
 import { GulfCupVideo, GulfCupPoster } from "./gulf/GulfCup";
 import gulfTimeline from "./gulf/timeline.json";
+import { GulfCongrats } from "./gulf/Congrats";
 import { GulfTeamPoster, GulfOwaisPoster } from "./gulf/Posters2";
 import { GulfTeamKeyArt, GulfOwaisKeyArt } from "./gulf/Posters3";
 import { GulfTeamClean, GulfOwaisClean } from "./gulf/Posters4";
@@ -137,6 +138,10 @@ export const RemotionRoot: React.FC = () => {
       <Composition id="Scale" component={ScaleVideo} durationInFrames={paperTimelines.scale.duration} {...vertical} />
       <Composition id="Typer" component={TyperVideo} durationInFrames={paperTimelines.typer.duration} {...vertical} />
       <Composition id="Thread" component={ThreadVideo} durationInFrames={paperTimelines.thread.duration} {...vertical} />
+
+      {/* Gulf Cup 27: NEO CAPTA congratulations */}
+      <Composition id="GulfCongratsPost" component={GulfCongrats} durationInFrames={1} fps={30} width={1080} height={1350} />
+      <Composition id="GulfCongratsStory" component={GulfCongrats} durationInFrames={1} fps={30} width={1080} height={1920} />
 
       {/* Gulf Cup celebration */}
       <Composition id="GulfCup" component={GulfCupVideo} durationInFrames={gulfTimeline.duration} {...vertical} />
