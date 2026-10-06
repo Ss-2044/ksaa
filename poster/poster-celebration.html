@@ -1,0 +1,43 @@
+<!doctype html><html lang="ar" dir="rtl"><head><meta charset="utf-8">
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@800;900&family=Reem+Kufi:wght@700&family=Montserrat:wght@800&display=block" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:1080px;height:1350px;background:#000;overflow:hidden}
+.p{position:relative;width:1080px;height:1350px;overflow:hidden;font-family:'Cairo',sans-serif}
+.photo{position:absolute;left:0;top:-60px;width:1080px;height:1440px;object-fit:cover;filter:contrast(1.12) saturate(1.15) brightness(1.02)}
+.l{position:absolute;inset:0;pointer-events:none}
+.glow{background:radial-gradient(ellipse 38% 30% at 52% 22%,rgba(60,255,140,.35),transparent 70%);mix-blend-mode:screen}
+.rays{background:repeating-conic-gradient(from 180deg at 54% 30%,rgba(120,255,180,.10) 0deg 2deg,transparent 2deg 9deg);
+ -webkit-mask:radial-gradient(ellipse 70% 55% at 54% 30%,#000 10%,transparent 70%);mask:radial-gradient(ellipse 70% 55% at 54% 30%,#000 10%,transparent 70%);mix-blend-mode:screen}
+.top{background:linear-gradient(to bottom,rgba(0,0,0,.65),transparent 18%)}
+.bot{background:linear-gradient(to top,rgba(0,8,3,.97) 0%,rgba(0,12,5,.85) 13%,rgba(0,10,4,0) 30%)}
+.vign{background:radial-gradient(ellipse 80% 75% at 50% 50%,transparent 55%,rgba(0,0,0,.6))}
+.neo{position:absolute;top:36px;left:40px;height:118px;z-index:5;filter:brightness(1.15) drop-shadow(0 0 10px rgba(0,0,0,.95))}
+.tag{position:absolute;top:52px;right:44px;z-index:5;text-align:right}
+.tag b{display:block;font-family:'Montserrat';font-weight:800;color:#fff;font-size:20px;letter-spacing:4px;direction:ltr}
+.tag span{display:block;font-weight:800;color:#7dffb0;font-size:22px;margin-top:2px}
+.txt{position:absolute;left:0;right:0;bottom:46px;text-align:center;z-index:5}
+.h1{font-weight:900;font-size:100px;line-height:1.05;color:#fff;text-shadow:0 0 30px rgba(0,0,0,.9),0 0 50px rgba(60,255,140,.3)}
+.h1 .g{background:linear-gradient(180deg,#e6fff0 0%,#3dff8f 50%,#00a651 100%);-webkit-background-clip:text;background-clip:text;color:transparent;text-shadow:none;filter:drop-shadow(0 0 20px rgba(40,255,130,.6))}
+.row{display:flex;align-items:center;justify-content:center;gap:18px;margin-top:10px}
+.row i{display:block;width:120px;height:2px;background:linear-gradient(90deg,transparent,#d6e3dc)}
+.row i:last-child{background:linear-gradient(270deg,transparent,#d6e3dc)}
+.h3{font-family:'Reem Kufi';font-weight:700;font-size:50px;background:linear-gradient(180deg,#fff,#a9bdb2);-webkit-background-clip:text;background-clip:text;color:transparent}
+.flg{width:62px;height:41px;border-radius:5px;filter:drop-shadow(0 0 10px rgba(40,255,130,.5))}
+canvas{position:absolute;inset:0;mix-blend-mode:screen}
+</style></head><body><div class="p">
+<img class="photo" src="celebration.jpg">
+<div class="l glow"></div><div class="l rays"></div><canvas id="c" width="1080" height="1350"></canvas>
+<div class="l top"></div><div class="l bot"></div><div class="l vign"></div>
+<img class="neo" src="neo_logo.png">
+<div class="tag"><b>KHALEEJI 27</b><span>خليجي 27</span></div>
+<div class="txt">
+ <div class="h1">صقورنا <span class="g">الخضر</span></div>
+ <div class="row"><i></i><div class="h3">أبطال الخليج</div><svg class="flg" viewBox="0 0 150 100"><rect width="150" height="100" rx="8" fill="#006c35"/><g stroke="#fff" fill="none" stroke-linecap="round"><path d="M38 34 Q75 26 112 34" stroke-width="5"/><path d="M42 46 Q75 40 108 46" stroke-width="4"/><path d="M40 70 C70 74 95 64 112 70" stroke-width="5"/></g><path d="M112 70 l8 -3 v6z" fill="#fff"/></svg><i></i></div>
+</div></div>
+<script>
+let s=11;const R=()=>(s=(s*16807)%2147483647)/2147483647;const c=document.getElementById('c').getContext('2d');
+for(let i=0;i<260;i++){const x=R()*1080,y=R()*1000,r=R()*2.2+.4,gold=R()<.55;
+ const g=c.createRadialGradient(x,y,0,x,y,r*3);g.addColorStop(0,gold?`rgba(255,220,140,${.3+R()*.6})`:`rgba(160,255,200,${.3+R()*.6})`);g.addColorStop(1,'rgba(0,0,0,0)');
+ c.fillStyle=g;c.beginPath();c.arc(x,y,r*3,0,7);c.fill();}
+</script></body></html>
