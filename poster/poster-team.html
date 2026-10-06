@@ -19,8 +19,8 @@ html,body{width:1080px;height:1920px;background:#010604;overflow:hidden}
 .dust{position:absolute;inset:0}
 .floor{display:none;position:absolute;left:545px;top:905px;z-index:2;width:620px;height:90px;transform:translateX(-50%);border-radius:50%;
  background:radial-gradient(ellipse,rgba(120,255,170,.6),rgba(0,180,80,.2) 45%,transparent 70%);filter:blur(10px)}
-.txt{position:absolute;left:0;right:0;top:118px;text-align:center;z-index:5}
-.h1{font-weight:900;font-size:112px;line-height:1.12;color:#fff;letter-spacing:0;
+.txt{position:absolute;left:0;right:0;top:168px;text-align:center;z-index:5}
+.h1{font-weight:900;font-size:104px;line-height:1.08;color:#fff;letter-spacing:0;
  text-shadow:0 0 30px rgba(0,0,0,.9),0 6px 0 rgba(0,0,0,.35),0 0 50px rgba(60,255,140,.35)}
 .h1 .sa{background:linear-gradient(180deg,#d9ffe6 0%,#3dff8f 45%,#00a651 100%);-webkit-background-clip:text;background-clip:text;color:transparent;
  text-shadow:none;filter:drop-shadow(0 0 22px rgba(40,255,130,.65)) drop-shadow(0 5px 0 rgba(0,0,0,.5))}
@@ -37,6 +37,7 @@ html,body{width:1080px;height:1920px;background:#010604;overflow:hidden}
 .players{position:absolute;left:0;top:800px;width:1080px;z-index:1;filter:saturate(1.05) contrast(1.05)}
 .light{position:absolute;left:545px;top:760px;width:900px;height:520px;transform:translateX(-50%);z-index:2;mix-blend-mode:screen;background:radial-gradient(ellipse 50% 45% at 50% 25%,rgba(90,255,160,.28),transparent 70%)}
 .shade{position:absolute;left:0;right:0;top:1380px;height:540px;z-index:2;background:linear-gradient(to bottom,transparent,rgba(1,8,4,.85) 45%,#000)}
+.neo{position:absolute;top:38px;left:44px;height:128px;z-index:6;filter:brightness(1.15) drop-shadow(0 0 10px rgba(0,0,0,.9)) drop-shadow(0 0 2px rgba(255,255,255,.25))}
 .vign{position:absolute;inset:0;z-index:4;pointer-events:none;background:radial-gradient(ellipse 85% 80% at 50% 45%,transparent 55%,rgba(0,0,0,.75))}
 .logo{position:absolute;top:44px;left:48px;z-index:6;display:flex;align-items:center;gap:14px;direction:ltr}
 .logo .mark{width:66px;height:66px;border-radius:16px;border:2.5px solid #fff;display:grid;place-items:center;
@@ -52,7 +53,7 @@ html,body{width:1080px;height:1920px;background:#010604;overflow:hidden}
 <img class="players" src="players_fg.png"><div class="light"></div><div class="shade"></div><div class="crowdglow"></div>
 <svg class="crowd" id="crowd" viewBox="0 0 1080 430"></svg>
 <div class="vign"></div>
-<div class="logo"><div class="mark">NK</div><div class="wm">NEW KAPTA<small>نيو كابتا</small></div></div>
+<img class="neo" src="neo_logo.png">
 <div class="tag">KHALEEJI 27</div>
 <div class="txt">
  <div class="h1">الكأس خليجي…<br>والفرحة <span class="sa">سعودية</span> <svg class="flg" viewBox="0 0 150 100"><rect width="150" height="100" rx="8" fill="#006c35"/><g stroke="#fff" fill="none" stroke-linecap="round"><path d="M38 34 Q75 26 112 34" stroke-width="5"/><path d="M42 46 Q75 40 108 46" stroke-width="4"/><path d="M40 70 C70 74 95 64 112 70" stroke-width="5"/></g><path d="M112 70 l8 -3 v6z" fill="#fff"/></svg></div>
