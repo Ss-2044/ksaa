@@ -1,0 +1,92 @@
+<!doctype html><html lang="ar" dir="rtl"><head><meta charset="utf-8">
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@600;800;900&family=Reem+Kufi:wght@700&family=Montserrat:wght@800;900&display=block" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:1080px;height:1350px;background:#010604;overflow:hidden}
+.p{position:relative;width:1080px;height:1350px;overflow:hidden;
+ background:radial-gradient(ellipse 70% 55% at 50% 34%,#0b4a2a 0%,#04210f 38%,#010a05 70%,#000 100%);font-family:'Cairo',sans-serif}
+.rays{position:absolute;left:540px;top:400px;width:2400px;height:2400px;margin:-1200px 0 0 -1200px;
+ background:repeating-conic-gradient(from 0deg,rgba(60,255,140,.13) 0deg 3deg,transparent 3deg 11deg);
+ -webkit-mask:radial-gradient(circle,#000 0%,rgba(0,0,0,.6) 18%,transparent 42%);mask:radial-gradient(circle,#000 0%,rgba(0,0,0,.6) 18%,transparent 42%);filter:blur(2px)}
+.glow{position:absolute;border-radius:50%;left:50%;transform:translateX(-50%)}
+.g1{top:110px;width:760px;height:760px;background:radial-gradient(circle,rgba(40,255,130,.55),rgba(0,160,70,.25) 40%,transparent 68%);filter:blur(20px)}
+.g2{top:250px;width:300px;height:480px;background:radial-gradient(ellipse,rgba(200,255,220,.85),rgba(60,255,140,.4) 45%,transparent 72%);filter:blur(30px)}
+.beam{position:absolute;left:50%;top:-50px;width:520px;height:900px;transform:translateX(-50%);
+ background:linear-gradient(to bottom,rgba(80,255,150,.0),rgba(80,255,150,.18) 40%,rgba(80,255,150,0) 95%);clip-path:polygon(38% 0,62% 0,100% 100%,0 100%);filter:blur(18px)}
+.trophy{position:absolute;left:50%;top:100px;height:600px;transform:translateX(-50%);
+ filter:drop-shadow(0 0 18px rgba(120,255,170,.9)) drop-shadow(0 0 60px rgba(30,230,110,.7)) contrast(1.12) brightness(1.08)}
+.rim{position:absolute;left:50%;top:100px;height:600px;transform:translateX(-50%);mix-blend-mode:color;opacity:.28}
+.dust{position:absolute;inset:0}
+.floor{position:absolute;left:50%;top:655px;width:620px;height:90px;transform:translateX(-50%);border-radius:50%;
+ background:radial-gradient(ellipse,rgba(120,255,170,.6),rgba(0,180,80,.2) 45%,transparent 70%);filter:blur(10px)}
+.txt{position:absolute;left:0;right:0;top:690px;text-align:center;z-index:5}
+.h1{font-weight:900;font-size:112px;line-height:1.12;color:#fff;letter-spacing:0;
+ text-shadow:0 0 30px rgba(0,0,0,.9),0 6px 0 rgba(0,0,0,.35),0 0 50px rgba(60,255,140,.35)}
+.h1 .sa{background:linear-gradient(180deg,#d9ffe6 0%,#3dff8f 45%,#00a651 100%);-webkit-background-clip:text;background-clip:text;color:transparent;
+ text-shadow:none;filter:drop-shadow(0 0 22px rgba(40,255,130,.65)) drop-shadow(0 5px 0 rgba(0,0,0,.5))}
+.flg{width:.95em;height:.63em;vertical-align:.05em;margin-right:.12em;border-radius:6px;filter:drop-shadow(0 0 14px rgba(40,255,130,.5))}
+.emo{font-family:'Noto Color Emoji';font-size:.62em;vertical-align:.12em;-webkit-text-fill-color:initial;color:initial}
+.line{width:300px;height:3px;margin:22px auto 16px;background:linear-gradient(90deg,transparent,#cfd8d3,transparent)}
+.h2{font-weight:800;font-size:54px;color:#fff;line-height:1.25;text-shadow:0 0 20px #000}
+.h3{font-family:'Reem Kufi';font-weight:700;font-size:44px;color:#c9d6cf;letter-spacing:1px;
+ background:linear-gradient(180deg,#ffffff,#9fb2a8);-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 0 14px #000)}
+.crowd{position:absolute;left:0;bottom:-70px;width:1080px;height:430px;z-index:3}
+.crowdglow{position:absolute;left:0;right:0;bottom:60px;height:260px;z-index:2;
+ background:radial-gradient(ellipse 60% 70% at 50% 100%,rgba(30,200,100,.45),transparent 70%)}
+.vign{position:absolute;inset:0;z-index:4;pointer-events:none;background:radial-gradient(ellipse 85% 80% at 50% 45%,transparent 55%,rgba(0,0,0,.75))}
+.logo{position:absolute;top:44px;left:48px;z-index:6;display:flex;align-items:center;gap:14px;direction:ltr}
+.logo .mark{width:66px;height:66px;border-radius:16px;border:2.5px solid #fff;display:grid;place-items:center;
+ font-family:'Montserrat';font-weight:900;font-size:30px;color:#fff;background:rgba(255,255,255,.06)}
+.logo .wm{font-family:'Montserrat';font-weight:900;color:#fff;font-size:26px;line-height:1;letter-spacing:3px}
+.logo .wm small{display:block;font-family:'Cairo';font-weight:800;font-size:20px;letter-spacing:0;color:#9fe8bd;margin-top:4px;text-align:left}
+.tag{position:absolute;top:56px;right:48px;z-index:6;font-family:'Montserrat';font-weight:800;color:rgba(255,255,255,.55);font-size:18px;letter-spacing:4px;direction:ltr}
+</style></head><body><div class="p">
+<div class="beam"></div><div class="rays"></div><div class="glow g1"></div><div class="glow g2"></div>
+<canvas class="dust" id="dust" width="1080" height="1350"></canvas>
+<div class="floor"></div>
+<img class="trophy" src="trophy.png">
+<div class="crowdglow"></div>
+<svg class="crowd" id="crowd" viewBox="0 0 1080 430"></svg>
+<div class="vign"></div>
+<div class="logo"><div class="mark">NK</div><div class="wm">NEW KAPTA<small>نيو كابتا</small></div></div>
+<div class="tag">KHALEEJI 27</div>
+<div class="txt">
+ <div class="h1">الكأس خليجي…<br>والفرحة <span class="sa">سعودية</span> <svg class="flg" viewBox="0 0 150 100"><rect width="150" height="100" rx="8" fill="#006c35"/><g stroke="#fff" fill="none" stroke-linecap="round"><path d="M38 34 Q75 26 112 34" stroke-width="5"/><path d="M42 46 Q75 40 108 46" stroke-width="4"/><path d="M40 70 C70 74 95 64 112 70" stroke-width="5"/></g><path d="M112 70 l8 -3 v6z" fill="#fff"/></svg></div>
+ <div class="line"></div>
+ <div class="h2">مبروك للأخضر <span class="emo">🏆</span></div>
+ <div class="h3">أبطال الخليج</div>
+</div>
+</div>
+<script>
+// seeded rng
+let s=7;const R=()=>(s=(s*16807)%2147483647)/2147483647;
+// dust particles
+const c=document.getElementById('dust').getContext('2d');
+for(let i=0;i<170;i++){const x=540+(R()-.5)*900,y=80+R()*800,r=R()*2.4+.4;
+ const g=c.createRadialGradient(x,y,0,x,y,r*3);g.addColorStop(0,`rgba(190,255,210,${.35+R()*.6})`);g.addColorStop(1,'rgba(0,0,0,0)');
+ c.fillStyle=g;c.beginPath();c.arc(x,y,r*3,0,7);c.fill();}
+// crowd silhouettes
+const svg=document.getElementById('crowd');let h='';
+h+=`<defs><linearGradient id="cf" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#03140b"/><stop offset=".5" stop-color="#010604"/><stop offset="1" stop-color="#000"/></linearGradient>
+<linearGradient id="fl" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#0a7a3d"/><stop offset=".5" stop-color="#11a552"/><stop offset="1" stop-color="#086432"/></linearGradient></defs>`;
+function person(x,base,sc,fill,flag){let o='';const hy=base-150*sc;
+ o+=`<ellipse cx="${x}" cy="${base-40*sc}" rx="${62*sc}" ry="${85*sc}" fill="${fill}"/>`;
+ o+=`<rect x="${x-10*sc}" y="${hy+20*sc}" width="${20*sc}" height="${30*sc}" fill="${fill}"/>`;
+ o+=`<ellipse cx="${x}" cy="${hy}" rx="${24*sc}" ry="${29*sc}" fill="${fill}"/>`;
+ if(flag){const side=R()<.5?-1:1,ax=x+side*44*sc,ay=base-110*sc,hx=x+side*(70+R()*30)*sc,hy2=hy-(90+R()*60)*sc;
+  o+=`<path d="M${ax} ${ay} Q${(ax+hx)/2+side*14*sc} ${(ay+hy2)/2} ${hx} ${hy2}" stroke="${fill}" stroke-width="${22*sc}" stroke-linecap="round" fill="none"/>`;
+  if(flag==2){const top=hy2-150*sc,w=(150+R()*60)*sc*side,hh=95*sc,wv=18*sc;
+   o+=`<line x1="${hx}" y1="${hy2+30*sc}" x2="${hx}" y2="${top}" stroke="#0a0f0c" stroke-width="${6*sc}"/>`;
+   o+=`<path d="M${hx} ${top} C${hx+w*.35} ${top-wv} ${hx+w*.65} ${top+wv} ${hx+w} ${top+wv*.4} L${hx+w} ${top+hh+wv*.4} C${hx+w*.65} ${top+hh+wv} ${hx+w*.35} ${top+hh-wv} ${hx} ${top+hh} Z" fill="url(#fl)" opacity=".95"/>`;
+   const sy=top+hh*.72;o+=`<path d="M${hx+w*.2} ${sy} C${hx+w*.45} ${sy+5*sc} ${hx+w*.7} ${sy-6*sc} ${hx+w*.82} ${sy}" stroke="#e9f5ee" stroke-width="${4*sc}" fill="none" stroke-linecap="round"/>`;
+   for(let k=0;k<4;k++){const yy=top+hh*(.28+k*.07);o+=`<path d="M${hx+w*.25} ${yy} Q${hx+w*.5} ${yy+(k%2?4:-4)*sc} ${hx+w*.75} ${yy}" stroke="rgba(235,248,240,.55)" stroke-width="${2.6*sc}" fill="none"/>`;}
+  }else{o+=`<circle cx="${hx}" cy="${hy2}" r="${13*sc}" fill="${fill}"/>`;}
+ }return o;}
+// back row (lit by glow, lighter), front row darker & bigger
+let back='',front='';
+for(let x=-20;x<1110;x+=40+R()*16){const side=x<300||x>780;back+=person(x,430-110+R()*30,0.55+R()*.12,'#05200f',side&&R()<.4?2:(R()<.35?1:0));}
+for(let x=-10;x<1120;x+=62+R()*22){const side=x<260||x>820;front+=person(x,430+10+R()*30,0.85+R()*.18,'url(#cf)',side&&R()<.5?2:(R()<.35?1:0));}
+h+=`<g opacity=".95">${back}</g><rect x="0" y="0" width="1080" height="430" fill="url(#cf)" opacity=".0"/>${front}`;
+h+=`<rect x="0" y="330" width="1080" height="100" fill="url(#cf)"/>`;
+svg.innerHTML=h;
+</script></body></html>
