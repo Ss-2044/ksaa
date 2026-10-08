@@ -1,6 +1,6 @@
 # Neo Capta — brand videos (Remotion)
 
-Six videos (three 16:9, three vertical 9:16 for Reels/TikTok/Stories), each in Arabic and English, 30 fps, with an original soundtrack.
+Nine videos (three 16:9, three vertical 9:16 for Reels/TikTok/Stories, three square 1:1 for feed posts), each in Arabic and English, 30 fps, with an original soundtrack.
 
 | Composition | Length | Idea |
 |---|---|---|
@@ -10,6 +10,9 @@ Six videos (three 16:9, three vertical 9:16 for Reels/TikTok/Stories), each in A
 | `BeforeAfter-AR/EN` (9:16) | 15 s | **Before / After** — the same post, dull vs. designed by Neo Capta, revealed with a slider. |
 | `Brief-AR/EN` (9:16) | 15 s | **The brief** — a client chat ("I have an idea…" → "Leave it to us.") bursts into a full campaign. |
 | `Sting-AR/EN` (9:16) | 8 s | **Logo sting** — halftone wave, the logo draws itself, the runner pops in. Intro/outro for posts. |
+| `Countdown-AR/EN` (1:1) | 12 s | **Countdown** — halftone 3 · 2 · 1, "GO!", the runner launches into the logo. |
+| `Grid-AR/EN` (1:1) | 15 s | **Feed plan** — nine posts flip into a 3×3 grid, then flip again to form one brand image. |
+| `Carousel-AR/EN` (1:1) | 17 s | **Services carousel** — five swipeable service cards with a touch gesture. |
 
 ```bash
 npm install

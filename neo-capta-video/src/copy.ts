@@ -212,3 +212,114 @@ export const STING: Record<Lang, { services: string }> = {
   ar: { services: 'تسويق  •  إعلان  •  محتوى' },
   en: { services: 'Marketing  •  Advertising  •  Content' },
 };
+
+/* -------------------------------------------------- square: countdown */
+
+export type CountdownCopy = {
+  lead: string;
+  digits: [string, string, string];
+  go: string;
+  services: string;
+  tagline: string;
+  taglineHighlight: string;
+};
+
+export const COUNTDOWN: Record<Lang, CountdownCopy> = {
+  ar: {
+    lead: 'حملتك الجاية…',
+    digits: ['٣', '٢', '١'],
+    go: 'انطلق!',
+    services: 'تسويق  •  إعلان  •  محتوى',
+    tagline: 'حملتك تبدأ معنا.',
+    taglineHighlight: 'معنا.',
+  },
+  en: {
+    lead: 'Your next campaign…',
+    digits: ['3', '2', '1'],
+    go: 'GO!',
+    services: 'Marketing  •  Advertising  •  Content',
+    tagline: 'It starts with us.',
+    taglineHighlight: 'us.',
+  },
+};
+
+/* ---------------------------------------------- square: content grid */
+
+export type GridCopy = {
+  plan: string;
+  planHighlight: string;
+  together: string;
+  togetherHighlight: string;
+  tiles: string[];
+  services: string;
+  tagline: string;
+  taglineHighlight: string;
+};
+
+export const GRID: Record<Lang, GridCopy> = {
+  ar: {
+    plan: 'كل منشور… له دور.',
+    planHighlight: 'دور.',
+    together: 'ومع بعض… تصنع علامة.',
+    togetherHighlight: 'علامة.',
+    tiles: ['جديد', 'عرض', '#ترند', 'قصة', 'اكتشف', 'حصري'],
+    services: 'تسويق  •  إعلان  •  محتوى',
+    tagline: 'فكرتك. تأثيرنا.',
+    taglineHighlight: 'تأثيرنا.',
+  },
+  en: {
+    plan: 'Every post has a role.',
+    planHighlight: 'role.',
+    together: 'Together, they build a brand.',
+    togetherHighlight: 'brand.',
+    tiles: ['NEW', 'OFFER', '#TREND', 'STORY', 'DISCOVER', 'EXCLUSIVE'],
+    services: 'Marketing  •  Advertising  •  Content',
+    tagline: 'Your idea. Our impact.',
+    taglineHighlight: 'impact.',
+  },
+};
+
+/* ------------------------------------------- square: services carousel */
+
+export type CarouselCopy = {
+  heading: string;
+  cards: { title: string; line: string }[];
+  wrap: string;
+  wrapHighlight: string;
+  services: string;
+  tagline: string;
+  taglineHighlight: string;
+};
+
+export const CAROUSEL: Record<Lang, CarouselCopy> = {
+  ar: {
+    heading: 'وش نسوي؟',
+    cards: [
+      { title: 'التسويق الرقمي', line: 'نوصّل علامتك للجمهور الصح.' },
+      { title: 'الإعلانات المدفوعة', line: 'كل ريال يشتغل لصالحك.' },
+      { title: 'صناعة المحتوى', line: 'قصص تنشاف… وتنحفظ.' },
+      { title: 'الهوية البصرية', line: 'شكل يعرفك فيه الكل.' },
+      { title: 'إدارة الحسابات', line: 'حضور ثابت كل يوم.' },
+    ],
+    wrap: 'كل اللي تحتاجه علامتك… في مكان واحد.',
+    wrapHighlight: 'واحد.',
+    services: 'تسويق  •  إعلان  •  محتوى',
+    tagline: 'فكرتك. تأثيرنا.',
+    taglineHighlight: 'تأثيرنا.',
+  },
+  en: {
+    heading: 'What we do',
+    cards: [
+      { title: 'Digital Marketing', line: 'Reach the right audience.' },
+      { title: 'Paid Advertising', line: 'Every riyal working for you.' },
+      { title: 'Content Creation', line: 'Stories people stop for.' },
+      { title: 'Visual Identity', line: 'A look everyone knows.' },
+      { title: 'Account Management', line: 'Showing up, every day.' },
+    ],
+    wrap: 'Everything your brand needs, in one place.',
+    wrapHighlight: 'place.',
+    services: 'Marketing  •  Advertising  •  Content',
+    tagline: 'Your idea. Our impact.',
+    taglineHighlight: 'impact.',
+  },
+};

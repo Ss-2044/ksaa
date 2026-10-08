@@ -485,9 +485,112 @@ def score_sting():
     m.render(os.path.join(OUT, 'sting.wav'), fade_out=1.0)
 
 
+# --------------------------------------------------- 7) Countdown (square)
+# 12 s. digits at 1.0 / 3.0 / 5.0 s, GO 7.0 s, logo 8.4 s.
+
+def score_countdown():
+    m = Mix(12.0)
+    m.add(0.0, pad([57, 60, 64], 7.0, cutoff=800, a=0.8, r=0.3), 0.32)
+    m.add(0.0, sub(33, 7.0, a=0.5, r=0.2), 0.3, verb=0)
+    for k, f in enumerate([30, 90, 150]):
+        m.add(fr(f), boom(0.6 + 0.15 * k), 0.75)
+        m.add(fr(f), ping([69, 72, 76][k], 0.35, 1.5), verb=0.5)
+        for j in range(8):
+            m.add(fr(f) + j * 0.25, hat(0.14 + 0.02 * k, 0.03), pan=-0.3 if j % 2 else 0.3, verb=0.1)
+        m.add(fr(f) + 1.0, kick(0.5 + 0.15 * k))
+    m.add(fr(150), riser(2.0, 0.55))
+    m.add(fr(210), boom(1.3), 1.0)
+    m.add(fr(210), clap(0.6), verb=0.5)
+    m.add(fr(210), shimmer(2.5, 0.3), verb=0.6)
+    m.add(fr(210), whoosh(0.9, 0.5), pan=0.6)
+    m.add(fr(210), pad(AM + [76], 1.5, cutoff=2800, a=0.02, r=0.4), 0.45)
+    t = fr(210)
+    while t < fr(250):
+        m.add(t, kick(0.9))
+        m.add(t + 0.25, hat(0.22), pan=0.3)
+        t += 0.5
+    arp(m, fr(210), fr(250), [(0, AM)], step=0.125, level=0.12, cutoff=3200)
+    m.add(fr(252), boom(1.1), 0.9)
+    m.add(fr(252), pad(AM + [76], 3.6, cutoff=2600, a=0.15, r=2.0), 0.55)
+    m.add(fr(252), sub(33, 3.5, a=0.05, r=2.0), 0.45, verb=0)
+    for k, n in enumerate([81, 84, 88, 93]):
+        m.add(fr(306) + k * 0.09, ping(n, 0.14, 1.2), pan=-0.4 + k * 0.27, verb=0.6)
+    m.render(os.path.join(OUT, 'countdown.wav'), fade_out=0.9)
+
+
+# ------------------------------------------------------- 8) Grid (square)
+# 15 s. tiles flip 2.0–4.7 s, wave flip 7.0 s, merge 9.0 s, logo 11.5 s.
+
+def score_grid():
+    m = Mix(15.0)
+    m.add(0.0, pad(AM, 7.2, cutoff=1200, a=1.0, r=0.6), 0.3)
+    m.add(0.0, sub(33, 7.0, a=1.0, r=0.4), 0.25, verb=0)
+    for k in range(9):
+        m.add(fr(14 + k * 3), ping(88, 0.05, 0.3), pan=-0.6 + (k % 3) * 0.6, verb=0.3)
+    melody = [69, 72, 76, 79, 76, 81, 84, 81, 88]
+    for k in range(9):
+        f = 60 + k * 14
+        m.add(fr(f + 6), pluck(melody[k], 0.26, 3600, 0.45), pan=-0.6 + (k % 3) * 0.6, verb=0.45)
+        m.add(fr(f + 6), whoosh(0.18, 0.18), pan=-0.6 + (k % 3) * 0.6)
+    t = fr(60)
+    while t < fr(206):
+        m.add(t, kick(0.7))
+        m.add(t + 0.25, hat(0.18), pan=0.3)
+        t += 0.5
+    m.add(fr(150), pad(FM, 2.2, cutoff=1800, a=0.3, r=0.3), 0.32)
+    m.add(fr(210), pad(CM, 2.1, cutoff=2200, a=0.1, r=0.3), 0.35)
+    for j in range(5):
+        m.add(fr(210 + j * 8 + 6), pluck([72, 76, 79, 84, 88][j], 0.2, 4000, 0.3), verb=0.5)
+    m.add(fr(270) - 1.3, riser(1.3, 0.5))
+    m.add(fr(270), boom(1.2), 0.95)
+    m.add(fr(270), shimmer(2.5, 0.28), verb=0.6)
+    m.add(fr(270), pad(AM + [76], 2.3, cutoff=2600, a=0.05, r=0.6), 0.45)
+    m.add(fr(270), sub(33, 2.2, a=0.02, r=0.5), 0.4, verb=0)
+    m.add(fr(326), whoosh(0.7, 0.45), pan=-0.5)
+    m.add(fr(346), boom(1.1), 0.9)
+    m.add(fr(346), pad(AM + [76], 3.5, cutoff=2600, a=0.15, r=2.0), 0.55)
+    m.add(fr(346), sub(33, 3.4, a=0.05, r=2.0), 0.45, verb=0)
+    for k, n in enumerate([81, 84, 88, 93]):
+        m.add(fr(404) + k * 0.09, ping(n, 0.14, 1.2), pan=-0.4 + k * 0.27, verb=0.6)
+    m.render(os.path.join(OUT, 'grid.wav'), fade_out=0.9)
+
+
+# --------------------------------------------------- 9) Carousel (square)
+# 17 s. cards active at 1.0 / 3.3 / 5.7 / 8.0 / 10.3 s, wrap 12.1 s, logo 14 s.
+
+def score_carousel():
+    m = Mix(17.0)
+    chords = [AM, FM, CM, GM, AM]
+    for k in range(5):
+        at = fr(30 + 70 * k)
+        start = 0.0 if k == 0 else at - 0.6
+        end = fr(362) if k == 4 else fr(30 + 70 * (k + 1)) - 0.6
+        m.add(start, pad(chords[k], end - start + 0.4, cutoff=1800, a=0.3, r=0.4), 0.36)
+        m.add(start, sub(chords[k][0] - 24, end - start + 0.4, a=0.2, r=0.4), 0.3, verb=0)
+        if k:
+            m.add(at - 0.6, whoosh(0.6, 0.45), pan=0.5)
+        m.add(at, ping(chords[k][3] + 12, 0.25, 1.0), verb=0.5)
+    t = fr(30)
+    while t < fr(360):
+        m.add(t, kick(0.75))
+        m.add(t + 0.25, hat(0.2), pan=0.3)
+        m.add(t + 0.375, hat(0.08), pan=-0.3)
+        t += 0.5
+    arp(m, fr(30), fr(360), [(fr(30 + 70 * k) - 0.6, chords[k]) for k in range(5)], step=0.25, level=0.1, cutoff=2600)
+    m.add(fr(362), pad(AM, 2.2, cutoff=1200, a=0.2, r=0.4), 0.35)
+    m.add(fr(420) - 1.4, riser(1.4, 0.5))
+    m.add(fr(420), boom(1.2), 0.95)
+    m.add(fr(420), shimmer(2.5, 0.25), verb=0.6)
+    m.add(fr(420), pad(AM + [76], 3.0, cutoff=2600, a=0.1, r=1.8), 0.55)
+    m.add(fr(420), sub(33, 3.0, a=0.05, r=1.8), 0.45, verb=0)
+    for k, n in enumerate([81, 84, 88, 93]):
+        m.add(fr(474) + k * 0.09, ping(n, 0.14, 1.2), pan=-0.4 + k * 0.27, verb=0.6)
+    m.render(os.path.join(OUT, 'carousel.wav'), fade_out=0.9)
+
+
 if __name__ == '__main__':
     os.makedirs(OUT, exist_ok=True)
-    which = sys.argv[1:] or ['idea', 'manifesto', 'journey', 'before_after', 'brief', 'sting']
+    which = sys.argv[1:] or ['idea', 'manifesto', 'journey', 'before_after', 'brief', 'sting', 'countdown', 'grid', 'carousel']
     for w in which:
         {
             'idea': score_idea,
@@ -496,4 +599,7 @@ if __name__ == '__main__':
             'before_after': score_before_after,
             'brief': score_brief,
             'sting': score_sting,
+            'countdown': score_countdown,
+            'grid': score_grid,
+            'carousel': score_carousel,
         }[w]()
