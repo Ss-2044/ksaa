@@ -4,9 +4,8 @@
   "description": "Neo Capta brand intro — Remotion (AR + EN)",
   "scripts": {
     "studio": "remotion studio src/index.ts",
-    "render": "npm run render:ar && npm run render:en",
-    "render:ar": "remotion render src/index.ts NeoCapta-AR out/neo-capta-ar.mp4",
-    "render:en": "remotion render src/index.ts NeoCapta-EN out/neo-capta-en.mp4"
+    "music": "python3 music/compose.py",
+    "render": "node render-all.mjs"
   },
   "author": "",
   "license": "ISC",

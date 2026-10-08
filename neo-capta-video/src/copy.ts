@@ -33,3 +33,85 @@ export const COPY: Record<Lang, Copy> = {
     final: ['Your idea.', 'Our impact.'],
   },
 };
+
+/* ------------------------------------------------ "Move your brand" manifesto */
+
+export type ManifestoCopy = {
+  noise: string[];
+  loud: string;
+  talking: string;
+  heard: string;
+  heardHighlight: string;
+  slams: [string, string, string];
+  forward: string;
+  forwardHighlight: string;
+  services: string;
+  tagline: string;
+  taglineHighlight: string;
+};
+
+export const MANIFESTO: Record<Lang, ManifestoCopy> = {
+  ar: {
+    noise: ['عرض', 'خصم', 'جديد', 'الآن', 'اشترِ', 'إعلان', '#ترند', 'حصري', 'مجانًا', 'اضغط', 'تابع', 'لايك', 'شارك', 'عاجل', 'وفّر', 'لا تفوّت'],
+    loud: 'السوق مزدحم.',
+    talking: 'الجميع يتكلم.',
+    heard: 'وقليلون فقط يُسمَعون.',
+    heardHighlight: 'يُسمَعون.',
+    slams: ['انتباه.', 'تفاعل.', 'ولاء.'],
+    forward: 'نحرّك علامتك للأمام.',
+    forwardHighlight: 'للأمام.',
+    services: 'تسويق  •  إعلان  •  محتوى',
+    tagline: 'فكرتك. تأثيرنا.',
+    taglineHighlight: 'تأثيرنا.',
+  },
+  en: {
+    noise: ['SALE', 'NEW', 'BUY NOW', '#AD', 'CLICK', '50% OFF', 'FREE', 'LIMITED', 'TRENDING', 'LIKE', 'SHARE', 'FOLLOW', 'DEAL', 'HOT', 'SWIPE UP', 'LAST CHANCE'],
+    loud: 'The market is loud.',
+    talking: 'Everyone is talking.',
+    heard: 'Few are heard.',
+    heardHighlight: 'heard.',
+    slams: ['Attention.', 'Engagement.', 'Loyalty.'],
+    forward: 'We move your brand forward.',
+    forwardHighlight: 'forward.',
+    services: 'Marketing  •  Advertising  •  Content',
+    tagline: 'Your idea. Our impact.',
+    taglineHighlight: 'impact.',
+  },
+};
+
+/* ------------------------------------------------------ "The journey" process */
+
+export type JourneyCopy = {
+  title: string;
+  steps: { title: string; sub: string }[];
+  tagline: string;
+  taglineHighlight: string;
+  services: string;
+};
+
+export const JOURNEY: Record<Lang, JourneyCopy> = {
+  ar: {
+    title: 'رحلة علامتك معنا',
+    steps: [
+      { title: 'نفهم جمهورك', sub: 'بحث  •  تحليل  •  رؤى' },
+      { title: 'نبني الاستراتيجية', sub: 'أهداف  •  رسائل  •  قنوات' },
+      { title: 'نصنع المحتوى', sub: 'كتابة  •  تصميم  •  فيديو' },
+      { title: 'نطلق ونقيس', sub: 'حملات  •  نتائج  •  تطوير' },
+    ],
+    tagline: 'شريكك من الفكرة إلى الإطلاق.',
+    taglineHighlight: 'الإطلاق.',
+    services: 'تسويق  •  إعلان  •  محتوى',
+  },
+  en: {
+    title: "Your brand's journey with us",
+    steps: [
+      { title: 'We understand your audience', sub: 'Research  •  Analysis  •  Insight' },
+      { title: 'We build the strategy', sub: 'Goals  •  Messaging  •  Channels' },
+      { title: 'We create the content', sub: 'Copy  •  Design  •  Video' },
+      { title: 'We launch & measure', sub: 'Campaigns  •  Results  •  Growth' },
+    ],
+    tagline: 'Your partner from idea to launch.',
+    taglineHighlight: 'launch.',
+    services: 'Marketing  •  Advertising  •  Content',
+  },
+};

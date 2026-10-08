@@ -1,26 +1,35 @@
 import React, { useMemo } from 'react';
 import {
   AbsoluteFill,
+  Audio,
   Easing,
   interpolate,
   interpolateColors,
   random,
+  staticFile,
   useCurrentFrame,
 } from 'remotion';
 import logo from './logo.json';
 import { COPY, Copy, Lang } from './copy';
-import { loadFonts } from './fonts';
 import { GlimpseIcon } from './icons';
+import {
+  AnimatedLine,
+  BLUE,
+  BLUE_LIGHT,
+  FPS,
+  LH,
+  LW,
+  PERSON_BOX,
+  PersonSvg,
+  WHITE,
+  clamp,
+  ease,
+  fontFor,
+  personCenter,
+} from './shared';
 
-loadFonts();
-
-export const FPS = 30;
+export { FPS };
 export const DURATION = 24 * FPS;
-
-// Brand palette sampled from the Neo Capta logo.
-export const BLUE = '#3B4CC0';
-export const BLUE_LIGHT = '#7486F2';
-export const WHITE = '#E8E9EE';
 
 // Scene boundaries (frames).
 const S2 = 90;
@@ -28,22 +37,13 @@ const S3 = 210;
 const S4 = 360;
 const S5 = 510;
 
-const LW = logo.w;
-const LH = logo.h;
 const POINTS = logo.points as [number, number, number][];
-const PERSON_BOX = logo.bbox.person as [number, number, number, number];
-
-const clamp = { extrapolateLeft: 'clamp', extrapolateRight: 'clamp' } as const;
-const ease = (f: number, from: number, to: number, out: [number, number] = [0, 1], easing = Easing.inOut(Easing.cubic)) =>
-  interpolate(f, [from, to], out, { ...clamp, easing });
 
 type Layout = { cx: number; cy: number; s: number };
 const layout = (cx: number, cy: number, width: number): Layout => ({ cx, cy, s: width / LW });
 const L3 = layout(960, 540, 760);
 const L5 = layout(960, 400, 720);
 const toScreen = (x: number, y: number, l: Layout) => [l.cx + (x - LW / 2) * l.s, l.cy + (y - LH / 2) * l.s];
-
-const fontFor = (lang: Lang) => (lang === 'ar' ? 'Cairo, sans-serif' : 'Montserrat, sans-serif');
 
 /* ---------------------------------------------------------------- particles */
 
@@ -187,78 +187,6 @@ const Background: React.FC<{ f: number }> = ({ f }) => {
   );
 };
 
-/* --------------------------------------------------------------------- text */
-
-const AnimatedLine: React.FC<{
-  f: number;
-  text: string;
-  lang: Lang;
-  start: number;
-  end?: number;
-  y: number;
-  size: number;
-  weight?: number;
-  color?: string;
-  highlight?: string;
-  letterSpacing?: string;
-}> = ({ f, text, lang, start, end, y, size, weight = 700, color = WHITE, highlight, letterSpacing }) => {
-  if (f < start - 1 || (end !== undefined && f > end + 1)) return null;
-  const words = text.split(' ');
-  const out = end === undefined ? 1 : interpolate(f, [end - 12, end], [1, 0], clamp);
-  const outBlur = end === undefined ? 0 : interpolate(f, [end - 12, end], [0, 14], clamp);
-  return (
-    <div
-      dir={lang === 'ar' ? 'rtl' : 'ltr'}
-      style={{
-        position: 'absolute',
-        left: 0,
-        right: 0,
-        top: y,
-        transform: 'translateY(-50%)',
-        display: 'flex',
-        justifyContent: 'center',
-        gap: size * 0.28,
-        fontFamily: fontFor(lang),
-        fontSize: size,
-        fontWeight: weight,
-        color,
-        letterSpacing,
-        opacity: out,
-        filter: `blur(${outBlur}px)`,
-        lineHeight: 1.3,
-      }}
-    >
-      {words.map((w, i) => {
-        const s = start + i * 4;
-        const p = interpolate(f, [s, s + 16], [0, 1], { ...clamp, easing: Easing.out(Easing.cubic) });
-        const isHi = highlight !== undefined && w === highlight;
-        return (
-          <span
-            key={i}
-            style={{
-              display: 'inline-block',
-              opacity: p,
-              transform: `translateY(${(1 - p) * 34}px)`,
-              filter: `blur(${(1 - p) * 12}px)`,
-              ...(isHi
-                ? {
-                    background: `linear-gradient(90deg, ${BLUE_LIGHT}, ${BLUE} 60%, ${BLUE_LIGHT})`,
-                    WebkitBackgroundClip: 'text',
-                    backgroundClip: 'text',
-                    color: 'transparent',
-                    textShadow: 'none',
-                  }
-                : { textShadow: '0 6px 30px rgba(0,0,0,0.6)' }),
-            }}
-          >
-            {w}
-          </span>
-        );
-      })}
-    </div>
-  );
-};
-
 /* ------------------------------------------------------------ scene 2 words */
 
 const FlashWords: React.FC<{ f: number; copy: Copy; lang: Lang }> = ({ f, copy, lang }) => {
@@ -390,22 +318,6 @@ const Glimpses: React.FC<{ f: number; copy: Copy; lang: Lang }> = ({ f, copy, la
     })}
   </>
 );
-
-/* ----------------------------------------------------------- logo pieces */
-
-const PersonSvg: React.FC<{ width: number; color?: string }> = ({ width, color = BLUE_LIGHT }) => {
-  const [x0, y0, x1, y1] = PERSON_BOX;
-  const pad = 10;
-  const w = x1 - x0 + pad * 2;
-  const h = y1 - y0 + pad * 2;
-  return (
-    <svg width={width} height={(width * h) / w} viewBox={`${x0 - pad} ${y0 - pad} ${w} ${h}`} style={{ overflow: 'visible' }}>
-      <path d={logo.person} fill={color} fillRule="evenodd" />
-    </svg>
-  );
-};
-
-const personCenter = () => [(PERSON_BOX[0] + PERSON_BOX[2]) / 2, (PERSON_BOX[1] + PERSON_BOX[3]) / 2];
 
 /* --------------------------------------------------------- scene 4 hero */
 
@@ -605,6 +517,7 @@ export const NeoCapta: React.FC<{ lang: Lang }> = ({ lang }) => {
   const impactWords = copy.impact.split(' ');
   return (
     <AbsoluteFill style={{ backgroundColor: '#000' }}>
+      <Audio src={staticFile('audio/from-idea-to-impact.wav')} />
       <AbsoluteFill style={{ opacity: fadeOut }}>
         <Background f={f} />
         <Particles f={f} />
