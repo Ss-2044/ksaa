@@ -633,9 +633,101 @@ def score_story():
     m.render(os.path.join(OUT, 'story.wav'), fade_out=0.9)
 
 
+# ---------------------------------------------------------- 11) Scroll-stopper
+# 16 s. slow feed 0–2.7 s, accelerating scroll to a hard stop at 6.67 s,
+# "until something stops you" 7.1 s, "we make…" 10.1 s, logo 12.8 s.
+
+def score_scroll():
+    m = Mix(16.0)
+    m.add(0.0, pad([57, 60, 64], 6.8, cutoff=900, a=0.6, r=0.05), 0.32)
+    m.add(0.0, sub(33, 6.7, a=0.6, r=0.05), 0.25, verb=0)
+    # card-pass ticks, accelerating
+    t, gap = 0.4, 0.5
+    while t < fr(200) - 0.02:
+        m.add(t, filt(noise(0.03), 1800, 'high') * np.exp(-tt(0.03) * 140) * 0.3, pan=RNG.uniform(-0.3, 0.3), verb=0.05)
+        if t > fr(80):
+            gap = max(0.03, gap * 0.9)
+        t += gap
+    for k, f in enumerate([92, 118, 144]):
+        m.add(fr(f), kick(0.55 + 0.15 * k))
+        m.add(fr(f), whoosh(0.35, 0.25 + 0.08 * k), pan=0.3 * (k - 1))
+    m.add(fr(200) - 3.4, riser(3.4, 0.65, f0=200, f1=12000))
+    # hard stop
+    m.add(fr(200), boom(1.4), 1.0, verb=0.5)
+    m.add(fr(200), clap(0.6), verb=0.6)
+    m.add(fr(200), ping(81, 0.4, 3.0), verb=0.8)
+    m.add(fr(214), pad(AM + [76], 3.0, cutoff=1800, a=0.6, r=0.6), 0.42)
+    m.add(fr(214), sub(33, 3.0, a=0.6, r=0.6), 0.32, verb=0)
+    for k in range(4):
+        m.add(fr(214) + k * 0.75, kick(0.45), verb=0.1)
+    # "we make the content that stops the scroll"
+    m.add(fr(304), boom(0.8), 0.7)
+    m.add(fr(304), pad(FM, 2.2, cutoff=2400, a=0.05, r=0.4), 0.42)
+    t = fr(304)
+    while t < fr(366):
+        m.add(t, kick(0.8))
+        m.add(t + 0.25, hat(0.2), pan=0.3)
+        t += 0.5
+    arp(m, fr(304), fr(366), [(0, FM)], step=0.125, level=0.1, cutoff=3000)
+    m.add(fr(364), whoosh(0.7, 0.45), pan=-0.5)
+    m.add(fr(384), boom(1.2), 0.95)
+    m.add(fr(384), shimmer(2.4, 0.25), verb=0.6)
+    m.add(fr(384), pad(AM + [76], 3.2, cutoff=2600, a=0.12, r=1.8), 0.55)
+    m.add(fr(384), sub(33, 3.1, a=0.05, r=1.8), 0.45, verb=0)
+    for k, n in enumerate([81, 84, 88, 93]):
+        m.add(fr(440) + k * 0.09, ping(n, 0.14, 1.2), pan=-0.4 + k * 0.27, verb=0.6)
+    m.render(os.path.join(OUT, 'scroll.wav'), fade_out=0.9)
+
+
+# ------------------------------------------------------------ 12) Blank page
+# 16 s. typing 3–3.7 s / 5–5.6 s with deletes, runner dives in 6.5 s,
+# takeover 6.93 s, phones 9.67 s, logo 12.8 s.
+
+def score_blank_page():
+    m = Mix(16.0)
+    m.add(0.0, pad([57, 60, 64], 6.9, cutoff=650, a=1.2, r=0.2), 0.32)
+    m.add(0.0, sub(33, 6.9, a=1.2, r=0.2), 0.22, verb=0)
+    for k in range(6):
+        m.add(0.4 + k * 1.0, ping(76, 0.06, 0.4), verb=0.4)  # cursor blink
+    for s0, e0, ds, de in [(90, 112, 124, 138), (150, 168, 180, 194)]:
+        t = fr(s0)
+        while t < fr(e0):
+            m.add(t, filt(noise(0.03), 2500, 'high') * np.exp(-tt(0.03) * 160) * 0.35, pan=RNG.uniform(-0.3, 0.3), verb=0.05)
+            t += 0.06 + RNG.random() * 0.06
+        t = fr(ds)
+        while t < fr(de):
+            m.add(t, filt(noise(0.03), 900) * np.exp(-tt(0.03) * 120) * 0.4, verb=0.05)
+            t += 0.045
+        m.add(fr(de), kick(0.35), verb=0.2)
+    m.add(fr(194), whoosh(0.5, 0.5), pan=-0.6)
+    m.add(fr(208) - 1.0, riser(1.0, 0.45))
+    m.add(fr(208), boom(1.2), 0.95)
+    m.add(fr(208), shimmer(2.4, 0.28), verb=0.6)
+    m.add(fr(208), pad(AM + [76], 2.8, cutoff=2600, a=0.05, r=0.4), 0.45)
+    m.add(fr(208), sub(33, 2.7, a=0.02, r=0.4), 0.4, verb=0)
+    for k, n in enumerate([72, 76, 79, 84, 88]):
+        m.add(fr(212 + k * 8), pluck(n, 0.2, 3800, 0.35), pan=-0.5 + k * 0.25, verb=0.4)
+    t = fr(212)
+    while t < fr(366):
+        m.add(t, kick(0.8))
+        m.add(t + 0.25, hat(0.2), pan=0.3)
+        t += 0.5
+    m.add(fr(290), pad(FM, 2.6, cutoff=2600, a=0.05, r=0.4), 0.42)
+    m.add(fr(286), whoosh(0.7, 0.5), pan=0.5)
+    arp(m, fr(212), fr(366), [(0, AM), (fr(290), FM)], step=0.125, level=0.1, cutoff=3000)
+    m.add(fr(364), whoosh(0.7, 0.45), pan=-0.5)
+    m.add(fr(384), boom(1.2), 0.95)
+    m.add(fr(384), shimmer(2.4, 0.25), verb=0.6)
+    m.add(fr(384), pad(AM + [76], 3.2, cutoff=2600, a=0.12, r=1.8), 0.55)
+    m.add(fr(384), sub(33, 3.1, a=0.05, r=1.8), 0.45, verb=0)
+    for k, n in enumerate([81, 84, 88, 93]):
+        m.add(fr(440) + k * 0.09, ping(n, 0.14, 1.2), pan=-0.4 + k * 0.27, verb=0.6)
+    m.render(os.path.join(OUT, 'blank-page.wav'), fade_out=0.9)
+
+
 if __name__ == '__main__':
     os.makedirs(OUT, exist_ok=True)
-    which = sys.argv[1:] or ['idea', 'manifesto', 'journey', 'before_after', 'brief', 'sting', 'countdown', 'grid', 'carousel', 'story']
+    which = sys.argv[1:] or ['idea', 'manifesto', 'journey', 'before_after', 'brief', 'sting', 'countdown', 'grid', 'carousel', 'story', 'scroll', 'blank_page']
     for w in which:
         {
             'idea': score_idea,
@@ -648,4 +740,6 @@ if __name__ == '__main__':
             'grid': score_grid,
             'carousel': score_carousel,
             'story': score_story,
+            'scroll': score_scroll,
+            'blank_page': score_blank_page,
         }[w]()

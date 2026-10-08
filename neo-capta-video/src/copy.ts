@@ -362,3 +362,93 @@ export const STORY: Record<Lang, StoryCopy> = {
     taglineLang: 'en',
   },
 };
+
+/* ------------------------------------------------ "Scroll-stopper" */
+
+export type ScrollCopy = {
+  everyDay: string;
+  scroll: [string, string, string];
+  until: string;
+  untilHighlight: string;
+  weMake: string;
+  weMakeHighlight: string;
+  postHeadline: string;
+  brand: string;
+  services: string;
+  tagline: string;
+  taglineHighlight: string;
+};
+
+export const SCROLL: Record<Lang, ScrollCopy> = {
+  ar: {
+    everyDay: 'كل يوم… آلاف المنشورات.',
+    scroll: ['يمرّر…', 'يمرّر…', 'يمرّر…'],
+    until: 'إلا لما يشوف شي يوقّفه.',
+    untilHighlight: 'يوقّفه.',
+    weMake: 'نصنع المحتوى اللي يوقّف التمرير.',
+    weMakeHighlight: 'التمرير.',
+    postHeadline: 'لحظة… شوفني.',
+    brand: 'علامتك',
+    services: 'تسويق  •  إعلان  •  محتوى',
+    tagline: 'فكرتك. تأثيرنا.',
+    taglineHighlight: 'تأثيرنا.',
+  },
+  en: {
+    everyDay: 'Every day… thousands of posts.',
+    scroll: ['Scroll…', 'scroll…', 'scroll…'],
+    until: 'Until something makes you stop.',
+    untilHighlight: 'stop.',
+    weMake: 'We make the content that stops the scroll.',
+    weMakeHighlight: 'scroll.',
+    postHeadline: 'Wait… look.',
+    brand: 'yourbrand',
+    services: 'Marketing  •  Advertising  •  Content',
+    tagline: 'Your idea. Our impact.',
+    taglineHighlight: 'impact.',
+  },
+};
+
+/* ------------------------------------------------ "The blank page" */
+
+export type BlankPageCopy = {
+  starts: string;
+  startsHighlight: string;
+  hardest: string;
+  attempts: [string, string];
+  headline: string;
+  cta: string;
+  everywhere: string;
+  everywhereHighlight: string;
+  services: string;
+  tagline: string;
+  taglineHighlight: string;
+};
+
+export const BLANK_PAGE: Record<Lang, BlankPageCopy> = {
+  ar: {
+    starts: 'كل علامة تبدأ… من صفحة فاضية.',
+    startsHighlight: 'فاضية.',
+    hardest: 'والبداية دايم أصعب جزء.',
+    attempts: ['إعلان جديد…', 'خصم كبير!!!'],
+    headline: 'فكرتك… صارت قصة.',
+    cta: 'اكتشف المزيد',
+    everywhere: 'نكتب الصفحة الأولى… ونكمّل القصة.',
+    everywhereHighlight: 'القصة.',
+    services: 'تسويق  •  إعلان  •  محتوى',
+    tagline: 'فكرتك. تأثيرنا.',
+    taglineHighlight: 'تأثيرنا.',
+  },
+  en: {
+    starts: 'Every brand starts… with a blank page.',
+    startsHighlight: 'page.',
+    hardest: 'And starting is always the hardest part.',
+    attempts: ['New ad…', 'BIG SALE!!!'],
+    headline: 'Your idea, now a story.',
+    cta: 'Discover more',
+    everywhere: 'We write the first page… and the rest of the story.',
+    everywhereHighlight: 'story.',
+    services: 'Marketing  •  Advertising  •  Content',
+    tagline: 'Your idea. Our impact.',
+    taglineHighlight: 'impact.',
+  },
+};

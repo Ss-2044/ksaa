@@ -14,6 +14,8 @@ Nine videos (three 16:9, three vertical 9:16 for Reels/TikTok/Stories, three squ
 | `Grid-AR/EN` (1:1) | 15 s | **Feed plan** — nine posts flip into a 3×3 grid, then flip again to form one brand image. |
 | `Carousel-AR/EN` (1:1) | 17 s | **Services carousel** — five swipeable service cards with a touch gesture. |
 | `Story-AR/EN` (+ `StoryVertical`, `StorySquare`) | 17 s | **Story** — "What do we say? How? To whom?" → "this is where the story begins" → CONTENT → STORY → IMPACT → logo, "We turn ideas into stories." |
+| `Scroll-AR/EN` (+ `ScrollVertical`, `ScrollSquare`) | 16 s | **Scroll-stopper** — a feed accelerates, hard-stops on the one post that matters: "We make the content that stops the scroll." |
+| `BlankPage-AR/EN` (+ `BlankPageVertical`, `BlankPageSquare`) | 16 s | **The blank page** — typed and deleted attempts, the runner dives in, the design builds itself and spreads to every screen. |
 
 ```bash
 npm install

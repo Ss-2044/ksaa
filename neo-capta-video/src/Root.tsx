@@ -10,6 +10,8 @@ import { Countdown, COUNTDOWN_DURATION } from './Countdown';
 import { Grid, GRID_DURATION } from './Grid';
 import { Carousel, CAROUSEL_DURATION } from './Carousel';
 import { Story, STORY_DURATION } from './Story';
+import { Scroll, SCROLL_DURATION } from './Scroll';
+import { BlankPage, BLANK_PAGE_DURATION } from './BlankPage';
 
 const WIDE = { width: 1920, height: 1080 };
 const VERTICAL = { width: 1080, height: 1920 };
@@ -28,6 +30,12 @@ const VIDEOS = [
   { id: 'Story', component: Story, duration: STORY_DURATION, size: WIDE },
   { id: 'StoryVertical', component: Story, duration: STORY_DURATION, size: VERTICAL },
   { id: 'StorySquare', component: Story, duration: STORY_DURATION, size: SQUARE },
+  { id: 'Scroll', component: Scroll, duration: SCROLL_DURATION, size: WIDE },
+  { id: 'ScrollVertical', component: Scroll, duration: SCROLL_DURATION, size: VERTICAL },
+  { id: 'ScrollSquare', component: Scroll, duration: SCROLL_DURATION, size: SQUARE },
+  { id: 'BlankPage', component: BlankPage, duration: BLANK_PAGE_DURATION, size: WIDE },
+  { id: 'BlankPageVertical', component: BlankPage, duration: BLANK_PAGE_DURATION, size: VERTICAL },
+  { id: 'BlankPageSquare', component: BlankPage, duration: BLANK_PAGE_DURATION, size: SQUARE },
 ] as const;
 
 export const RemotionRoot: React.FC = () => (
