@@ -369,8 +369,131 @@ def score_journey():
     m.render(os.path.join(OUT, 'journey.wav'), fade_out=1.0)
 
 
+# ------------------------------------------------- 4) Before / After (vertical)
+# 15 s. dull 0–3 s, slider 3–6.7 s, reveal groove 6.7–10 s, logo 10.7 s.
+
+def score_before_after():
+    m = Mix(15.0)
+    # Dull "before": muffled pad and a plain ticking clock
+    m.add(0.0, pad([57, 60, 64], 3.4, cutoff=520, a=0.6, r=0.5), 0.5, verb=0.1)
+    m.add(0.0, sub(33, 3.2, a=0.5, r=0.5), 0.2, verb=0)
+    for k in range(6):
+        m.add(0.3 + k * 0.5, hat(0.2, 0.02), pan=0.2 if k % 2 else -0.2, verb=0.05)
+    # Slider tease
+    m.add(fr(90), whoosh(1.2, 0.45), pan=0.3)
+    m.add(fr(126), kick(0.6))
+    m.add(fr(126), ping(76, 0.2, 1.0), verb=0.5)
+    m.add(fr(140), whoosh(0.5, 0.3), pan=-0.3)
+    m.add(fr(200) - 1.4, riser(1.4, 0.55))
+    # Reveal: full colour groove
+    m.add(fr(200), boom(1.1), 0.9)
+    m.add(fr(200), shimmer(2.2, 0.28), verb=0.6)
+    m.add(fr(200), pad(AM + [76], 3.4, cutoff=2600, a=0.05, r=0.6), 0.45)
+    m.add(fr(200), sub(33, 3.3, a=0.02, r=0.4), 0.4, verb=0)
+    t = fr(200)
+    while t < fr(300) - 0.05:
+        m.add(t, kick(0.9))
+        m.add(t + 0.25, hat(0.22), pan=0.3)
+        if round((t - fr(200)) / 0.5) % 2 == 1:
+            m.add(t, clap(0.4), verb=0.35)
+        t += 0.5
+    arp(m, fr(200), fr(300), [(0, AM), (fr(250), FM)], step=0.125, level=0.12, cutoff=3200)
+    # Logo
+    m.add(fr(296), whoosh(0.8, 0.5), pan=-0.5)
+    m.add(fr(322), boom(1.2), 0.95)
+    m.add(fr(322), shimmer(2.5, 0.25), verb=0.6)
+    m.add(fr(322), pad(AM + [76], 4.3, cutoff=2600, a=0.15, r=2.2), 0.55)
+    m.add(fr(322), sub(33, 4.0, a=0.05, r=2.0), 0.45, verb=0)
+    for k, n in enumerate([81, 84, 88, 93]):
+        m.add(fr(380) + k * 0.09, ping(n, 0.14, 1.2), pan=-0.4 + k * 0.27, verb=0.6)
+    m.render(os.path.join(OUT, 'before-after.wav'), fade_out=1.0)
+
+
+# ------------------------------------------------------ 5) The brief (vertical)
+# 15 s. typing 0.9–2.6 s, reply 4.3 s, zoom 5.3 s, burst 6.5–10.6 s, logo 11.2 s.
+
+def score_brief():
+    m = Mix(15.0)
+    m.add(0.0, pad([57, 60, 64, 67], 6.6, cutoff=900, a=1.0, r=0.6), 0.32)
+    m.add(0.0, sub(33, 6.5, a=1.0, r=0.5), 0.25, verb=0)
+    # keyboard clicks
+    t = fr(26)
+    while t < fr(78):
+        m.add(t, filt(noise(0.03), 2500, 'high') * np.exp(-tt(0.03) * 160) * 0.35, pan=RNG.uniform(-0.3, 0.3), verb=0.05)
+        t += 0.055 + RNG.random() * 0.07
+    # send
+    m.add(fr(84), whoosh(0.35, 0.35), pan=0.4)
+    m.add(fr(86), ping(81, 0.25, 0.8), verb=0.4)
+    # typing dots
+    for k in range(5):
+        m.add(fr(100) + k * 0.2, ping(88, 0.06, 0.25), verb=0.3)
+    # reply
+    m.add(fr(130), boom(0.7), 0.7)
+    for k, n in enumerate([69, 72, 76, 81]):
+        m.add(fr(130) + k * 0.05, ping(n, 0.18, 1.6), verb=0.6)
+    m.add(fr(196) - 1.3, riser(1.3, 0.55))
+    # burst + groove
+    m.add(fr(196), boom(1.1), 0.9)
+    m.add(fr(196), shimmer(2.2, 0.25), verb=0.6)
+    m.add(fr(196), pad(FM, 2.1, cutoff=2400, a=0.05, r=0.4), 0.42)
+    m.add(fr(259), pad(CM, 2.1, cutoff=2600, a=0.05, r=0.5), 0.42)
+    m.add(fr(196), sub(29, 2.1, a=0.02, r=0.3), 0.38, verb=0)
+    m.add(fr(259), sub(36, 2.0, a=0.02, r=0.4), 0.38, verb=0)
+    for k in range(6):
+        m.add(fr(196 + k * 7), pluck([72, 76, 79, 84, 79, 88][k], 0.22, 3800, 0.4), pan=-0.6 if k % 2 == 0 else 0.6, verb=0.4)
+    t = fr(196)
+    while t < fr(318) - 0.05:
+        m.add(t, kick(0.85))
+        m.add(t + 0.25, hat(0.22), pan=0.3)
+        m.add(t + 0.125, hat(0.08), pan=-0.3)
+        t += 0.5
+    arp(m, fr(196), fr(318), [(0, FM), (fr(259), CM)], step=0.125, level=0.1, cutoff=3000)
+    # logo
+    m.add(fr(314), whoosh(0.8, 0.5), pan=-0.5)
+    m.add(fr(336), boom(1.2), 0.95)
+    m.add(fr(336), shimmer(2.5, 0.25), verb=0.6)
+    m.add(fr(336), pad(AM + [76], 3.8, cutoff=2600, a=0.15, r=2.0), 0.55)
+    m.add(fr(336), sub(33, 3.6, a=0.05, r=2.0), 0.45, verb=0)
+    for k, n in enumerate([81, 84, 88, 93]):
+        m.add(fr(392) + k * 0.09, ping(n, 0.14, 1.2), pan=-0.4 + k * 0.27, verb=0.6)
+    m.render(os.path.join(OUT, 'brief.wav'), fade_out=0.9)
+
+
+# --------------------------------------------------------- 6) Sting (vertical)
+# 8 s. wave 0–2.3 s, logo draws 0.9–3.2 s, runner pops 3.5 s, services 4.9 s.
+
+def score_sting():
+    m = Mix(8.0)
+    m.add(0.0, whoosh(2.2, 0.4), pan=-0.4)
+    m.add(0.0, sub(33, 3.6, a=1.5, r=0.3), 0.35, verb=0)
+    m.add(0.2, pad(AM, 3.3, cutoff=800, a=1.6, r=0.3), 0.35)
+    # accelerating arpeggio while the logo draws
+    t, k = fr(26), 0
+    notes = [69, 72, 76, 81, 76, 79, 84, 88]
+    while t < fr(102):
+        m.add(t, pluck(notes[k % len(notes)], 0.16 + 0.1 * (t - fr(26)) / 2.5, 2400 + 1500 * (t - fr(26)) / 2.5, 0.25), pan=np.sin(k), verb=0.35)
+        t += max(0.07, 0.22 - k * 0.012)
+        k += 1
+    m.add(fr(104) - 1.6, riser(1.6, 0.5))
+    m.add(fr(104), boom(1.3), 1.0)
+    m.add(fr(104), shimmer(3.0, 0.3), verb=0.6)
+    m.add(fr(104), pad(AM + [76, 81], 4.5, cutoff=2800, a=0.03, r=2.5), 0.55)
+    m.add(fr(104), sub(33, 4.3, a=0.02, r=2.5), 0.5, verb=0)
+    for k, n in enumerate([81, 84, 88, 93]):
+        m.add(fr(128) + k * 0.08, ping(n, 0.15, 1.2), pan=-0.4 + k * 0.27, verb=0.6)
+    m.add(fr(146), ping(69, 0.25, 2.5), verb=0.7)
+    m.render(os.path.join(OUT, 'sting.wav'), fade_out=1.0)
+
+
 if __name__ == '__main__':
     os.makedirs(OUT, exist_ok=True)
-    which = sys.argv[1:] or ['idea', 'manifesto', 'journey']
+    which = sys.argv[1:] or ['idea', 'manifesto', 'journey', 'before_after', 'brief', 'sting']
     for w in which:
-        {'idea': score_idea, 'manifesto': score_manifesto, 'journey': score_journey}[w]()
+        {
+            'idea': score_idea,
+            'manifesto': score_manifesto,
+            'journey': score_journey,
+            'before_after': score_before_after,
+            'brief': score_brief,
+            'sting': score_sting,
+        }[w]()

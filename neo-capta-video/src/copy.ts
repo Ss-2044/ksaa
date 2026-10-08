@@ -115,3 +115,100 @@ export const JOURNEY: Record<Lang, JourneyCopy> = {
     services: 'Marketing  •  Advertising  •  Content',
   },
 };
+
+/* -------------------------------------------- vertical: "Before / After" */
+
+export type BeforeAfterCopy = {
+  intro: string;
+  before: string;
+  after: string;
+  postHeadline: string;
+  postCta: string;
+  brand: string;
+  same: string;
+  different: string;
+  differentHighlight: string;
+  services: string;
+  tagline: string;
+  taglineHighlight: string;
+};
+
+export const BEFORE_AFTER: Record<Lang, BeforeAfterCopy> = {
+  ar: {
+    intro: 'محتوى عادي…',
+    before: 'قبل',
+    after: 'بعد',
+    postHeadline: 'اكتشف الفرق',
+    postCta: 'اطلب الآن',
+    brand: 'علامتك',
+    same: 'نفس الفكرة…',
+    different: 'بأثر مختلف.',
+    differentHighlight: 'مختلف.',
+    services: 'تسويق  •  إعلان  •  محتوى',
+    tagline: 'فكرتك. تأثيرنا.',
+    taglineHighlight: 'تأثيرنا.',
+  },
+  en: {
+    intro: 'Ordinary content…',
+    before: 'BEFORE',
+    after: 'AFTER',
+    postHeadline: 'Feel the difference',
+    postCta: 'Shop now',
+    brand: 'yourbrand',
+    same: 'Same idea…',
+    different: 'Different impact.',
+    differentHighlight: 'impact.',
+    services: 'Marketing  •  Advertising  •  Content',
+    tagline: 'Your idea. Our impact.',
+    taglineHighlight: 'impact.',
+  },
+};
+
+/* ---------------------------------------------- vertical: "The brief" chat */
+
+export type BriefCopy = {
+  contact: string;
+  status: string;
+  clientMsg: string;
+  replyMsg: string;
+  outputs: string[];
+  fromTo: string;
+  fromToHighlight: string;
+  services: string;
+  tagline: string;
+  taglineHighlight: string;
+};
+
+export const BRIEF: Record<Lang, BriefCopy> = {
+  ar: {
+    contact: 'Neo Capta',
+    status: 'متصل الآن',
+    clientMsg: 'عندي فكرة… وأبيها توصل للناس.',
+    replyMsg: 'خلّها علينا.',
+    outputs: ['حملة إعلانية', 'تصاميم سوشال', 'كتابة محتوى', 'تصميم هوية', 'إدارة حسابات', 'محتوى جوال'],
+    fromTo: 'من رسالة… إلى حملة كاملة.',
+    fromToHighlight: 'كاملة.',
+    services: 'تسويق  •  إعلان  •  محتوى',
+    tagline: 'فكرتك. تأثيرنا.',
+    taglineHighlight: 'تأثيرنا.',
+  },
+  en: {
+    contact: 'Neo Capta',
+    status: 'online',
+    clientMsg: 'I have an idea… and I want people to feel it.',
+    replyMsg: 'Leave it to us.',
+    outputs: ['Ad campaigns', 'Social design', 'Copywriting', 'Brand identity', 'Account management', 'Mobile content'],
+    fromTo: 'From one message… to a full campaign.',
+    fromToHighlight: 'campaign.',
+    services: 'Marketing  •  Advertising  •  Content',
+    tagline: 'Your idea. Our impact.',
+    taglineHighlight: 'impact.',
+  },
+};
+
+/* ---------------------------------------------- vertical: logo sting */
+
+export const STING: Record<Lang, { services: string }> = {
+  ar: { services: 'تسويق  •  إعلان  •  محتوى' },
+  en: { services: 'Marketing  •  Advertising  •  Content' },
+};

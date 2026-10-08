@@ -1,5 +1,5 @@
 import React from 'react';
-import { AbsoluteFill, Easing, interpolate } from 'remotion';
+import { AbsoluteFill, Easing, interpolate, useVideoConfig } from 'remotion';
 import logo from './logo.json';
 import { Lang } from './copy';
 import { loadFonts } from './fonts';
@@ -52,8 +52,10 @@ export const AnimatedLine: React.FC<{
         top: y,
         transform: 'translateY(-50%)',
         display: 'flex',
+        flexWrap: 'wrap',
         justifyContent: 'center',
-        gap: size * 0.28,
+        columnGap: size * 0.28,
+        padding: '0 60px',
         fontFamily: fontFor(lang),
         fontSize: size,
         fontWeight: weight,
@@ -159,6 +161,9 @@ export const BrandEndCard: React.FC<{
   cy?: number;
   width?: number;
 }> = ({ f, start, lang, services, tagline, highlight, taglineAt = 96, cy = 400, width = 700 }) => {
+  const { width: videoWidth } = useVideoConfig();
+  const cx = videoWidth / 2;
+  const narrow = videoWidth < 1200;
   const r = f - start;
   if (r < 0) return null;
   const s = width / LW;
@@ -175,14 +180,14 @@ export const BrandEndCard: React.FC<{
   };
   const clipX = lang === 'ar' ? LW * (1 - wipe) : 0;
   const sp = ease(r, 62, 92, [0, 1], Easing.out(Easing.cubic));
-  const lineW = interpolate(sp, [0, 1], [0, 180]);
+  const lineW = interpolate(sp, [0, 1], [0, narrow ? 60 : 180]);
   const parts = services.split('•').map((p) => p.trim());
   return (
     <AbsoluteFill>
       <div
         style={{
           position: 'absolute',
-          left: 960 - width / 2,
+          left: cx - width / 2,
           top: cy - height / 2,
           width,
           height,
@@ -239,12 +244,12 @@ export const BrandEndCard: React.FC<{
           display: 'flex',
           justifyContent: 'center',
           alignItems: 'center',
-          gap: 26,
+          gap: narrow ? 16 : 26,
           opacity: sp,
           fontFamily: fontFor(lang),
           fontWeight: lang === 'ar' ? 700 : 500,
-          fontSize: lang === 'ar' ? 38 : 30,
-          letterSpacing: lang === 'en' ? `${interpolate(sp, [0, 1], [0.6, 0.28])}em` : undefined,
+          fontSize: lang === 'ar' ? (narrow ? 42 : 38) : narrow ? 26 : 30,
+          letterSpacing: lang === 'en' ? `${interpolate(sp, [0, 1], [0.6, narrow ? 0.16 : 0.28])}em` : undefined,
           textTransform: lang === 'en' ? 'uppercase' : undefined,
           color: 'rgba(232,233,238,0.88)',
         }}
