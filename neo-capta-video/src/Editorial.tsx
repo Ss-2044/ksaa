@@ -12,7 +12,7 @@ const LINE0 = 24;
 const LINE_LEN = 92;
 const STACK = 300;
 const STACK_END = 366;
-const LOGO = 372;
+const LOGO = 368;
 
 const PAPER = '#F3F4F8';
 const INK = '#0a1033';
@@ -48,6 +48,7 @@ const Marked: React.FC<{ text: string; lang: Lang; size: number; mark: number; p
           lineHeight: 1.15,
           color: BLUE,
           display: 'inline-block',
+          whiteSpace: 'nowrap',
           transform: `translateY(${(1 - pop) * size * 0.4}px)`,
           opacity: pop,
           clipPath: `inset(0 0 ${(1 - pop) * 100}% 0)`,
@@ -109,6 +110,8 @@ export const Editorial: React.FC<{ lang: Lang }> = ({ lang }) => {
   const k = Math.min(2, Math.max(0, Math.floor((f - LINE0) / LINE_LEN)));
   const inLines = f >= LINE0 && f < LINE0 + 3 * LINE_LEN;
   const pad = wide ? 80 : 60;
+  // Shrink a keyword so it always stays on one line.
+  const fit = (text: string, size: number) => Math.min(size, (width - pad * 2) / (Array.from(text).length * (rtl ? 0.5 : 0.62)));
 
   const ruleCount = Math.ceil(width / 160) + 1;
   const rules = Array.from({ length: ruleCount }, (_, i) => {
@@ -146,7 +149,7 @@ export const Editorial: React.FC<{ lang: Lang }> = ({ lang }) => {
           {copy.lines[k].a}
         </div>
         <div style={{ position: 'absolute', left: pad, right: pad, top: cy - kSize * 0.7, textAlign: 'center' }}>
-          <Marked text={copy.lines[k].b} lang={lang} size={kSize} mark={mark} pop={pop} />
+          <Marked text={copy.lines[k].b} lang={lang} size={fit(copy.lines[k].b, kSize)} mark={mark} pop={pop} />
         </div>
         <div style={{ position: 'absolute', left: cx - (width * 0.35 * baseLine), top: cy + kSize * 0.75, width: width * 0.7 * baseLine, height: 2, background: INK, opacity: 0.15 }} />
       </AbsoluteFill>
@@ -157,7 +160,7 @@ export const Editorial: React.FC<{ lang: Lang }> = ({ lang }) => {
   let stack: React.ReactNode = null;
   if (f >= STACK - 2 && f <= STACK_END + 2) {
     const out = ease(f, STACK_END - 10, STACK_END, [0, 1], Easing.in(Easing.cubic));
-    const sizes = [kSize * 0.42, kSize * 0.52, kSize * 0.68];
+    const sizes = [0.42, 0.52, 0.68].map((r, i) => Math.min(kSize * r, fit(copy.lines[i].b, kSize)));
     stack = (
       <AbsoluteFill style={{ justifyContent: 'center', alignItems: 'center', flexDirection: 'column', gap: 6, opacity: 1 - out }}>
         {copy.lines.map((l, i) => {
@@ -177,7 +180,7 @@ export const Editorial: React.FC<{ lang: Lang }> = ({ lang }) => {
   const logoW = wide ? 640 : width === height ? 580 : 760;
   const logoH = (LH / LW) * logoW;
   const logoCy = wide ? 420 : width === height ? 430 : 820;
-  const sp = ease(f, LOGO + 46, LOGO + 70, [0, 1], Easing.out(Easing.cubic));
+  const sp = ease(f, LOGO + 26, LOGO + 46, [0, 1], Easing.out(Easing.cubic));
 
   return (
     <AbsoluteFill style={{ backgroundColor: PAPER }}>
@@ -238,7 +241,7 @@ export const Editorial: React.FC<{ lang: Lang }> = ({ lang }) => {
               lang={lang}
               text={copy.tagline}
               highlight={copy.taglineHighlight}
-              start={LOGO + 52}
+              start={LOGO + 30}
               y={logoCy + logoH / 2 + 160}
               size={Math.min(rtl ? 64 : 52, width * 0.055)}
               weight={900}

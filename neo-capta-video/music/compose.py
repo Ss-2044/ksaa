@@ -751,10 +751,10 @@ def score_editorial():
         m.add(fr(300 + i * 9), pluck(n, 0.25, 4500, 0.4), verb=0.5)
     m.add(fr(318), boom(0.7), 0.6)
     m.add(fr(318), shimmer(1.5, 0.15), verb=0.6)
-    m.add(fr(372), boom(0.8), 0.65)
-    m.add(fr(372), pad(CMAJ7 + [76], 2.6, cutoff=2600, a=0.1, r=1.5), 0.45)
+    m.add(fr(368), boom(0.8), 0.65)
+    m.add(fr(368), pad(CMAJ7 + [76], 2.7, cutoff=2600, a=0.1, r=1.5), 0.45)
     for k, n in enumerate([84, 88, 91, 96]):
-        m.add(fr(424) + k * 0.09, ping(n, 0.12, 1.2), pan=-0.4 + k * 0.27, verb=0.6)
+        m.add(fr(398) + k * 0.09, ping(n, 0.12, 1.2), pan=-0.4 + k * 0.27, verb=0.6)
     m.render(os.path.join(OUT, 'editorial.wav'), fade_out=0.9)
 
 
