@@ -588,9 +588,54 @@ def score_carousel():
     m.render(os.path.join(OUT, 'carousel.wav'), fade_out=0.9)
 
 
+# ---------------------------------------------------------------- 10) Story
+# 17 s. questions at 0.33 / 2.2 / 4.07 s, "the story begins" 6 s,
+# CONTENT 8.4 s → STORY 10 s → IMPACT 11.6 s, logo 13.3 s.
+
+def score_story():
+    m = Mix(17.0)
+    # Questions: suspended, unresolved
+    m.add(0.0, pad([57, 62, 64], 6.2, cutoff=700, a=1.2, r=0.4), 0.34)
+    m.add(0.0, sub(33, 6.0, a=1.0, r=0.4), 0.28, verb=0)
+    for k, f in enumerate([10, 66, 122]):
+        m.add(fr(f), kick(0.5 + 0.1 * k))
+        m.add(fr(f), ping([69, 71, 74][k], 0.28, 1.4), verb=0.6)
+        m.add(fr(f) + 0.35, ping([76, 78, 81][k], 0.18, 1.2), pan=0.4, verb=0.7)
+    # "This is where the story begins"
+    m.add(fr(180), pad(FM + [72], 2.3, cutoff=1600, a=0.4, r=0.5), 0.42)
+    m.add(fr(180), sub(29, 2.2, a=0.3, r=0.4), 0.34, verb=0)
+    m.add(fr(186), shimmer(1.8, 0.18), verb=0.6)
+    m.add(fr(252) - 1.6, riser(1.6, 0.5))
+    # CONTENT → STORY → IMPACT with decode ticks
+    for k, f in enumerate([252, 300, 348]):
+        m.add(fr(f), boom(0.7 + 0.25 * k), 0.75 + 0.1 * k)
+        m.add(fr(f), clap(0.35 + 0.1 * k), verb=0.4)
+        for j in range(9):
+            m.add(fr(f) + j * 0.06, hat(0.16, 0.02), pan=RNG.uniform(-0.6, 0.6), verb=0.05)
+        m.add(fr(f) + 0.45, ping([81, 84, 88][k], 0.22, 0.8), verb=0.5)
+    m.add(fr(252), pad(CM, 1.7, cutoff=2200, a=0.05, r=0.3), 0.4)
+    m.add(fr(300), pad(GM, 1.7, cutoff=2400, a=0.05, r=0.3), 0.42)
+    m.add(fr(348), pad(AM + [76], 1.8, cutoff=2800, a=0.02, r=0.4), 0.48)
+    t = fr(252)
+    while t < fr(394):
+        m.add(t, kick(0.8))
+        m.add(t + 0.25, hat(0.2), pan=0.3)
+        t += 0.5
+    arp(m, fr(300), fr(394), [(fr(300), GM), (fr(348), AM)], step=0.125, level=0.11, cutoff=3200)
+    m.add(fr(348), shimmer(2.0, 0.28), verb=0.6)
+    # Logo
+    m.add(fr(394), whoosh(0.6, 0.4), pan=-0.5)
+    m.add(fr(400), boom(1.2), 0.95)
+    m.add(fr(400), pad(AM + [76], 3.6, cutoff=2600, a=0.15, r=2.0), 0.55)
+    m.add(fr(400), sub(33, 3.5, a=0.05, r=2.0), 0.45, verb=0)
+    for k, n in enumerate([81, 84, 88, 93]):
+        m.add(fr(458) + k * 0.09, ping(n, 0.14, 1.2), pan=-0.4 + k * 0.27, verb=0.6)
+    m.render(os.path.join(OUT, 'story.wav'), fade_out=0.9)
+
+
 if __name__ == '__main__':
     os.makedirs(OUT, exist_ok=True)
-    which = sys.argv[1:] or ['idea', 'manifesto', 'journey', 'before_after', 'brief', 'sting', 'countdown', 'grid', 'carousel']
+    which = sys.argv[1:] or ['idea', 'manifesto', 'journey', 'before_after', 'brief', 'sting', 'countdown', 'grid', 'carousel', 'story']
     for w in which:
         {
             'idea': score_idea,
@@ -602,4 +647,5 @@ if __name__ == '__main__':
             'countdown': score_countdown,
             'grid': score_grid,
             'carousel': score_carousel,
+            'story': score_story,
         }[w]()

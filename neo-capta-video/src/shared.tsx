@@ -158,9 +158,10 @@ export const BrandEndCard: React.FC<{
   tagline?: string;
   highlight?: string;
   taglineAt?: number;
+  taglineLang?: Lang;
   cy?: number;
   width?: number;
-}> = ({ f, start, lang, services, tagline, highlight, taglineAt = 96, cy = 400, width = 700 }) => {
+}> = ({ f, start, lang, services, tagline, highlight, taglineAt = 96, taglineLang, cy = 400, width = 700 }) => {
   const { width: videoWidth } = useVideoConfig();
   const cx = videoWidth / 2;
   const narrow = videoWidth < 1200;
@@ -266,13 +267,13 @@ export const BrandEndCard: React.FC<{
       {tagline && (
         <AnimatedLine
           f={f}
-          lang={lang}
+          lang={taglineLang ?? lang}
           text={tagline}
           highlight={highlight}
           start={start + taglineAt}
           y={cy + height / 2 + 180}
-          size={lang === 'ar' ? 66 : 58}
-          weight={lang === 'ar' ? 900 : 800}
+          size={(taglineLang ?? lang) === 'ar' ? 66 : 58}
+          weight={(taglineLang ?? lang) === 'ar' ? 900 : 800}
         />
       )}
     </AbsoluteFill>

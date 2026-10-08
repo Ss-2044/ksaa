@@ -9,6 +9,7 @@ import { Sting, STING_DURATION } from './Sting';
 import { Countdown, COUNTDOWN_DURATION } from './Countdown';
 import { Grid, GRID_DURATION } from './Grid';
 import { Carousel, CAROUSEL_DURATION } from './Carousel';
+import { Story, STORY_DURATION } from './Story';
 
 const WIDE = { width: 1920, height: 1080 };
 const VERTICAL = { width: 1080, height: 1920 };
@@ -24,6 +25,9 @@ const VIDEOS = [
   { id: 'Countdown', component: Countdown, duration: COUNTDOWN_DURATION, size: SQUARE },
   { id: 'Grid', component: Grid, duration: GRID_DURATION, size: SQUARE },
   { id: 'Carousel', component: Carousel, duration: CAROUSEL_DURATION, size: SQUARE },
+  { id: 'Story', component: Story, duration: STORY_DURATION, size: WIDE },
+  { id: 'StoryVertical', component: Story, duration: STORY_DURATION, size: VERTICAL },
+  { id: 'StorySquare', component: Story, duration: STORY_DURATION, size: SQUARE },
 ] as const;
 
 export const RemotionRoot: React.FC = () => (

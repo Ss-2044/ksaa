@@ -323,3 +323,42 @@ export const CAROUSEL: Record<Lang, CarouselCopy> = {
     taglineHighlight: 'impact.',
   },
 };
+
+/* ------------------------------------------- "Story" — questions → impact */
+
+export type StoryCopy = {
+  questions: [string, string, string];
+  qMark: string;
+  begins: string;
+  beginsHighlight: string;
+  words: [string, string, string];
+  services: string;
+  tagline: string;
+  taglineHighlight: string;
+  taglineLang: Lang;
+};
+
+export const STORY: Record<Lang, StoryCopy> = {
+  ar: {
+    questions: ['وش نقول؟', 'كيف نقولها؟', 'ولمين؟'],
+    qMark: '؟',
+    begins: 'وهنا تبدأ القصة.',
+    beginsHighlight: 'القصة.',
+    words: ['CONTENT', 'STORY', 'IMPACT'],
+    services: 'تسويق  •  إعلان  •  محتوى',
+    tagline: 'We turn ideas into stories.',
+    taglineHighlight: 'stories.',
+    taglineLang: 'en',
+  },
+  en: {
+    questions: ['What do we say?', 'How do we say it?', 'And to whom?'],
+    qMark: '?',
+    begins: 'And this is where the story begins.',
+    beginsHighlight: 'story',
+    words: ['CONTENT', 'STORY', 'IMPACT'],
+    services: 'Marketing  •  Advertising  •  Content',
+    tagline: 'We turn ideas into stories.',
+    taglineHighlight: 'stories.',
+    taglineLang: 'en',
+  },
+};
