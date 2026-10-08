@@ -38,6 +38,18 @@ const jobs = [
   ['BlankPage-EN', 'blank-page-en.mp4'],
   ['BlankPageVertical-EN', 'vertical-blank-page-en.mp4'],
   ['BlankPageSquare-EN', 'square-blank-page-en.mp4'],
+  ['Editorial-AR', 'editorial-ar.mp4'],
+  ['EditorialVertical-AR', 'vertical-editorial-ar.mp4'],
+  ['EditorialSquare-AR', 'square-editorial-ar.mp4'],
+  ['Editorial-EN', 'editorial-en.mp4'],
+  ['EditorialVertical-EN', 'vertical-editorial-en.mp4'],
+  ['EditorialSquare-EN', 'square-editorial-en.mp4'],
+  ['Rush-AR', 'rush-ar.mp4'],
+  ['RushVertical-AR', 'vertical-rush-ar.mp4'],
+  ['RushSquare-AR', 'square-rush-ar.mp4'],
+  ['Rush-EN', 'rush-en.mp4'],
+  ['RushVertical-EN', 'vertical-rush-en.mp4'],
+  ['RushSquare-EN', 'square-rush-en.mp4'],
 ];
 const only = process.argv.slice(2);
 for (const [id, file] of jobs) {

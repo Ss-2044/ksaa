@@ -12,6 +12,8 @@ import { Carousel, CAROUSEL_DURATION } from './Carousel';
 import { Story, STORY_DURATION } from './Story';
 import { Scroll, SCROLL_DURATION } from './Scroll';
 import { BlankPage, BLANK_PAGE_DURATION } from './BlankPage';
+import { Editorial, EDITORIAL_DURATION } from './Editorial';
+import { Rush, RUSH_DURATION } from './Rush';
 
 const WIDE = { width: 1920, height: 1080 };
 const VERTICAL = { width: 1080, height: 1920 };
@@ -36,6 +38,12 @@ const VIDEOS = [
   { id: 'BlankPage', component: BlankPage, duration: BLANK_PAGE_DURATION, size: WIDE },
   { id: 'BlankPageVertical', component: BlankPage, duration: BLANK_PAGE_DURATION, size: VERTICAL },
   { id: 'BlankPageSquare', component: BlankPage, duration: BLANK_PAGE_DURATION, size: SQUARE },
+  { id: 'Editorial', component: Editorial, duration: EDITORIAL_DURATION, size: WIDE },
+  { id: 'EditorialVertical', component: Editorial, duration: EDITORIAL_DURATION, size: VERTICAL },
+  { id: 'EditorialSquare', component: Editorial, duration: EDITORIAL_DURATION, size: SQUARE },
+  { id: 'Rush', component: Rush, duration: RUSH_DURATION, size: WIDE },
+  { id: 'RushVertical', component: Rush, duration: RUSH_DURATION, size: VERTICAL },
+  { id: 'RushSquare', component: Rush, duration: RUSH_DURATION, size: SQUARE },
 ] as const;
 
 export const RemotionRoot: React.FC = () => (

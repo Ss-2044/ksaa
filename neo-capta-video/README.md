@@ -16,6 +16,8 @@ Nine videos (three 16:9, three vertical 9:16 for Reels/TikTok/Stories, three squ
 | `Story-AR/EN` (+ `StoryVertical`, `StorySquare`) | 17 s | **Story** — "What do we say? How? To whom?" → "this is where the story begins" → CONTENT → STORY → IMPACT → logo, "We turn ideas into stories." |
 | `Scroll-AR/EN` (+ `ScrollVertical`, `ScrollSquare`) | 16 s | **Scroll-stopper** — a feed accelerates, hard-stops on the one post that matters: "We make the content that stops the scroll." |
 | `BlankPage-AR/EN` (+ `BlankPageVertical`, `BlankPageSquare`) | 16 s | **The blank page** — typed and deleted attempts, the runner dives in, the design builds itself and spreads to every screen. |
+| `Editorial-AR/EN` (+ `EditorialVertical`, `EditorialSquare`) | 15 s | **Editorial (light theme)** — magazine typography on paper: "A good ad is seen. A better one is remembered. Ours gets talked about." |
+| `Rush-AR/EN` (+ `RushVertical`, `RushSquare`) | 14 s | **Rush** — beat-cut colour blocks (~128 BPM) through every service, freeze, "All of this… under one roof.", glitch logo. |
 
 ```bash
 npm install

@@ -725,9 +725,93 @@ def score_blank_page():
     m.render(os.path.join(OUT, 'blank-page.wav'), fade_out=0.9)
 
 
+# --------------------------------------------------------- 13) Editorial
+# 15 s, light and airy. lines at 0.8 / 3.87 / 6.93 s, stack 10 s, logo 12.4 s.
+
+CMAJ7 = [60, 64, 67, 71]
+FMAJ7 = [53, 57, 60, 64]
+
+
+def score_editorial():
+    m = Mix(15.0)
+    beat = 0.6
+    m.add(0.0, pad(CMAJ7, 5.0, cutoff=1500, a=0.8, r=0.6), 0.3)
+    m.add(4.6, pad(FMAJ7, 5.6, cutoff=1600, a=0.6, r=0.6), 0.3)
+    t = fr(24)
+    while t < fr(366):
+        m.add(t, kick(0.5), verb=0.05)
+        m.add(t + beat / 2, hat(0.12, 0.04), pan=0.4, verb=0.1)
+        m.add(t + beat * 0.75, hat(0.07, 0.03), pan=-0.4, verb=0.1)
+        t += beat
+    for k, f in enumerate([24, 116, 208]):
+        m.add(fr(f), ping([72, 76, 79][k], 0.22, 1.0), verb=0.5)
+        m.add(fr(f + 12), pluck([84, 88, 91][k], 0.2, 4500, 0.4), verb=0.5)
+        m.add(fr(f + 22), whoosh(0.3, 0.22), pan=-0.4 if k % 2 else 0.4)
+    for i, n in enumerate([76, 79, 84]):
+        m.add(fr(300 + i * 9), pluck(n, 0.25, 4500, 0.4), verb=0.5)
+    m.add(fr(318), boom(0.7), 0.6)
+    m.add(fr(318), shimmer(1.5, 0.15), verb=0.6)
+    m.add(fr(372), boom(0.8), 0.65)
+    m.add(fr(372), pad(CMAJ7 + [76], 2.6, cutoff=2600, a=0.1, r=1.5), 0.45)
+    for k, n in enumerate([84, 88, 91, 96]):
+        m.add(fr(424) + k * 0.09, ping(n, 0.12, 1.2), pan=-0.4 + k * 0.27, verb=0.6)
+    m.render(os.path.join(OUT, 'editorial.wav'), fade_out=0.9)
+
+
+# --------------------------------------------------------------- 14) Rush
+# 14 s at ~128.6 BPM (beat = 14 frames). cuts 1–4.73 s, double-time to 6.6 s,
+# freeze, "all of this…" 6.87 s, "under one roof" 7.93 s, glitch logo 10 s.
+
+def score_rush():
+    m = Mix(14.0)
+    beat = 14 / 30
+    m.add(0.0, riser(1.0, 0.5))
+    for k in range(4):
+        m.add(k * 0.25, hat(0.15, 0.03), verb=0.1)
+    stabs = [AM, AM, FM, FM, CM, CM, GM, GM]
+    for i in range(8):
+        t = fr(30) + i * beat
+        m.add(t, kick(1.0))
+        m.add(t, boom(0.35), 0.5)
+        if i % 2 == 1:
+            m.add(t, clap(0.5), verb=0.3)
+        m.add(t + beat / 2, hat(0.25), pan=0.3)
+        m.add(t + beat / 2, pluck(stabs[i][0] - 12, 0.3, 700, 0.2), verb=0.0)
+        for n in stabs[i][1:]:
+            m.add(t, pluck(n + 12, 0.1, 3800, 0.25), verb=0.25)
+    m.add(fr(142), riser(fr(198) - fr(142), 0.6))
+    for i in range(8):
+        t = fr(142) + i * beat / 2
+        m.add(t, kick(0.9))
+        m.add(t, clap(0.3 + i * 0.04), verb=0.2)
+        m.add(t, pluck(stabs[i][2] + 12, 0.12, 4200, 0.2), verb=0.2)
+    # freeze: glitch burst then air
+    m.add(fr(198), filt(noise(0.2), 3000, 'high') * 0.4)
+    m.add(fr(206), pad(AM, 3.2, cutoff=1200, a=0.3, r=0.5), 0.35)
+    m.add(fr(206), ping(81, 0.25, 1.5), verb=0.6)
+    m.add(fr(238), boom(0.8), 0.7)
+    m.add(fr(238), ping(84, 0.28, 1.8), verb=0.6)
+    m.add(fr(296) - 0.8, riser(0.8, 0.45))
+    # glitch logo
+    m.add(fr(300), filt(noise(0.27), 2000, 'high') * 0.35)
+    m.add(fr(300), boom(1.2), 0.95)
+    m.add(fr(300), pad(AM + [76], 4.0, cutoff=2600, a=0.05, r=1.6), 0.5)
+    m.add(fr(300), sub(33, 3.9, a=0.02, r=1.6), 0.45, verb=0)
+    t = fr(300)
+    while t < 13.0:
+        m.add(t, kick(0.75))
+        m.add(t + beat / 2, hat(0.2), pan=0.3)
+        t += beat
+    for k, n in enumerate([81, 84, 88, 93]):
+        m.add(fr(336) + k * 0.09, ping(n, 0.14, 1.2), pan=-0.4 + k * 0.27, verb=0.6)
+    m.add(fr(350), filt(noise(0.07), 2500, 'high') * 0.25)
+    m.add(fr(386), filt(noise(0.07), 2500, 'high') * 0.25)
+    m.render(os.path.join(OUT, 'rush.wav'), fade_out=1.0)
+
+
 if __name__ == '__main__':
     os.makedirs(OUT, exist_ok=True)
-    which = sys.argv[1:] or ['idea', 'manifesto', 'journey', 'before_after', 'brief', 'sting', 'countdown', 'grid', 'carousel', 'story', 'scroll', 'blank_page']
+    which = sys.argv[1:] or ['idea', 'manifesto', 'journey', 'before_after', 'brief', 'sting', 'countdown', 'grid', 'carousel', 'story', 'scroll', 'blank_page', 'editorial', 'rush']
     for w in which:
         {
             'idea': score_idea,
@@ -742,4 +826,6 @@ if __name__ == '__main__':
             'story': score_story,
             'scroll': score_scroll,
             'blank_page': score_blank_page,
+            'editorial': score_editorial,
+            'rush': score_rush,
         }[w]()

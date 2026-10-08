@@ -37,7 +37,8 @@ export const AnimatedLine: React.FC<{
   color?: string;
   highlight?: string;
   letterSpacing?: string;
-}> = ({ f, text, lang, start, end, y, size, weight = 700, color = WHITE, highlight, letterSpacing }) => {
+  shadow?: boolean;
+}> = ({ f, text, lang, start, end, y, size, weight = 700, color = WHITE, highlight, letterSpacing, shadow = true }) => {
   if (f < start - 1 || (end !== undefined && f > end + 1)) return null;
   const words = text.split(' ');
   const out = end === undefined ? 1 : interpolate(f, [end - 12, end], [1, 0], clamp);
@@ -86,7 +87,7 @@ export const AnimatedLine: React.FC<{
                     color: 'transparent',
                     textShadow: 'none',
                   }
-                : { textShadow: '0 6px 30px rgba(0,0,0,0.6)' }),
+                : { textShadow: shadow ? '0 6px 30px rgba(0,0,0,0.6)' : 'none' }),
             }}
           >
             {w}

@@ -452,3 +452,71 @@ export const BLANK_PAGE: Record<Lang, BlankPageCopy> = {
     taglineHighlight: 'impact.',
   },
 };
+
+/* ------------------------------------------------ "Editorial" (light theme) */
+
+export type EditorialCopy = {
+  lines: { a: string; b: string }[];
+  tagline: string;
+  taglineHighlight: string;
+  services: string;
+};
+
+export const EDITORIAL: Record<Lang, EditorialCopy> = {
+  ar: {
+    lines: [
+      { a: 'الإعلان الجيد…', b: 'يُرى.' },
+      { a: 'والأفضل…', b: 'يُتذكّر.' },
+      { a: 'وإعلاننا…', b: 'يُحكى عنه.' },
+    ],
+    tagline: 'نخلّي علامتك حديث الناس.',
+    taglineHighlight: 'الناس.',
+    services: 'تسويق  •  إعلان  •  محتوى',
+  },
+  en: {
+    lines: [
+      { a: 'A good ad', b: 'is seen.' },
+      { a: 'A better one', b: 'is remembered.' },
+      { a: 'Ours', b: 'gets talked about.' },
+    ],
+    tagline: 'We make your brand the conversation.',
+    taglineHighlight: 'conversation.',
+    services: 'Marketing  •  Advertising  •  Content',
+  },
+};
+
+/* ------------------------------------------------ "Rush" (fast cuts) */
+
+export type RushCopy = {
+  ready: string;
+  words: string[];
+  allThis: string;
+  roof: string;
+  roofHighlight: string;
+  services: string;
+  tagline: string;
+  taglineHighlight: string;
+};
+
+export const RUSH: Record<Lang, RushCopy> = {
+  ar: {
+    ready: 'جاهز؟',
+    words: ['فكرة', 'كتابة', 'تصميم', 'تصوير', 'مونتاج', 'نشر', 'تحليل', 'نمو'],
+    allThis: 'كل هذا…',
+    roof: 'تحت سقف واحد.',
+    roofHighlight: 'واحد.',
+    services: 'تسويق  •  إعلان  •  محتوى',
+    tagline: 'فكرتك. تأثيرنا.',
+    taglineHighlight: 'تأثيرنا.',
+  },
+  en: {
+    ready: 'Ready?',
+    words: ['IDEA', 'COPY', 'DESIGN', 'SHOOT', 'EDIT', 'PUBLISH', 'ANALYZE', 'GROW'],
+    allThis: 'All of this…',
+    roof: 'Under one roof.',
+    roofHighlight: 'roof.',
+    services: 'Marketing  •  Advertising  •  Content',
+    tagline: 'Your idea. Our impact.',
+    taglineHighlight: 'impact.',
+  },
+};
