@@ -62,7 +62,10 @@ function loadState() {
     const raw = localStorage.getItem(STORE_KEY);
     if (!raw) return base;
     const saved = JSON.parse(raw);
-    return Object.assign(base, saved, { tour: null });
+    const st = Object.assign(base, saved, { tour: null });
+    // older saves used fictional team ids; map them onto the current event's home team
+    if (st.setup && !TEAMS[st.setup.teamId]) st.setup.teamId = (EVENTS.find((e) => e.id === st.setup.eventId) || EVENTS[0]).home;
+    return st;
   } catch (e) {
     return base;
   }

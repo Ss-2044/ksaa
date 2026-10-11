@@ -33,4 +33,4 @@ It runs fully in the browser with simulated demo data. No real login, payment, m
 
 The code is plain HTML/CSS/JS with no build step, so it can be wrapped as-is with
 [Capacitor](https://capacitorjs.com/) (iOS/Android) or shipped as the included PWA (`manifest.webmanifest`, `sw.js`).
-All team names, venues, sponsors, scores and prices are fictional sample data.
+Club and stadium names (Al Hilal, Al Nassr, Al Ittihad, Al Ahli; Kingdom Arena, King Abdullah Sports City, King Fahd International Stadium) are used for demo context only. The prototype is not affiliated with or endorsed by these clubs or venues, and it uses no club logos. Matches, scores, sponsors and prices are fictional sample data.

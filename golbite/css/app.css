@@ -750,3 +750,8 @@ button.g-card:hover { box-shadow: 0 0 0 2px var(--navy-50), var(--shadow); }
 /* keep grid children from forcing horizontal scroll on phones */
 .ops-layout > *, .map-layout > *, .play-grid > *, .profile-grid > *, .home > * { min-width: 0; }
 html, body { overflow-x: hidden; }
+.hero-in > .row.between > .pill:first-child { min-width: 0; max-width: 100%; overflow: hidden; text-overflow: ellipsis; display: block; }
+.hero-in > .row.between > .pill:first-child .ic { margin-inline-end: 4px; }
+.hero-in > .row.between > button.pill { flex: none; }
+.hero-in { grid-template-columns: minmax(0, 1fr); }
+.hero-in > * { min-width: 0; }

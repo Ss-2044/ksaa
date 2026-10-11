@@ -116,7 +116,7 @@ const A = {
   setLang: (l) => { S.lang = l; commit(); },
   quickDemo: () => {
     S.user = { name: 'Sara', handle: 'sara@golbite.demo' };
-    S.setup = { eventId: 'e1', teamId: 'falcons', section: 'B', row: 8, seat: 14, arrival: '19:00', gate: 'G2', locationMode: 'manual' };
+    S.setup = { eventId: 'e1', teamId: 'hilal', section: 'B', row: 8, seat: 14, arrival: '19:00', gate: 'G2', locationMode: 'manual' };
     awardBadge('first');
     commit(); go('home');
   },

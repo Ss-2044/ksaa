@@ -19,7 +19,7 @@ function viewSignin() {
 /* ---------- setup ---------- */
 let SETUP = null;
 function setupDraft() {
-  if (!SETUP) SETUP = S.setup ? { ...S.setup } : { eventId: 'e1', teamId: 'falcons', section: null, row: 8, seat: 14, arrival: '19:00', gate: 'G1', locationMode: null, step: 0 };
+  if (!SETUP) SETUP = S.setup ? { ...S.setup } : { eventId: 'e1', teamId: 'hilal', section: null, row: 8, seat: 14, arrival: '19:00', gate: 'G1', locationMode: null, step: 0 };
   return SETUP;
 }
 function viewSetup() {
