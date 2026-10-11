@@ -1,28 +1,28 @@
 /* GolBite — demo data. All names, scores, prices and partners are fictional sample data. */
 
 const TEAMS = {
-  falcons:  { id: 'falcons',  name: { en: 'Riyadh Falcons',  ar: 'صقور الرياض' },  short: 'RYF', color: '#13915A' },
-  mariners: { id: 'mariners', name: { en: 'Jeddah Mariners', ar: 'بحّارة جدة' },   short: 'JDM', color: '#2563EB' },
-  pearls:   { id: 'pearls',   name: { en: 'Dammam Pearls',   ar: 'لآلئ الدمام' },   short: 'DMP', color: '#7C3AED' },
-  eagles:   { id: 'eagles',   name: { en: 'Abha Eagles',     ar: 'نسور أبها' },     short: 'ABE', color: '#DC2626' },
-  nights:   { id: 'nights',   name: { en: 'Desert Lights',   ar: 'أضواء الصحراء' }, short: 'DLT', color: '#D9467A' },
+  hilal:    { id: 'hilal',    name: { en: 'Al Hilal',    ar: 'الهلال' },  short: 'HIL', color: '#005BAC' },
+  nassr:    { id: 'nassr',    name: { en: 'Al Nassr',    ar: 'النصر' },   short: 'NSR', color: '#F2B705' },
+  ittihad:  { id: 'ittihad',  name: { en: 'Al Ittihad',  ar: 'الاتحاد' }, short: 'ITT', color: '#E8B400' },
+  ahli:     { id: 'ahli',     name: { en: 'Al Ahli',     ar: 'الأهلي' },  short: 'AHL', color: '#008A3E' },
+  nights:   { id: 'nights',   name: { en: 'Desert Lights', ar: 'أضواء الصحراء' }, short: 'DLT', color: '#D9467A' },
 };
 
 const EVENTS = [
   {
     id: 'e1', type: 'football',
-    title: { en: 'Falcons vs Mariners', ar: 'الصقور ضد البحّارة' },
-    league: { en: 'Saudi Demo League · Matchday 7', ar: 'الدوري التجريبي · الجولة 7' },
-    home: 'falcons', away: 'mariners',
-    venue: { en: 'Al-Nakheel Arena, Riyadh', ar: 'ملعب النخيل، الرياض' },
-    time: '20:00',
+    title: { en: 'Al Hilal vs Al Nassr', ar: 'الهلال ضد النصر' },
+    league: { en: 'Saudi Pro League · Riyadh Derby', ar: 'دوري روشن السعودي · ديربي الرياض' },
+    home: 'hilal', away: 'nassr',
+    venue: { en: 'Kingdom Arena, Riyadh', ar: 'المملكة أرينا، الرياض' },
+    time: '21:00',
   },
   {
     id: 'e2', type: 'football',
-    title: { en: 'Pearls vs Eagles', ar: 'اللآلئ ضد النسور' },
-    league: { en: 'Saudi Demo League · Matchday 7', ar: 'الدوري التجريبي · الجولة 7' },
-    home: 'pearls', away: 'eagles',
-    venue: { en: 'Corniche Stadium, Dammam', ar: 'ملعب الكورنيش، الدمام' },
+    title: { en: 'Al Ittihad vs Al Ahli', ar: 'الاتحاد ضد الأهلي' },
+    league: { en: 'Saudi Pro League · Jeddah Derby', ar: 'دوري روشن السعودي · ديربي جدة' },
+    home: 'ittihad', away: 'ahli',
+    venue: { en: 'King Abdullah Sports City (Al-Jawhara), Jeddah', ar: 'مدينة الملك عبدالله الرياضية (الجوهرة)، جدة' },
     time: '21:00',
   },
   {
@@ -30,7 +30,7 @@ const EVENTS = [
     title: { en: 'Desert Lights Live', ar: 'أضواء الصحراء لايف' },
     league: { en: 'Winter Concert Series', ar: 'سلسلة حفلات الشتاء' },
     home: 'nights', away: null,
-    venue: { en: 'Al-Nakheel Arena, Riyadh', ar: 'ملعب النخيل، الرياض' },
+    venue: { en: 'King Fahd International Stadium, Riyadh', ar: 'استاد الملك فهد الدولي، الرياض' },
     time: '21:30',
   },
 ];
