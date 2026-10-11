@@ -755,3 +755,8 @@ html, body { overflow-x: hidden; }
 .hero-in > .row.between > button.pill { flex: none; }
 .hero-in { grid-template-columns: minmax(0, 1fr); }
 .hero-in > * { min-width: 0; }
+/* phones: stack the order board columns instead of a sideways scroll */
+@media (max-width: 719px) {
+  .board-cols { grid-auto-flow: row; grid-auto-columns: auto; overflow-x: visible; }
+  .board-col { min-height: 0; }
+}
