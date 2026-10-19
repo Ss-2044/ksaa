@@ -8,14 +8,16 @@ const ST = { stroke: INK, strokeWidth: 7, strokeLinejoin: "round" as const, stro
 const cl = { extrapolateLeft: "clamp", extrapolateRight: "clamp" } as const;
 
 type Mood = "sad" | "happy" | "talk" | "wow";
-export const Person: React.FC<{ x: number; y: number; s?: number; mood?: Mood; thobe?: boolean; shirt?: string; skin?: number; shemagh?: boolean }> = ({ x, y, s = 1, mood = "happy", thobe = true, shirt = "#3D5AFE", skin = 0, shemagh = true }) => (
+export const Person: React.FC<{ x: number; y: number; s?: number; mood?: Mood; thobe?: boolean; shirt?: string; skin?: number; shemagh?: boolean; chef?: boolean }> = ({ x, y, s = 1, mood = "happy", thobe = true, shirt = "#3D5AFE", skin = 0, shemagh = true, chef = false }) => (
   <g transform={`translate(${x} ${y}) scale(${s})`}>
     {/* body */}
     <path d="M -70 200 L -60 70 Q 0 40 60 70 L 70 200 Z" fill={thobe ? "#FFFFFF" : shirt} {...ST} />
     {thobe ? <path d="M 0 62 L 0 120" {...ST} strokeWidth={5} /> : null}
     {/* head */}
     <circle cx={0} cy={0} r={52} fill={SKIN[skin % 4]} {...ST} />
-    {shemagh ? (
+    {chef ? (
+      <path d="M -46 -30 L -46 -70 C -80 -80 -70 -130 -30 -118 C -20 -150 20 -150 30 -118 C 70 -130 80 -80 46 -70 L 46 -30 Z" fill="#FFFFFF" {...ST} />
+    ) : shemagh ? (
       <>
         <path d="M -62 -8 Q -60 -70 0 -72 Q 60 -70 62 -8 L 74 70 L 48 64 L 46 -10 Q 0 -30 -46 -10 L -48 64 L -74 70 Z" fill="#E63946" {...ST} />
         <path d="M -40 -50 L 40 -50 M -50 -30 L 50 -30 M -20 -66 L -20 -20 M 20 -66 L 20 -20" stroke="#FFFFFF" strokeWidth={4} opacity={0.75} />
@@ -203,4 +205,130 @@ export const SCENES: Record<string, React.FC<{ t: number }>> = {
       <Person x={480} y={450} s={0.55} mood="wow" />
     </g>
   ),
+  restaurant: ({ t }) => (
+    <g>
+      <rect x={40} y={90} width={520} height={60} fill="#EF233C" {...ST} />
+      <text x={300} y={135} textAnchor="middle" fontFamily="Lalezar" fontSize={44} fill="#FFFFFF">مطعم</text>
+      {[0, 1].map((i) => (
+        <g key={i}>
+          <rect x={70 + i * 260} y={420} width={200} height={26} fill="#8C5A3C" {...ST} />
+          <path d={`M ${100 + i * 260} 446 L ${100 + i * 260} 560 M ${240 + i * 260} 446 L ${240 + i * 260} 560`} {...ST} strokeWidth={8} />
+          <ellipse cx={170 + i * 260} cy={414} rx={40} ry={10} fill="#FFFFFF" {...ST} strokeWidth={4} />
+        </g>
+      ))}
+      <Person x={470} y={300} s={0.7} mood="sad" chef thobe={false} shirt="#FFFFFF" skin={1} />
+      <g transform={`translate(${-60 + ((t * 5) % 720)} 545) rotate(${t * 10})`}>
+        <circle r={26} fill="none" stroke="#8C5A3C" strokeWidth={5} />
+        <path d="M -20 -8 Q 0 18 20 -6" fill="none" stroke="#8C5A3C" strokeWidth={4} />
+      </g>
+    </g>
+  ),
+  plate: ({ t }) => (
+    <g>
+      <ellipse cx={300} cy={380} rx={230} ry={90} fill="#FFFFFF" {...ST} />
+      <ellipse cx={300} cy={370} rx={160} ry={56} fill="#F4A261" {...ST} strokeWidth={5} />
+      <path d="M 200 360 Q 300 300 400 360" fill="#E76F51" {...ST} strokeWidth={5} />
+      <circle cx={250} cy={350} r={14} fill="#2A9D8F" {...ST} strokeWidth={4} />
+      <circle cx={350} cy={345} r={12} fill="#2A9D8F" {...ST} strokeWidth={4} />
+      {[0, 1, 2].map((i) => (
+        <path key={i} d={`M ${250 + i * 50} ${280 - ((t * 1.5 + i * 20) % 60)} q -14 -20 0 -40 q 14 -20 0 -40`} fill="none" stroke={INK} strokeWidth={5} opacity={0.5} />
+      ))}
+    </g>
+  ),
+  queue: ({ t }) => (
+    <g>
+      <rect x={430} y={80} width={150} height={430} fill="#8C5A3C" {...ST} />
+      <rect x={400} y={40} width={200} height={50} fill="#EF233C" {...ST} />
+      <text x={500} y={77} textAnchor="middle" fontFamily="Lalezar" fontSize={34} fill="#FFFFFF">مطعم</text>
+      {new Array(6).fill(0).map((_, i) => (
+        <Person key={i} x={360 - i * 68} y={360 + Math.sin(t / 3 + i) * 5} s={0.42} mood={i % 2 ? "happy" : "wow"} skin={i} shemagh={i % 2 === 0} thobe={i % 3 !== 2} shirt={["#3D5AFE", "#2A9D8F", "#EF233C"][i % 3]} />
+      ))}
+    </g>
+  ),
+  abandoned: ({ t }) => (
+    <g>
+      {[0, 1, 2].map((i) => (
+        <g key={i} transform={`translate(${110 + i * 190} ${330 + Math.sin(t / 6 + i) * 8})`}>
+          <path d="M -70 -40 L 70 -40 L 56 40 L -56 40 Z" fill="#FFFFFF" {...ST} />
+          <path d="M -90 -60 L -70 -40" {...ST} />
+          <circle cx={-40} cy={64} r={14} fill={INK} />
+          <circle cx={40} cy={64} r={14} fill={INK} />
+          <rect x={-40} y={-80} width={36} height={40} fill="#FFD60A" {...ST} strokeWidth={4} />
+          <rect x={4} y={-70} width={30} height={30} fill="#00B4D8" {...ST} strokeWidth={4} />
+          <text x={0} y={-110} textAnchor="middle" fontFamily="Lalezar" fontSize={70} fill="#EF233C">؟</text>
+        </g>
+      ))}
+    </g>
+  ),
+  notify: ({ t }) => (
+    <g>
+      <rect x={170} y={70} width={260} height={470} rx={36} fill={INK} />
+      <rect x={186} y={100} width={228} height={410} rx={20} fill="#FFFFFF" />
+      <g transform={`translate(0 ${Math.max(0, 40 - t * 3)})`} opacity={Math.min(1, t / 8)}>
+        <rect x={200} y={150} width={200} height={130} rx={18} fill="#3D5AFE" {...ST} strokeWidth={4} />
+        <text x={300} y={200} textAnchor="middle" fontFamily="Lalezar" fontSize={30} fill="#FFFFFF">نسيت سلتك؟</text>
+        <text x={300} y={248} textAnchor="middle" fontFamily="Lalezar" fontSize={30} fill="#FFD60A">خصم ١٠٪ لك</text>
+      </g>
+      <path d="M 290 330 Q 300 300 310 330 L 330 380 L 270 380 Z" fill="#FFD60A" {...ST} strokeWidth={4} />
+      <circle cx={300} cy={392} r={9} fill={INK} />
+    </g>
+  ),
+  checkout: ({ t }) => (
+    <g>
+      <rect x={110} y={150} width={380} height={250} rx={24} fill="#FFFFFF" {...ST} />
+      <rect x={110} y={200} width={380} height={44} fill={INK} />
+      <rect x={140} y={290} width={120} height={60} rx={8} fill="#FFD60A" {...ST} strokeWidth={4} />
+      <circle cx={300 + Math.min(1, t / 20) * 0} cy={480} r={60 * Math.min(1, t / 14)} fill="#2A9D8F" {...ST} />
+      <path d="M 272 482 L 292 502 L 330 462" fill="none" stroke="#FFFFFF" strokeWidth={12} strokeLinecap="round" opacity={t > 12 ? 1 : 0} />
+    </g>
+  ),
+  boxes: ({ t }) => (
+    <g>
+      {new Array(9).fill(0).map((_, i) => {
+        const p = Math.min(1, Math.max(0, (t - i * 4) / 10));
+        const col = i % 5;
+        const row = Math.floor(i / 5);
+        return (
+          <g key={i} transform={`translate(${90 + col * 105} ${450 - row * 100 - (1 - p) * 300})`} opacity={p}>
+            <rect x={-46} y={-46} width={92} height={92} fill="#E9C46A" {...ST} strokeWidth={5} />
+            <path d="M -46 -10 L 46 -10 M 0 -46 L 0 46" stroke={INK} strokeWidth={4} />
+          </g>
+        );
+      })}
+    </g>
+  ),
+  box: ({ t }) => (
+    <g>
+      <rect x={180} y={240} width={240} height={220} fill="#3D5AFE" {...ST} />
+      <path d="M 300 240 L 300 460 M 180 340 L 420 340" stroke="#FFD60A" strokeWidth={18} />
+      <path d="M 300 240 C 250 170 200 210 300 240 C 400 210 350 170 300 240 Z" fill="#FFD60A" {...ST} strokeWidth={5} />
+      <Person x={500} y={370} s={0.55} mood="sad" thobe={false} shemagh={false} shirt="#2A9D8F" skin={1} />
+      {[0, 1, 2].map((i) => <circle key={i} cx={120 + i * 30} cy={200 - ((t + i * 10) % 40)} r={4} fill={INK} opacity={0.4} />)}
+    </g>
+  ),
+  teaser: ({ t }) => (
+    <g>
+      <rect x={110} y={90} width={380} height={460} fill={INK} {...ST} />
+      <rect x={210} y={200} width={180} height={170} fill="#333333" stroke="#FFFFFF" strokeWidth={4} strokeDasharray="10 10" />
+      <text x={300} y={310} textAnchor="middle" fontFamily="Lalezar" fontSize={110} fill="#FFFFFF">؟</text>
+      <text x={300} y={470} textAnchor="middle" fontFamily="Lalezar" fontSize={70} fill="#FFD60A" opacity={t % 20 < 14 ? 1 : 0.5}>قريباً…</text>
+    </g>
+  ),
+  n3: ({ t }) => <text x={300} y={420} textAnchor="middle" fontFamily="Montserrat" fontWeight={800} fontSize={380} fill="#FFFFFF" stroke={INK} strokeWidth={12} paintOrder="stroke" transform={`scale(${Math.min(1, 0.4 + t / 10)})`} style={{ transformOrigin: "300px 300px" }}>3</text>,
+  n2: ({ t }) => <text x={300} y={420} textAnchor="middle" fontFamily="Montserrat" fontWeight={800} fontSize={380} fill="#FFFFFF" stroke={INK} strokeWidth={12} paintOrder="stroke" transform={`scale(${Math.min(1, 0.4 + t / 10)})`} style={{ transformOrigin: "300px 300px" }}>2</text>,
+  n1: ({ t }) => <text x={300} y={420} textAnchor="middle" fontFamily="Montserrat" fontWeight={800} fontSize={380} fill="#FFFFFF" stroke={INK} strokeWidth={12} paintOrder="stroke" transform={`scale(${Math.min(1, 0.4 + t / 10)})`} style={{ transformOrigin: "300px 300px" }}>1</text>,
+  soldout: ({ t }) => (
+    <g>
+      <rect x={60} y={140} width={480} height={20} fill="#8C5A3C" {...ST} />
+      <rect x={60} y={300} width={480} height={20} fill="#8C5A3C" {...ST} />
+      <g transform={`translate(300 230) rotate(-8) scale(${Math.min(1, t / 10)})`}>
+        <rect x={-170} y={-40} width={340} height={80} fill="#EF233C" {...ST} />
+        <text x={0} y={18} textAnchor="middle" fontFamily="Lalezar" fontSize={52} fill="#FFFFFF">نفدت الكمية</text>
+      </g>
+      {new Array(7).fill(0).map((_, i) => (
+        <Person key={i} x={70 + i * 77} y={470 + Math.sin(t / 2.5 + i) * 10} s={0.38} mood={i % 2 ? "wow" : "happy"} skin={i} shemagh={i % 2 === 0} thobe={i % 3 !== 1} shirt={["#EF233C", "#FFD60A", "#2A9D8F"][i % 3]} />
+      ))}
+    </g>
+  ),
+
 };
