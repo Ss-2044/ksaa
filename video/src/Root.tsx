@@ -98,6 +98,10 @@ import { CartVideo } from "./clay/CartVideo";
 import { DashVideo } from "./clay/DashVideo";
 import clayTimelines from "./clay/timelines.json";
 import { ComicVideo, COMICS } from "./comic/ComicVideo";
+import { GpsVideo } from "./ideas3/GpsVideo";
+import { LevelVideo } from "./ideas3/LevelVideo";
+import { WeatherVideo } from "./ideas3/WeatherVideo";
+import ideas3 from "./ideas3/timelines.json";
 import paperTimelines from "./paper/timelines.json";
 import timeline from "./timeline.json";
 
@@ -111,6 +115,11 @@ export const RemotionRoot: React.FC = () => {
       {tips.map((t) => (
         <Composition key={t.id} id={t.id} component={TipVideo} durationInFrames={tipLength} defaultProps={{ tip: t }} {...vertical} />
       ))}
+
+      {/* new ideas: GPS, Level Up, Market Forecast */}
+      <Composition id="IdeaGps" component={GpsVideo} durationInFrames={ideas3.gps.duration} {...vertical} />
+      <Composition id="IdeaLevel" component={LevelVideo} durationInFrames={ideas3.level.duration} {...vertical} />
+      <Composition id="IdeaWeather" component={WeatherVideo} durationInFrames={ideas3.weather.duration} {...vertical} />
 
       {/* «كوميكس» comic-book series */}
       {Object.keys(COMICS).map((k) => (

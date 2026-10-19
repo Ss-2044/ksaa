@@ -1,0 +1,5 @@
+{
+  "gps": { "duration": 660, "bpm": 112, "lost": [0, 120], "search": [120, 170], "route": 175, "drive": [200, 430], "steps": [210, 290, 370], "arrive": 430, "end": 510 },
+  "level": { "duration": 660, "bpm": 150, "title": [0, 50], "run": [50, 480], "flag": 470, "end": 520 },
+  "weather": { "duration": 660, "bpm": 104, "intro": [0, 50], "bad": 60, "alert": 290, "good": 360, "end": 510 }
+}
