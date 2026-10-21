@@ -1,6 +1,9 @@
 # Neo Capta — company profile deck
 
-`neo-capta-profile.pptx` — 10 slides, Arabic (RTL), 16:9, brand palette from the logo.
+Two takes, both 10 slides, Arabic (RTL), 16:9, brand palette from the logo:
+
+- `neo-capta-profile.pptx` — light content slides with cards and icons (`node build.js`).
+- `neo-capta-profile-bold.pptx` — dark throughout, big type, full-bleed stills (`python3 make_assets_bold.py && node build_bold.js`).
 
 Rebuild:
 
