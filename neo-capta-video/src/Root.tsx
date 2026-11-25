@@ -16,6 +16,8 @@ import { Editorial, EDITORIAL_DURATION } from './Editorial';
 import { Rush, RUSH_DURATION } from './Rush';
 import { Pitch, PITCH_DURATION } from './Pitch';
 import { FirstStory, FIRST_STORY_DURATION } from './FirstStory';
+import { MahdOpening, MAHD_OPENING_DURATION } from './MahdOpening';
+import { MahdCampaign, MAHD_CAMPAIGN_DURATION } from './MahdCampaign';
 
 const WIDE = { width: 1920, height: 1080 };
 const VERTICAL = { width: 1080, height: 1920 };
@@ -51,6 +53,9 @@ const VIDEOS = [
   { id: 'PitchVertical', component: Pitch, duration: PITCH_DURATION, size: VERTICAL, langs: ['ar'] },
   { id: 'FirstStory', component: FirstStory, duration: FIRST_STORY_DURATION, size: WIDE, langs: ['ar'] },
   { id: 'FirstStoryVertical', component: FirstStory, duration: FIRST_STORY_DURATION, size: VERTICAL, langs: ['ar'] },
+  // Mahd («محض») opening campaign.
+  { id: 'MahdOpening', component: MahdOpening, duration: MAHD_OPENING_DURATION, size: VERTICAL, langs: ['ar'] },
+  { id: 'MahdCampaign', component: MahdCampaign, duration: MAHD_CAMPAIGN_DURATION, size: VERTICAL, langs: ['ar'] },
 ] as const;
 
 export const RemotionRoot: React.FC = () => (

@@ -54,6 +54,8 @@ const jobs = [
   ['PitchVertical-AR', 'vertical-pitch-ar.mp4'],
   ['FirstStory-AR', 'first-story-ar.mp4'],
   ['FirstStoryVertical-AR', 'vertical-first-story-ar.mp4'],
+  ['MahdOpening-AR', 'mahd-opening-ad.mp4'],
+  ['MahdCampaign-AR', 'mahd-neo-capta-campaign.mp4'],
 ];
 const only = process.argv.slice(2);
 for (const [id, file] of jobs) {

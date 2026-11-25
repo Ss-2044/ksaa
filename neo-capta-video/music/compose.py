@@ -883,9 +883,82 @@ def score_first_story():
     m.render(os.path.join(OUT, 'first-story.wav'), fade_out=0.9)
 
 
+# ------------------------------------------- 17) Mahd opening ad (client's own)
+# 20 s, warm and acoustic. «ليست محض صدفة» 0.6 s, «بل عمل متكامل» 2.8 s,
+# storefront 6.53 s, counter 11 s, invitation 15.2 s.
+
+def score_mahd_opening():
+    m = Mix(20.0)
+    beat = 60 / 84
+    prog = [(0.0, CMAJ7), (fr(84), FMAJ7), (fr(196), [57, 60, 64, 67]), (fr(330), FMAJ7), (fr(456), CMAJ7)]
+    for i, (t0, ch) in enumerate(prog):
+        t1 = prog[i + 1][0] if i + 1 < len(prog) else 20.0
+        m.add(t0, pad(ch, t1 - t0 + 0.6, cutoff=1300, a=0.6, r=0.6), 0.3)
+        m.add(t0, sub(ch[0] - 24, t1 - t0 + 0.4, a=0.4, r=0.5), 0.18, verb=0)
+    # gentle "guitar" picking over the chords
+    t, k = 0.6, 0
+    while t < 19.0:
+        ch = [c for a, c in prog if a <= t][-1]
+        note = ch[[0, 2, 1, 3, 2, 1, 3, 2][k % 8]] + 12
+        m.add(t, pluck(note, 0.13, 1800, 0.6), pan=0.3 * np.sin(k), verb=0.35)
+        t += beat / 2
+        k += 1
+    # soft brushed groove from the storefront onwards
+    t = fr(196)
+    while t < 19.2:
+        m.add(t, kick(0.35), verb=0.05)
+        m.add(t + beat / 2, hat(0.1, 0.06), pan=0.3, verb=0.15)
+        t += beat
+    m.add(fr(18), ping(76, 0.2, 1.6), verb=0.6)
+    m.add(fr(84), ping(81, 0.22, 1.6), verb=0.6)
+    m.add(fr(196) - 0.4, whoosh(0.6, 0.25), pan=-0.4)
+    m.add(fr(330) - 0.4, whoosh(0.6, 0.25), pan=0.4)
+    m.add(fr(456), shimmer(2.0, 0.15), verb=0.7)
+    for k2, n in enumerate([72, 76, 79, 84]):
+        m.add(fr(456) + k2 * 0.12, ping(n, 0.14, 1.6), pan=-0.3 + k2 * 0.2, verb=0.6)
+    m.render(os.path.join(OUT, 'mahd-opening.wav'), fade_out=1.2)
+
+
+# ------------------------------------------- 18) Neo Capta × Mahd campaign
+# 18 s. «عميل جديد» 0.27 s, «وقصة جديدة» 1.53 s, logo dots 3 s, solid 5.07 s,
+# BTS 6.07 / 8.07 / 10.07 s, duo 12.07 s, end card 15 s.
+
+def score_mahd_campaign():
+    m = Mix(18.0)
+    m.add(0.0, pad(AM, 3.1, cutoff=900, a=0.4, r=0.4), 0.34)
+    m.add(fr(8), boom(0.7), 0.6)
+    m.add(fr(46), boom(0.8), 0.65)
+    m.add(fr(46), ping(81, 0.25, 1.4), verb=0.6)
+    m.add(fr(90), pad(CMAJ7, 2.8, cutoff=1400, a=0.4, r=0.4), 0.34)
+    for k in range(10):
+        m.add(fr(90) + k * 0.18, ping(84 + (k % 4) * 3, 0.06, 0.5), pan=-0.6 + k * 0.12, verb=0.5)
+    m.add(fr(152), boom(0.6), 0.55)
+    chords = [FMAJ7, CMAJ7, AM]
+    for k, f in enumerate([182, 242, 302]):
+        m.add(fr(f), pad(chords[k], 2.1, cutoff=2200, a=0.05, r=0.3), 0.36)
+        m.add(fr(f) - 0.3, whoosh(0.5, 0.3), pan=0.5 if k % 2 else -0.5)
+        m.add(fr(f + 4), pluck([76, 79, 84][k], 0.22, 4000, 0.4), verb=0.5)
+    t = fr(182)
+    while t < fr(358):
+        m.add(t, kick(0.7))
+        m.add(t + 0.25, hat(0.17), pan=0.3)
+        t += 0.5
+    arp(m, fr(182), fr(358), [(fr(182), FMAJ7), (fr(242), CMAJ7), (fr(302), AM)], step=0.25, level=0.1, cutoff=2800)
+    m.add(fr(362), boom(0.9), 0.75)
+    m.add(fr(362), pad(CMAJ7 + [76], 3.0, cutoff=2400, a=0.1, r=0.6), 0.42)
+    m.add(fr(450) - 1.0, riser(1.0, 0.45))
+    m.add(fr(450), boom(1.2), 0.95)
+    m.add(fr(450), shimmer(2.4, 0.25), verb=0.6)
+    m.add(fr(450), pad(AM + [76], 3.0, cutoff=2600, a=0.1, r=1.8), 0.52)
+    m.add(fr(450), sub(33, 2.9, a=0.05, r=1.8), 0.45, verb=0)
+    for k, n in enumerate([81, 84, 88, 93]):
+        m.add(fr(490) + k * 0.09, ping(n, 0.13, 1.2), pan=-0.4 + k * 0.27, verb=0.6)
+    m.render(os.path.join(OUT, 'mahd-campaign.wav'), fade_out=0.9)
+
+
 if __name__ == '__main__':
     os.makedirs(OUT, exist_ok=True)
-    which = sys.argv[1:] or ['idea', 'manifesto', 'journey', 'before_after', 'brief', 'sting', 'countdown', 'grid', 'carousel', 'story', 'scroll', 'blank_page', 'editorial', 'rush', 'pitch', 'first_story']
+    which = sys.argv[1:] or ['idea', 'manifesto', 'journey', 'before_after', 'brief', 'sting', 'countdown', 'grid', 'carousel', 'story', 'scroll', 'blank_page', 'editorial', 'rush', 'pitch', 'first_story', 'mahd_opening', 'mahd_campaign']
     for w in which:
         {
             'idea': score_idea,
@@ -904,4 +977,6 @@ if __name__ == '__main__':
             'rush': score_rush,
             'pitch': score_pitch,
             'first_story': score_first_story,
+            'mahd_opening': score_mahd_opening,
+            'mahd_campaign': score_mahd_campaign,
         }[w]()
