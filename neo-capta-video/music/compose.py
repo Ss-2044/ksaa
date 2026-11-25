@@ -986,9 +986,46 @@ def score_mahd_teasers():
     score_mahd_short('mahd-today.wav', [FMAJ7, CMAJ7], [fr(8), fr(96), fr(130)], door=True)
 
 
+# ------------------------------------------------ 20) Mahd case-study reel
+# 30 s. title 0.27 s (logo dots), brief 3 s, idea 6 s, deliverables 10 / 12.67 / 15.33 s,
+# schedule 18 s, identity 22 s, duo 25.33 s, end card 27.33 s.
+
+def score_mahd_case():
+    m = Mix(30.0)
+    m.add(0.0, pad(CMAJ7, 3.2, cutoff=900, a=0.8, r=0.4), 0.32)
+    m.add(0.0, sub(36, 3.0, a=0.6, r=0.3), 0.22, verb=0)
+    for k in range(10):
+        m.add(0.3 + k * 0.17, ping(84 + (k % 4) * 3, 0.06, 0.5), pan=-0.6 + k * 0.12, verb=0.5)
+    m.add(fr(56), boom(0.6), 0.5)
+    sections = [(90, AM), (180, FMAJ7), (300, CMAJ7), (380, GM), (460, AM), (540, FMAJ7), (660, CMAJ7), (760, AM)]
+    for i, (f, ch) in enumerate(sections):
+        end = sections[i + 1][0] if i + 1 < len(sections) else 820
+        m.add(fr(f), pad(ch, fr(end - f) + 0.4, cutoff=2000, a=0.1, r=0.4), 0.34)
+        m.add(fr(f), sub(ch[0] - 24, fr(end - f) + 0.3, a=0.05, r=0.3), 0.26, verb=0)
+        m.add(fr(f), boom(0.55 + 0.05 * (i % 3)), 0.55)
+        m.add(fr(f) - 0.3, whoosh(0.5, 0.3), pan=0.5 if i % 2 else -0.5)
+    t = fr(90)
+    while t < fr(816):
+        m.add(t, kick(0.7))
+        m.add(t + 0.25, hat(0.17), pan=0.3)
+        m.add(t + 0.375, hat(0.06), pan=-0.3)
+        t += 0.5
+    arp(m, fr(180), fr(816), [(fr(f) - 0.01, ch) for f, ch in sections], step=0.25, level=0.09, cutoff=2600)
+    for k in range(4):
+        m.add(fr(550 + k * 20), ping([76, 79, 84, 88][k], 0.2, 0.9), verb=0.5)
+    m.add(fr(820) - 1.0, riser(1.0, 0.45))
+    m.add(fr(820), boom(1.2), 0.95)
+    m.add(fr(820), shimmer(2.4, 0.25), verb=0.6)
+    m.add(fr(820), pad(AM + [76], 2.7, cutoff=2600, a=0.1, r=1.6), 0.52)
+    m.add(fr(820), sub(33, 2.6, a=0.05, r=1.6), 0.45, verb=0)
+    for k, n in enumerate([81, 84, 88, 93]):
+        m.add(fr(850) + k * 0.09, ping(n, 0.13, 1.2), pan=-0.4 + k * 0.27, verb=0.6)
+    m.render(os.path.join(OUT, 'mahd-case.wav'), fade_out=0.8)
+
+
 if __name__ == '__main__':
     os.makedirs(OUT, exist_ok=True)
-    which = sys.argv[1:] or ['idea', 'manifesto', 'journey', 'before_after', 'brief', 'sting', 'countdown', 'grid', 'carousel', 'story', 'scroll', 'blank_page', 'editorial', 'rush', 'pitch', 'first_story', 'mahd_opening', 'mahd_campaign', 'mahd_teasers']
+    which = sys.argv[1:] or ['idea', 'manifesto', 'journey', 'before_after', 'brief', 'sting', 'countdown', 'grid', 'carousel', 'story', 'scroll', 'blank_page', 'editorial', 'rush', 'pitch', 'first_story', 'mahd_opening', 'mahd_campaign', 'mahd_teasers', 'mahd_case']
     for w in which:
         {
             'idea': score_idea,
@@ -1010,4 +1047,5 @@ if __name__ == '__main__':
             'mahd_opening': score_mahd_opening,
             'mahd_campaign': score_mahd_campaign,
             'mahd_teasers': score_mahd_teasers,
+            'mahd_case': score_mahd_case,
         }[w]()

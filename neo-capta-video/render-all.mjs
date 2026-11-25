@@ -60,6 +60,8 @@ const jobs = [
   ['MahdTeaser2-AR', 'mahd-teaser-2-days.mp4'],
   ['MahdTeaser1-AR', 'mahd-teaser-1-day.mp4'],
   ['MahdToday-AR', 'mahd-today.mp4'],
+  ['MahdCase-AR', 'mahd-case-study.mp4'],
+  ['MahdCaseVertical-AR', 'vertical-mahd-case-study.mp4'],
 ];
 const only = process.argv.slice(2);
 for (const [id, file] of jobs) {
