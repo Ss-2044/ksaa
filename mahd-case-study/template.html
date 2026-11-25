@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>حملة افتتاح محض</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Alexandria:wght@500;700;800&family=IBM+Plex+Sans+Arabic:wght@400;600&display=swap">
+<style>
+/* VOICE a calm, finished case study a café owner or a marketing manager would read on their phone
+   IDEA the client's own invitation card: cream paper, olive panel, dashed stitch, terracotta tile
+   PICTURE the whole campaign laid out like printed cards on a table: three invitations and the ad, side by side
+   COLOUR olive #465140 bands, cream paper #F4EDDD ground, terracotta #CC7865 accent, brass for one detail
+   TYPE Alexandria (rounded geometric, close to Mahd's lettering) + IBM Plex Sans Arabic for text
+   LAYOUT olive band with title + logo, the card row full width under it; then idea, schedule, identity, our video */
+:root{color-scheme:light dark;--olive:#465140;--paper:light-dark(#F4EDDD,#1d2219);--card:light-dark(#FBF6EC,#262c22);--ink:light-dark(#2c3327,#EDE6D6);--soft:light-dark(#5d6656,#b9bfae);--tile:light-dark(#B8604D,#E08C78);--line:light-dark(#d9ccb5,#3a4234);--band:light-dark(#465140,#2a3125)}
+:root[data-theme=light]{color-scheme:light}:root[data-theme=dark]{color-scheme:dark}
+*{box-sizing:border-box;min-width:0}
+html{scroll-padding-top:20px}
+body{margin:0;background:var(--paper);color:var(--ink);font:16.5px/1.75 "IBM Plex Sans Arabic",Tahoma,sans-serif;overflow-x:clip}
+h1,h2,h3{font-family:Alexandria,"IBM Plex Sans Arabic",sans-serif;line-height:1.2;margin:0;text-wrap:balance}
+h1{font-size:clamp(34px,5vw,52px);font-weight:800}
+h2{font-size:clamp(26px,3.2vw,36px);font-weight:700;margin-bottom:14px}
+h3{font-size:19px;font-weight:700}
+p{margin:0 0 12px;max-width:62ch}
+img,video{max-width:100%;display:block}
+.wrap{max-width:1240px;margin:0 auto}
+.band{padding-block:clamp(28px,4vw,64px);padding-inline:max(5vw,16px)}
+.hero{background:var(--band);color:#F4EDDD}
+.hero .top{display:grid;grid-template-columns:minmax(0,1.4fr) minmax(0,1fr);gap:32px;align-items:end}
+.hero p{color:#e3dccb;font-size:18px}
+.logo{width:min(320px,70%);margin-bottom:22px}
+.logo path{fill:#F4EDDD}
+.facts{display:flex;flex-wrap:wrap;gap:10px;justify-content:flex-start}
+.facts span{border:1.5px dashed rgba(244,237,221,.55);border-radius:999px;padding:6px 16px;font-family:Alexandria,sans-serif;font-weight:500;white-space:nowrap}
+.table{margin-top:34px;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:clamp(12px,2vw,24px);align-items:end}
+.piece{margin:0}
+.piece img,.piece video{width:100%;aspect-ratio:9/16;object-fit:cover;border-radius:14px;box-shadow:0 18px 40px rgba(0,0,0,.35);background:#2c3327}
+.piece:nth-child(1){transform:rotate(1.5deg)}.piece:nth-child(3){transform:rotate(-1.2deg)}
+.piece figcaption{margin-top:12px;font-size:14px;color:#e3dccb;text-align:center}
+.idea{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(24px,4vw,56px);align-items:center}
+.quote{background:var(--card);border:2px dashed var(--line);border-radius:22px;padding:clamp(24px,4vw,44px);text-align:center}
+.quote strong{display:block;font-family:Alexandria,sans-serif;font-size:clamp(28px,3.6vw,42px);line-height:1.35;color:var(--olive)}
+:root[data-theme=dark] .quote strong{color:#c9d3b8}
+@media(prefers-color-scheme:dark){:root:not([data-theme=light]) .quote strong{color:#c9d3b8}}
+.quote em{font-style:normal;color:var(--tile)}
+.store{margin-top:22px;width:100%}
+.store path{fill:var(--olive)}
+:root[data-theme=dark] .store path{fill:#c9d3b8}
+@media(prefers-color-scheme:dark){:root:not([data-theme=light]) .store path{fill:#c9d3b8}}
+.plan{list-style:none;margin:0;padding:0;border-top:1px solid var(--line)}
+.plan li{display:grid;grid-template-columns:9.5em minmax(0,1fr) 120px;gap:24px;align-items:center;padding:20px 0;border-bottom:1px solid var(--line)}
+.plan time{font-family:Alexandria,sans-serif;font-weight:800;font-size:clamp(22px,2.6vw,30px);color:var(--tile);white-space:nowrap;line-height:1.2}
+.plan time small{display:block;font-size:14px;font-weight:500;color:var(--soft)}
+.plan p{margin:4px 0 0;color:var(--soft)}
+.plan video{width:120px;aspect-ratio:9/16;object-fit:cover;border-radius:10px;background:#2c3327}
+.ident{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.2fr);gap:clamp(24px,4vw,56px);align-items:start}
+.swatches{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-top:8px}
+.sw{border-radius:16px;overflow:hidden;background:var(--card);border:1px solid var(--line)}
+.sw i{display:block;height:92px}
+.sw b{display:block;padding:8px 10px 0;font-family:Alexandria,sans-serif;font-weight:700;font-size:15px}
+.sw code{display:block;padding:0 10px 10px;font-size:13px;color:var(--soft);direction:ltr;text-align:right}
+.list{margin:0;padding:0;list-style:none;display:grid;gap:10px}
+.list li{display:flex;gap:12px;align-items:baseline}
+.list li span{font-family:Alexandria,sans-serif;font-weight:800;color:var(--tile);min-width:2.2em}
+.ours{background:#0a1033;color:#E8E9EE}
+.ours .grid{display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:clamp(24px,4vw,56px);align-items:center}
+.ours p{color:#c6cbe6}
+.ours video{width:100%;aspect-ratio:9/16;border-radius:16px;box-shadow:0 20px 50px rgba(0,0,0,.5)}
+.ours h2 b{color:#7486F2;font-weight:700}
+footer{padding:22px max(5vw,16px);font-size:14px;color:var(--soft);border-top:1px solid var(--line)}
+@media(max-width:900px){.hero .top,.idea,.ident,.ours .grid{grid-template-columns:minmax(0,1fr)}.ours video{max-width:300px;margin-inline:auto}}
+@media(max-width:600px){.table{grid-template-columns:none;grid-auto-flow:column;grid-auto-columns:62%;overflow-x:auto;scroll-snap-type:x mandatory;padding-bottom:10px}.piece{scroll-snap-align:center;transform:none!important}.plan li{grid-template-columns:minmax(0,1fr) 88px;gap:14px}.plan time{grid-column:1/-1}.plan video{width:88px}.swatches{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(prefers-reduced-motion:reduce){video{animation:none}}
+</style>
+</head>
+<body>
+<section class="band hero">
+  <div class="wrap">
+    <div class="top">
+      <div>
+        <svg class="logo" viewBox="0 0 {{LOGO_W}} {{LOGO_H}}" role="img" aria-label="محض | Mahd"><path fill-rule="evenodd" d="{{LOGO_D}}"/></svg>
+        <h1>حملة افتتاح محض: من فكرة وحدة إلى دعوة، وإعلان، وأسبوع عدّ تنازلي</h1>
+      </div>
+      <div>
+        <p>صمّمنا لكافيه محض حملة افتتاح كاملة بهوية وحدة: ثلاث دعوات مرسومة، وإعلان افتتاح، وأربع ستوريات تعدّ الأيام لين يوم الافتتاح.</p>
+        <div class="facts"><span>الرياض</span><span>1 ديسمبر</span><span>6:00م</span><span>8 قطع محتوى</span></div>
+      </div>
+    </div>
+    <div class="table">
+      <figure class="piece"><img src="media/invite-storefront.jpg" alt="دعوة محض: رسمة الواجهة"><figcaption>دعوة: الواجهة</figcaption></figure>
+      <figure class="piece"><video src="media/mahd-opening-ad.mp4" poster="media/mahd-opening-ad.jpg" autoplay muted loop playsinline controls></video><figcaption>إعلان الافتتاح · 20 ثانية</figcaption></figure>
+      <figure class="piece"><img src="media/invite-counter.jpg" alt="دعوة محض: رسمة الكاونتر"><figcaption>دعوة: الكاونتر</figcaption></figure>
+      <figure class="piece"><img src="media/invite-flat.jpg" alt="دعوة محض: التصميم المسطّح"><figcaption>دعوة: المسطّحة</figcaption></figure>
+    </div>
+  </div>
+</section>
+
+<section class="band">
+  <div class="wrap idea">
+    <div>
+      <h2>الفكرة: الاسم نفسه صار الرسالة</h2>
+      <p>«محض» تعني الخالص والصافي، وتُستخدم أيضًا في «محض صدفة». قلبنا العبارة: الافتتاح ما جا بالصدفة، كل تفصيل فيه مدروس. منها طلعت الجملة اللي تمشي في كل قطعة من الحملة.</p>
+      <p>وبصريًا بنينا على هذا المعنى: الواجهة ترتسم خط بخط في الإعلان والستوريات، كأن المكان يكتمل قدام الجمهور، قطعة قطعة.</p>
+    </div>
+    <div class="quote">
+      <strong>ليست محض صدفة..<br><em>بل عمل متكامل</em></strong>
+      <svg class="store" viewBox="0 0 {{STORE_W}} {{STORE_H}}" role="img" aria-label="رسمة واجهة محض"><path fill-rule="evenodd" d="{{STORE_D}}"/></svg>
+    </div>
+  </div>
+</section>
+
+<section class="band" style="padding-top:0">
+  <div class="wrap">
+    <h2>جدول النشر: أسبوع ينتهي بفتح الأبواب</h2>
+    <ol class="plan">
+      <li><time>28 نوفمبر<small>السبت</small></time><div><h3>باقي 3 أيام</h3><p>الرقم يملأ الشاشة، بعدها واجهة محض ترتسم وتتعبّى.</p></div><video src="media/mahd-teaser-3-days.mp4" poster="media/mahd-teaser-3-days.jpg" muted loop playsinline controls preload="none"></video></li>
+      <li><time>29 نوفمبر<small>الأحد</small></time><div><h3>باقي يومين</h3><p>نافذة دائرية تكشف الكاونتر والباريستا والبخار: «والتفاصيل تكتمل».</p></div><video src="media/mahd-teaser-2-days.mp4" poster="media/mahd-teaser-2-days.jpg" muted loop playsinline controls preload="none"></video></li>
+      <li><time>30 نوفمبر<small>الاثنين</small></time><div><h3>باقي يوم.. ونلتقي</h3><p>رسمة الواجهة الملوّنة تنكشف بحركة كاميرا بطيئة.</p></div><video src="media/mahd-teaser-1-day.mp4" poster="media/mahd-teaser-1-day.jpg" muted loop playsinline controls preload="none"></video></li>
+      <li><time>1 ديسمبر<small>الثلاثاء · يوم الافتتاح</small></time><div><h3>اليوم.. نفتح أبوابنا</h3><p>أبواب الواجهة تنفتح ويطلع منها ضوء دافي، مع الساعة والمكان. ومعه إعلان الافتتاح الكامل.</p></div><video src="media/mahd-today.mp4" poster="media/mahd-today.jpg" muted loop playsinline controls preload="none"></video></li>
+    </ol>
+  </div>
+</section>
+
+<section class="band" style="padding-top:0">
+  <div class="wrap ident">
+    <div>
+      <h2>هوية وحدة في كل قطعة</h2>
+      <p>كل الحملة مبنية على أربعة ألوان من تصاميم محض، وعلى شعارها ورسمة واجهتها، فتشوف أي ستوري أو دعوة وتعرف إنها من محض قبل ما تقرأ.</p>
+      <div class="swatches">
+        <div class="sw"><i style="background:#465140"></i><b>زيتي</b><code>#465140</code></div>
+        <div class="sw"><i style="background:#F4EDDD"></i><b>كريمي</b><code>#F4EDDD</code></div>
+        <div class="sw"><i style="background:#CC7865"></i><b>تيراكوتا</b><code>#CC7865</code></div>
+        <div class="sw"><i style="background:#C9A24A"></i><b>نحاسي</b><code>#C9A24A</code></div>
+      </div>
+    </div>
+    <div>
+      <h2>اللي سلّمناه</h2>
+      <ul class="list">
+        <li><span>3</span>دعوات افتتاح بثلاثة أساليب: الواجهة، والكاونتر، والتصميم المسطّح</li>
+        <li><span>1</span>إعلان افتتاح متحرك، 20 ثانية، طولي للستوري والريلز</li>
+        <li><span>4</span>ستوريات عدّ تنازلي ويوم افتتاح، 8 ثواني لكل وحدة</li>
+        <li><span>2</span>رسمتين بصيغة فكتور: الشعار وخط الواجهة، جاهزة لأي مقاس</li>
+        <li><span>♪</span>موسيقى أصلية لكل مقطع، بدون حقوق على الكافيه</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="band ours">
+  <div class="wrap grid">
+    <div>
+      <h2>محض × <b>Neo Capta</b></h2>
+      <p>وعلى حساباتنا، نعلن الشراكة بمقطع يعرض كواليس الحملة: الفكرة، ثم الهوية، ثم الدعوات.</p>
+      <p>تسويق • إعلان • محتوى. قصتك الجاية؟ خلّها علينا.</p>
+    </div>
+    <video src="media/mahd-neo-capta-campaign.mp4" poster="media/mahd-neo-capta-campaign.jpg" muted loop playsinline controls preload="none"></video>
+  </div>
+</section>
+
+<footer>حملة من إعداد Neo Capta لكافيه محض، الرياض · نوفمبر 2026</footer>
+</body>
+</html>
