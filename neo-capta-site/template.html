@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Neo Capta</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&family=Montserrat:wght@600;800&display=swap">
+<style>
+/* VOICE an agency's own site: confident, few words, the work does the talking
+   IDEA the halftone screen from Neo Capta's logo and videos: everything is made of dots
+   PICTURE the logo itself rebuilt from 778 dots, a slow light wave passing through it
+   COLOUR night navy ground, brand blue #3B4CC0 / #7486F2, logo white; light theme flips to paper white with the same blues
+   TYPE Cairo 900 for Arabic display, Cairo for text, Montserrat for Latin marks
+   LAYOUT nav; hero = title over the dotted logo full width; services grid; work; process; package band; CTA. Three views on one link: #home, #opening-package, #brief */
+:root{color-scheme:light dark;--bg:light-dark(#ffffff,#05081a);--bg2:light-dark(#f1f3fb,#0b1236);--ink:light-dark(#0a1033,#e8e9ee);--soft:light-dark(#4a5175,#a3a9c9);--blue:#3B4CC0;--blue2:light-dark(#3B4CC0,#7486F2);--line:light-dark(#dfe3f3,#1d2656);--dot:light-dark(#0a1033,#e8e9ee)}
+:root[data-theme=light]{color-scheme:light}:root[data-theme=dark]{color-scheme:dark}
+*{box-sizing:border-box;min-width:0}
+html{scroll-padding-top:80px}
+body{margin:0;background:var(--bg);color:var(--ink);font:16.5px/1.75 Cairo,Tahoma,sans-serif;overflow-x:clip}
+a{color:inherit}
+h1,h2,h3{margin:0;line-height:1.15;text-wrap:balance;font-weight:900}
+h1{font-size:clamp(38px,6vw,68px)}
+h2{font-size:clamp(28px,3.6vw,42px);margin-bottom:12px}
+h3{font-size:20px;font-weight:700}
+p{margin:0 0 12px;max-width:62ch}
+img,video{max-width:100%;display:block}
+.wrap{max-width:1240px;margin:0 auto}
+.band{padding-block:clamp(36px,5vw,80px);padding-inline:max(5vw,16px)}
+nav{position:sticky;top:0;z-index:5;background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+nav .wrap{display:flex;align-items:center;gap:22px;padding:12px max(5vw,16px);flex-wrap:wrap}
+nav svg{width:92px;height:auto}
+nav .links{display:flex;gap:18px;flex-wrap:wrap;margin-inline-start:auto;align-items:center}
+nav .links a{text-decoration:none;font-weight:600;color:var(--soft)}
+nav .links a[aria-current]{color:var(--ink)}
+.btn{display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:0 22px;border-radius:999px;background:var(--blue);color:#fff!important;text-decoration:none;font-weight:700;border:0;font:inherit;font-weight:700;cursor:pointer}
+.btn.ghost{background:transparent;color:var(--ink)!important;border:1.5px solid var(--line)}
+.btn:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:3px solid var(--blue2);outline-offset:2px}
+.hero{background:var(--bg2);overflow:hidden}
+.hero .wrap{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.15fr);gap:clamp(20px,4vw,48px);align-items:center}
+.hero p{font-size:19px;color:var(--soft)}
+.hero .cta{display:flex;gap:12px;flex-wrap:wrap;margin-top:22px}
+.fig{position:relative;aspect-ratio:2136/1548}
+.fig svg{position:absolute;inset:0;width:100%;height:100%}
+.grid3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;margin-top:26px}
+.svc{padding:22px;border-radius:18px;background:var(--bg2);border:1px solid var(--line)}
+.svc .ic{width:46px;height:46px;border-radius:50%;background:var(--blue);display:grid;place-items:center;margin-bottom:14px}
+.svc .ic svg{width:24px;height:24px;fill:none;stroke:#fff;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.svc p{color:var(--soft);margin:6px 0 0}
+.work{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.3fr);gap:clamp(20px,4vw,48px);align-items:center}
+.shelf{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;align-items:end}
+.shelf img,.shelf video{width:100%;aspect-ratio:9/16;object-fit:cover;border-radius:12px;box-shadow:0 14px 34px rgba(0,0,0,.28)}
+.tags{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0}
+.tags span{padding:4px 14px;border-radius:999px;background:var(--bg2);border:1px solid var(--line);font-size:14px;white-space:nowrap}
+.steps{list-style:none;margin:26px 0 0;padding:0;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px;counter-reset:s}
+.steps li{padding-top:18px;border-top:3px solid var(--blue2)}
+.steps b{display:block;font-size:22px}
+.steps span{color:var(--soft)}
+.pkg{background:var(--blue);color:#fff}
+.pkg .wrap{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);gap:28px;align-items:center}
+.pkg p{color:#dfe3ff}
+.pkg .btn{background:#fff;color:var(--blue)!important}
+.tiers{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;margin-top:26px}
+.tier{border:1.5px solid var(--line);border-radius:20px;padding:24px;background:var(--bg2);display:flex;flex-direction:column}
+.tier.main{border-color:var(--blue2);box-shadow:0 0 0 3px color-mix(in srgb,var(--blue2) 25%,transparent)}
+.tier ul{margin:12px 0 20px;padding-inline-start:20px;flex:1}
+.tier li{margin:4px 0}
+.tier .who{color:var(--soft);font-size:15px}
+.timeline{list-style:none;margin:20px 0 0;padding:0;border-inline-start:3px solid var(--blue2)}
+.timeline li{position:relative;padding:0 22px 18px}
+.timeline li::before{content:"";position:absolute;inset-inline-start:-9px;top:8px;width:15px;height:15px;border-radius:50%;background:var(--blue2)}
+.timeline b{display:inline-block;min-width:7.5em;color:var(--blue2);white-space:nowrap}
+form{display:grid;gap:18px;max-width:720px}
+label{font-weight:700;display:block;margin-bottom:6px}
+.hint{font-weight:400;color:var(--soft);font-size:14px}
+input,select,textarea{width:100%;font:16px Cairo,sans-serif;padding:12px 14px;border-radius:12px;border:1.5px solid var(--line);background:var(--bg2);color:var(--ink)}
+textarea{min-height:110px;resize:vertical}
+.checks{display:flex;flex-wrap:wrap;gap:8px}
+.checks label{display:inline-flex;align-items:center;gap:8px;font-weight:600;margin:0;padding:8px 14px;border-radius:999px;border:1.5px solid var(--line);background:var(--bg2);cursor:pointer;min-height:44px}
+.checks input{width:18px;height:18px;margin:0;accent-color:var(--blue)}
+.two{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}
+.out{display:none;margin-top:26px;max-width:720px;padding:22px;border-radius:18px;background:var(--bg2);border:1.5px solid var(--blue2)}
+.out pre{white-space:pre-wrap;font:15px/1.8 Cairo,sans-serif;margin:0 0 16px}
+.err{color:#d64a5a;font-weight:700;display:none}
+footer{padding:26px max(5vw,16px);border-top:1px solid var(--line);color:var(--soft);font-size:14px}
+footer .wrap{display:flex;gap:16px;justify-content:space-between;flex-wrap:wrap}
+[data-view]{display:none}[data-view].on{display:block}
+@media(max-width:900px){.hero .wrap,.work,.pkg .wrap{grid-template-columns:minmax(0,1fr)}.grid3,.tiers{grid-template-columns:repeat(2,minmax(0,1fr))}.steps{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:600px){.grid3,.tiers,.two,.steps{grid-template-columns:minmax(0,1fr)}.shelf{grid-template-columns:repeat(2,minmax(0,1fr))}nav .links{gap:12px;font-size:15px}}
+@media(prefers-reduced-motion:reduce){.wave{display:none}}
+</style>
+</head>
+<body>
+<nav><div class="wrap">
+  <a href="#home" aria-label="Neo Capta"><svg viewBox="0 0 2136 1548" aria-hidden="true"><path fill="var(--blue2)" fill-rule="evenodd" d="{{NEO}}"/><path fill="var(--ink)" fill-rule="evenodd" d="{{CAPTA}}"/><path fill="var(--blue2)" fill-rule="evenodd" d="{{PERSON}}"/></svg></a>
+  <div class="links"><a href="#home">الرئيسية</a><a href="#opening-package">باقة الافتتاح</a><a class="btn" href="#brief">ابدأ مشروعك</a></div>
+</div></nav>
+
+<main>
+<div data-view="home">
+  <section class="band hero"><div class="wrap">
+    <div>
+      <h1>فكرتك. تأثيرنا.</h1>
+      <p>Neo Capta وكالة تسويق وإعلان وصناعة محتوى. نحوّل الأفكار إلى قصص، والقصص إلى أثر يشوفه الناس ويتكلمون عنه.</p>
+      <div class="cta"><a class="btn" href="#brief">ابدأ مشروعك</a><a class="btn ghost" href="#work">شوف شغلنا</a></div>
+    </div>
+    <div class="fig"><svg id="dots" viewBox="0 0 2136 1548" role="img" aria-label="شعار Neo Capta مرسوم بالنقاط"></svg></div>
+  </div></section>
+
+  <section class="band" id="services"><div class="wrap">
+    <h2>وش نسوي</h2>
+    <div class="grid3" id="svc"></div>
+  </div></section>
+
+  <section class="band" id="work" style="background:var(--bg2)"><div class="wrap work">
+    <div>
+      <h2>محض: حملة افتتاح كاملة</h2>
+      <p>كافيه جديد في الرياض. بنينا الحملة على اسمه: «ليست محض صدفة.. بل عمل متكامل»، وطلّعنا منها دعوات وإعلان وأسبوع عدّ تنازلي بهوية وحدة.</p>
+      <div class="tags"><span>3 دعوات</span><span>إعلان افتتاح</span><span>4 ستوريات</span><span>الرياض · ديسمبر</span></div>
+    </div>
+    <div class="shelf">
+      <img src="media/invite-storefront.jpg" alt="دعوة محض: الواجهة" loading="lazy">
+      <video src="media/mahd-opening-ad.mp4" poster="media/mahd-opening-ad.jpg" muted loop playsinline autoplay controls></video>
+      <img src="media/invite-counter.jpg" alt="دعوة محض: الكاونتر" loading="lazy">
+      <video src="media/mahd-teaser-3-days.mp4" poster="media/mahd-teaser-3-days.jpg" muted loop playsinline controls preload="none"></video>
+    </div>
+  </div></section>
+
+  <section class="band"><div class="wrap">
+    <h2>كيف نشتغل</h2>
+    <ol class="steps">
+      <li><b>نفهم</b><span>جمهورك وسوقك ومنافسيك قبل أي كلمة.</span></li>
+      <li><b>نخطط</b><span>رسالة وحدة، وقنوات واضحة، وجدول نشر.</span></li>
+      <li><b>نصنع</b><span>كتابة وتصميم وفيديو بهوية وحدة.</span></li>
+      <li><b>نطلق ونقيس</b><span>ننشر، نتابع الأرقام، ونطوّر.</span></li>
+    </ol>
+  </div></section>
+
+  <section class="band pkg"><div class="wrap">
+    <div><h2>عندك افتتاح قريب؟</h2><p>باقة الافتتاح حملة كاملة جاهزة: دعوات، وإعلان، وعدّ تنازلي، ويوم افتتاح، بهوية محلّك. نفس اللي سويناه لمحض.</p></div>
+    <div><a class="btn" href="#opening-package">تفاصيل الباقة</a></div>
+  </div></section>
+</div>
+
+<div data-view="opening-package">
+  <section class="band"><div class="wrap">
+    <h1 style="font-size:clamp(34px,5vw,54px)">باقة الافتتاح</h1>
+    <p style="font-size:19px;color:var(--soft)">لكافيه أو مطعم أو محل جديد: حملة تبدأ قبل الافتتاح بأسبوع، وتخلي الناس تنتظر اليوم، وتجيبهم له.</p>
+    <div class="tiers" id="tiers"></div>
+    <h2 style="margin-top:44px">كيف يمشي الأسبوع</h2>
+    <ul class="timeline">
+      <li><b>قبل 7 أيام</b>إرسال الدعوات الخاصة وأول منشور تشويقي.</li>
+      <li><b>قبل 3 أيام</b>ستوري «باقي 3 أيام».</li>
+      <li><b>قبل يومين</b>ستوري «باقي يومين» بلقطة من الداخل.</li>
+      <li><b>قبل يوم</b>ستوري «باقي يوم.. ونلتقي».</li>
+      <li><b>يوم الافتتاح</b>ستوري «اليوم نفتح أبوابنا» وإعلان الافتتاح.</li>
+      <li><b>بعد الافتتاح</b>شكر للحضور ومحتوى من اليوم نفسه.</li>
+    </ul>
+    <p style="margin-top:20px"><a class="btn" href="#brief" data-pkg="1">اطلب عرض سعر للباقة</a></p>
+  </div></section>
+</div>
+
+<div data-view="brief">
+  <section class="band"><div class="wrap">
+    <h1 style="font-size:clamp(34px,5vw,54px)">ابدأ مشروعك</h1>
+    <p style="font-size:18px;color:var(--soft)">عبّ البريف في دقيقتين. نرتّبه لك في رسالة وحدة ترسلها لنا، ونرجع لك بفكرة وعرض سعر.</p>
+    <form id="f" novalidate>
+      <div class="two">
+        <div><label for="name">اسمك</label><input id="name" autocomplete="name" required></div>
+        <div><label for="biz">اسم النشاط</label><input id="biz" required></div>
+      </div>
+      <div class="two">
+        <div><label for="type">نوع النشاط</label><select id="type"><option>كافيه</option><option>مطعم</option><option>متجر</option><option>متجر إلكتروني</option><option>خدمات</option><option>أخرى</option></select></div>
+        <div><label for="city">المدينة</label><input id="city" value="الرياض"></div>
+      </div>
+      <div><label>وش تحتاج؟</label><div class="checks" id="needs"></div></div>
+      <div><label for="goal">وش الهدف؟ <span class="hint">مثل: افتتاح، زيادة مبيعات، منتج جديد</span></label><input id="goal"></div>
+      <div><label for="aud">مين جمهورك؟</label><input id="aud" placeholder="مثال: شباب وعوائل في شمال الرياض"></div>
+      <div class="two">
+        <div><label for="date">موعد الإطلاق</label><input id="date" type="date"></div>
+        <div><label for="budget">الميزانية التقريبية</label><select id="budget"><option>لم تتحدد بعد</option><option>أقل من 5,000 ر.س</option><option>5,000 – 15,000 ر.س</option><option>15,000 – 50,000 ر.س</option><option>أكثر من 50,000 ر.س</option></select></div>
+      </div>
+      <div><label for="links">حساباتك أو موقعك <span class="hint">اختياري</span></label><input id="links" dir="ltr" placeholder="@account"></div>
+      <div><label for="notes">أي شي ثاني؟</label><textarea id="notes"></textarea></div>
+      <div><label for="phone">رقم التواصل</label><input id="phone" type="tel" dir="ltr" autocomplete="tel" required></div>
+      <p class="err" id="err">عبّ الاسم واسم النشاط ورقم التواصل.</p>
+      <div><button class="btn" type="submit">جهّز البريف</button></div>
+    </form>
+    <div class="out" id="out">
+      <h3 style="margin-bottom:12px">بريفك جاهز</h3>
+      <pre id="txt"></pre>
+      <div style="display:flex;gap:10px;flex-wrap:wrap"><a class="btn" id="wa" href="#">أرسله على واتساب</a><button class="btn ghost" id="copy" type="button">انسخ النص</button></div>
+    </div>
+  </div></section>
+</div>
+</main>
+
+<footer><div class="wrap"><span>Neo Capta · تسويق • إعلان • محتوى</span><span>الرياض</span></div></footer>
+
+<script>
+{
+const PTS={{PTS}};
+const SVC=[
+  ['التسويق الرقمي','نوصّل علامتك للجمهور الصح، في الوقت الصح.','M3 12a9 9 0 1 0 18 0a9 9 0 1 0-18 0M8 12a4 4 0 1 0 8 0a4 4 0 1 0-8 0'],
+  ['الإعلانات المدفوعة','حملات مدروسة، وكل ريال يشتغل لصالحك.','M3 11v2a1 1 0 0 0 1 1h3l6 4V6L7 10H4a1 1 0 0 0-1 1zM17 9a4 4 0 0 1 0 6'],
+  ['صناعة المحتوى','كتابة وتصوير وقصص تنشاف وتنحفظ.','M4 20h4L19 9l-4-4L4 16v4zM13 7l4 4'],
+  ['الهوية البصرية','شعار وألوان وشكل يعرفك فيه الكل.','M12 3a9 9 0 0 0 0 18c1 0 1.5-.8 1.5-1.5S13 18 13 17a2 2 0 0 1 2-2h2a4 4 0 0 0 4-4c0-4.4-4-8-9-8zM7.5 11.5h.01M10.5 7.5h.01M15.5 8.5h.01'],
+  ['إدارة الحسابات','حضور ثابت ومتابعة يومية على كل المنصات.','M7 3h10a1 1 0 0 1 1 1v16a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1zM11 18h2'],
+  ['الفيديو والموشن','إعلانات متحركة وفيديوهات قصيرة لكل منصة.','M4 6h12a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1zM17 10l4-2v8l-4-2']
+];
+const TIERS=[
+  {n:'الأساسية',who:'لمحل يبي حضور بسيط ومرتب',items:['دعوة افتتاح وحدة','3 ستوريات عدّ تنازلي','ستوري يوم الافتتاح'],main:false},
+  {n:'المتكاملة',who:'الأكثر طلبًا: اللي سويناه لمحض',items:['3 دعوات بأساليب مختلفة','إعلان افتتاح متحرك 20 ثانية','4 ستوريات عدّ تنازلي ويوم افتتاح','جدول نشر للأسبوع'],main:true},
+  {n:'الإطلاق الكامل',who:'لافتتاح كبير يبي صدى',items:['كل محتوى المتكاملة','نسخ مربعة وعريضة لكل مقطع','إعلانات مدفوعة للأسبوع','تصوير يوم الافتتاح ومحتوى بعده'],main:false}
+];
+const NEEDS=['باقة الافتتاح','إدارة حسابات','إعلانات مدفوعة','تصميم هوية','فيديو وموشن','كتابة محتوى','تصوير'];
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+document.getElementById('svc').innerHTML=SVC.map(([t,d,p])=>`<div class="svc"><div class="ic"><svg viewBox="0 0 24 24"><path d="${p}"/></svg></div><h3>${t}</h3><p>${d}</p></div>`).join('');
+document.getElementById('tiers').innerHTML=TIERS.map(t=>`<div class="tier${t.main?' main':''}"><h3>${t.n}</h3><div class="who">${t.who}</div><ul>${t.items.map(i=>`<li>${i}</li>`).join('')}</ul><a class="btn${t.main?'':' ghost'}" href="#brief" data-pkg="${t.n}">اطلب هذي الباقة</a></div>`).join('');
+document.getElementById('needs').innerHTML=NEEDS.map((n,i)=>`<label><input type="checkbox" id="need${i}" value="${n}">${n}</label>`).join('');
+
+// Hero: the logo as dots, with a light wave passing through.
+const svg=document.getElementById('dots');
+svg.innerHTML=PTS.map(([x,y,c],i)=>`<circle cx="${x}" cy="${y}" r="12.5" fill="${c?'#7486F2':'var(--dot)'}" data-i="${i}"/>`).join('');
+const dots=[...svg.querySelectorAll('circle')];
+const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+let t0=performance.now();
+const tick=now=>{
+  const t=(now-t0)/1000;
+  const band=((t*520)%3400)-600;
+  for(let i=0;i<dots.length;i++){const [x,y]=PTS[i];const d=x*0.55+y-band;const k=Math.exp(-(d*d)/(2*200*200));dots[i].setAttribute('r',(10+9*k).toFixed(1))}
+  if(!document.hidden)requestAnimationFrame(tick);else setTimeout(()=>requestAnimationFrame(tick),500);
+};
+if(!reduce)requestAnimationFrame(tick);
+
+// Views on the hash.
+const views=['home','opening-package','brief'];
+const show=()=>{
+  const h=location.hash.slice(1);
+  const v=views.includes(h)?h:(document.getElementById(h)?'home':'home');
+  document.querySelectorAll('[data-view]').forEach(el=>el.classList.toggle('on',el.dataset.view===v));
+  document.querySelectorAll('nav .links a').forEach(a=>a.toggleAttribute('aria-current',a.getAttribute('href')==='#'+v));
+  if(views.includes(h))scrollTo(0,0);else if(h&&document.getElementById(h))document.getElementById(h).scrollIntoView();
+};
+addEventListener('hashchange',show);show();
+
+// Package buttons pre-tick the package in the brief.
+document.addEventListener('click',e=>{const a=e.target.closest('[data-pkg]');if(!a)return;const c=document.querySelector('#needs input[value="باقة الافتتاح"]');if(c)c.checked=true;const g=document.getElementById('goal');if(!g.value)g.value=a.dataset.pkg==='1'?'افتتاح':'افتتاح · باقة '+a.dataset.pkg;save()});
+
+// Brief: remember the draft, build a message.
+const ids=['name','biz','type','city','goal','aud','date','budget','links','notes','phone'];
+const save=()=>{try{const d={};ids.forEach(i=>d[i]=document.getElementById(i).value);d.needs=[...document.querySelectorAll('#needs input:checked')].map(c=>c.value);localStorage.setItem('nc-brief',JSON.stringify(d))}catch(e){}};
+try{const d=JSON.parse(localStorage.getItem('nc-brief')||'null');if(d){ids.forEach(i=>{if(d[i]!=null)document.getElementById(i).value=d[i]});(d.needs||[]).forEach(n=>{const c=document.querySelector(`#needs input[value="${CSS.escape(n)}"]`);if(c)c.checked=true})}}catch(e){}
+document.getElementById('f').addEventListener('input',save);
+document.getElementById('f').addEventListener('submit',e=>{
+  e.preventDefault();
+  const v=i=>document.getElementById(i).value.trim();
+  if(!v('name')||!v('biz')||!v('phone')){document.getElementById('err').style.display='block';return}
+  document.getElementById('err').style.display='none';
+  const needs=[...document.querySelectorAll('#needs input:checked')].map(c=>c.value);
+  const lines=[
+    'بريف جديد لـ Neo Capta',
+    '',
+    'الاسم: '+v('name'),
+    'النشاط: '+v('biz')+' ('+v('type')+') · '+(v('city')||'—'),
+    'يحتاج: '+(needs.join('، ')||'—'),
+    'الهدف: '+(v('goal')||'—'),
+    'الجمهور: '+(v('aud')||'—'),
+    'موعد الإطلاق: '+(v('date')||'—'),
+    'الميزانية: '+v('budget'),
+    'الحسابات: '+(v('links')||'—'),
+    'ملاحظات: '+(v('notes')||'—'),
+    'التواصل: '+v('phone')
+  ];
+  const text=lines.join('\n');
+  document.getElementById('txt').textContent=text;
+  document.getElementById('wa').href='https://wa.me/{{WA}}?text='+encodeURIComponent(text);
+  const out=document.getElementById('out');out.style.display='block';out.scrollIntoView({behavior:reduce?'auto':'smooth'});
+});
+document.getElementById('copy').addEventListener('click',async()=>{const b=document.getElementById('copy');try{await navigator.clipboard.writeText(document.getElementById('txt').textContent);b.textContent='تم النسخ'}catch(e){b.textContent='انسخه يدويًا من فوق'}setTimeout(()=>b.textContent='انسخ النص',2000)});
+}
+</script>
+</body>
+</html>
