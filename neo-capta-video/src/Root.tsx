@@ -20,6 +20,11 @@ import { MahdOpening, MAHD_OPENING_DURATION } from './MahdOpening';
 import { MahdCampaign, MAHD_CAMPAIGN_DURATION } from './MahdCampaign';
 import { MahdCountdown, MahdToday, MAHD_TEASER_DURATION } from './MahdTeasers';
 import { MahdCase, MAHD_CASE_DURATION } from './MahdCase';
+import { AdBreakdown, BA_DURATION, BeforeAfterTpl, BREAKDOWN_DURATION, PITCH_TPL_DURATION, PitchTemplate, Tip, TIP_DURATION } from './Templates';
+import tip1 from '../templates/tip-1.json';
+import baMahd from '../templates/before-after-mahd.json';
+import breakdownMahd from '../templates/breakdown-mahd.json';
+import pitchMahd from '../templates/pitch-mahd.json';
 
 const WIDE = { width: 1920, height: 1080 };
 const VERTICAL = { width: 1080, height: 1920 };
@@ -64,6 +69,11 @@ const VIDEOS = [
   { id: 'MahdToday', component: MahdToday, duration: MAHD_TEASER_DURATION, size: VERTICAL, langs: ['ar'] },
   { id: 'MahdCase', component: MahdCase, duration: MAHD_CASE_DURATION, size: WIDE, langs: ['ar'] },
   { id: 'MahdCaseVertical', component: MahdCase, duration: MAHD_CASE_DURATION, size: VERTICAL, langs: ['ar'] },
+  // Reusable templates — default props are the examples in templates/*.json.
+  { id: 'Tip', component: Tip, duration: TIP_DURATION, size: VERTICAL, langs: ['ar'], props: tip1.props },
+  { id: 'BeforeAfterTpl', component: BeforeAfterTpl, duration: BA_DURATION, size: VERTICAL, langs: ['ar'], props: baMahd.props },
+  { id: 'AdBreakdown', component: AdBreakdown, duration: BREAKDOWN_DURATION, size: VERTICAL, langs: ['ar'], props: breakdownMahd.props },
+  { id: 'PitchTemplate', component: PitchTemplate, duration: PITCH_TPL_DURATION, size: VERTICAL, langs: ['ar'], props: pitchMahd.props },
 ] as const;
 
 export const RemotionRoot: React.FC = () => (
@@ -73,7 +83,7 @@ export const RemotionRoot: React.FC = () => (
         <Composition
           key={`${v.id}-${lang}`}
           id={`${v.id}-${lang.toUpperCase()}`}
-          component={v.component}
+          component={v.component as React.FC<any>}
           durationInFrames={v.duration}
           fps={FPS}
           width={v.size.width}

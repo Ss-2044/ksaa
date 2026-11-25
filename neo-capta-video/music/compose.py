@@ -1023,9 +1023,40 @@ def score_mahd_case():
     m.render(os.path.join(OUT, 'mahd-case.wav'), fade_out=0.8)
 
 
+# ------------------------------------------------- 21) Template soundtracks
+# Short Neo Capta beds for the reusable templates (tip 10 s, before/after 12 s, breakdown 15 s).
+
+def score_template(name, dur, hits, chords, groove_from=0.6, drop=None):
+    m = Mix(dur)
+    seg = dur / len(chords)
+    for i, ch in enumerate(chords):
+        m.add(i * seg, pad(ch, seg + 0.5, cutoff=1800, a=0.3, r=0.5), 0.32)
+        m.add(i * seg, sub(ch[0] - 24, seg + 0.3, a=0.2, r=0.4), 0.24, verb=0)
+    t = groove_from
+    while t < dur - 1.2:
+        m.add(t, kick(0.65))
+        m.add(t + 0.25, hat(0.16), pan=0.3)
+        t += 0.5
+    arp(m, groove_from, dur - 1.2, [(i * seg - 0.01, ch) for i, ch in enumerate(chords)], step=0.25, level=0.08, cutoff=2600)
+    for i, h in enumerate(hits):
+        m.add(h, ping([81, 84, 88, 93][i % 4], 0.18, 0.9), pan=-0.3 + 0.2 * i, verb=0.5)
+        m.add(h, kick(0.5))
+    if drop is not None:
+        m.add(drop - 0.9, riser(0.9, 0.35))
+        m.add(drop, boom(0.8), 0.7)
+        m.add(drop, shimmer(1.8, 0.18), verb=0.6)
+    m.render(os.path.join(OUT, name), fade_out=0.9)
+
+
+def score_templates():
+    score_template('tpl-tip.wav', 10.0, [fr(6), fr(80), fr(112), fr(144)], [CMAJ7, FMAJ7], drop=fr(200))
+    score_template('tpl-before-after.wav', 12.0, [fr(6), fr(156)], [AM, FMAJ7, CMAJ7], drop=fr(150))
+    score_template('tpl-breakdown.wav', 15.0, [fr(10), fr(90), fr(160), fr(230)], [AM, FMAJ7, CMAJ7, GM], drop=fr(300))
+
+
 if __name__ == '__main__':
     os.makedirs(OUT, exist_ok=True)
-    which = sys.argv[1:] or ['idea', 'manifesto', 'journey', 'before_after', 'brief', 'sting', 'countdown', 'grid', 'carousel', 'story', 'scroll', 'blank_page', 'editorial', 'rush', 'pitch', 'first_story', 'mahd_opening', 'mahd_campaign', 'mahd_teasers', 'mahd_case']
+    which = sys.argv[1:] or ['idea', 'manifesto', 'journey', 'before_after', 'brief', 'sting', 'countdown', 'grid', 'carousel', 'story', 'scroll', 'blank_page', 'editorial', 'rush', 'pitch', 'first_story', 'mahd_opening', 'mahd_campaign', 'mahd_teasers', 'mahd_case', 'templates']
     for w in which:
         {
             'idea': score_idea,
@@ -1048,4 +1079,5 @@ if __name__ == '__main__':
             'mahd_campaign': score_mahd_campaign,
             'mahd_teasers': score_mahd_teasers,
             'mahd_case': score_mahd_case,
+            'templates': score_templates,
         }[w]()
