@@ -18,6 +18,7 @@ import { Pitch, PITCH_DURATION } from './Pitch';
 import { FirstStory, FIRST_STORY_DURATION } from './FirstStory';
 import { MahdOpening, MAHD_OPENING_DURATION } from './MahdOpening';
 import { MahdCampaign, MAHD_CAMPAIGN_DURATION } from './MahdCampaign';
+import { MahdCountdown, MahdToday, MAHD_TEASER_DURATION } from './MahdTeasers';
 
 const WIDE = { width: 1920, height: 1080 };
 const VERTICAL = { width: 1080, height: 1920 };
@@ -56,6 +57,10 @@ const VIDEOS = [
   // Mahd («محض») opening campaign.
   { id: 'MahdOpening', component: MahdOpening, duration: MAHD_OPENING_DURATION, size: VERTICAL, langs: ['ar'] },
   { id: 'MahdCampaign', component: MahdCampaign, duration: MAHD_CAMPAIGN_DURATION, size: VERTICAL, langs: ['ar'] },
+  { id: 'MahdTeaser3', component: MahdCountdown, duration: MAHD_TEASER_DURATION, size: VERTICAL, langs: ['ar'], props: { days: 3 } },
+  { id: 'MahdTeaser2', component: MahdCountdown, duration: MAHD_TEASER_DURATION, size: VERTICAL, langs: ['ar'], props: { days: 2 } },
+  { id: 'MahdTeaser1', component: MahdCountdown, duration: MAHD_TEASER_DURATION, size: VERTICAL, langs: ['ar'], props: { days: 1 } },
+  { id: 'MahdToday', component: MahdToday, duration: MAHD_TEASER_DURATION, size: VERTICAL, langs: ['ar'] },
 ] as const;
 
 export const RemotionRoot: React.FC = () => (
@@ -70,7 +75,7 @@ export const RemotionRoot: React.FC = () => (
           fps={FPS}
           width={v.size.width}
           height={v.size.height}
-          defaultProps={{ lang }}
+          defaultProps={{ lang, ...('props' in v ? v.props : {}) }}
         />
       )),
     )}

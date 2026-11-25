@@ -13,10 +13,10 @@ const STORE = [196, 330] as const;
 const COUNTER = [330, 456] as const;
 const INVITE = 456;
 
-const CARD = { x: 50, y: 100, w: 980, h: 1720 };
+export const CARD = { x: 50, y: 100, w: 980, h: 1720 };
 const ink = MAHD.green;
 
-const Card: React.FC<{ f: number; children: React.ReactNode }> = ({ f, children }) => {
+export const Card: React.FC<{ f: number; children: React.ReactNode }> = ({ f, children }) => {
   const enter = ease(f, 0, 18, [0, 1], Easing.out(Easing.cubic));
   const border = ease(f, 6, 46, [0, 1], Easing.inOut(Easing.quad));
   const inset = 22;

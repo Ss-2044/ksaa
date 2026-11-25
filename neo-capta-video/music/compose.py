@@ -956,9 +956,39 @@ def score_mahd_campaign():
     m.render(os.path.join(OUT, 'mahd-campaign.wav'), fade_out=0.9)
 
 
+# --------------------------------------- 19) Mahd countdown / opening-day stories
+# 8 s each, warm. number pops 0.27 s, visual 1.67 s, line 2.07 s, logo 3.67 s.
+
+def score_mahd_short(name, chords, hit_times, door=False):
+    m = Mix(8.0)
+    beat = 60 / 84
+    m.add(0.0, pad(chords[0], 4.2, cutoff=1300, a=0.4, r=0.6), 0.3)
+    m.add(3.8, pad(chords[1], 4.4, cutoff=1500, a=0.5, r=1.2), 0.3)
+    m.add(0.0, sub(chords[0][0] - 24, 8.0, a=0.4, r=1.0), 0.16, verb=0)
+    t, k = 0.3, 0
+    while t < 7.2:
+        ch = chords[0] if t < 3.8 else chords[1]
+        m.add(t, pluck(ch[[0, 2, 1, 3][k % 4]] + 12, 0.12, 1800, 0.6), pan=0.3 * np.sin(k), verb=0.35)
+        t += beat / 2
+        k += 1
+    for i, h in enumerate(hit_times):
+        m.add(h, ping([76, 81, 84][i % 3], 0.2, 1.4), verb=0.6)
+    if door:
+        m.add(fr(70), whoosh(1.4, 0.3), pan=0.0)
+        m.add(fr(80), shimmer(2.5, 0.18), verb=0.7)
+    m.render(os.path.join(OUT, name), fade_out=1.0)
+
+
+def score_mahd_teasers():
+    score_mahd_short('mahd-teaser-3.wav', [CMAJ7, FMAJ7], [fr(10), fr(62), fr(110)])
+    score_mahd_short('mahd-teaser-2.wav', [FMAJ7, CMAJ7], [fr(10), fr(62), fr(110)])
+    score_mahd_short('mahd-teaser-1.wav', [[57, 60, 64, 67], FMAJ7], [fr(10), fr(62), fr(110)])
+    score_mahd_short('mahd-today.wav', [FMAJ7, CMAJ7], [fr(8), fr(96), fr(130)], door=True)
+
+
 if __name__ == '__main__':
     os.makedirs(OUT, exist_ok=True)
-    which = sys.argv[1:] or ['idea', 'manifesto', 'journey', 'before_after', 'brief', 'sting', 'countdown', 'grid', 'carousel', 'story', 'scroll', 'blank_page', 'editorial', 'rush', 'pitch', 'first_story', 'mahd_opening', 'mahd_campaign']
+    which = sys.argv[1:] or ['idea', 'manifesto', 'journey', 'before_after', 'brief', 'sting', 'countdown', 'grid', 'carousel', 'story', 'scroll', 'blank_page', 'editorial', 'rush', 'pitch', 'first_story', 'mahd_opening', 'mahd_campaign', 'mahd_teasers']
     for w in which:
         {
             'idea': score_idea,
@@ -979,4 +1009,5 @@ if __name__ == '__main__':
             'first_story': score_first_story,
             'mahd_opening': score_mahd_opening,
             'mahd_campaign': score_mahd_campaign,
+            'mahd_teasers': score_mahd_teasers,
         }[w]()
