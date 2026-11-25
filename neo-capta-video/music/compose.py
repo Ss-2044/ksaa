@@ -809,9 +809,83 @@ def score_rush():
     m.render(os.path.join(OUT, 'rush.wav'), fade_out=1.0)
 
 
+# ------------------------------------------------- 15) Pitch («تخيّلناها»)
+# 20 s. cup assembles 0.4–3 s, solid 3.07 s, mock-ups 6 / 8.67 / 11.33 s,
+# grid 14 s, client × Neo Capta 16.67 s.
+
+def score_pitch():
+    m = Mix(20.0)
+    m.add(0.0, pad(CMAJ7, 6.2, cutoff=900, a=1.5, r=0.6), 0.34)
+    m.add(0.0, sub(36, 6.0, a=1.2, r=0.5), 0.25, verb=0)
+    for k in range(10):
+        m.add(0.4 + k * 0.22, ping(84 + (k % 4) * 3, 0.06, 0.5), pan=-0.6 + k * 0.12, verb=0.5)
+    m.add(fr(92), boom(0.7), 0.6)
+    m.add(fr(92), shimmer(2.0, 0.2), verb=0.6)
+    m.add(fr(180) - 1.0, riser(1.0, 0.45))
+    t = fr(180)
+    while t < fr(498):
+        m.add(t, kick(0.75))
+        m.add(t + 0.25, hat(0.18), pan=0.3)
+        t += 0.5
+    chords = [CMAJ7, FMAJ7, AM]
+    for k, f in enumerate([180, 260, 340]):
+        m.add(fr(f), boom(0.6 + 0.1 * k), 0.6)
+        m.add(fr(f), pad(chords[k], 2.8, cutoff=2200, a=0.05, r=0.4), 0.38)
+        m.add(fr(f) - 0.3, whoosh(0.5, 0.35), pan=0.5 if k % 2 else -0.5)
+        m.add(fr(f + 8), pluck([79, 84, 88][k], 0.24, 4200, 0.4), verb=0.5)
+    arp(m, fr(180), fr(420), [(fr(180), CMAJ7), (fr(260), FMAJ7), (fr(340), AM)], step=0.25, level=0.1, cutoff=2800)
+    m.add(fr(420), pad(FMAJ7, 2.8, cutoff=2400, a=0.1, r=0.5), 0.38)
+    m.add(fr(500) - 1.0, riser(1.0, 0.45))
+    m.add(fr(500), boom(1.1), 0.9)
+    m.add(fr(500), shimmer(2.4, 0.25), verb=0.6)
+    m.add(fr(500), pad(CMAJ7 + [76], 3.4, cutoff=2600, a=0.1, r=2.0), 0.5)
+    m.add(fr(500), sub(36, 3.3, a=0.05, r=2.0), 0.4, verb=0)
+    for k, n in enumerate([84, 88, 91, 96]):
+        m.add(fr(524) + k * 0.09, ping(n, 0.13, 1.2), pan=-0.4 + k * 0.27, verb=0.6)
+    m.render(os.path.join(OUT, 'pitch.wav'), fade_out=1.0)
+
+
+# -------------------------------------------- 16) First story («القصة رقم ٠١»)
+# 18 s. "01" 0.13 s, cup assembles 3.07 s, solid 5.33 s, BTS 5.87 / 7.87 / 9.87 s,
+# duo 12 s, Neo Capta end card 15 s.
+
+def score_first_story():
+    m = Mix(18.0)
+    m.add(0.0, pad(AM, 3.2, cutoff=900, a=0.6, r=0.4), 0.34)
+    m.add(fr(4), boom(0.9), 0.8)
+    m.add(fr(4), ping(81, 0.3, 2.0), verb=0.6)
+    m.add(fr(84), whoosh(0.7, 0.45), pan=-0.4)
+    m.add(fr(92), pad(CMAJ7, 2.8, cutoff=1400, a=0.4, r=0.4), 0.34)
+    for k in range(10):
+        m.add(fr(92) + k * 0.2, ping(84 + (k % 4) * 3, 0.06, 0.5), pan=-0.6 + k * 0.12, verb=0.5)
+    m.add(fr(160), boom(0.6), 0.55)
+    chords = [FMAJ7, CMAJ7, AM]
+    for k, f in enumerate([176, 236, 296]):
+        m.add(fr(f), pad(chords[k], 2.1, cutoff=2200, a=0.05, r=0.3), 0.36)
+        m.add(fr(f), kick(0.7))
+        m.add(fr(f + 4), pluck([76, 79, 84][k], 0.22, 4000, 0.4), verb=0.5)
+    t = fr(176)
+    while t < fr(356):
+        m.add(t, kick(0.7))
+        m.add(t + 0.25, hat(0.17), pan=0.3)
+        t += 0.5
+    arp(m, fr(176), fr(356), [(fr(176), FMAJ7), (fr(236), CMAJ7), (fr(296), AM)], step=0.25, level=0.1, cutoff=2800)
+    m.add(fr(360), boom(0.8), 0.7)
+    m.add(fr(360), pad(CMAJ7 + [76], 3.0, cutoff=2400, a=0.1, r=0.6), 0.42)
+    m.add(fr(380), whoosh(1.2, 0.45), pan=0.6)
+    m.add(fr(450) - 1.0, riser(1.0, 0.45))
+    m.add(fr(450), boom(1.2), 0.95)
+    m.add(fr(450), shimmer(2.4, 0.25), verb=0.6)
+    m.add(fr(450), pad(AM + [76], 3.0, cutoff=2600, a=0.1, r=1.8), 0.52)
+    m.add(fr(450), sub(33, 2.9, a=0.05, r=1.8), 0.45, verb=0)
+    for k, n in enumerate([81, 84, 88, 93]):
+        m.add(fr(490) + k * 0.09, ping(n, 0.13, 1.2), pan=-0.4 + k * 0.27, verb=0.6)
+    m.render(os.path.join(OUT, 'first-story.wav'), fade_out=0.9)
+
+
 if __name__ == '__main__':
     os.makedirs(OUT, exist_ok=True)
-    which = sys.argv[1:] or ['idea', 'manifesto', 'journey', 'before_after', 'brief', 'sting', 'countdown', 'grid', 'carousel', 'story', 'scroll', 'blank_page', 'editorial', 'rush']
+    which = sys.argv[1:] or ['idea', 'manifesto', 'journey', 'before_after', 'brief', 'sting', 'countdown', 'grid', 'carousel', 'story', 'scroll', 'blank_page', 'editorial', 'rush', 'pitch', 'first_story']
     for w in which:
         {
             'idea': score_idea,
@@ -828,4 +902,6 @@ if __name__ == '__main__':
             'blank_page': score_blank_page,
             'editorial': score_editorial,
             'rush': score_rush,
+            'pitch': score_pitch,
+            'first_story': score_first_story,
         }[w]()

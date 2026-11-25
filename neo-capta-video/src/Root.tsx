@@ -14,6 +14,8 @@ import { Scroll, SCROLL_DURATION } from './Scroll';
 import { BlankPage, BLANK_PAGE_DURATION } from './BlankPage';
 import { Editorial, EDITORIAL_DURATION } from './Editorial';
 import { Rush, RUSH_DURATION } from './Rush';
+import { Pitch, PITCH_DURATION } from './Pitch';
+import { FirstStory, FIRST_STORY_DURATION } from './FirstStory';
 
 const WIDE = { width: 1920, height: 1080 };
 const VERTICAL = { width: 1080, height: 1920 };
@@ -44,20 +46,25 @@ const VIDEOS = [
   { id: 'Rush', component: Rush, duration: RUSH_DURATION, size: WIDE },
   { id: 'RushVertical', component: Rush, duration: RUSH_DURATION, size: VERTICAL },
   { id: 'RushSquare', component: Rush, duration: RUSH_DURATION, size: SQUARE },
+  // Client videos — Arabic only.
+  { id: 'Pitch', component: Pitch, duration: PITCH_DURATION, size: WIDE, langs: ['ar'] },
+  { id: 'PitchVertical', component: Pitch, duration: PITCH_DURATION, size: VERTICAL, langs: ['ar'] },
+  { id: 'FirstStory', component: FirstStory, duration: FIRST_STORY_DURATION, size: WIDE, langs: ['ar'] },
+  { id: 'FirstStoryVertical', component: FirstStory, duration: FIRST_STORY_DURATION, size: VERTICAL, langs: ['ar'] },
 ] as const;
 
 export const RemotionRoot: React.FC = () => (
   <>
-    {VIDEOS.flatMap(({ id, component, duration, size }) =>
-      (['ar', 'en'] as const).map((lang) => (
+    {VIDEOS.flatMap((v) =>
+      ('langs' in v ? v.langs : (['ar', 'en'] as const)).map((lang) => (
         <Composition
-          key={`${id}-${lang}`}
-          id={`${id}-${lang.toUpperCase()}`}
-          component={component}
-          durationInFrames={duration}
+          key={`${v.id}-${lang}`}
+          id={`${v.id}-${lang.toUpperCase()}`}
+          component={v.component}
+          durationInFrames={v.duration}
           fps={FPS}
-          width={size.width}
-          height={size.height}
+          width={v.size.width}
+          height={v.size.height}
           defaultProps={{ lang }}
         />
       )),
