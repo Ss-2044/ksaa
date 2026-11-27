@@ -9,6 +9,8 @@ const {chromium}=require('playwright');const path=require('path');const fs=requi
   await p.goto('file://'+path.resolve(__dirname,'promo.html'));
   await p.evaluate(()=>window.ready);await p.waitForTimeout(500);
   for(let i=0;i<times.length;i++){
+    const fn=process.argv[3]==='--times'?null:path.join(out,`f${String(i).padStart(4,'0')}.jpg`);
+    if(fn&&fs.existsSync(fn)&&fs.statSync(fn).size>0&&fs.existsSync(path.join(out,`f${String(i+1).padStart(4,'0')}.jpg`)))continue;
     await p.evaluate(t=>window.render(t),times[i]);
     const name=process.argv[3]==='--times'?`t${times[i].toFixed(2)}.jpg`:`f${String(i).padStart(4,'0')}.jpg`;
     await p.screenshot({path:path.join(out,name),type:'jpeg',quality:94});
